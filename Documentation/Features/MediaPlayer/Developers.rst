@@ -110,6 +110,25 @@ Overview
    Configuration file: ``/jsconfig.json``
 *  ESLint (``eslint-plugin-compat``) and Babel (via Webpack) are used to check and improve browser compatibility.
 
+Webpack Dev Server
+------------------
+
+The Dev Server is intended for developing and testing the media player in a well-defined, standalone environment.
+
+*  To start the server, run ``npm run serve`` in the ``Build/`` folder.
+   This will watch, recompile and reload when source files change; other builds should not be run simultaneously.
+
+*  The live JavaScript and CSS builds are available at ``/Javascript`` and ``/Css``, for example:
+
+   .. code-block:: html
+
+      <script src="/Javascript/DlfMediaPlayer.js"></script>
+
+*  The server is configured in the ``devServer`` key in ``/Build/webpack.config.js``.
+
+*  Resources to be served are located in ``/Resources/Private/DevServer``.
+   This contains a symlink to ``/Resources``, so that all resources can be accessed from a served page via a repository-relative path.
+
 Command Reference
 -----------------
 
@@ -136,6 +155,8 @@ Build
    npm run watch
    # Build in production mode
    npm run build
+   # Start Webpack Dev Server
+   npm run serve
 
 Validate
 ~~~~~~~~

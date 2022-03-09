@@ -13,6 +13,13 @@ module.exports = (env, argv) => {
 
   return {
     devtool: "source-map",
+    devServer: {
+      static: {
+        directory: `${PRIVATE_PATH}/DevServer`,
+      },
+      compress: true,
+      port: 9000,
+    },
     entry: {
       'DlfMediaPlayer': path.resolve(PRIVATE_PATH, `JavaScript/SlubMediaPlayer`),
       'DlfMediaPlayerStyles': path.resolve(PRIVATE_PATH, `Less/DlfMediaPlayer.less`),
