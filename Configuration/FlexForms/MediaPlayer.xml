@@ -41,6 +41,111 @@
                             </config>
                         </TCEforms>
                     </settings.elementId>
+                    <settings.playerTranslations.baseFile>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.playerTranslations.baseFile</label>
+                            <config>
+                                <type>input</type>
+                                <eval>required</eval>
+                                <default>EXT:dlf/Resources/Private/Language/locallang_media.xlf</default>
+                            </config>
+                        </TCEforms>
+                    </settings.playerTranslations.baseFile>
+                    <settings.shareButtons>
+                        <title>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.title</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el>
+                            <singleButton>
+                                <title>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.single.title</title>
+                                <type>array</type>
+                                <el>
+                                    <type>
+                                        <TCEforms>
+                                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.type</label>
+                                            <onChange>reload</onChange>
+                                            <config>
+                                                <type>select</type>
+                                                <renderType>selectSingle</renderType>
+                                                <items>
+                                                    <numIndex index="0">
+                                                        <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.type.material</numIndex>
+                                                        <numIndex index="1">material</numIndex>
+                                                    </numIndex>
+                                                    <numIndex index="1">
+                                                        <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.type.image</numIndex>
+                                                        <numIndex index="1">image</numIndex>
+                                                    </numIndex>
+                                                </items>
+                                            </config>
+                                        </TCEforms>
+                                    </type>
+                                    <icon>
+                                        <TCEforms>
+                                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.icon.label</label>
+                                            <description>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.icon.description</description>
+                                            <displayCond>
+                                                FIELD:type:=:material
+                                            </displayCond>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </icon>
+                                    <src>
+                                        <TCEforms>
+                                            <label>URL zur Bilddatei</label>
+                                            <displayCond>
+                                                FIELD:type:=:image
+                                            </displayCond>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </src>
+                                    <titleTranslationKey>
+                                        <TCEforms>
+                                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.titleTranslationKey.label</label>
+                                            <description>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.titleTranslationKey.description</description>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </titleTranslationKey>
+                                    <hrefTemplate>
+                                        <TCEforms>
+                                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.hrefTemplate.label</label>
+                                            <description>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.shareButtons.hrefTemplate.description</description>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </hrefTemplate>
+                                </el>
+                            </singleButton>
+                        </el>
+                    </settings.shareButtons>
+                    <settings.constants.prevChapterTolerance>
+                        <TCEforms>
+                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.constants.prevChapterTolerance.label</label>
+                            <description>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.constants.prevChapterTolerance.description</description>
+                            <config>
+                                <type>input</type>
+                                <eval>required,num,int</eval>
+                                <default>5</default>
+                                <min>0</min>
+                            </config>
+                        </TCEforms>
+                    </settings.constants.prevChapterTolerance>
                 </el>
             </ROOT>
         </sDEF>

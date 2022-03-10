@@ -209,6 +209,50 @@
 				<source><![CDATA[@ID value of the HTML element that should host the player]]></source>
 				<target><![CDATA[@ID-Wert des HTML-Elements, das den Player enthalten soll]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.playerTranslations.baseFile">
+				<source><![CDATA[Language file of player localization strings without language prefix]]></source>
+				<source><![CDATA[Pfad zur XLIFF-Lokalisierungsdatei (ohne Sprachkürzel)]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.title" approved="yes">
+				<source><![CDATA[Share Buttons]]></source>
+				<target><![CDATA[Share-Buttons]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.type" approved="yes">
+				<source><![CDATA[Type of the Button]]></source>
+				<target><![CDATA[Art des Buttons]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.type.material" approved="yes">
+				<source><![CDATA[Material Icon]]></source>
+				<target><![CDATA[Material Icon]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.type.image" approved="yes">
+				<source><![CDATA[Image]]></source>
+				<target><![CDATA[Bild]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.icon.label" approved="yes">
+				<source><![CDATA[Which Material Icon?]]></source>
+				<target><![CDATA[Welches Material Icon?]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.icon.description" approved="yes">
+				<source><![CDATA[Key of the Material Icon (e.g., 'email'), see https://material.io/icons]]></source>
+				<target><![CDATA[Schlüssel des Material Icon (z.B. 'email'), siehe https://material.io/icons]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.titleTranslationKey.label" approved="yes">
+				<source><![CDATA[Translation Key for Tooltip]]></source>
+				<target><![CDATA[Übersetzungs-Schlüssel für Tooltip]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.label" approved="yes">
+				<source><![CDATA[Link]]></source>
+				<target><![CDATA[Verlinkung]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.description" approved="yes">
+				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code.]]></source>
+				<target><![CDATA[Der Platzhalter '{url}' wird durch die Video-URL mit Timecode ersetzt.]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.constants.prevChapterTolerance.label" approved="yes">
+				<source><![CDATA[Tolerance to previous chapter in seconds]]></source>
+				<target><![CDATA[Toleranz zum vorherigen Kapitel beim Wechseln zwischen Kapiteln (in Sekunden)]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.description" approved="yes">
 				<source><![CDATA[Metadata Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Metadata Plugin für Kitodo.Presentation]]></target>

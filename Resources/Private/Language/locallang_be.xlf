@@ -389,6 +389,39 @@
 			<trans-unit id="plugins.mediaplayer.flexform.elementId">
 				<source><![CDATA[@ID value of the HTML element that should host the player]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.playerTranslations.baseFile">
+				<source><![CDATA[Language file of player localization strings without language prefix]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.title">
+				<source><![CDATA[Share Buttons]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.type">
+				<source><![CDATA[Type of the Button]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.type.material">
+				<source><![CDATA[Material Icon]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.type.image">
+				<source><![CDATA[Image]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.icon.label">
+				<source><![CDATA[Which Material Icon?]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.icon.description">
+				<source><![CDATA[Key of the Material Icon (e.g., 'email'), see https://material.io/icons]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.titleTranslationKey.label">
+				<source><![CDATA[Translation Key for Tooltip]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.label">
+				<source><![CDATA[Link]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.description">
+				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code.]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.constants.prevChapterTolerance.label">
+				<source><![CDATA[Tolerance to previous chapter in seconds]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.title">
 				<source><![CDATA[Kitodo: Metadata]]></source>
 			</trans-unit>

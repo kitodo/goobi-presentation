@@ -47,13 +47,20 @@ class MediaPlayerConfigViewHelper extends AbstractViewHelper
         $result['lang'] = self::getTranslations($inputSettings['playerTranslations']['baseFile'] ?? 'EXT:dlf/Resources/Private/Language/locallang_media.xlf');
 
         // Resolve paths
-        foreach ($result['shareButtons'] ?? [] as &$button) {
+        foreach ($result['shareButtons'] ?? [] as $key => $button) {
+            // For Flexforms-configured button
+            if (isset($button['singleButton'])) {
+                $button = $button['singleButton'];
+            }
+
             if ($button['type'] === 'image') {
                 $filePath = GeneralUtility::getFileAbsFileName($button['src']);
                 $webPath = PathUtility::getAbsoluteWebPath($filePath);
 
                 $button['src'] = $webPath;
             }
+
+            $result['shareButtons'][$key] = $button;
         }
 
         // Allow using (and overriding) non-numeric keys for shareButtons
