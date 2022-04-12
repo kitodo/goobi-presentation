@@ -122,6 +122,42 @@
 			<trans-unit id="control.screenshot.tooltip">
 				<source><![CDATA[Take screenshot]]></source>
 			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.fft">
+				<source><![CDATA[FFT]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.activate">
+				<source><![CDATA[Activate]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.user">
+				<source><![CDATA[Your Presets]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.graphic">
+				<source><![CDATA[Graphic]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.riaa">
+				<source><![CDATA[RIAA]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.label">
+				<source><![CDATA[Preset:]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.reset">
+				<source><![CDATA[Reset to default]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.save">
+				<source><![CDATA[Store preset]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.save.name">
+				<source><![CDATA[Name:]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.delete">
+				<source><![CDATA[Delete preset]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.resume_context">
+				<source><![CDATA[Click to activate the equalizer]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.title">
+				<source><![CDATA[Equalizer]]></source>
+			</trans-unit>
 			<trans-unit id="control.sound_tools.marker_table.empty">
 				<source><![CDATA[No markers yet. Use {keybindingAdd} and {keybindingClose} to add points and segments.]]></source>
 			</trans-unit>

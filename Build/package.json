@@ -24,6 +24,7 @@
     "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-transform-runtime": "^7.15.8",
     "@babel/preset-env": "^7.17.12",
+    "@types/audioworklet": "^0.0.29",
     "@types/jest": "^27.0.3",
     "@types/jquery": "^3.5.14",
     "@types/qrcode": "^1.4.2",
@@ -47,7 +48,7 @@
     "webpack-remove-empty-scripts": "^0.7.3"
   },
   "dependencies": {
-		"abortcontroller-polyfill": "^1.7.3",
+    "abortcontroller-polyfill": "^1.7.3",
     "events": "^3.3.0",
     "intl-messageformat": "^9.9.4",
     "jquery": "3.6.0",

@@ -150,6 +150,21 @@ export default class Environment {
   }
 
   /**
+   * @inheritdoc
+   * @returns {string}
+   */
+  uuidv4() {
+    // Adopted from https://stackoverflow.com/a/2117523
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (cs) => {
+      const c = Number(cs);
+      const digit = /** @type {number} */(
+        crypto.getRandomValues(new Uint8Array(1))[0]
+      );
+      return (c ^ (digit & (15 >> (c / 4)))).toString(16);
+    });
+  }
+
+  /**
    * Set locale and phrases for subsequent calls to {@link t}.
    *
    * Translation phrases should use the ICU MessageFormat syntax for

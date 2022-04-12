@@ -40,7 +40,7 @@ class MediaPlayerConfigViewHelper extends AbstractViewHelper
         $inputSettings = $arguments['settings'];
 
         // Whitelist keys to keep out stuff such as playerTranslationsFile
-        $allowedKeys = ['shareButtons', 'screenshotCaptions', 'constants'];
+        $allowedKeys = ['shareButtons', 'screenshotCaptions', 'constants', 'equalizer'];
         $result = array_intersect_key($inputSettings, array_flip($allowedKeys));
 
         // Add translations
@@ -65,6 +65,12 @@ class MediaPlayerConfigViewHelper extends AbstractViewHelper
 
         // Allow using (and overriding) non-numeric keys for shareButtons
         $result['shareButtons'] = array_values($result['shareButtons'] ?? []);
+
+        // Equalizer configuration
+        foreach ($result['equalizer']['presets'] ?? [] as $key => &$preset) {
+            $result['equalizer']['presets'][$key]['key'] = $key;
+        }
+        $result['equalizer']['presets'] = array_values($result['equalizer']['presets'] ?? []);
 
         $idJson = json_encode($id);
         $resultJson = json_encode($result);

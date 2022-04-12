@@ -8,6 +8,7 @@ interface Window {
 }
 
 interface HTMLElementTagNameMap {
+  "dlf-equalizer": import("./components/equalizer").Equalizer;
   "dlf-marker-table": import("./components/marker-table").MarkerTable;
 }
 

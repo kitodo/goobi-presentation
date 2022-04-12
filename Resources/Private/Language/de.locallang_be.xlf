@@ -249,6 +249,10 @@
 				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code.]]></source>
 				<target><![CDATA[Der Platzhalter '{url}' wird durch die Video-URL mit Timecode ersetzt.]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.equalizer.enabled" approved="yes">
+				<source><![CDATA[Enable Equalizer]]></source>
+				<target><![CDATA[Equalizer aktivieren]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.mediaplayer.flexform.constants.prevChapterTolerance.label" approved="yes">
 				<source><![CDATA[Tolerance to previous chapter in seconds]]></source>
 				<target><![CDATA[Toleranz zum vorherigen Kapitel beim Wechseln zwischen Kapiteln (in Sekunden)]]></target>

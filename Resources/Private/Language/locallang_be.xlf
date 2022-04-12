@@ -422,6 +422,9 @@
 			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.description">
 				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code.]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.equalizer.enabled">
+				<source><![CDATA[Enable Equalizer]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.mediaplayer.flexform.constants.prevChapterTolerance.label">
 				<source><![CDATA[Tolerance to previous chapter in seconds]]></source>
 			</trans-unit>

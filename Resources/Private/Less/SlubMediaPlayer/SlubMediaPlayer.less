@@ -2,6 +2,7 @@
 @import "modals/HelpModal.less";
 @import "modals/ScreenshotModal.less";
 
+@import "components/EqualizerView.less";
 @import "components/MarkerTable.less";
 
 @zIndexModalCover: 100000;
@@ -66,6 +67,11 @@ body[data-has-video] {
         margin: 6em 1em;
         text-align: left;
         overflow-y: scroll;
+
+        h2 {
+            margin-top: 0.4em;
+            margin-bottom: 0.2em;
+        }
     }
 
     .tx-dlf-view {

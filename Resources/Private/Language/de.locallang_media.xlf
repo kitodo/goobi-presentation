@@ -161,6 +161,54 @@
 				<source><![CDATA[Take screenshot]]></source>
 				<target><![CDATA[Screenshot]]></target>
 			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.fft" approved="yes">
+				<source><![CDATA[FFT]]></source>
+				<target><![CDATA[FFT]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.activate" approved="yes">
+				<source><![CDATA[Activate]]></source>
+				<target><![CDATA[Aktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.user" approved="yes">
+				<source><![CDATA[Your Presets]]></source>
+				<target><![CDATA[Ihre Presets]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.graphic" approved="yes">
+				<source><![CDATA[Graphic]]></source>
+				<target><![CDATA[Graphisch]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.riaa" approved="yes">
+				<source><![CDATA[RIAA]]></source>
+				<target><![CDATA[RIAA]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.label" approved="yes">
+				<source><![CDATA[Preset:]]></source>
+				<target><![CDATA[Preset:]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.reset" approved="yes">
+				<source><![CDATA[Reset to default]]></source>
+				<target><![CDATA[Zurücksetzen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.save" approved="yes">
+				<source><![CDATA[Store preset]]></source>
+				<target><![CDATA[Preset speichern]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.delete" approved="yes">
+				<source><![CDATA[Delete preset]]></source>
+				<target><![CDATA[Preset löschen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.save.name" approved="yes">
+				<source><![CDATA[Name:]]></source>
+				<target><![CDATA[Name:]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.resume_context" approved="yes">
+				<source><![CDATA[Click to activate the equalizer]]></source>
+				<target><![CDATA[Klicken, um den Equalizer zu aktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.title" approved="yes">
+				<source><![CDATA[Equalizer]]></source>
+				<source><![CDATA[Equalizer]]></source>
+			</trans-unit>
 			<trans-unit id="control.sound_tools.marker_table.empty" approved="yes">
 				<source><![CDATA[No markers yet. Use {keybindingAdd} and {keybindingClose} to add points and segments.]]></source>
 				<target><![CDATA[Noch keine Marker gesetzt. Setzen Sie Start- und ggf. Endpunkte mit {keybindingAdd} und {keybindingClose}.]]></target>

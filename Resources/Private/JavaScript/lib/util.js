@@ -118,6 +118,29 @@ export function canvasToBlob(canvas, mimeType, quality = undefined) {
  * @returns {Promise<string>}
  */
 export function blobToBinaryString(blob) {
+  return readBlob(blob, 'readAsBinaryString');
+}
+
+/**
+ * Convert {@link blob} to a data URL.
+ *
+ * Compared to object URLs, data URLs can be slower, but are sometimes required
+ * to avoid compatibility issues.
+ *
+ * @param {Blob} blob
+ * @returns {Promise<string>}
+ */
+export function blobToDataURL(blob) {
+  return readBlob(blob, 'readAsDataURL');
+}
+
+/**
+ *
+ * @param {Blob} blob
+ * @param {'readAsBinaryString' | 'readAsDataURL'} method
+ * @returns {Promise<string>}
+ */
+export function readBlob(blob, method) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -130,7 +153,7 @@ export function blobToBinaryString(blob) {
     reader.onerror = () => {
       reject(reader.error);
     };
-    reader.readAsBinaryString(blob);
+    reader[method](blob);
   });
 }
 

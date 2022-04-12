@@ -13,6 +13,11 @@
 
     <div id="combined-container" class="combined-container">
         <div class="media-panel">
+            <f:if condition="{settings.equalizer.enabled}">
+                <f:then>
+                    <dlf-equalizer id="{settings.elementId}-equalizer" forPlayer="{settings.elementId}"></dlf-equalizer>
+                </f:then>
+            </f:if>
             <dlf-marker-table forPlayer="{settings.elementId}"></dlf-marker-table>
         </div>
 
@@ -55,6 +60,16 @@
             </slub-media>
         </div>
     </div>
+
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', function () {
+            var equalizer = document.getElementById("{settings.elementId}-equalizer");
+            equalizer.parsePresets(MEDIA_CONFIG['equalizer']['presets']);
+
+            if (MEDIA_CONFIG['equalizer']['default'])
+                equalizer.selectPreset(MEDIA_CONFIG['equalizer']['default']);
+        });
+    </script>
 </f:then>
 </f:if>
 

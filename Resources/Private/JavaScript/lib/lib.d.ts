@@ -91,6 +91,11 @@ interface Identifier {
    * or to group radio boxes.
    */
   mkid(): string;
+
+  /**
+   * Generates a UUID v4 string.
+   */
+  uuidv4(): string;
 }
 
 /**

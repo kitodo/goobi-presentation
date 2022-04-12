@@ -110,6 +110,8 @@ Overview
    Configuration file: ``/jsconfig.json``
 *  ESLint (``eslint-plugin-compat``) and Babel (via Webpack) are used to check and improve browser compatibility.
 
+.. _webpack_dev_server:
+
 Webpack Dev Server
 ------------------
 

@@ -19,6 +19,10 @@ module.exports = (env, argv) => {
       },
       compress: true,
       port: 9000,
+      server: {
+        // Required for testing Equalizer/AudioWorklet
+        type: 'https',
+      },
     },
     entry: {
       'DlfMediaPlayer': path.resolve(PRIVATE_PATH, `JavaScript/SlubMediaPlayer`),
@@ -39,7 +43,10 @@ module.exports = (env, argv) => {
         useBabel ? (
           {
             test: /\.js$/,
-            exclude: /node_modules/,
+            exclude: [
+              /node_modules/,
+              /\.no-babel.js/,
+            ],
             use: {
               loader: "babel-loader",
             },

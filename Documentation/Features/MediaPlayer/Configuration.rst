@@ -54,7 +54,9 @@ These may contain placeholders that substitute timecode or metadata information.
 Commented Example
 =================
 
-The following sample explains all configuration options available from TypoScript.
+The following sample explains all base configuration options available from TypoScript.
+
+For information on equalizer configuration, see :ref:`the equalizer subpage <eq_configuration>`.
 
 .. code-block:: typoscript
 

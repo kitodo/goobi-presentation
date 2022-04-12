@@ -6,3 +6,4 @@ import SlubMediaPlayer from './SlubMediaPlayer';
 window.SlubMediaPlayer = SlubMediaPlayer;
 
 import './components/marker-table';
+import './components/equalizer/EqualizerPlugin';
