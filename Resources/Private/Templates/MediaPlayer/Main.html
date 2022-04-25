@@ -3,6 +3,33 @@
       data-namespace-typo3-fluid="true"
       lang="en">
 
-Media Player
+<f:if condition="{video}">
+<f:then>
+    <script>
+        document.body.setAttribute("data-has-video", "yes");
+    </script>
+
+    <kitodo:mediaPlayerConfig id="MEDIA_CONFIG" settings="{settings}" />
+
+    <div id="tx-dlf-view" class="tx-dlf-view">
+        <slub-media id="{settings.elementId}" fullscreen-element="tx-dlf-view" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
+            <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
+            <f:for each="{video.sources}" as="source">
+                <source src="{source.url}" type="{source.mimeType}">
+            </f:for>
+
+            <f:for each="{video.chapters}" as="chapter">
+                <dlf-chapter title="{chapter.title}" timecode="{chapter.timecode}" pageNo="{chapter.pageNo}"></dlf-chapter>
+            </f:for>
+
+            <f:for each="{video.metadata}" as="values" key="key">
+                <f:for each="{values}" as="value">
+                    <dlf-meta key="{key}" value="{value}"></dlf-meta>
+                </f:for>
+            </f:for>
+        </slub-media>
+    </div>
+</f:then>
+</f:if>
 
 </html>

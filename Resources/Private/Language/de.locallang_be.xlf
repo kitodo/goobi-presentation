@@ -205,6 +205,10 @@
 				<source><![CDATA[Kitodo: Media Player]]></source>
 				<target><![CDATA[Kitodo: A/V-Player]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.elementId" approved="yes">
+				<source><![CDATA[@ID value of the HTML element that should host the player]]></source>
+				<target><![CDATA[@ID-Wert des HTML-Elements, das den Player enthalten soll]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.description" approved="yes">
 				<source><![CDATA[Metadata Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Metadata Plugin für Kitodo.Presentation]]></target>

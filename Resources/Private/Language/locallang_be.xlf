@@ -386,6 +386,9 @@
 			<trans-unit id="plugins.mediaplayer.title">
 				<source><![CDATA[Kitodo: Media Player]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.flexform.elementId">
+				<source><![CDATA[@ID value of the HTML element that should host the player]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.title">
 				<source><![CDATA[Kitodo: Metadata]]></source>
 			</trans-unit>

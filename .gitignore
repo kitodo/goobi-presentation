@@ -11,7 +11,9 @@
 /Build/Documentation/_build
 /Build/Documentation/venv
 /Build/Documentation/dbdocs/var
+/Build/node_modules
 /Build/Test/.env
+composer.lock
 /Documentation-GENERATED-temp/
 /nbproject/
 /public/
@@ -20,3 +22,4 @@
 .DS_Store
 _build
 venv
+*.map

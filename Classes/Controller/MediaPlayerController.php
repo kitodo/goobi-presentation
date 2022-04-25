@@ -12,7 +12,8 @@
 
 namespace Kitodo\Dlf\Controller;
 
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use Kitodo\Dlf\Common\Doc;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -64,5 +65,141 @@ class MediaPlayerController extends AbstractController
         }
 
         $doc = $this->document->getDoc();
+        $pageNo = $this->requestData['page'];
+        $video = $this->getVideoInfo($doc, $pageNo);
+        if ($video === null) {
+            return;
+        }
+
+        $this->addPlayerJS();
+
+        $this->view->assign('video', $video);
+    }
+
+    /**
+     * Build video info to be passed to the player template.
+     *
+     * @return ?array The video data, or `null` if no video source is found
+     */
+    protected function getVideoInfo(Doc $doc, int $pageNo): ?array
+    {
+        $videoFileGrps = GeneralUtility::trimExplode(',', $this->extConf['fileGrpVideo']);
+        $thumbFileGroups = GeneralUtility::trimExplode(',', $this->extConf['fileGrpThumbs']);
+
+        $initialMode = 'audio';
+
+        // Collect video file source URLs
+        // TODO: This is for multiple sources (MPD, HLS, MP3, ...) - revisit, make sure it's ordered by preference!
+        $videoSources = [];
+        $videoFileIds = $this->findFiles($doc, $pageNo, $videoFileGrps);
+        foreach ($videoFileIds as $videoFileId) {
+            $mimeType = $doc->getFileMimeType($videoFileId);
+            if ($this->isMediaMime($mimeType)) {
+                $url = $doc->getFileLocation($videoFileId);
+                $videoSources[] = compact('mimeType', 'url');
+
+                // TODO: Better guess of initial mode?
+                //       Here we just guess based on a fallback audio or video file (e.g., MP4 or MP3)
+                //       Perhaps we could look for VIDEOMD/AUDIOMD in METS
+                if (strpos($mimeType, 'video/') === 0) {
+                    $initialMode = 'video';
+                }
+            }
+        }
+        if (empty($videoSources)) {
+            return null;
+        }
+
+        // List all chapters for chapter markers
+        $videoChapters = [];
+        foreach ($doc->tableOfContents as $entry) {
+            $this->recurseChapters($entry, $videoChapters);
+        }
+
+        // Get additional video URLs
+        $videoUrl = [];
+        $thumbFileIds = $this->findFiles($doc, 0, $thumbFileGroups);
+        if (!empty($thumbFileIds)) {
+            $videoUrl['poster'] = urldecode($doc->getFileLocation($thumbFileIds[0]));
+        }
+
+        return [
+            'start' => $videoChapters[$pageNo - 1]['timecode'] ?: '',
+            'mode' => $initialMode,
+            'chapters' => $videoChapters,
+            'metadata' => $doc->getTitledata($this->settings['storagePid']),
+            'sources' => $videoSources,
+            'url' => $videoUrl,
+        ];
+    }
+
+    /**
+     * Find files of the given file groups that are referenced on a page.
+     *
+     * @param Doc $doc
+     * @param int $pageNo
+     * @param string[] $fileGrps
+     * @return string[]
+     */
+    protected function findFiles(Doc $doc, int $pageNo, array $fileGrps): array
+    {
+        $result = [];
+        $pagePhysKey = $doc->physicalStructure[$pageNo];
+        $pageFiles = $doc->physicalStructureInfo[$pagePhysKey]['all_files'] ?? [];
+        $result = array_intersect_key($pageFiles, array_flip($fileGrps));
+        return array_merge(...array_values($result));
+    }
+
+    /**
+     * Recursively push chapters in given logical structure to $outChapters.
+     */
+    protected function recurseChapters(array $logInfo, array &$outChapters)
+    {
+        if ($logInfo['type'] === 'segment' && isset($logInfo['videoChapter'])) {
+            $outChapters[] = [
+                'fileId' => $logInfo['videoChapter']['fileId'],
+                'pageNo' => $logInfo['points'],
+                'title' => $logInfo['label'] ?? '',
+                'timecode' => $logInfo['videoChapter']['timecode'],
+            ];
+        }
+
+        foreach ($logInfo['children'] ?? [] as $child) {
+            $this->recurseChapters($child, $outChapters);
+        }
+    }
+
+    protected function isMediaMime(string $mimeType)
+    {
+        return (
+            strpos($mimeType, 'audio/') === 0
+            || strpos($mimeType, 'video/') === 0
+            || $mimeType == 'application/dash+xml'
+            || $mimeType == 'application/x-mpegurl'
+            || $mimeType == 'application/vnd.apple.mpegurl'
+        );
+    }
+
+    /**
+     * Adds Player javascript
+     *
+     * @access protected
+     *
+     * @return void
+     */
+    protected function addPlayerJS()
+    {
+        // TODO: TYPO3 v10
+        // $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);
+        // $assetCollector->addJavaScript('DlfMediaPlayer.js', 'EXT:dlf/Resources/Public/Javascript/DlfMediaPlayer.js');
+        // $assetCollector->addStyleSheet('DlfMediaPlayer.css', 'EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css');
+
+        // TODO: Move to TypoScript
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaPlayer.css');
+        $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaVendor.css', 'stylesheet', 'all', '', true, false, '', /* excludeFromConcatenation= */true);
+        $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css');
+        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/Javascript/DlfMediaPlayer.js');
+        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/Javascript/DlfMediaVendor.js', 'text/javascript', true, false, '', /* excludeFromConcatenation= */true);
     }
 }

@@ -30,6 +30,17 @@
                             </config>
                         </TCEforms>
                     </settings.excludeOther>
+                    <settings.elementId>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.mediaplayer.flexform.elementId</label>
+                            <config>
+                                <type>input</type>
+                                <eval>required,alphanum_x,nospace</eval>
+                                <default>tx-dlf-video</default>
+                            </config>
+                        </TCEforms>
+                    </settings.elementId>
                 </el>
             </ROOT>
         </sDEF>

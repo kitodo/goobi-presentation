@@ -1,0 +1,80 @@
+{
+  "name": "kitodo-presentation",
+  "version": "4.0.0",
+  "description": "Base plugins, modules, services and API of the Digital Library Framework. It is part of the community-based Kitodo Digitization Suite.",
+  "scripts": {
+    "watch": "webpack watch --mode=development",
+    "build": "webpack --mode=production",
+    "test": "jest",
+    "tsc": "tsc --project ../jsconfig.json",
+    "tsc-watch": "npm run tsc -- --watch",
+    "typecheck": "npm run tsc && echo 'Alright.'",
+    "compat": "npx eslint -c .eslintrc.compat.js ../Resources --quiet",
+    "compat-build": "npx eslint -c .eslintrc.compat-build.js ../Resources/Public/JavaScript --quiet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kitodo/kitodo-presentation"
+  },
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://www.kitodo.org",
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.17.12",
+    "@types/jest": "^27.0.3",
+    "@types/jquery": "^3.5.14",
+    "@types/qrcode": "^1.4.2",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.2.3",
+    "canvas": "^2.9.1",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^3.4.1",
+    "eslint": "^8.3.0",
+    "eslint-plugin-compat": "^4.0.2",
+    "jest": "^27.5.1",
+    "jest-canvas-mock": "^2.4.0",
+    "less": "^3.13.1",
+    "less-loader": "^10.2.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "typescript": "^4.5.2",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-remove-empty-scripts": "^0.7.3"
+  },
+  "dependencies": {
+		"abortcontroller-polyfill": "^1.7.3",
+    "events": "^3.3.0",
+    "intl-messageformat": "^9.9.4",
+    "jquery": "3.6.0",
+    "piexifjs": "^1.0.6",
+    "qrcode": "^1.5.0",
+    "shaka-player": "3.3.2",
+    "tslib": "^2.3.1"
+  },
+  "jest": {
+    "rootDir": "..",
+    "roots": [
+      "<rootDir>/Resources/Private/JavaScript"
+    ],
+    "modulePaths": [
+      "<rootDir>/Build/node_modules"
+    ],
+    "setupFiles": [
+      "<rootDir>/Build/node_modules/jest-canvas-mock"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.(css|less)$": "<rootDir>/Resources/Private/JavaScript/style-mock.js"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!shaka-player/ui/controls.less)"
+    ],
+    "collectCoverageFrom": [
+      "Resources/Private/JavaScript/**/*.js"
+    ],
+    "coverageDirectory": "Build/coverage",
+    "coverageProvider": "v8"
+  }
+}

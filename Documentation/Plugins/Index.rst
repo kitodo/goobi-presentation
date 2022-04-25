@@ -481,6 +481,13 @@ The mediaplayer plugin is only active if the selected document has a valid video
    :Default:
         1
 
+ - :Property:
+       elementId_
+   :Data Type:
+       :ref:`t3tsref:data-type-string`
+   :Default:
+        tx-dlf-video
+
 
 Metadata
 --------

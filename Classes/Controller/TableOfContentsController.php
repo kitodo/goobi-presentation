@@ -126,7 +126,13 @@ class TableOfContentsController extends AbstractController
         // Set "title", "volume", "type" and "pagination" from $entry array.
         $entryArray['title'] = $this->setTitle($entry);
         $entryArray['volume'] = $entry['volume'];
-        $entryArray['year'] = $entry['year'];
+        if ($entry['videoChapter'] !== null) {
+            // Now consumers such as `slub_digitalcollections` may intercept clicks on these links
+            // and use the timecode to directly jump to that video position
+            // NOTE: Remember that the URL also contains parameters such as `tx_dlf[page]` and `cHash`
+            // TODO: For simplicity, this currently assumes all chapters are within the same video file
+            $entryArray['section'] = 'timecode=' . $entry['videoChapter']['timecode'];
+        }
         $entryArray['orderlabel'] = $entry['orderlabel'];
         $entryArray['type'] = $this->getTranslatedType($entry['type']);
         $entryArray['pagination'] = htmlspecialchars($entry['pagination']);
@@ -348,6 +354,7 @@ class TableOfContentsController extends AbstractController
                             $title .= $entry[$field] . ' ';
                         }
                     }
+
                     return trim($title);
                 }
             }
