@@ -605,6 +605,10 @@
 				<source>DLF: List View</source>
 				<target>DLF: Listenansicht</target>
 			</trans-unit>
+			<trans-unit id="tt_content.dlf_mediaplayer">
+				<source>DLF: A/V-Player</source>
+				<target>DLF: A/V-Player</target>
+			</trans-unit>
 			<trans-unit id="tt_content.dlf_metadata">
 				<source>DLF: Metadata</source>
 				<target>DLF: Metadaten</target>

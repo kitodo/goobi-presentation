@@ -455,6 +455,9 @@
 			<trans-unit id="tt_content.dlf_listview">
 				<source>DLF: List View</source>
 			</trans-unit>
+			<trans-unit id="tt_content.dlf_mediaplayer">
+				<source>DLF: A/V-Player</source>
+			</trans-unit>
 			<trans-unit id="tt_content.dlf_metadata">
 				<source>DLF: Metadata</source>
 			</trans-unit>

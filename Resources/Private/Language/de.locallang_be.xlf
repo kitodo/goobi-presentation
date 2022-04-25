@@ -197,6 +197,14 @@
 				<source><![CDATA[Kitodo: List View]]></source>
 				<target><![CDATA[Kitodo: Listenansicht]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.description" approved="yes">
+				<source><![CDATA[Media Player Plugin for Kitodo.Presentation]]></source>
+				<target><![CDATA[A/V-Player-Plugin für Kitodo.Presentation]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.title" approved="yes">
+				<source><![CDATA[Kitodo: Media Player]]></source>
+				<target><![CDATA[Kitodo: A/V-Player]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.description" approved="yes">
 				<source><![CDATA[Metadata Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Metadata Plugin für Kitodo.Presentation]]></target>

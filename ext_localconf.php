@@ -38,6 +38,7 @@ $iconArray = [
     'tx-dlf-collection' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-collection.svg',
     'tx-dlf-feeds' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-feeds.svg',
     'tx-dlf-listview' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-listview.svg',
+    'tx-dlf-mediaplayer' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-audioplayer.svg',
     'tx-dlf-metadata' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-metadata.svg',
     'tx-dlf-navigation' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-navigation.svg',
     'tx-dlf-oaipmh' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-oaipmh.svg',
@@ -357,6 +358,18 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Kitodo\Dlf\U
     ],
     // non-cacheable actions
     [
+    ]
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'Dlf',
+    'MediaPlayer',
+    [
+        \Kitodo\Dlf\Controller\MediaPlayerController::class => 'main',
+    ],
+    // non-cacheable actions
+    [
+        \Kitodo\Dlf\Controller\MediaPlayerController::class => '',
     ]
 );
 

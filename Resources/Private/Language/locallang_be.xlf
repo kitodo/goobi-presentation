@@ -380,6 +380,12 @@
 			<trans-unit id="flexform.targetPidFeed">
 				<source><![CDATA[Target page (with "Kitodo: Feeds" plugin)]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.description">
+				<source><![CDATA[Media Player Plugin for Kitodo.Presentation]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.mediaplayer.title">
+				<source><![CDATA[Kitodo: Media Player]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.title">
 				<source><![CDATA[Kitodo: Metadata]]></source>
 			</trans-unit>

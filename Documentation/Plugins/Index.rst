@@ -457,6 +457,29 @@ List View
    :Default:
 
 
+Media Player
+------------
+
+:typoscript:`plugin.tx_dlf_mediaplayer.`
+
+.. t3-field-list-table::
+ :header-rows: 1
+
+ - :Property:
+       Property
+   :Data Type:
+       Data type
+   :Default:
+        Default
+
+ - :Property:
+        excludeOther_
+   :Data Type:
+        :ref:`t3tsref:data-type-boolean`
+   :Default:
+        1
+
+
 Metadata
 --------
 
