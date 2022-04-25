@@ -63,7 +63,7 @@ class MetsDocumentTest extends FunctionalTestCase
         $thumbsMeta = $doc->getMetadata('FILE_0000_THUMBS', 20000);
         self::assertEquals($thumbsMeta, []);
 
-        $videoMeta = $doc->getMetadata('FILE_0000_DEFAULT', 20000);
+        $videoMeta = $doc->getMetadata('FILE_0000_DEFAULT_MOV', 20000);
         self::assertArrayMatches([
             'frame_rate' => ['24'],
         ], $videoMeta);
@@ -81,29 +81,78 @@ class MetsDocumentTest extends FunctionalTestCase
         self::assertArrayMatches([
             'dmdId' => 'DMDLOG_0000',
             'admId' => 'AMD',
+            'videoChapter' => [
+                'fileId' => 'FILE_0000_DEFAULT_MOV',
+                'timecode' => 0,
+            ],
             'children' => [
                 [
                     'id' => 'LOG_0001',
                     'dmdId' => '',
                     'admId' => '',
+                    'videoChapter' => [
+                        'fileId' => 'FILE_0000_DEFAULT_MOV',
+                        'timecode' => 0,
+                    ],
                 ],
                 [
                     'id' => 'LOG_0002',
                     'dmdId' => '',
                     'admId' => '',
+                    'videoChapter' => [
+                        'fileId' => 'FILE_0000_DEFAULT_MOV',
+                        'timecode' => 20,
+                    ],
                 ],
                 [
                     'id' => 'LOG_0003',
                     'dmdId' => '',
                     'admId' => '',
+                    'videoChapter' => [
+                        'fileId' => 'FILE_0000_DEFAULT_MOV',
+                        'timecode' => 40,
+                    ],
                 ],
                 [
                     'id' => 'LOG_0004',
                     'dmdId' => '',
                     'admId' => '',
+                    'videoChapter' => [
+                        'fileId' => 'FILE_0000_DEFAULT_MOV',
+                        'timecode' => 60,
+                    ],
                 ],
             ],
         ], $toc, 'Expected TOC to contain the specified values');
+    }
+
+    /**
+     * @test
+     */
+    public function canReadChapterArea()
+    {
+        $doc = $this->doc('av_beispiel.xml');
+
+        $ch3_page = $doc->physicalStructureInfo[$doc->physicalStructure[3]];
+        $this->assertArrayMatches([
+            'DEFAULT' => 'FILE_0000_DEFAULT_MP4',
+        ], $ch3_page['files']);
+        $this->assertArrayMatches([
+            'DEFAULT' => [
+                'FILE_0000_DEFAULT_MOV',
+                'FILE_0000_DEFAULT_MP4',
+            ],
+        ], $ch3_page['all_files']);
+        $this->assertArrayMatches([
+            'FILE_0000_DEFAULT_MP4' => [
+                'area' => [
+                    'begin' => '00:00:40',
+                    'betype' => 'TIME',
+                    'extent' => '00:00:20',
+                    'exttype' => 'TIME',
+                ],
+            ],
+        ], $ch3_page['fileInfos']);
     }
 
     /**
