@@ -1,7 +1,7 @@
 // @ts-check
 
 import Environment from '../lib/Environment';
-import { e } from '../lib/util';
+import { e, setElementClass } from '../lib/util';
 import { Keybindings$find } from '../lib/Keyboard';
 import typoConstants from '../lib/typoConstants';
 import {
@@ -49,11 +49,15 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       onKeyDown: this.onKeyDown.bind(this),
       onKeyUp: this.onKeyUp.bind(this),
       onClickChapterLink: this.onClickChapterLink.bind(this),
+      onChapterChanged: this.onChapterChanged.bind(this),
       onCloseModal: this.onCloseModal.bind(this),
     };
 
     /** @private @type {ChapterLink[]} */
     this.chapterLinks = [];
+
+    /** @private @type {HTMLSelectElement | null} */
+    this.pageSelect = null;
 
     /** @private */
     this.fullscreenElement = null;
@@ -67,6 +71,8 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    */
   connectedCallback() {
     super.connectedCallback();
+
+    this.addEventListener('chapterchange', this.handlers.onChapterChanged);
 
     if (this.startTime === null) {
       this.startTime = this.getStartTime() ?? null;
@@ -259,7 +265,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
   onDomContentLoaded() {
     super.onDomContentLoaded();
 
-    document.querySelectorAll("a[data-timecode], .tx-dlf-tableofcontents a").forEach(el => {
+    document.querySelectorAll("a[data-timecode], .tx-dlf-tableofcontents a, .tx-dlf-toc a").forEach(el => {
       const link = /** @type {HTMLAnchorElement} */(el);
       const timecode = this.getLinkTimecode(link);
       if (timecode !== null) {
@@ -269,6 +275,17 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
         this.chapterLinks.push(dlfEl);
       }
     });
+
+    const pageSelect = document.querySelector('li.pages form select');
+    if (pageSelect instanceof HTMLSelectElement) {
+      this.pageSelect = pageSelect;
+      this.pageSelect.onchange = (e) => {
+        const chapter = this.chapters.at(Number(pageSelect.value) - 1);
+        if (chapter !== undefined) {
+          this.seekTo(chapter);
+        }
+      };
+    }
   }
 
   /**
@@ -424,6 +441,27 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     this.media.play();
     this.seekTo(target.dlfTimecode);
+  }
+
+  /**
+   *
+   * @param {dlf.media.ChapterChangeEvent} event
+   */
+  onChapterChanged(event) {
+    if (this.pageSelect != null && event.detail.curChapter !== null) {
+      const chapterIdx = this.chapters.indexOf(event.detail.curChapter);
+      if (chapterIdx !== undefined) {
+        this.pageSelect.value = (chapterIdx + 1).toString();
+      }
+    }
+
+    for (const link of this.chapterLinks) {
+      if (link.parentElement === null) {
+        continue;
+      }
+
+      setElementClass(link.parentElement, 'current', link.dlfTimecode === event.detail.curChapter?.timecode);
+    }
   }
 
   /**

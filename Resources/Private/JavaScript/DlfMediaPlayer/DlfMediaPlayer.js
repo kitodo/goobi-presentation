@@ -12,6 +12,10 @@ import Chapters from './Chapters';
 import VariantGroups from './VariantGroups';
 import { isPlayerMode } from './lib/util';
 
+/**
+ * Emits the following custom events:
+ * - {@link dlf.media.ChapterChangeEvent}
+ */
 export default class DlfMediaPlayer extends HTMLElement {
   /** @private */
   static hasInstalledPolyfills = false;
@@ -43,6 +47,7 @@ export default class DlfMediaPlayer extends HTMLElement {
         onDomContentLoaded: this.onDomContentLoaded.bind(this),
         onPlayerErrorEvent: this.onPlayerErrorEvent.bind(this),
         onTrackChange: this.onTrackChange.bind(this),
+        onTick: this.onTick.bind(this),
         onPlay: this.onPlay.bind(this),
       },
     };
@@ -79,7 +84,10 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.variantGroups = null;
 
     /** @private @type {Chapters} */
-    this.chapters = new Chapters([]);
+    this.chapters_ = new Chapters([]);
+
+    /** @private @type {dlf.media.Chapter | null} */
+    this.currentChapter = null;
 
     /** @private @type {dlf.media.PlayerFrontend} */
     this.frontend = new ShakaFrontend(this.env, this.player, this.video);
@@ -337,6 +345,9 @@ export default class DlfMediaPlayer extends HTMLElement {
 
     this.video.addEventListener('play', this.dlf.handlers.onPlay);
 
+    /** @private */
+    this.tickInterval = setInterval(this.dlf.handlers.onTick, 50);
+
     this.registerGestures();
   }
 
@@ -523,6 +534,22 @@ export default class DlfMediaPlayer extends HTMLElement {
     // Override in child
   }
 
+  onTick() {
+    const curChapter = this.chapters_.timeToChapter(this.video.currentTime) ?? null;
+    if (curChapter !== this.currentChapter) {
+      const prevChapter = this.currentChapter;
+      this.currentChapter = curChapter;
+      /** @type {dlf.media.ChapterChangeEvent} */
+      const event = new CustomEvent('chapterchange', {
+        detail: {
+          curChapter,
+          prevChapter,
+        },
+      });
+      this.dispatchEvent(event);
+    }
+  }
+
   onTrackChange() {
     this.updateFrameRate();
   }
@@ -580,12 +607,16 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.setChapters(new Chapters(chapters));
   }
 
+  get chapters() {
+    return this.chapters_;
+  }
+
   /**
    *
    * @param {Chapters} chapters
    */
   setChapters(chapters) {
-    this.chapters = chapters;
+    this.chapters_ = chapters;
     this.frontend.updateMediaProperties({ chapters });
   }
 
@@ -611,7 +642,7 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @returns {dlf.media.Chapter | undefined}
    */
   timeToChapter(timecode) {
-    return this.chapters.timeToChapter(timecode);
+    return this.chapters_.timeToChapter(timecode);
   }
 
   /**
@@ -730,7 +761,7 @@ export default class DlfMediaPlayer extends HTMLElement {
    */
   prevChapter() {
     const tolerance = this.constants.prevChapterTolerance;
-    const prev = this.chapters.timeToChapter(this.video.currentTime - tolerance);
+    const prev = this.chapters_.timeToChapter(this.video.currentTime - tolerance);
     this.seekTo(prev ?? 0);
   }
 
@@ -741,7 +772,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   nextChapter() {
     const cur = this.getCurrentChapter();
     if (cur) {
-      const next = this.chapters.advance(cur, +1);
+      const next = this.chapters_.advance(cur, +1);
 
       if (next) {
         this.seekTo(next);

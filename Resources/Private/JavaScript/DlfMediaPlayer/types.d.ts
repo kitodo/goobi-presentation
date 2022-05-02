@@ -11,6 +11,10 @@ declare module "shaka-player/dist/shaka-player.ui" {
   export = shaka;
 }
 
+interface HTMLElementEventMap {
+  chapterchange: dlf.media.ChapterChangeEvent;
+}
+
 namespace dlf {
   interface Network<T> {
     get(url: string): Promise<T>;
@@ -125,6 +129,14 @@ namespace dlf {
     }
 
     /**
+     * Signals that the current chapter has changed.
+     *
+     * Dispatched on DlfMediaPlayer.
+     */
+    interface ChapterChangeEvent
+      extends CustomEvent<EventDetail["chapterchange"]> {}
+
+    /**
      * Signals that {@link MediaProperties} have changed or become available.
      *
      * Should be dispatched on a Shaka control ({@link shaka.ui.Controls}).
@@ -149,6 +161,10 @@ namespace dlf {
       extends CustomEvent<EventDetail["dlf-media-manual-seek"]> {}
 
     type EventDetail = {
+      chapterchange: {
+        curChapter: Chapter | null;
+        prevChapter: Chapter | null;
+      };
       "dlf-media-properties": {
         updateProps: Partial<MediaProperties>;
         fullProps: MediaProperties;

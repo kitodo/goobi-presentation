@@ -13,6 +13,16 @@ slub-media {
     }
 }
 
+body[data-has-video] {
+    .page-control,
+    .document-functions li.doublepage,
+    .view-functions li.rotate,
+    .view-functions li.zoom .in,
+    .view-functions li.zoom .out {
+        display: none;
+    }
+}
+
 .control-bar {
     // Avoid white border/separator between TOC and video
     border-right: none !important;

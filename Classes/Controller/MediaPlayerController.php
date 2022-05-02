@@ -84,6 +84,8 @@ class MediaPlayerController extends AbstractController
     protected function getVideoInfo(Doc $doc, int $pageNo): ?array
     {
         $videoFileGrps = GeneralUtility::trimExplode(',', $this->extConf['fileGrpVideo']);
+        $mainVideoFileGrp = $videoFileGrps[0] ?? '';
+
         $thumbFileGroups = GeneralUtility::trimExplode(',', $this->extConf['fileGrpThumbs']);
 
         $initialMode = 'audio';
@@ -91,17 +93,16 @@ class MediaPlayerController extends AbstractController
         // Collect video file source URLs
         // TODO: This is for multiple sources (MPD, HLS, MP3, ...) - revisit, make sure it's ordered by preference!
         $videoSources = [];
-        $videoFileIds = $this->findFiles($doc, $pageNo, $videoFileGrps);
-        foreach ($videoFileIds as $videoFileId) {
-            $mimeType = $doc->getFileMimeType($videoFileId);
+        $videoFiles = $this->findFiles($doc, $pageNo, $videoFileGrps);
+        foreach ($videoFiles as $videoFile) {
+            $mimeType = $doc->getFileMimeType($videoFile['fileId']);
             if ($this->isMediaMime($mimeType)) {
-                $url = $doc->getFileLocation($videoFileId);
+                $url = $doc->getFileLocation($videoFile['fileId']);
                 $videoSources[] = compact('mimeType', 'url');
 
                 // TODO: Better guess of initial mode?
-                //       Here we just guess based on a fallback audio or video file (e.g., MP4 or MP3)
                 //       Perhaps we could look for VIDEOMD/AUDIOMD in METS
-                if (strpos($mimeType, 'video/') === 0) {
+                if ($videoFile['fileGrp'] === $mainVideoFileGrp || strpos($mimeType, 'video/') === 0) {
                     $initialMode = 'video';
                 }
             }
@@ -118,9 +119,9 @@ class MediaPlayerController extends AbstractController
 
         // Get additional video URLs
         $videoUrl = [];
-        $thumbFileIds = $this->findFiles($doc, 0, $thumbFileGroups);
-        if (!empty($thumbFileIds)) {
-            $videoUrl['poster'] = urldecode($doc->getFileLocation($thumbFileIds[0]));
+        $thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups);
+        if (!empty($thumbFiles)) {
+            $videoUrl['poster'] = urldecode($doc->getFileLocation($thumbFileIds[0]['fileId']));
         }
 
         return [
@@ -143,11 +144,17 @@ class MediaPlayerController extends AbstractController
      */
     protected function findFiles(Doc $doc, int $pageNo, array $fileGrps): array
     {
-        $result = [];
         $pagePhysKey = $doc->physicalStructure[$pageNo];
         $pageFiles = $doc->physicalStructureInfo[$pagePhysKey]['all_files'] ?? [];
-        $result = array_intersect_key($pageFiles, array_flip($fileGrps));
-        return array_merge(...array_values($result));
+        $filesInGrp = array_intersect_key($pageFiles, array_flip($fileGrps));
+
+        $result = [];
+        foreach ($filesInGrp as $fileGrp => $fileIds) {
+            foreach ($fileIds as $fileId) {
+                $result[] = compact('fileGrp', 'fileId');
+            }
+        }
+        return $result;
     }
 
     /**
