@@ -1,9 +1,13 @@
 @import (reference) "shaka-player/ui/controls.less";
 
 @import "ShakaFrontend.less";
+@import "WaveForm.less";
 
 .dlf-media-player {
     .noselect();
+
+    // For height 100%, to make waveform usable (TODO?)
+    position: relative;
 }
 
 .dlf-media-base() {

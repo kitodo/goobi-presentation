@@ -74,6 +74,9 @@ export default class ShakaFrontend {
     /** @private @type {HTMLElement | null} */
     this.shakaBottomControls = null;
 
+    /** @private @type {HTMLElement[]} */
+    this.shakaBottomControlElements = [];
+
     /** @private @type {FlatSeekBar | null} */
     this.seekBar_ = null;
 
@@ -238,6 +241,32 @@ export default class ShakaFrontend {
   }
 
   /**
+   * TODO: How to conceptualize this? Better place?
+   *
+   * @param {HTMLElement} element
+   */
+  alwaysPrependBottomControl(element) {
+    this.prependBottomControl(element);
+    this.shakaBottomControlElements.push(element);
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   */
+  prependBottomControl(element) {
+    if (this.playerProperties.mode === 'video') {
+      this.shakaBottomControls?.prepend(element);
+    } else {
+      // TODO: This assumes that the frontend really is a child of <dlf-media>
+      const dlfMedia = this.$container.parentElement;
+      if (dlfMedia !== null && dlfMedia.parentElement !== null) {
+        dlfMedia.parentElement.insertBefore(element, dlfMedia);
+      }
+    }
+  }
+
+  /**
    *
    * @param {string[]} elementKey
    */
@@ -283,6 +312,12 @@ export default class ShakaFrontend {
     // DOM is (re-)created in `ui.configure()`, so query container afterwards
     this.shakaBottomControls =
       this.$videoBox.querySelector('.shaka-bottom-controls');
+
+    if (this.shakaBottomControls !== null) {
+      for (const element of this.shakaBottomControlElements) {
+        this.prependBottomControl(element);
+      }
+    }
 
     this.notifyMediaProperties();
   }

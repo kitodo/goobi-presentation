@@ -7,6 +7,10 @@ interface Window {
   };
 }
 
+interface HTMLElementTagNameMap {
+  "dlf-waveform": import("./components/waveform").WaveForm;
+}
+
 declare module "shaka-player/dist/shaka-player.ui" {
   export = shaka;
 }

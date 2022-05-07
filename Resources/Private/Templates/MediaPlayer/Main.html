@@ -17,6 +17,12 @@
         </div>
 
         <div id="tx-dlf-view" class="tx-dlf-view">
+            <f:if condition="{video.url.waveform}">
+                <f:then>
+                    <dlf-waveform hidden id="{settings.elementId}-waveform" forPlayer="{settings.elementId}" src="{video.url.waveform.url}" type="{video.url.waveform.mimeType}"></dlf-waveform>
+                </f:then>
+            </f:if>
+
             <slub-media id="{settings.elementId}" player-view="combined-container" poster="{video.url.poster.url}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
                 <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
                 <f:for each="{video.sources}" as="source">
@@ -36,6 +42,11 @@
                 <dlf-media-controls>
                     <button data-type="volume"></button>
                     <button data-type="mute"></button>
+                    <f:if condition="{video.url.waveform}">
+                        <f:then>
+                            <button class="material-icons-round sxnd-waveform-button" data-t-title="control.waveform.tooltip" data-action="sound_tools.waveform.toggle">graphic_eq</button>
+                        </f:then>
+                    </f:if>
                     <button class="material-icons-round sxnd-screenshot-button" data-t-title="control.screenshot.tooltip" data-action="modal.screenshot.open">photo_camera</button>
                     <button class="material-icons-round sxnd-bookmark-button" data-t-title="control.bookmark.tooltip" data-action="modal.bookmark.open">bookmark_border</button>
                     <button data-type="fullscreen"></button>

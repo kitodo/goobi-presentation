@@ -375,15 +375,24 @@ export default class DlfMediaPlayer extends HTMLElement {
       'sound_tools.segments.close': action({
         execute: () => {
           const activeSegment = this.markers_.activeSegment;
-          if (activeSegment) {
+          const endTime = this.displayTime;
+          if (activeSegment !== null && activeSegment.startTime < endTime) {
             this.markers_.update({
               id: activeSegment.id,
-              endTime: this.displayTime,
+              endTime,
             })
           }
         },
       }),
     };
+  }
+
+  /**
+   *
+   * @param {Record<string, dlf.media.PlayerAction>} actions
+   */
+  addActions(actions) {
+    Object.assign(this.actions, actions);
   }
 
   /**

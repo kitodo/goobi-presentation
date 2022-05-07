@@ -23,6 +23,9 @@
 			<trans-unit id="action.kind.player">
 				<source><![CDATA[Player]]></source>
 			</trans-unit>
+			<trans-unit id="action.kind.waveform">
+				<source><![CDATA[Waveform]]></source>
+			</trans-unit>
 			<trans-unit id="action.modal.bookmark.open">
 				<source><![CDATA[Bookmark (share link)]]></source>
 			</trans-unit>
@@ -98,6 +101,9 @@
 			<trans-unit id="action.sound_tools.segments.close">
 				<source><![CDATA[Close segment]]></source>
 			</trans-unit>
+			<trans-unit id="action.sound_tools.waveform.toggle">
+				<source><![CDATA[Toggle waveform]]></source>
+			</trans-unit>
 			<trans-unit id="control.back">
 				<source><![CDATA[Back]]></source>
 			</trans-unit>
@@ -151,6 +157,9 @@
 			</trans-unit>
 			<trans-unit id="control.sound_tools.marker_table.title">
 				<source><![CDATA[Waveform Markers]]></source>
+			</trans-unit>
+			<trans-unit id="control.waveform.tooltip">
+				<source><![CDATA[Waveform]]></source>
 			</trans-unit>
 			<trans-unit id="control.time.tooltip">
 				<source><![CDATA[Toggle time display]]></source>

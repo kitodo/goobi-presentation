@@ -87,6 +87,7 @@ class MediaPlayerController extends AbstractController
         $mainVideoFileGrp = $videoFileGrps[0] ?? '';
 
         $thumbFileGroups = GeneralUtility::trimExplode(',', $this->extConf['fileGrpThumbs']);
+        $waveformFileGroups = GeneralUtility::trimExplode(',', $this->extConf['fileGrpWaveform']);
 
         $initialMode = 'audio';
 
@@ -125,6 +126,9 @@ class MediaPlayerController extends AbstractController
         $videoUrl = [];
         if (!empty($thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups))) { // 0 = for whole video (not just chapter)
             $videoUrl['poster'] = $thumbFiles[0];
+        }
+        if (!empty($waveformFiles = $this->findFiles($doc, $pageNo, $waveformFileGroups))) {
+            $videoUrl['waveform'] = $waveformFiles[0];
         }
 
         return [

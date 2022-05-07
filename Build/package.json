@@ -26,6 +26,7 @@
     "@types/jest": "^27.0.3",
     "@types/jquery": "^3.5.14",
     "@types/qrcode": "^1.4.2",
+    "@types/wavesurfer.js": "^6.0.3",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.3",
     "canvas": "^2.9.1",
@@ -48,10 +49,13 @@
     "events": "^3.3.0",
     "intl-messageformat": "^9.9.4",
     "jquery": "3.6.0",
+    "peaks.js": "^2.0.0",
     "piexifjs": "^1.0.6",
     "qrcode": "^1.5.0",
     "shaka-player": "3.3.2",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "waveform-data": "^4.3.0",
+    "wavesurfer.js": "^6.1.0"
   },
   "jest": {
     "rootDir": "..",

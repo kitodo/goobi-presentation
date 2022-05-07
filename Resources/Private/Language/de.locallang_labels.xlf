@@ -705,6 +705,10 @@
 				<target>Video fileGrp: Komma-getrennte Liste der @USE Attributwerte der Videodateien nach absteigender Priorität sortiert (Standard ist "VIDEO,DEFAULT")</target>
 				<source>Video fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "VIDEO,DEFAULT")</source>
 			</trans-unit>
+			<trans-unit id="config.files.fileGrpWaveform">
+				<target>Waveform fileGrp: Komma-getrennte Liste der @USE Attributwerte der Waveform-Daten nach absteigender Priorität sortiert (Standard ist "WAVEFORM")</target>
+				<source>Waveform fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "WAVEFORM")</source>
+			</trans-unit>
 			<trans-unit id="config.iiif.indexAnnotations">
 				<target>IIIF-Annotationen mit Motivation "painting" als Volltext behandeln?: Als Volltext behandelte Annotationen werden im Suchid idiert (Standard ist "FALSE")</target>
 				<source>Handle IIIF annotations with motivation "painting" as fulltext?: Handling annotations as fulltexts means they are ided (default is "FALSE")</source>

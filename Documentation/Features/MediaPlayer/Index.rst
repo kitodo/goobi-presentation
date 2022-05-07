@@ -10,6 +10,7 @@ Media Player (A/V)
    Configuration
    Integrators
    Developers
+   Waveform
 
 Work-in-progress document aiming to answer some questions about the media player:
 
