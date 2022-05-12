@@ -487,6 +487,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
     }
 
     const modal = this.modals?.bookmark
+      .setMetadata(this.metadata)
       .setTimecode(this.displayTime)
       .setFps(this.getFps() ?? 0);
 

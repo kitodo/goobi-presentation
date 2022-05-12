@@ -3,10 +3,6 @@
 import { e, fillPlaceholders } from '../../lib/util';
 
 /**
- * @typedef {{
- *  url: string;
- * }} Values
- *
  * @typedef {(
  *  | { type: "material"; icon: string; }
  *  | { type: "image"; src: string; }
@@ -17,7 +13,7 @@ import { e, fillPlaceholders } from '../../lib/util';
  *
  * @typedef {{
  *  hrefTemplate: string;
- *  fillPlaceholders: (values: Values) => void;
+ *  fillPlaceholders: (values: Record<string, string | undefined>) => void;
  *  element: HTMLAnchorElement;
  * }} ShareButton
  */

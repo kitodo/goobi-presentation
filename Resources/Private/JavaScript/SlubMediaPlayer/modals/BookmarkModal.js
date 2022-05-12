@@ -7,6 +7,7 @@ import { buildTimeString } from '../../DlfMediaPlayer';
 import generateTimecodeUrl from '../lib/generateTimecodeUrl';
 import SimpleModal from '../lib/SimpleModal';
 import { createShareButton } from '../lib/ShareButton';
+import { makeExtendedMetadata } from '../lib/metadata';
 
 /**
  * @typedef {{
@@ -14,6 +15,7 @@ import { createShareButton } from '../lib/ShareButton';
  * }} Config
  *
  * @typedef {{
+ *  metadata: MetadataArray;
  *  timecode: number | null;
  *  fps: number;
  *  startAtTimecode: boolean;
@@ -33,6 +35,7 @@ export default class BookmarkModal extends SimpleModal {
    */
   constructor(element, env, config) {
     super(element, {
+      metadata: {},
       timecode: null,
       fps: 0,
       startAtTimecode: true,
@@ -146,6 +149,16 @@ export default class BookmarkModal extends SimpleModal {
 
   /**
    *
+   * @param {MetadataArray} metadata
+   * @returns {this}
+   */
+  setMetadata(metadata) {
+    this.setState({ metadata });
+    return this;
+  }
+
+  /**
+   *
    * @param {number} timecode
    * @returns {this}
    */
@@ -192,16 +205,23 @@ export default class BookmarkModal extends SimpleModal {
   render(state) {
     super.render(state);
 
-    const { show, timecode, fps, startAtTimecode, showQrCode } = state;
+    const { show, metadata, timecode, fps, startAtTimecode, showQrCode } = state;
 
-    const url = this.generateUrl(state);
+    const extendedMetadata = makeExtendedMetadata(this.env, metadata, timecode, fps);
+
+    const url = extendedMetadata['url']?.[0] ?? '';
     const urlChanged = url !== this.lastRenderedUrl;
 
     if (urlChanged) {
-      const encodedUrl = encodeURIComponent(url);
+      /** @type {Record<string, string>} */
+      const urlMetadata = {};
+
+      for (const [key, value] of Object.entries(extendedMetadata)) {
+        urlMetadata[key] = encodeURIComponent(value[0] ?? '');
+      }
 
       for (const btn of this.shareButtons) {
-        btn.fillPlaceholders({ url: encodedUrl });
+        btn.fillPlaceholders(urlMetadata);
       }
 
       this.$urlInput.value = url;

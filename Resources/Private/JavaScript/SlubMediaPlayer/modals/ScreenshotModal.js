@@ -1,7 +1,6 @@
 // @ts-check
 
 import imageFormats from '../../lib/image/imageFormats';
-import { timeStringFromTemplate } from '../../DlfMediaPlayer';
 import {
   binaryStringToArrayBuffer,
   blobToBinaryString,
@@ -11,8 +10,7 @@ import {
   domJoin,
   sanitizeBasename,
 } from '../../lib/util';
-import generateTimecodeUrl from '../lib/generateTimecodeUrl';
-import { fillMetadata } from '../lib/metadata';
+import { fillMetadata, makeExtendedMetadata } from '../lib/metadata';
 import SimpleModal from '../lib/SimpleModal';
 import { getKeybindingText } from '../lib/trans';
 import { drawScreenshot } from '../Screenshot';
@@ -222,18 +220,24 @@ export default class ScreenshotModal extends SimpleModal {
   }
 
   /**
-   * @param {Pick<State, 'showMetadata' | 'metadata'>} state
+   * @param {Pick<State, 'showMetadata' | 'metadata' | 'timecode' | 'fps'>} state
    */
-  renderCurrentScreenshot({ showMetadata, metadata }) {
+  renderCurrentScreenshot({ showMetadata, metadata, timecode, fps }) {
     if (this.videoDomElement === null) {
       // TODO: Error handling
       return false;
     }
 
     const config = {
-      captions: showMetadata ? this.getCaptions(metadata) : [],
+      /** @type {import('../Screenshot').ScreenshotCaption[]} */
+      captions: [],
       minWidth: 1000,
     };
+
+    if (showMetadata) {
+      const extendedMetadata = makeExtendedMetadata(this.env, metadata ?? {}, timecode, fps);
+      config.captions = this.getCaptions(extendedMetadata);
+    }
 
     drawScreenshot(this.$canvas, this.videoDomElement, config);
 
@@ -245,15 +249,17 @@ export default class ScreenshotModal extends SimpleModal {
    * @param {Pick<State, 'metadata'| 'fps' | 'timecode' | 'selectedImageFormat'>} state
    */
   async downloadCurrentImage(state) {
-    const { metadata, timecode, selectedImageFormat } = state;
+    const { metadata, timecode, fps, selectedImageFormat } = state;
     if (metadata === null || timecode === null || selectedImageFormat === null) {
       console.error("one of [metadata, timecode, selectedImageFormat] is null");
       return false;
     }
 
+    const extendedMetadata = makeExtendedMetadata(this.env, metadata, timecode, fps);
+
     const image = await this.makeImageBlob(
-      this.$canvas, selectedImageFormat, metadata, timecode);
-    const filename = this.getFilename(metadata, state.fps, timecode, selectedImageFormat);
+      this.$canvas, selectedImageFormat, extendedMetadata);
+    const filename = this.getFilename(metadata, selectedImageFormat);
 
     download(image, filename);
 
@@ -265,23 +271,17 @@ export default class ScreenshotModal extends SimpleModal {
    * @param {HTMLCanvasElement} canvas
    * @param {ImageFormatDesc} imageFormat
    * @param {MetadataArray} metadata
-   * @param {number} timecode
    */
-  async makeImageBlob(canvas, imageFormat, metadata, timecode) {
+  async makeImageBlob(canvas, imageFormat, metadata) {
     const imageBlob = await canvasToBlob(canvas, imageFormat.mimeType);
     const imageDataStr = await blobToBinaryString(imageBlob);
     const image = imageFormat.parseBinaryString(imageDataStr);
 
     if (image) {
-      const url = generateTimecodeUrl(timecode, this.env);
-
       image.addMetadata({
         title: metadata.title?.[0] ?? "",
         // NOTE: Don't localize (not only relevant to current user)
-        comment: this.fillExtendedMetadata(this.constants.screenshotCommentTemplate, {
-          ...metadata,
-          url: [url.toString()],
-        }),
+        comment: fillMetadata(this.constants.screenshotCommentTemplate, metadata),
       });
       const buffer = binaryStringToArrayBuffer(image.toBinaryString());
       return new Blob([buffer], { type: imageBlob.type });
@@ -293,17 +293,12 @@ export default class ScreenshotModal extends SimpleModal {
   /**
    *
    * @param {MetadataArray} metadata
-   * @param {number | null} fps
-   * @param {number} timecode
    * @param {ImageFormatDesc} selectedImageFormat
    * @return {string}
    */
-  getFilename(metadata, fps, timecode, selectedImageFormat) {
-    const basename = this.fillExtendedMetadata(
-      timeStringFromTemplate(this.constants.screenshotFilenameTemplate, timecode, fps),
-      metadata
-    );
-
+  getFilename(metadata, selectedImageFormat) {
+    const template = this.constants.screenshotFilenameTemplate;
+    const basename = fillMetadata(template, metadata);
     const extension = selectedImageFormat.extension;
 
     return `${sanitizeBasename(basename)}.${extension}`;
@@ -311,28 +306,14 @@ export default class ScreenshotModal extends SimpleModal {
 
   /**
    *
-   * @param {MetadataArray | null} metadata
+   * @param {MetadataArray} metadata
    * @returns {import('../Screenshot').ScreenshotCaption[]}
    */
   getCaptions(metadata) {
     return this.config.screnshotCaptions.map(caption => ({
       ...caption,
-      text: this.fillExtendedMetadata(caption.text, metadata ?? {}),
+      text: fillMetadata(caption.text, metadata),
     }));
-  }
-
-  /**
-   *
-   * @private
-   * @param {string} template
-   * @param {MetadataArray} metadata
-   * @returns {string}
-   */
-  fillExtendedMetadata(template, metadata) {
-    return fillMetadata(template, {
-      ...metadata,
-      host: [`${location.protocol}//${location.host}`],
-    });
   }
 
   /**

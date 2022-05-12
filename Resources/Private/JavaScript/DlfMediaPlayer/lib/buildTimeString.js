@@ -26,27 +26,25 @@ export default function buildTimeString(totalSeconds, showHour, fps = null) {
     }
   }
 
-  return timeStringFromTemplate(template, totalSeconds, fps);
+  return fillPlaceholders(template, getTimeStringPlaceholders(totalSeconds, fps));
 }
 
 /**
  *
- * @param {string} template Template string used for building the output.
  * @param {number} totalSeconds Total number of seconds to be formatted.
  * @param {number | null} fps (Optional) Number of FPS used to calculate frame count.
- * @returns {string}
  */
-export function timeStringFromTemplate(template, totalSeconds, fps = null) {
+export function getTimeStringPlaceholders(totalSeconds, fps = null) {
   const parts = getTimeStringParts(totalSeconds, fps ?? 0);
 
-  return fillPlaceholders(template, {
+  return {
     h: `${parts.hours}`,
     hh: zeroPad(parts.hours, 2),
     m: `${parts.totalMinutes}`,
     mm: zeroPad(parts.minutes, 2),
     ss: zeroPad(parts.seconds, 2),
     ff: zeroPad(parts.frames, 2),
-  });
+  };
 }
 
 /**
