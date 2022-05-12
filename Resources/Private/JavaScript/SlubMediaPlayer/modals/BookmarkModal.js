@@ -6,23 +6,11 @@ import { e, filterNonNull } from '../../lib/util';
 import { buildTimeString } from '../../DlfMediaPlayer';
 import generateTimecodeUrl from '../lib/generateTimecodeUrl';
 import SimpleModal from '../lib/SimpleModal';
+import { createShareButton } from '../lib/ShareButton';
 
 /**
- * @typedef {(
- *  | { type: "material"; icon: string; }
- *  | { type: "image"; src: string; }
- * ) & {
- *  hrefTemplate: string;
- *  titleTranslationKey: string;
- * }} ShareButtonInfo
- *
  * @typedef {{
- *  hrefTemplate: string;
- *  element: HTMLAnchorElement;
- * }} ShareButton
- *
- * @typedef {{
- *  shareButtons: ShareButtonInfo[];
+ *  shareButtons: import('../lib/ShareButton').ShareButtonInfo[];
  * }} Config
  *
  * @typedef {{
@@ -67,7 +55,11 @@ export default class BookmarkModal extends SimpleModal {
 
     const startAtCheckId = this.env.mkid();
 
-    const shareButtons = (config.shareButtons ?? []).map(this.createShareButton.bind(this));
+    const shareButtons = (config.shareButtons ?? []).map((info) => {
+      return createShareButton(this.env, info, {
+        onClick: this.handlers.handleClickShareButton,
+      });
+    });
     this.shareButtons = filterNonNull(shareButtons);
 
     this.$body.append(
@@ -106,36 +98,6 @@ export default class BookmarkModal extends SimpleModal {
         ]),
       ])
     );
-  }
-
-  /**
-   *
-   * @param {ShareButtonInfo} info
-   * @return {ShareButton}
-   */
-  createShareButton(info) {
-    /** @type {HTMLElement} */
-    let iconElement;
-
-    switch (info.type) {
-      case "material":
-        iconElement = e("i", { className: "material-icons-round" }, [info.icon]);
-        break;
-
-      case "image":
-        iconElement = e("img", { src: info.src });
-        break;
-    }
-
-    return {
-      hrefTemplate: info.hrefTemplate,
-      element: e("a", {
-        title: this.env.t(info.titleTranslationKey ?? "", {}, () => ""),
-        target: "_blank",
-        rel: "noopener noreferrer",
-        $click: this.handlers.handleClickShareButton,
-      }, [iconElement]),
-    };
   }
 
   /**
@@ -239,7 +201,7 @@ export default class BookmarkModal extends SimpleModal {
       const encodedUrl = encodeURIComponent(url);
 
       for (const btn of this.shareButtons) {
-        btn.element.href = btn.hrefTemplate.replace(/{url}/g, encodedUrl);
+        btn.fillPlaceholders({ url: encodedUrl });
       }
 
       this.$urlInput.value = url;
