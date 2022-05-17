@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-11-08T10:01:57Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="action.cancel" approved="yes">
+				<source><![CDATA[Cancel action (window, full screen, ...)]]></source>
+				<target><![CDATA[Aktion beenden (Vollbild, Fenster, ...)]]></target>
+			</trans-unit>
+			<trans-unit id="action.fullscreen.toggle" approved="yes">
+				<source><![CDATA[Toggle full screen]]></source>
+				<target><![CDATA[Vollbild an / aus]]></target>
+			</trans-unit>
+			<trans-unit id="action.kind.navigate" approved="yes">
+				<source><![CDATA[Navigate]]></source>
+				<target><![CDATA[Navigation]]></target>
+			</trans-unit>
+			<trans-unit id="action.kind.other" approved="yes">
+				<source><![CDATA[Other]]></source>
+				<target><![CDATA[Weitere]]></target>
+			</trans-unit>
+			<trans-unit id="action.kind.player" approved="yes">
+				<source><![CDATA[Player]]></source>
+				<target><![CDATA[Wiedergabe]]></target>
+			</trans-unit>
+			<trans-unit id="action.modal.bookmark.open" approved="yes">
+				<source><![CDATA[Bookmark (share link)]]></source>
+				<target><![CDATA[Bookmark (Link weitergeben)]]></target>
+			</trans-unit>
+			<trans-unit id="action.modal.help.toggle" approved="yes">
+				<source><![CDATA[Toggle help (this window)]]></source>
+				<target><![CDATA[Bedienhinweise (dieses Fenster)]]></target>
+			</trans-unit>
+			<trans-unit id="action.modal.screenshot.open" approved="yes">
+				<source><![CDATA[Screenshot (show dialog)]]></source>
+				<target><![CDATA[Screenshot: Dialog anzeigen]]></target>
+			</trans-unit>
+			<trans-unit id="action.modal.screenshot.snap" approved="yes">
+				<source><![CDATA[Screenshot (direct download)]]></source>
+				<target><![CDATA[Screenshot: Sofort herunterladen]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.chapter.next" approved="yes">
+				<source><![CDATA[Next chapter]]></source>
+				<target><![CDATA[Kapitel weiter]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.chapter.prev" approved="yes">
+				<source><![CDATA[Previous chapter]]></source>
+				<target><![CDATA[Kapitel zurück]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.frame.next" approved="yes">
+				<source><![CDATA[Next frame]]></source>
+				<target><![CDATA[Frame weiter]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.frame.prev" approved="yes">
+				<source><![CDATA[Previous frame]]></source>
+				<target><![CDATA[Frame zurück]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.rewind" approved="yes">
+				<source><![CDATA[Rewind {seekStep, plural, one {one second} other {# seconds}}]]></source>
+				<target><![CDATA[{seekStep, plural, one {Eine Sekunde} other {# Sekunden}} zurück]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.seek" approved="yes">
+				<source><![CDATA[Seek {seekStep, plural, one {one second} other {# seconds}}]]></source>
+				<target><![CDATA[{seekStep, plural, one {Eine Sekunde} other {# Sekunden}} weiter]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.continuous-rewind" approved="yes">
+				<source><![CDATA[Rewind ({trickPlayFactor}x)]]></source>
+				<target><![CDATA[Zurückspulen ({trickPlayFactor}x)]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.continuous-seek" approved="yes">
+				<source><![CDATA[Fast-forward ({trickPlayFactor}x)]]></source>
+				<target><![CDATA[Vorspulen ({trickPlayFactor}x)]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.position.percental" approved="yes">
+				<source><![CDATA[Jump to position (%)]]></source>
+				<target><![CDATA[Zu Position springen (%)]]></target>
+			</trans-unit>
+			<trans-unit id="action.navigate.thumbnails.snap" approved="yes">
+				<source><![CDATA[Seek along thumbnails]]></source>
+				<target><![CDATA[Thumbnail-Seeking]]></target>
+			</trans-unit>
+			<trans-unit id="action.playback.captions.toggle" approved="yes">
+				<source><![CDATA[Toggle captions]]></source>
+				<target><![CDATA[Untertitel an / aus]]></target>
+			</trans-unit>
+			<trans-unit id="action.playback.toggle" approved="yes">
+				<source><![CDATA[Play / Pause]]></source>
+				<target><![CDATA[Abspielen / Pausieren]]></target>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.dec" approved="yes">
+				<source><![CDATA[Decrease volume (-{volumeStep, number, ::percent}P)]]></source>
+				<target><![CDATA[Leiser (-{volumeStep, number, ::percent}P)]]></target>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.inc" approved="yes">
+				<source><![CDATA[Increase volume (+{volumeStep, number, ::percent}P)]]></source>
+				<target><![CDATA[Lauter (+{volumeStep, number, ::percent}P)]]></target>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.mute.toggle" approved="yes">
+				<source><![CDATA[Mute / Unmute]]></source>
+				<target><![CDATA[Stummschaltung an / aus]]></target>
+			</trans-unit>
+			<trans-unit id="action.theater.toggle" approved="yes">
+				<source><![CDATA[Toggle theater mode]]></source>
+				<target><![CDATA[Theater-Modus an / aus]]></target>
+			</trans-unit>
+			<trans-unit id="action.unavailable" approved="yes">
+				<source><![CDATA[Action unavailable]]></source>
+				<target><![CDATA[Aktion nicht anwendbar]]></target>
+			</trans-unit>
+			<trans-unit id="control.back" approved="yes">
+				<source><![CDATA[Back]]></source>
+				<target><![CDATA[Zurück]]></target>
+			</trans-unit>
+			<trans-unit id="control.bookmark.tooltip" approved="yes">
+				<source><![CDATA[Bookmark]]></source>
+				<target><![CDATA[Bookmark]]></target>
+			</trans-unit>
+			<trans-unit id="control.fullscreen.tooltip" approved="yes">
+				<source><![CDATA[Full screen]]></source>
+				<target><![CDATA[Vollbildmodus]]></target>
+			</trans-unit>
+			<trans-unit id="control.fullscreen_exit.tooltip" approved="yes">
+				<source><![CDATA[Exit full screen]]></source>
+				<target><![CDATA[Vollbildmodus beenden]]></target>
+			</trans-unit>
+			<trans-unit id="control.help.tooltip" approved="yes">
+				<source><![CDATA[Show help]]></source>
+				<target><![CDATA[Bedienhinweise]]></target>
+			</trans-unit>
+			<trans-unit id="control.screenshot.tooltip" approved="yes">
+				<source><![CDATA[Take screenshot]]></source>
+				<target><![CDATA[Screenshot]]></target>
+			</trans-unit>
+			<trans-unit id="control.time.tooltip" approved="yes">
+				<source><![CDATA[Toggle time display]]></source>
+				<target><![CDATA[Zeitanzeige wechseln]]></target>
+			</trans-unit>
+			<trans-unit id="control.time.current-time.text" approved="yes">
+				<source><![CDATA[{currentTime} / {totalTime} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+				<target><![CDATA[{currentTime} / {totalTime} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></target>
+			</trans-unit>
+			<trans-unit id="control.time.remaining-time.text" approved="yes">
+				<source><![CDATA[{remainingTime} remaining {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+				<target><![CDATA[noch {remainingTime} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></target>
+			</trans-unit>
+			<trans-unit id="control.time.current-frame.text" approved="yes">
+				<source><![CDATA[{currentFrame, plural, =-1 {Frame Count Not Available} other {Frame: #}} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+				<target><![CDATA[{currentFrame, plural, =-1 {Frame-Nummer unbekannt} other {Frame: #}} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></target>
+			</trans-unit>
+			<trans-unit id="control.video-track.title" approved="yes">
+				<source><![CDATA[Video Track]]></source>
+				<target><![CDATA[Videospur]]></target>
+			</trans-unit>
+			<trans-unit id="error.no-media-source" approved="yes">
+				<source><![CDATA[No media source given]]></source>
+				<target><![CDATA[Kein A/V-Dokument angegeben]]></target>
+			</trans-unit>
+			<trans-unit id="error.loading" approved="yes">
+				<source><![CDATA[Loading media file]]></source>
+				<target><![CDATA[A/V-Dokument wird geladen]]></target>
+			</trans-unit>
+			<trans-unit id="error.load-failed" approved="yes">
+				<source><![CDATA[The media file could not be loaded.]]></source>
+				<target><![CDATA[Das A/V-Dokument konnte nicht geladen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="error.playback-not-supported" approved="yes">
+				<source><![CDATA[This media file cannot be played back in your browser.]]></source>
+				<target><![CDATA[Dieses A/V-Dokument kann in Ihrem Browser nicht wiedergegeben werden.]]></target>
+			</trans-unit>
+			<trans-unit id="key.generic">
+				<source><![CDATA[{key}]]></source>
+				<target><![CDATA[{key}]]></target>
+			</trans-unit>
+			<trans-unit id="key. " approved="yes">
+				<source><![CDATA[Space Bar]]></source>
+				<target><![CDATA[     ]]></target>
+			</trans-unit>
+			<trans-unit id="key.ArrowDown" approved="yes">
+				<source><![CDATA[▼]]></source>
+				<target><![CDATA[▼]]></target>
+			</trans-unit>
+			<trans-unit id="key.ArrowLeft" approved="yes">
+				<source><![CDATA[◀]]></source>
+				<target><![CDATA[◀]]></target>
+			</trans-unit>
+			<trans-unit id="key.ArrowRight" approved="yes">
+				<source><![CDATA[▶]]></source>
+				<target><![CDATA[▶]]></target>
+			</trans-unit>
+			<trans-unit id="key.ArrowUp" approved="yes">
+				<source><![CDATA[▲]]></source>
+				<target><![CDATA[▲]]></target>
+			</trans-unit>
+			<trans-unit id="key.Escape" approved="yes">
+				<source><![CDATA[Esc]]></source>
+				<target><![CDATA[Esc]]></target>
+			</trans-unit>
+			<trans-unit id="key.Shift" approved="yes">
+				<source><![CDATA[⇧ Shift]]></source>
+				<target><![CDATA[⇧ Umschalt]]></target>
+			</trans-unit>
+			<trans-unit id="key.mod.CtrlMeta" approved="yes">
+				<source><![CDATA[Ctrl]]></source>
+				<target><![CDATA[Strg]]></target>
+			</trans-unit>
+			<trans-unit id="key.mod.Shift" approved="yes">
+				<source><![CDATA[⇧ Shift]]></source>
+				<target><![CDATA[⇧ Umschalt]]></target>
+			</trans-unit>
+			<trans-unit id="key.repeat" approved="yes">
+				<source><![CDATA[(hold) {key}]]></source>
+				<target><![CDATA[(halten) {key}]]></target>
+			</trans-unit>
+			<trans-unit id="key.unto" approved="yes">
+				<source><![CDATA[ to ]]></source>
+				<target><![CDATA[ bis ]]></target>
+			</trans-unit>
+			<trans-unit id="key.unto.mod" approved="yes">
+				<source><![CDATA[-]]></source>
+				<target><![CDATA[-]]></target>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.copy-link" approved="yes">
+				<source><![CDATA[Copy Link]]></source>
+				<target><![CDATA[Link kopieren]]></target>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-current-time" approved="yes">
+				<source><![CDATA[Start at current time ({timecode}).]]></source>
+				<target><![CDATA[Bei aktueller Zeit ({timecode}) starten.]]></target>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.title" approved="yes">
+				<source><![CDATA[Bookmark (Share Link)]]></source>
+				<target><![CDATA[Bookmark (Link weitergeben)]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.configuration" approved="yes">
+				<source><![CDATA[Configure]]></source>
+				<target><![CDATA[Konfiguration]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata-overlay" approved="yes">
+				<source><![CDATA[Show on Screenshot]]></source>
+				<target><![CDATA[Im Bild einblenden]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.download-image" approved="yes">
+				<source><![CDATA[Download Image]]></source>
+				<target><![CDATA[Bild herunterladen]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.error" approved="yes">
+				<source><![CDATA[Sorry, the screenshot could not be taken.]]></source>
+				<target><![CDATA[Entschuldigung, der Screenshot konnte nicht erstellt werden.]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata" approved="yes">
+				<source><![CDATA[Metadata]]></source>
+				<target><![CDATA[Metadaten]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata-overlay" approved="yes">
+				<source><![CDATA[Show on Screenshot]]></source>
+				<target><![CDATA[Im Bild einblenden]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.file-format" approved="yes">
+				<source><![CDATA[File Format]]></source>
+				<target><![CDATA[Dateiformat]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.snap-tip" approved="yes">
+				<source><![CDATA[Use {keybinding} to save a screenshot while watching.]]></source>
+				<target><![CDATA[Mit {keybinding} kann ein Screenshot im laufenden Film heruntergeladen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.title" approved="yes">
+				<source><![CDATA[Screenshot]]></source>
+				<target><![CDATA[Screenshot]]></target>
+			</trans-unit>
+			<trans-unit id="modal.help.title" approved="yes">
+				<source><![CDATA[How to Use]]></source>
+				<target><![CDATA[Bedienhinweise]]></target>
+			</trans-unit>
+			<trans-unit id="player.loading" approved="yes">
+				<source><![CDATA[Loading...]]></source>
+				<target><![CDATA[Laden...]]></target>
+			</trans-unit>
+			<trans-unit id="share.email.tooltip" approved="yes">
+				<source><![CDATA[Send in E-Mail]]>]</source>
+				<target><![CDATA[E-Mail senden]]></target>
+			</trans-unit>
+			<trans-unit id="share.qr_code.tooltip" approved="yes">
+				<source><![CDATA[Show QR-Code]]>]</source>
+				<target><![CDATA[QR-Code einblenden]]></target>
+			</trans-unit>
+			<trans-unit id="share.tweet.tooltip" approved="yes">
+				<source><![CDATA[Tweet]]>]</source>
+				<target><![CDATA[Twittern]]></target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

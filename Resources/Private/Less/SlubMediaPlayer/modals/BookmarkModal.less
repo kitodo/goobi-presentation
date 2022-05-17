@@ -1,0 +1,57 @@
+.bookmark-modal {
+    text-align: left;
+
+    .share-buttons {
+        margin-bottom: 1em;
+
+        a {
+            margin-right: 1em;
+
+            img,
+            .material-icons-round {
+                width: 40px;
+                height: 40px;
+                font-size: 40px;
+            }
+        }
+    }
+
+    .url-qrcode {
+        padding-top: 1em;
+        display: none;
+
+        hr {
+            margin-bottom: 1.4em;
+        }
+
+        &.dlf-visible {
+            display: block;
+        }
+    }
+
+    .url-line {
+        display: flex;
+
+        input {
+            width: 90%;
+            height: 2rem;
+            font-size: 1rem;
+            line-height: 1rem;
+            color: @base-color;
+            margin-right: 4pt;
+        }
+    }
+
+    .start-at {
+        display: none;
+        margin-top: 1em;
+
+        label {
+            padding-left: @label-padding;
+        }
+
+        &.shown {
+            display: block;
+        }
+    }
+}

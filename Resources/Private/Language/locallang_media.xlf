@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-08T10:01:57Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="action.cancel">
+				<source><![CDATA[Cancel action (full screen, window, ...)]]></source>
+			</trans-unit>
+			<trans-unit id="action.fullscreen.toggle">
+				<source><![CDATA[Toggle full screen]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.navigate">
+				<source><![CDATA[Navigate]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.other">
+				<source><![CDATA[Other]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.player">
+				<source><![CDATA[Player]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.bookmark.open">
+				<source><![CDATA[Bookmark (share link)]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.help.toggle">
+				<source><![CDATA[Toggle help (this window)]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.screenshot.open">
+				<source><![CDATA[Screenshot (show dialog)]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.screenshot.snap">
+				<source><![CDATA[Screenshot (direct download)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.chapter.next">
+				<source><![CDATA[Next chapter]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.chapter.prev">
+				<source><![CDATA[Previous chapter]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.frame.next">
+				<source><![CDATA[Next frame]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.frame.prev">
+				<source><![CDATA[Previous frame]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.rewind">
+				<source><![CDATA[Rewind {seekStep, plural, one {one second} other {# seconds}}]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.seek">
+				<source><![CDATA[Seek {seekStep, plural, one {one second} other {# seconds}}]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.continuous-rewind">
+				<source><![CDATA[Rewind ({trickPlayFactor}x)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.continuous-seek">
+				<source><![CDATA[Fast-forward ({trickPlayFactor}x)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.position.percental">
+				<source><![CDATA[Jump to position (%)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.thumbnails.snap">
+				<source><![CDATA[Seek along thumbnails]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.captions.toggle">
+				<source><![CDATA[Toggle captions]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.toggle">
+				<source><![CDATA[Play / Pause]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.dec">
+				<source><![CDATA[Decrease volume (-{volumeStep, number, ::percent}P)]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.inc">
+				<source><![CDATA[Increase volume (+{volumeStep, number, ::percent}P)]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.mute.toggle">
+				<source><![CDATA[Mute / Unmute]]></source>
+			</trans-unit>
+			<trans-unit id="action.theater.toggle">
+				<source><![CDATA[Toggle theater mode]]></source>
+			</trans-unit>
+			<trans-unit id="action.unavailable">
+				<source><![CDATA[Action unavailable]]></source>
+			</trans-unit>
+			<trans-unit id="control.back">
+				<source><![CDATA[Back]]></source>
+			</trans-unit>
+			<trans-unit id="control.bookmark.tooltip">
+				<source><![CDATA[Bookmark]]></source>
+			</trans-unit>
+			<trans-unit id="control.fullscreen.tooltip">
+				<source><![CDATA[Full screen]]></source>
+			</trans-unit>
+			<trans-unit id="control.fullscreen_exit.tooltip">
+				<source><![CDATA[Exit full screen]]></source>
+			</trans-unit>
+			<trans-unit id="control.help.tooltip">
+				<source><![CDATA[Show help]]></source>
+			</trans-unit>
+			<trans-unit id="control.screenshot.tooltip">
+				<source><![CDATA[Take screenshot]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.tooltip">
+				<source><![CDATA[Toggle time display]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.current-time.text">
+				<source><![CDATA[{currentTime} / {totalTime} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.remaining-time.text">
+				<source><![CDATA[{remainingTime} remaining {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.current-frame.text">
+				<source><![CDATA[{currentFrame, plural, =-1 {Frame Count Not Available} other {Frame: #}} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+			</trans-unit>
+			<trans-unit id="control.video-track.title">
+				<source><![CDATA[Video Track]]></source>
+			</trans-unit>
+			<trans-unit id="error.no-media-source">
+				<source><![CDATA[No media source given]]></source>
+			</trans-unit>
+			<trans-unit id="error.loading">
+				<source><![CDATA[Loading media file]]></source>
+			</trans-unit>
+			<trans-unit id="error.load-failed">
+				<source><![CDATA[The media file could not be loaded.]]></source>
+			</trans-unit>
+			<trans-unit id="error.playback-not-supported">
+				<source><![CDATA[This media file cannot be played back in your browser.]]></source>
+			</trans-unit>
+			<trans-unit id="key.generic">
+				<source><![CDATA[{key}]]></source>
+			</trans-unit>
+			<trans-unit id="key. ">
+				<source><![CDATA[Space Bar]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowDown">
+				<source><![CDATA[▼]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowLeft">
+				<source><![CDATA[◀]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowRight">
+				<source><![CDATA[▶]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowUp">
+				<source><![CDATA[▲]]></source>
+			</trans-unit>
+			<trans-unit id="key.Escape">
+				<source><![CDATA[Esc]]></source>
+			</trans-unit>
+			<trans-unit id="key.Shift">
+				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.CtrlMeta">
+				<source><![CDATA[Ctrl]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.Shift">
+				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.repeat">
+				<source><![CDATA[(hold) {key}]]></source>
+			</trans-unit>
+			<trans-unit id="key.unto">
+				<source><![CDATA[ to ]]></source>
+			</trans-unit>
+			<trans-unit id="key.unto.mod">
+				<source><![CDATA[-]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.copy-link">
+				<source><![CDATA[Copy Link]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-current-time">
+				<source><![CDATA[Start at current time ({timecode}).]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.title">
+				<source><![CDATA[Bookmark (Share Link)]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.configuration">
+				<source><![CDATA[Configure]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.download-image">
+				<source><![CDATA[Download Image]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.error">
+				<source><![CDATA[Sorry, the screenshot could not be taken.]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.file-format">
+				<source><![CDATA[File Format]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata">
+				<source><![CDATA[Metadata]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata-overlay">
+				<source><![CDATA[Overlay on image]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.snap-tip">
+				<source><![CDATA[Use {keybinding} to save a screenshot while watching.]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.title">
+				<source><![CDATA[Screenshot]]></source>
+			</trans-unit>
+			<trans-unit id="modal.help.title">
+				<source><![CDATA[How to Use]]></source>
+			</trans-unit>
+			<trans-unit id="player.loading">
+				<source><![CDATA[Loading...]]></source>
+			</trans-unit>
+			<trans-unit id="share.email.tooltip">
+				<source><![CDATA[Send in E-Mail]]></source>
+			</trans-unit>
+			<trans-unit id="share.qr_code.tooltip">
+				<source><![CDATA[Show QR-Code]]>]</source>
+			</trans-unit>
+			<trans-unit id="share.tweet.tooltip">
+				<source><![CDATA[Tweet]]>]</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

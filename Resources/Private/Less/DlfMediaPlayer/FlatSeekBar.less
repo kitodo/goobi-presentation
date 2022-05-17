@@ -1,0 +1,41 @@
+// Imported from DlfMediaPlayer.less
+
+.dlf-media-flat-seek-bar {
+    .show-when-controls-shown();
+    .no-tap-highlight();
+
+    // This lets us use pointer events for touch
+    touch-action: none;
+    position: relative;
+    margin: 0px 6px;
+    padding-top: @seek-bar-margin;
+    height: @seek-bar-height + 2 * @seek-bar-margin;
+    cursor: pointer;
+
+    .range {
+        position: absolute;
+        width: 100%;
+        height: @seek-bar-height;
+        border-radius: @seek-bar-height;
+    }
+
+    .seek-marker {
+        position: absolute;
+        left: 45%;
+        height: @seek-bar-height;
+        width: 1px;
+        background-color: @base-color;
+        z-index: -1; // Less than .dlf-media-chapter-marker
+        visibility: hidden;
+    }
+
+    .seek-thumb-bar {
+        position: absolute;
+        left: 45%;
+        height: @seek-bar-height;
+        width: 1px;
+        background-color: rgba(@base-color, 0.4);
+        z-index: -2; // Less than .dlf-media-chapter-marker and .seek-marker
+        visibility: hidden;
+    }
+}

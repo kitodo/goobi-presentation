@@ -1,0 +1,106 @@
+.dlf-shaka {
+    &[data-mode="video"] {
+        --controls-color: white;
+
+        --volume-base-color: rgba(255, 255, 255, 0.54);
+        --volume-level-color: rgba(255, 255, 255);
+
+        .dlf-media-flat-seek-bar {
+            --base-color: rgba(255, 255, 255, 0.3);
+            --buffered-color: rgba(255, 255, 255, 0.54);
+            --played-color: rgb(255, 255, 255);
+        }
+    }
+
+    &[data-mode="audio"] {
+        --controls-color: #2a2b2c;
+
+        --volume-base-color: rgba(0, 0, 0, 0.4);
+        --volume-level-color: rgba(0, 0, 0, 0.8);
+
+        .dlf-media-flat-seek-bar {
+            --base-color: rgba(0, 0, 0, 0.3);
+            --buffered-color: rgba(0, 0, 0, 0.54);
+            --played-color: #2a2b2c;
+
+            .dlf-media-chapter-marker {
+                background-color: lighten(rgb(79, 179, 199), 30%);
+            }
+        }
+    }
+
+    .dlf-media-shaka-box {
+        background-color: black;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dlf-media-error {
+        display: none;
+        color: white;
+        z-index: 1;
+
+        &.dlf-visible {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .shaka-scrim-container {
+        display: none;
+    }
+
+    &[data-mode=""] {
+        display: none;
+    }
+
+    .dlf-media-error {
+        color: var(--controls-color);
+    }
+
+    .shaka-controls-button-panel > * {
+        color: var(--controls-color) !important;
+    }
+
+    .shaka-volume-bar {
+        &::-webkit-slider-thumb,
+        &::-moz-range-thumb {
+            background: var(--volume-level-color);
+        }
+    }
+
+    &[data-mode="audio"] {
+        height: 3.5em;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+
+        background-color: rgba(79, 179, 199, 0.6);
+
+        video {
+            display: none;
+        }
+
+        .dlf-media-poster {
+            display: none !important;
+        }
+
+        // Use background color from parent
+        .dlf-media-shaka-box {
+            background-color: transparent;
+        }
+
+        .shaka-spinner-container {
+            display: none;
+        }
+
+        .shaka-bottom-controls {
+            width: 100%;
+            padding-bottom: 0.4em;
+        }
+    }
+}

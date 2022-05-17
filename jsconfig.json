@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+		"allowJs": true,
+		"resolveJsonModule": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "preserve",
+        "strictFunctionTypes": true,
+		"downlevelIteration": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "./Build/node_modules/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*",
+		"**/vendor/*"
+    ]
+}

@@ -1,0 +1,748 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`can draw to canvas 1`] = `
+Array [
+  Object {
+    "props": Object {
+      "dHeight": 1080,
+      "dWidth": 1920,
+      "dx": 0,
+      "dy": 0,
+      "img": VideoMock {
+        "_mockHeight": 1080,
+        "_mockWidth": 1920,
+      },
+      "sHeight": 1080,
+      "sWidth": 1920,
+      "sx": 0,
+      "sy": 0,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "drawImage",
+  },
+  Object {
+    "props": Object {
+      "value": "25px Arial",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "font",
+  },
+  Object {
+    "props": Object {
+      "value": "#ffffff",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillStyle",
+  },
+  Object {
+    "props": Object {
+      "value": 5,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "shadowBlur",
+  },
+  Object {
+    "props": Object {
+      "value": "#000000",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "shadowColor",
+  },
+  Object {
+    "props": Object {
+      "value": "left",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "top left",
+      "x": 10,
+      "y": 10,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "right",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "top right",
+      "x": 1910,
+      "y": 10,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "left",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "bottom left",
+      "x": 10,
+      "y": 1070,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "right",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "Test Video / 1912",
+      "x": 1910,
+      "y": 1070,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+]
+`;
+
+exports[`can draw to canvas 2`] = `
+Array [
+  Object {
+    "props": Object {
+      "dHeight": 540,
+      "dWidth": 960,
+      "dx": 0,
+      "dy": 0,
+      "img": VideoMock {
+        "_mockHeight": 540,
+        "_mockWidth": 960,
+      },
+      "sHeight": 540,
+      "sWidth": 960,
+      "sx": 0,
+      "sy": 0,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "drawImage",
+  },
+  Object {
+    "props": Object {
+      "value": "12px Arial",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "font",
+  },
+  Object {
+    "props": Object {
+      "value": "#ffffff",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillStyle",
+  },
+  Object {
+    "props": Object {
+      "value": 5,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "shadowBlur",
+  },
+  Object {
+    "props": Object {
+      "value": "#000000",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "shadowColor",
+  },
+  Object {
+    "props": Object {
+      "value": "left",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "top left",
+      "x": 5,
+      "y": 5,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "right",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "top right",
+      "x": 955,
+      "y": 5,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "left",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "bottom left",
+      "x": 5,
+      "y": 535,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "right",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "Test Video / 1912",
+      "x": 955,
+      "y": 535,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+]
+`;
+
+exports[`can draw to canvas 3`] = `
+Array [
+  Object {
+    "props": Object {
+      "dHeight": 180,
+      "dWidth": 320,
+      "dx": 0,
+      "dy": 0,
+      "img": VideoMock {
+        "_mockHeight": 180,
+        "_mockWidth": 320,
+      },
+      "sHeight": 180,
+      "sWidth": 320,
+      "sx": 0,
+      "sy": 0,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "drawImage",
+  },
+  Object {
+    "props": Object {
+      "value": "8px Arial",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "font",
+  },
+  Object {
+    "props": Object {
+      "value": "#ffffff",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillStyle",
+  },
+  Object {
+    "props": Object {
+      "value": 5,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "shadowBlur",
+  },
+  Object {
+    "props": Object {
+      "value": "#000000",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "shadowColor",
+  },
+  Object {
+    "props": Object {
+      "value": "left",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "top left",
+      "x": 3.333333333333333,
+      "y": 3.333333333333333,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "right",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "top right",
+      "x": 636.6666666666666,
+      "y": 3.333333333333333,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "left",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "bottom left",
+      "x": 3.333333333333333,
+      "y": 356.6666666666667,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+  Object {
+    "props": Object {
+      "value": "right",
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "textAlign",
+  },
+  Object {
+    "props": Object {
+      "maxWidth": null,
+      "text": "Test Video / 1912",
+      "x": 636.6666666666666,
+      "y": 356.6666666666667,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "fillText",
+  },
+]
+`;
+
+exports[`can open screenshot overlay 1`] = `
+<div
+  class="sxnd-modal screenshot-modal"
+>
+  <div
+    class="headline-container"
+  >
+    <h3 />
+    <span
+      class="modal-close material-icons-round"
+    >
+      close
+    </span>
+  </div>
+  <div
+    class="body-container"
+    style="max-height: calc(0px - 11rem);"
+  >
+    <div
+      class="screenshot-config"
+    >
+      <h4>
+        Show Metadata
+      </h4>
+      <section
+        class="metadata-config"
+      >
+        <h1>
+          Metadata
+        </h1>
+        <div
+          class="metadata-overlay"
+        >
+          <input
+            id="__autoid_1"
+            type="checkbox"
+          />
+          <label
+            for="__autoid_1"
+          >
+            Overlay on image
+          </label>
+        </div>
+      </section>
+      <section>
+        <h1>
+          File Format
+        </h1>
+        <div>
+          <span
+            class="file-format-option"
+          >
+            <input
+              id="__autoid_3"
+              name="__autoid_2"
+              type="radio"
+            />
+            <label
+              for="__autoid_3"
+            >
+               PNG
+            </label>
+          </span>
+          <span
+            class="file-format-option"
+          >
+            <input
+              id="__autoid_4"
+              name="__autoid_2"
+              type="radio"
+            />
+            <label
+              for="__autoid_4"
+            >
+               JPEG
+            </label>
+          </span>
+        </div>
+      </section>
+      <a
+        class="download-link"
+        href="#"
+      >
+        <i
+          class="material-icons-round inline-icon"
+        >
+          download
+        </i>
+        Download Image
+      </a>
+      <aside
+        class="snap-tip"
+      >
+        <i
+          class="material-icons-round inline-icon"
+        >
+          info_outline
+        </i>
+        <span>
+          Tip: Snap via 
+          <span>
+            <kbd>
+              S
+            </kbd>
+          </span>
+          
+        </span>
+      </aside>
+    </div>
+    <canvas
+      height="1080"
+      width="1920"
+    />
+  </div>
+</div>
+`;

@@ -1,0 +1,218 @@
+@import (reference) "shaka-player/ui/controls.less";
+
+@import "ShakaFrontend.less";
+
+.dlf-media-player {
+    .noselect();
+}
+
+.dlf-media-base() {
+    &:not(:defined) {
+        display: none;
+    }
+
+    dlf-chapter {
+        display: none;
+    }
+}
+
+dlf-media {
+    .dlf-media-base();
+}
+
+.dlf-media {
+    width: 100%;
+    height: 100%;
+}
+
+.dlf-media-poster {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: black;
+
+    // Show poster only if src is set
+    &[src].dlf-visible {
+        display: block;
+    }
+}
+
+.shaka-video-container {
+    height: 100%;
+}
+
+.shaka-bottom-controls {
+    visibility: hidden;
+}
+
+.shaka-controls-button-panel {
+    // Prefer showing play button rather than fullscreen/overflow menu buttons
+    // on tiny screens
+    justify-content: flex-start !important;
+}
+
+@media all and (min-width: calc(@tabletViewportWidth + 1px)) {
+    .shaka-controls-button-panel button {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .shaka-overflow-menu-button {
+        margin-left: 0 !important;
+    }
+
+    .shaka-fullscreen-button {
+        margin-left: 3px !important;
+        margin-right: 4px !important;
+    }
+}
+
+.shaka-current-time {
+    // On small screens, let the time tracker adapt
+
+    flex-shrink: 1 !important;
+    white-space: nowrap;
+    overflow-x: scroll;
+    position: relative;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+body {
+    .shaka-video-container {
+        touch-action: none !important;
+    }
+
+    &.seek-or-scrub {
+        // Don't let the big play button hinder scrubbing,
+        // and make sure there are no tooltips when scrubbing.
+        //
+        // NOTE: We cannot just use a wildcard selector as that would lead to
+        //       issues on mobile (pointercancel when moving mouse vertically).
+        .shaka-play-button,
+        .shaka-controls-button-panel {
+            pointer-events: none;
+        }
+
+        * {
+            cursor: grabbing !important;
+        }
+    }
+}
+
+.dlf-media-thumbnail-preview {
+    .noselect();
+
+    // Use `visibility` instead of `display` because we want to use
+    // `offsetWidth`, which is zero for elements with `display: none`.
+    visibility: hidden;
+    position: absolute;
+    // Position 25px above seekbar, but overlap to the bottom (so that the
+    // mouse can switch between seekbar and thumbnail preview).
+    bottom: 0px;
+    padding-bottom: 25px;
+    // Allow to move mouse a little over the thumbnail preview without
+    // closing it.
+    padding-top: 50px;
+    // Don't be shadowed by Shaka controlbar
+    z-index: 1;
+    cursor: pointer;
+    text-align: center;
+
+    .displayed {
+        display: block !important;
+    }
+
+    .content-box {
+        background-color: rgba(darken(@base-color, 25%), 0.6);
+        border-radius: 4px;
+        padding: 1em;
+    }
+
+    .display {
+        display: none;
+        position: relative;
+        width: 160px;
+        height: 90px;
+        border: 1px solid white;
+        box-sizing: content-box;
+        margin-bottom: 0.75em;
+        overflow: hidden;
+
+        &.is-open {
+            display: block;
+        }
+
+        img {
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    .info {
+        display: inline-block;
+        // Same color and font-size as `.shaka-current-time`
+        color: white;
+        font-size: 14px;
+        line-height: 110%;
+        max-width: 160px;
+
+        .chapter-text {
+            line-height: 110%;
+            margin-bottom: 0.4em;
+            display: none;
+        }
+
+        .timecode-text {
+            display: block;
+        }
+
+        &.on-chapter-marker .chapter-text {
+            font-weight: bold;
+        }
+    }
+}
+
+.dlf-media-chapter-marker {
+    // More than .seek-marker
+    // Less than Shaka's tooltips
+    z-index: 0;
+}
+
+@seek-bar-height: 4px;
+@seek-bar-margin: 6px;
+
+// Thanks https://stackoverflow.com/a/41585180 (Less variables in media query)
+// TODO: Use CSS variables?
+@media all and (pointer: fine) {
+    .dlf-media-chapter-marker {
+        width: @seek-bar-height;
+        height: @seek-bar-height;
+        background-color: @light-color;
+        border-radius: @seek-bar-height / 2;
+    }
+
+    @import (multiple) "./FlatSeekBar.less";
+}
+
+@media all and (pointer: coarse) {
+    .dlf-media-chapter-marker {
+        width: 1px;
+        height: @seek-bar-height - 2px;
+        margin-top: 1px;
+        background-color: rgba(@light-color, 0.3);
+    }
+
+    @seek-bar-height: 7px;
+    @seek-bar-margin: 8px;
+
+    @import (multiple) "./FlatSeekBar.less";
+}
