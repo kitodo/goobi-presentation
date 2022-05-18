@@ -17,6 +17,9 @@
             ]
         }
     },
+	"include": [
+		"./Resources/Private/JavaScript"
+	],
     "exclude": [
         "node_modules",
         "**/node_modules/*",
