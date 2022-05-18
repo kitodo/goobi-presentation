@@ -121,7 +121,7 @@ class MediaPlayerController extends AbstractController
         $videoUrl = [];
         $thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups);
         if (!empty($thumbFiles)) {
-            $videoUrl['poster'] = urldecode($doc->getFileLocation($thumbFileIds[0]['fileId']));
+            $videoUrl['poster'] = urldecode($doc->getFileLocation($thumbFiles[0]['fileId']));
         }
 
         return [

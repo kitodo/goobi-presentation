@@ -12,7 +12,7 @@
     <kitodo:mediaPlayerConfig id="MEDIA_CONFIG" settings="{settings}" />
 
     <div id="tx-dlf-view" class="tx-dlf-view">
-        <slub-media id="{settings.elementId}" fullscreen-element="tx-dlf-view" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
+        <slub-media id="{settings.elementId}" fullscreen-element="tx-dlf-view" poster="{video.url.poster}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
             <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
             <f:for each="{video.sources}" as="source">
                 <source src="{source.url}" type="{source.mimeType}">
