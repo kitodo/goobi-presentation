@@ -16,6 +16,8 @@ Only the begin is used.
      </mets:fptr>
    </mets:div>
 
+Fractional timecodes (e.g., ``00:06:04.5``) may be used.
+
 Multiple Sources
 ================
 

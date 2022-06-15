@@ -101,7 +101,7 @@ class MetsDocumentTest extends FunctionalTestCase
                     'admId' => '',
                     'videoChapter' => [
                         'fileId' => 'FILE_0000_DEFAULT_MOV',
-                        'timecode' => 20,
+                        'timecode' => 20.5,
                     ],
                 ],
                 [

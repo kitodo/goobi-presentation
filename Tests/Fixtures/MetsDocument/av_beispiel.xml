@@ -198,10 +198,10 @@
             </mets:div>
             <mets:div ID="PHYS_0002" ORDER="2" TYPE="track">
                 <mets:fptr>
-                    <mets:area FILEID="FILE_0000_DEFAULT_MOV" BEGIN="00:00:20" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MOV" BEGIN="00:00:20.5" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
                 </mets:fptr>
                 <mets:fptr>
-                    <mets:area FILEID="FILE_0000_DEFAULT_MP4" BEGIN="00:00:20" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MP4" BEGIN="00:00:20.5" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
                 </mets:fptr>
             </mets:div>
             <mets:div ID="PHYS_0003" ORDER="3" TYPE="track">
