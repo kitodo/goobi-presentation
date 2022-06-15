@@ -74,6 +74,7 @@ class Mods implements MetadataInterface
         $this->getAuthors();
         $this->getHolders();
         $this->getPlaces();
+        $this->getProdPlaces();
         $this->getYears();
 
         $metadata = $this->metadata;
@@ -329,6 +330,28 @@ class Mods implements MetadataInterface
                     $this->metadata['place_sorting'][0] = preg_replace('/[[:punct:]]/', '', $place);
                 }
             }
+        }
+    }
+
+    // allocated Function from @dvoracek
+    /**
+     * Get MODS production places to allow linking valueURI
+     *
+     * @access private
+     *
+     * @return void
+     */
+    private function getProdPlaces(): void
+    {
+        $prodPlaces = $this->xml->xpath('./mods:relatedItem[@type="original"]/mods:originInfo[@eventType="production"]/mods:place/mods:placeTerm');
+        foreach ($prodPlaces as $prodPlace) {
+            $prodPlaceMd = (string) $prodPlace;
+
+            if (isset($prodPlace['valueURI'])) {
+                $prodPlaceMd .= chr(31) . (string) $prodPlace['valueURI'];
+            }
+
+            $metadata['production_place'][] = $prodPlaceMd;
         }
     }
 
