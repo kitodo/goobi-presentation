@@ -13,7 +13,7 @@ export function action(obj) {
   } else {
     return {
       isAvailable: obj.isAvailable ?? (() => true),
-      execute: obj.execute ?? (() => { }),
+      execute: obj.execute ?? (() => false),
     };
   }
 }

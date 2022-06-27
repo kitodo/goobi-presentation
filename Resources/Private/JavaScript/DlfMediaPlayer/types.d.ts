@@ -70,11 +70,14 @@ namespace dlf {
     type PlayerAction = {
       isAvailable: () => boolean;
       // TODO: Make action more independent of keybindings; could also be triggered in gesture
+      /**
+       * Execute action. May return `false` to indicate that the action did not apply.
+       */
       execute: (
         kb?: Keybinding<any, any>,
         keyIndex?: number,
         mode?: KeyEventMode
-      ) => void;
+      ) => boolean | void;
     };
 
     type Fps = {

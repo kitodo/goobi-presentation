@@ -159,7 +159,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
         if (this.modals?.hasOpen()) {
           this.modals.closeNext();
         } else {
-          this.ui.handleEscape();
+          return this.ui.handleEscape();
         }
       }),
       'modal.help.open': action(() => {
@@ -359,12 +359,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       return;
     }
 
-    // Hack against Shaka reacting to Escape key to close overflow menu;
-    // we do this ourselves. (TODO: Find a better solution)
-    if (e.key === 'Escape') {
-      e.stopImmediatePropagation();
-    }
-
     // TODO: Remove
     if (this.ui instanceof ShakaFrontend) {
       if (e.key === 'F2') {
@@ -420,7 +414,14 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       const action = this.actions[keybinding.action];
 
       if (shouldHandle && action !== undefined && action.isAvailable()) {
-        action.execute(keybinding, keyIndex, mode);
+        const actionResult = action.execute(keybinding, keyIndex, mode);
+        const hasExecuted = actionResult !== false;
+        // Hack against Shaka reacting to Escape key to close overflow menu;
+        // we do this ourselves. (TODO: Find a better solution)
+        // (However, try not to block other event handlers.)
+        if (hasExecuted && e.key === 'Escape') {
+          e.stopImmediatePropagation();
+        }
       }
     }
   }
