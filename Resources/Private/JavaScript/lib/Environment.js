@@ -184,7 +184,10 @@ export default class Environment {
 
       phrase
         = this.lang.phrasesCompiled[key]
-        = new IntlMessageFormat(phraseStr, this.lang.twoLetterIsoCode);
+        = new IntlMessageFormat(phraseStr, this.lang.twoLetterIsoCode, {}, {
+          // Treat HTML as plain text
+          ignoreTag: true,
+        });
     }
 
     return /** @type {string} */(phrase.format(values));
