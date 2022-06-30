@@ -1,6 +1,7 @@
 // @ts-check
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
+import { e } from '../../lib/util';
 import ControlPanelButton from './ControlPanelButton';
 
 /**
@@ -21,9 +22,14 @@ export default class FullScreenButton extends ControlPanelButton {
    * @param {Partial<Config>} config
    */
   constructor(parent, controls, env, config = {}) {
+    const element = e('button', {
+      className: "material-icons-round shaka-fullscreen-button shaka-tooltip",
+    }, ['fullscreen']);
+    element.setAttribute('data-t-title', 'control.bookmark.tooltip');
+
     super(parent, controls, env, {
       ...config,
-      className: `shaka-fullscreen-button shaka-tooltip`
+      element,
     });
 
     if (this.eventManager) {
@@ -47,16 +53,16 @@ export default class FullScreenButton extends ControlPanelButton {
   updateFullScreenButton() {
     if (document.fullscreenEnabled) {
       // Update Material Icon
-      this.dlf.button.textContent = document.fullscreenElement
+      this.dlf.element.textContent = document.fullscreenElement
         ? 'fullscreen_exit'
         : 'fullscreen';
 
-      this.dlf.button.ariaLabel = document.fullscreenElement
+      this.dlf.element.ariaLabel = document.fullscreenElement
         ? this.env.t('control.fullscreen_exit.tooltip')
         : this.env.t('control.fullscreen.tooltip');
     } else {
       // Don't show the button if fullscreen is not supported
-      this.dlf.button.classList.add('shaka-hidden');
+      this.dlf.element.classList.add('shaka-hidden');
     }
   }
 };

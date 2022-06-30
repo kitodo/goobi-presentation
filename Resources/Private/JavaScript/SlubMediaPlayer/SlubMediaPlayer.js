@@ -1,16 +1,9 @@
 // @ts-check
 
-import Environment from '../lib/Environment';
-import { e, setElementClass } from '../lib/util';
+import { setElementClass } from '../lib/util';
 import { Keybindings$find } from '../lib/Keyboard';
 import typoConstants from '../lib/typoConstants';
-import {
-  action,
-  Chapters,
-  ControlPanelButton,
-  DlfMediaPlayer,
-  FullScreenButton,
-} from '../DlfMediaPlayer';
+import { action, DlfMediaPlayer } from '../DlfMediaPlayer';
 import ShakaFrontend from '../DlfMediaPlayer/frontend/ShakaFrontend';
 
 import Modals from './lib/Modals';
@@ -299,33 +292,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    */
   configureFrontend(config) {
     super.configureFrontend(config);
-
-    // TODO: How to deal with this check?
-    if (this.ui instanceof ShakaFrontend) {
-      this.ui.addControlElement(
-        ControlPanelButton.register(this.env, {
-          className: "sxnd-screenshot-button",
-          material_icon: 'photo_camera',
-          title: this.env.t('control.screenshot.tooltip'),
-          onClickAction: this.actions['modal.screenshot.open'],
-        }),
-        ControlPanelButton.register(this.env, {
-          className: "sxnd-bookmark-button",
-          material_icon: 'bookmark_border',
-          title: this.env.t('control.bookmark.tooltip'),
-          onClickAction: this.actions['modal.bookmark.open'],
-        }),
-        FullScreenButton.register(this.env, {
-          onClickAction: this.actions['fullscreen.toggle'],
-        }),
-        ControlPanelButton.register(this.env, {
-          className: "sxnd-help-button",
-          material_icon: 'info_outline',
-          title: this.env.t('control.help.tooltip'),
-          onClickAction: this.actions['modal.help.open'],
-        })
-      );
-    }
 
     document.addEventListener('keydown', this.handlers.onKeyDown, { capture: true });
     document.addEventListener('keyup', this.handlers.onKeyUp, { capture: true });

@@ -56,6 +56,32 @@ There are two attributes to control player mode:
      <!-- snip -->
    </dlf-media>
 
+Control Elements
+----------------
+
+To add control elements to the player, use the ``<dlf-media-controls>`` tag.
+
+.. code-block:: html
+
+   <dlf-media-controls>
+     <!-- Use a predefined button via "data-type" -->
+     <button data-type="volume"></button>
+     <button data-type="mute"></button>
+     <button data-type="fullscreen"></button>
+     <!--
+       Define a custom button:
+       * data-t-title: Translation key of tooltip
+       * data-action: Key for onclick action
+     -->
+     <button
+      class="material-icons-round sxnd-help-button"
+      data-t-title="control.help.tooltip"
+      data-action="modal.help.open"
+     >
+       info_outline
+     </button>
+   </dlf-media-controls>
+
 More
 ----
 

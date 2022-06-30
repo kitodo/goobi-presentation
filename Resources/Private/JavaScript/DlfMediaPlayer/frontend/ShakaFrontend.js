@@ -6,10 +6,13 @@ import 'shaka-player/ui/controls.less';
 import Gestures from '../../lib/Gestures';
 import { e, setElementClass } from '../../lib/util';
 import {
+  ControlPanelButton,
   FlatSeekBar,
+  FullScreenButton,
   PresentationTimeTracker,
   VideoTrackSelection
 } from '../controls';
+import { action } from '../lib/action';
 
 /**
  * Listens to the following custom events:
@@ -60,10 +63,9 @@ export default class ShakaFrontend {
       locale: '',
       state: 'poster',
       error: null,
+      controlElements: [],
+      actions: {},
     };
-
-    /** @private @type {string[]} */
-    this.controlPanelButtons = [];
 
     /** @private @type {string[]} */
     this.overflowMenuButtons = [];
@@ -190,8 +192,8 @@ export default class ShakaFrontend {
    */
   updatePlayerProperties(props) {
     const shouldReconfigure = (
-      props.mode !== undefined
-      && (!this.isConfigured || props.mode !== this.playerProperties.mode)
+      (props.mode !== undefined && (!this.isConfigured || props.mode !== this.playerProperties.mode))
+      || (props.controlElements !== undefined && (!this.isConfigured || props.controlElements !== this.playerProperties.controlElements))
     );
 
     Object.assign(this.playerProperties, props);
@@ -238,15 +240,6 @@ export default class ShakaFrontend {
    *
    * @param {string[]} elementKey
    */
-  addControlElement(...elementKey) {
-    this.controlPanelButtons.push(...elementKey);
-    this.scheduleConfigure();
-  }
-
-  /**
-   *
-   * @param {string[]} elementKey
-   */
   addOverflowButton(...elementKey) {
     this.overflowMenuButtons.push(...elementKey);
     this.scheduleConfigure();
@@ -277,7 +270,6 @@ export default class ShakaFrontend {
 
     this.$container.setAttribute("data-mode", this.playerProperties.mode);
 
-    // TODO: Refactor insertion at custom position (left or right of fullscreen)
     this.ui.configure(this.getShakaConfiguration());
     this.isConfigured = true;
 
@@ -303,6 +295,7 @@ export default class ShakaFrontend {
    */
   getShakaConfiguration() {
     const playerMode = this.playerProperties.mode;
+    const controlElements = this.playerProperties.controlElements;
 
     const style = getComputedStyle(this.$container);
 
@@ -314,9 +307,7 @@ export default class ShakaFrontend {
         'play_pause',
         PresentationTimeTracker.register(this.env),
         'spacer',
-        'volume',
-        'mute',
-        ...this.controlPanelButtons,
+        ...controlElements.map(this.makeControlElement.bind(this)),
         'overflow_menu',
       ],
       overflowMenuButtons: [
@@ -343,6 +334,41 @@ export default class ShakaFrontend {
     };
 
     return result;
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   * @private
+   */
+  makeControlElement(element) {
+    const actions = this.playerProperties.actions;
+
+    // TODO: Cache elements?
+
+    const btnType = element.getAttribute('data-type');
+    if (btnType === null) {
+      const btnAction = element.getAttribute('data-action') ?? '';
+
+      return ControlPanelButton.register(this.env, {
+        element,
+        // "Lazy evaluation" to allow player plugins to add actions
+        onClickAction: action({
+          isAvailable: () => {
+            return actions[btnAction]?.isAvailable() ?? false;
+          },
+          execute: () => {
+            actions[btnAction]?.execute();
+          },
+        }),
+      });
+    } else if (btnType === 'fullscreen') {
+      return FullScreenButton.register(this.env, {
+        onClickAction: actions['fullscreen.toggle'],
+      });
+    } else {
+      return btnType;
+    }
   }
 
   /**

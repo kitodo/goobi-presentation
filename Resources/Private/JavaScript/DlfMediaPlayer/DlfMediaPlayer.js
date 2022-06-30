@@ -135,6 +135,11 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @param {dlf.media.PlayerConfig} config
    */
   configureFrontend(config) {
+    const controlElements = Array.from(this.querySelectorAll('dlf-media-controls *'))
+      .filter(/** @type {(el: Element) => el is HTMLElement} */(
+        el => el instanceof HTMLElement
+      ));
+
     const mode = this.getAttribute('mode');
     let initialMode = undefined;
     if (mode === 'auto') {
@@ -150,6 +155,8 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.frontend.updatePlayerProperties({
       locale: config.lang.twoLetterIsoCode,
       mode: initialMode,
+      controlElements,
+      actions: this.actions,
     });
 
     const posterUrl = this.getAttribute('poster');

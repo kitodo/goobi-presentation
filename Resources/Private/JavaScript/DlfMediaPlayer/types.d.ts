@@ -97,6 +97,8 @@ namespace dlf {
       locale: string;
       state: "poster" | "media";
       error: string | null;
+      controlElements: HTMLElement[];
+      actions: Readonly<Record<string, dlf.media.PlayerAction>>;
     };
 
     interface PlayerFrontend<

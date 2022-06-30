@@ -27,6 +27,15 @@
                     <dlf-meta key="{key}" value="{value}"></dlf-meta>
                 </f:for>
             </f:for>
+
+            <dlf-media-controls>
+                <button data-type="volume"></button>
+                <button data-type="mute"></button>
+                <button class="material-icons-round sxnd-screenshot-button" data-t-title="control.screenshot.tooltip" data-action="modal.screenshot.open">photo_camera</button>
+                <button class="material-icons-round sxnd-bookmark-button" data-t-title="control.bookmark.tooltip" data-action="modal.bookmark.open">bookmark_border</button>
+                <button data-type="fullscreen"></button>
+                <button class="material-icons-round sxnd-help-button" data-t-title="control.help.tooltip" data-action="modal.help.open">info_outline</button>
+            </dlf-media-controls>
         </slub-media>
     </div>
 </f:then>

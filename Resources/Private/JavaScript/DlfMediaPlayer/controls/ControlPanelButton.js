@@ -6,9 +6,7 @@ import { e, setElementClass } from '../../lib/util';
 
 /**
  * @typedef Config
- * @property {string} className
- * @property {string} material_icon Key of button icon
- * @property {string} title Text of button tooltip
+ * @property {HTMLElement} element
  * @property {dlf.media.PlayerAction} onClickAction
  */
 
@@ -49,18 +47,16 @@ export default class ControlPanelButton extends shaka.ui.Element {
     /** @protected */
     this.env = env;
 
-    const button = e("button", {
-      className: `material-icons-round ${config.className ?? ""}`,
-    }, [config.material_icon]);
+    const element = config.element ?? e('button');
 
-    parent.appendChild(button);
+    parent.appendChild(element);
 
     /** @protected Avoid naming conflicts with parent class */
-    this.dlf = { config, button };
+    this.dlf = { config, element };
 
     const { onClickAction } = config;
     if (this.eventManager && onClickAction) {
-      this.eventManager.listen(button, 'click', () => {
+      this.eventManager.listen(element, 'click', () => {
         if (onClickAction.isAvailable()) {
           onClickAction.execute();
         }
@@ -78,13 +74,24 @@ export default class ControlPanelButton extends shaka.ui.Element {
    * @protected
    */
   updateControlPanelButton() {
-    let tooltip = this.dlf.config.title ?? "";
-    this.dlf.button.ariaLabel = tooltip;
-    setElementClass(this.dlf.button, 'shaka-tooltip', tooltip !== "");
+    for (const attrName of this.dlf.element.getAttributeNames()) {
+      if (attrName.startsWith('data-t-')) {
+        const tAttrName = attrName.substring(7);
+        const attrValue = this.dlf.element.getAttribute(attrName);
+        if (attrValue) {
+          this.dlf.element.setAttribute(tAttrName, this.env.t(attrValue));
+        }
+      }
+    }
+
+    let tooltip = this.dlf.element.title ?? "";
+    this.dlf.element.ariaLabel = tooltip;
+    this.dlf.element.title = '';
+    setElementClass(this.dlf.element, 'shaka-tooltip', tooltip !== "");
 
     const { onClickAction } = this.dlf.config;
     if (onClickAction) {
-      setElementClass(this.dlf.button, 'shaka-hidden', !onClickAction.isAvailable());
+      setElementClass(this.dlf.element, 'shaka-hidden', !onClickAction.isAvailable());
     }
   }
 }
