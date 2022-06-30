@@ -95,20 +95,18 @@ class MediaPlayerController extends AbstractController
         $videoSources = [];
         $videoFiles = $this->findFiles($doc, $pageNo, $videoFileGrps);
         foreach ($videoFiles as $videoFile) {
-            $mimeType = $doc->getFileMimeType($videoFile['fileId']);
-            if ($this->isMediaMime($mimeType)) {
-                $url = $doc->getFileLocation($videoFile['fileId']);
+            if ($this->isMediaMime($videoFile['mimeType'])) {
                 $fileMetadata = $doc->getMetadata($videoFile['fileId'], $this->settings['storagePid']);
 
                 $videoSources[] = [
-                    'mimeType' => $mimeType,
-                    'url' => $url,
+                    'mimeType' => $videoFile['mimeType'],
+                    'url' => $videoFile['url'],
                     'frameRate' => $fileMetadata['video_frame_rate'][0] ?? '',
                 ];
 
                 // TODO: Better guess of initial mode?
                 //       Perhaps we could look for VIDEOMD/AUDIOMD in METS
-                if ($videoFile['fileGrp'] === $mainVideoFileGrp || strpos($mimeType, 'video/') === 0) {
+                if ($videoFile['fileGrp'] === $mainVideoFileGrp || strpos($videoFile['mimeType'], 'video/') === 0) {
                     $initialMode = 'video';
                 }
             }
@@ -125,9 +123,8 @@ class MediaPlayerController extends AbstractController
 
         // Get additional video URLs
         $videoUrl = [];
-        $thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups);
-        if (!empty($thumbFiles)) {
-            $videoUrl['poster'] = urldecode($doc->getFileLocation($thumbFiles[0]['fileId']));
+        if (!empty($thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups))) { // 0 = for whole video (not just chapter)
+            $videoUrl['poster'] = $thumbFiles[0];
         }
 
         return [
@@ -157,7 +154,12 @@ class MediaPlayerController extends AbstractController
         $result = [];
         foreach ($filesInGrp as $fileGrp => $fileIds) {
             foreach ($fileIds as $fileId) {
-                $result[] = compact('fileGrp', 'fileId');
+                $result[] = [
+                    'fileGrp' => $fileGrp,
+                    'fileId' => $fileId,
+                    'url' => $doc->getFileLocation($fileId),
+                    'mimeType' => $doc->getFileMimeType($fileId),
+                ];
             }
         }
         return $result;
