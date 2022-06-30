@@ -30,9 +30,17 @@
             font-weight: bold;
         }
 
-        thead, tbody, tbody tr {
-            [aria-disabled="true"] {
-               opacity: 0.4;
+        tbody tr[aria-disabled="true"] {
+            opacity: 0.4;
+        }
+
+        thead[aria-disabled="true"],
+        tbody[aria-disabled="true"] {
+            opacity: 0.4;
+
+            // Don't reduce opacity twice
+            tr {
+                opacity: 1;
             }
         }
 

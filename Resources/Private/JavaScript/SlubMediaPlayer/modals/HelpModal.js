@@ -174,8 +174,8 @@ export default class HelpModal extends SimpleModal {
         someIsAvailable ||= isAvailable;
       }
 
-      setElementClass(section.thead, 'action-unavailable', !someIsAvailable);
-      setElementClass(section.tbody, 'action-unavailable', !someIsAvailable);
+      section.thead.setAttribute('aria-disabled', someIsAvailable ? 'false' : 'true');
+      section.tbody.setAttribute('aria-disabled', someIsAvailable ? 'false' : 'true');
     }
   }
 }
