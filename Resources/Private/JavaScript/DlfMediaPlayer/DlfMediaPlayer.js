@@ -489,7 +489,18 @@ export default class DlfMediaPlayer extends HTMLElement {
         return;
       }
 
-      sources.push({ url, mimeType });
+      /** @type {dlf.media.Source['frameRate']} */
+      let frameRate = null;
+      const attrFps = el.getAttribute("data-fps");
+      if (attrFps !== null) {
+        const fps = parseFloat(attrFps);
+        if (fps > 0) {
+          // Also excludes empty "data-fps" or NaN
+          frameRate = fps;
+        }
+      }
+
+      sources.push({ url, mimeType, frameRate });
     });
 
     this.loadOneOf(sources);
@@ -590,7 +601,11 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   updateFrameRate() {
-    const fps = this.variantGroups?.findActiveTrack()?.frameRate ?? null;
+    const fps = (
+      this.variantGroups?.findActiveTrack()?.frameRate
+      ?? this.currentSource?.frameRate
+      ?? null
+    );
 
     if (fps === null) {
       this.fps = null;

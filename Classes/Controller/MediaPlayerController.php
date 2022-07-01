@@ -98,7 +98,13 @@ class MediaPlayerController extends AbstractController
             $mimeType = $doc->getFileMimeType($videoFile['fileId']);
             if ($this->isMediaMime($mimeType)) {
                 $url = $doc->getFileLocation($videoFile['fileId']);
-                $videoSources[] = compact('mimeType', 'url');
+                $fileMetadata = $doc->getMetadata($videoFile['fileId'], $this->settings['storagePid']);
+
+                $videoSources[] = [
+                    'mimeType' => $mimeType,
+                    'url' => $url,
+                    'frameRate' => $fileMetadata['video_frame_rate'][0] ?? '',
+                ];
 
                 // TODO: Better guess of initial mode?
                 //       Perhaps we could look for VIDEOMD/AUDIOMD in METS

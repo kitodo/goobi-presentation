@@ -36,6 +36,7 @@ namespace dlf {
     type Source = {
       mimeType: string;
       url: string;
+      frameRate: number | null;
     };
 
     type PlayerMode = "audio" | "video";
