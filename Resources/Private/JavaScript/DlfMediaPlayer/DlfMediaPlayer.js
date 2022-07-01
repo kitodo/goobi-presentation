@@ -71,8 +71,8 @@ export default class DlfMediaPlayer extends HTMLElement {
     /** @private @type {dlf.media.Source | null} */
     this.currentSource = null;
 
-    /** @protected @type {number | null} */
-    this.startTime = null;
+    /** @protected @type {dlf.media.TimeRange | null} */
+    this.timeRange = null;
 
     /** @private @type {shaka.Player} */
     this.player = new shaka.Player(this.video);
@@ -115,7 +115,7 @@ export default class DlfMediaPlayer extends HTMLElement {
     const config = this.getConfig();
     this.env.setLang(config.lang);
 
-    this.startTime = this.getStartTime();
+    this.timeRange = this.getTimeRange();
 
     this.configureFrontend(config);
 
@@ -317,20 +317,47 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   /**
-   * Determines start time from user settings. Returns `null` if no such setting
+   * Determines time range from user settings. Returns `null` if no such setting
    * is made, which a child class may take as a hint to use another value.
    *
    * @protected
-   * @return {number | null}
+   * @returns {dlf.media.TimeRange | null}
    */
-  getStartTime() {
+  getTimeRange() {
+    return this.parseTimeRange(
+      this.getAttribute('start'),
+      this.getAttribute('end')
+    );
+  }
+
+  /**
+   *
+   * @protected
+   * @param {string | null | undefined} start
+   * @param {string | null | undefined} end
+   * @returns {dlf.media.TimeRange | null}
+   */
+  parseTimeRange(start, end) {
     // Also ignore empty start value to simplify HTML template
-    const start = this.getAttribute('start');
-    if (start === null || start === '') {
+    if (!start) {
       return null;
     }
 
-    return Number(start);
+    const startTime = parseFloat(start);
+    // Also excludes NaN
+    if (!(startTime >= 0)) {
+      return null;
+    }
+
+    let endTime = end ? parseFloat(end) : null;
+    if (endTime !== null && !(endTime >= startTime)) {
+      endTime = null;
+    }
+
+    return {
+      startTime,
+      endTime,
+    }
   }
 
   /**
@@ -511,7 +538,8 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @param {dlf.media.Source} videoSource
    */
   async loadManifest(videoSource) {
-    await this.player.load(videoSource.url, this.startTime, videoSource.mimeType);
+    const startTime = this.timeRange?.startTime ?? null;
+    await this.player.load(videoSource.url, startTime, videoSource.mimeType);
     this.currentSource = videoSource;
 
     this.variantGroups = new VariantGroups(this.player);

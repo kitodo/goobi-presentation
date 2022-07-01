@@ -74,10 +74,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     this.addEventListener('chapterchange', this.handlers.onChapterChanged);
 
-    if (this.startTime === null) {
-      this.startTime = this.getStartTime() ?? null;
-    }
-
     this.fullscreenElement = document.getElementById(
       this.getAttribute('fullscreen-element') ?? ''
     );
@@ -214,16 +210,17 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
   /**
    * @override
    */
-  getStartTime() {
-    const baseValue = super.getStartTime();
+  getTimeRange() {
+    const baseValue = super.getTimeRange();
     if (baseValue !== null) {
       return baseValue;
     }
 
     // TODO: Also from hash?
     const searchTimecode = this.env.getLocation().searchParams.get('timecode');
-    if (searchTimecode !== null) {
-      return searchTimecode ? parseFloat(searchTimecode) : null;
+    if (searchTimecode) {
+      const [start, end] = searchTimecode.split(',', 2);
+      return this.parseTimeRange(start, end);
     }
 
     return null;

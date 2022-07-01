@@ -23,6 +23,11 @@ namespace dlf {
   }
 
   namespace media {
+    type TimeRange = {
+      startTime: number;
+      endTime: number | null;
+    };
+
     type Chapter = {
       title: string;
       timecode: number;

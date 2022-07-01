@@ -59,6 +59,7 @@ There are two attributes to control player mode:
 More
 ----
 
+*  ``end``
 *  ``config``
 *  ``fullscreen-element``
 
