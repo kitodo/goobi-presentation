@@ -65,6 +65,7 @@ export default class ShakaFrontend {
       error: null,
       controlElements: [],
       actions: {},
+      playerView: null,
     };
 
     /** @private @type {string[]} */
@@ -269,6 +270,7 @@ export default class ShakaFrontend {
     FlatSeekBar.register();
 
     this.$container.setAttribute("data-mode", this.playerProperties.mode);
+    this.playerProperties.playerView?.setAttribute("data-mode", this.playerProperties.mode);
 
     this.ui.configure(this.getShakaConfiguration());
     this.isConfigured = true;

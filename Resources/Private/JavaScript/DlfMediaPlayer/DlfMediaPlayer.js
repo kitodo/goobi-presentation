@@ -165,6 +165,7 @@ export default class DlfMediaPlayer extends HTMLElement {
       mode: initialMode,
       controlElements,
       actions: this.actions,
+      playerView: this.playerView,
     });
 
     const posterUrl = this.getAttribute('poster');

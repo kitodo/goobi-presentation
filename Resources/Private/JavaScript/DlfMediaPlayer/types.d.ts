@@ -105,6 +105,7 @@ namespace dlf {
       error: string | null;
       controlElements: HTMLElement[];
       actions: Readonly<Record<string, dlf.media.PlayerAction>>;
+      playerView: HTMLElement | null;
     };
 
     interface PlayerFrontend<

@@ -36,15 +36,48 @@ body[data-has-video] {
     }
 }
 
+.combined-container {
+    &:fullscreen {
+        background-color: white;
+
+        .media-panel {
+            padding: 1em 1em;
+        }
+    }
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+
+    &[data-mode="audio"] {
+        grid-template-rows: 1fr auto;
+    }
+
+    &[data-mode="video"] {
+        grid-template-rows: 0 1fr;
+    }
+
+    .media-panel {
+        grid-row: 1;
+        margin: 6em 1em;
+        text-align: left;
+        overflow-y: scroll;
+    }
+
+    .tx-dlf-view {
+        grid-row: 2;
+    }
+}
+
 .document-view {
     @media screen and (max-width: (@tabletLandscapeViewportWidth - 1px)) {
         top: 50px;
     }
 
     .tx-dlf-view {
-        width: 100%;
-        height: 100%;
-        position: absolute;
+        position: relative;
     }
 
     .media-viewport {

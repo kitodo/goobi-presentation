@@ -11,32 +11,36 @@
 
     <kitodo:mediaPlayerConfig id="MEDIA_CONFIG" settings="{settings}" />
 
-    <div id="tx-dlf-view" class="tx-dlf-view">
-        <slub-media id="{settings.elementId}" player-view="tx-dlf-view" poster="{video.url.poster.url}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
-            <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
-            <f:for each="{video.sources}" as="source">
-                <source src="{source.url}" type="{source.mimeType}" data-fps="{source.frameRate}">
-            </f:for>
+    <div id="combined-container" class="combined-container">
+        <div class="media-panel"></div>
 
-            <f:for each="{video.chapters}" as="chapter">
-                <dlf-chapter title="{chapter.title}" timecode="{chapter.timecode}" pageNo="{chapter.pageNo}"></dlf-chapter>
-            </f:for>
-
-            <f:for each="{video.metadata}" as="values" key="key">
-                <f:for each="{values}" as="value">
-                    <dlf-meta key="{key}" value="{value}"></dlf-meta>
+        <div id="tx-dlf-view" class="tx-dlf-view">
+            <slub-media id="{settings.elementId}" player-view="combined-container" poster="{video.url.poster.url}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
+                <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
+                <f:for each="{video.sources}" as="source">
+                    <source src="{source.url}" type="{source.mimeType}" data-fps="{source.frameRate}">
                 </f:for>
-            </f:for>
 
-            <dlf-media-controls>
-                <button data-type="volume"></button>
-                <button data-type="mute"></button>
-                <button class="material-icons-round sxnd-screenshot-button" data-t-title="control.screenshot.tooltip" data-action="modal.screenshot.open">photo_camera</button>
-                <button class="material-icons-round sxnd-bookmark-button" data-t-title="control.bookmark.tooltip" data-action="modal.bookmark.open">bookmark_border</button>
-                <button data-type="fullscreen"></button>
-                <button class="material-icons-round sxnd-help-button" data-t-title="control.help.tooltip" data-action="modal.help.open">info_outline</button>
-            </dlf-media-controls>
-        </slub-media>
+                <f:for each="{video.chapters}" as="chapter">
+                    <dlf-chapter title="{chapter.title}" timecode="{chapter.timecode}" pageNo="{chapter.pageNo}"></dlf-chapter>
+                </f:for>
+
+                <f:for each="{video.metadata}" as="values" key="key">
+                    <f:for each="{values}" as="value">
+                        <dlf-meta key="{key}" value="{value}"></dlf-meta>
+                    </f:for>
+                </f:for>
+
+                <dlf-media-controls>
+                    <button data-type="volume"></button>
+                    <button data-type="mute"></button>
+                    <button class="material-icons-round sxnd-screenshot-button" data-t-title="control.screenshot.tooltip" data-action="modal.screenshot.open">photo_camera</button>
+                    <button class="material-icons-round sxnd-bookmark-button" data-t-title="control.bookmark.tooltip" data-action="modal.bookmark.open">bookmark_border</button>
+                    <button data-type="fullscreen"></button>
+                    <button class="material-icons-round sxnd-help-button" data-t-title="control.help.tooltip" data-action="modal.help.open">info_outline</button>
+                </dlf-media-controls>
+            </slub-media>
+        </div>
     </div>
 </f:then>
 </f:if>
