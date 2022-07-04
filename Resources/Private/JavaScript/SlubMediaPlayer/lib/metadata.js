@@ -2,7 +2,7 @@
 
 import { getTimeStringPlaceholders } from '../../DlfMediaPlayer';
 import { fillPlaceholders } from '../../lib/util';
-import generateTimecodeUrl from './generateTimecodeUrl';
+import { generateTimecodeUrl } from './generateTimecodeUrl';
 
 /**
  *

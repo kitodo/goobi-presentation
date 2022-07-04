@@ -4,7 +4,7 @@ import QRCode from 'qrcode';
 
 import { e, filterNonNull } from '../../lib/util';
 import { buildTimeString } from '../../DlfMediaPlayer';
-import generateTimecodeUrl from '../lib/generateTimecodeUrl';
+import { generateTimecodeUrl } from '../lib/generateTimecodeUrl';
 import SimpleModal from '../lib/SimpleModal';
 import { createShareButton } from '../lib/ShareButton';
 import { makeExtendedMetadata } from '../lib/metadata';
