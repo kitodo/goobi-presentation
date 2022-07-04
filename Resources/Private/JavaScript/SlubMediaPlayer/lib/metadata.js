@@ -2,7 +2,7 @@
 
 import { getTimeStringPlaceholders } from '../../DlfMediaPlayer';
 import { fillPlaceholders } from '../../lib/util';
-import { generateTimecodeUrl } from './generateTimecodeUrl';
+import { generateTimecodeUrl, generateTimerangeUrl } from './generateTimecodeUrl';
 
 /**
  *
@@ -22,12 +22,14 @@ export function fillMetadata(template, metadata) {
  *
  * @param {Browser} env
  * @param {MetadataArray} metadata
- * @param {number | null} timecode
+ * @param {number | dlf.media.TimeRange | null} timecode
  * @param {number | null} fps
  * @returns {MetadataArray}
  */
 export function makeExtendedMetadata(env, metadata, timecode, fps) {
-  const url = generateTimecodeUrl(timecode, env);
+  const url = typeof timecode === 'number'
+    ? generateTimecodeUrl(timecode, env)
+    : generateTimerangeUrl(timecode, env);
 
   /** @type {MetadataArray} */
   const result = {
@@ -37,7 +39,13 @@ export function makeExtendedMetadata(env, metadata, timecode, fps) {
   };
 
   // TODO: What's actually a good behavior when timecode is missing?
-  const timeStringPlaceholders = getTimeStringPlaceholders(timecode ?? 0, fps);
+  let startTime = 0;
+  if (typeof timecode === 'number') {
+    startTime = timecode;
+  } else if (timecode !== null) {
+    startTime = timecode.startTime;
+  }
+  const timeStringPlaceholders = getTimeStringPlaceholders(startTime, fps);
   for (const [key, value] of Object.entries(timeStringPlaceholders)) {
     result[key] = [value];
   }

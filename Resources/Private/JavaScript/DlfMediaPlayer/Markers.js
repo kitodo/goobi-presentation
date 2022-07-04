@@ -10,9 +10,10 @@ import { EventTarget } from './3rd-party/EventTarget';
  *  labelText: string;
  *  color?: string;
  *  editable: boolean;
+ *  toTimeRange: () => dlf.media.TimeRange;
  * }} Segment
  *
- * @typedef {Omit<Segment, 'id' | 'labelText' | 'editable'> & Partial<Pick<Segment, 'id' | 'labelText' | 'editable'>>} SegmentAddOptions
+ * @typedef {Omit<Segment, 'id' | 'labelText' | 'editable'  | 'toTimeRange'> & Partial<Pick<Segment, 'id' | 'labelText' | 'editable'>>} SegmentAddOptions
  *
  * @typedef {{
  *  add: {
@@ -80,7 +81,13 @@ export default class Markers extends EventTarget {
       labelText: '',
       editable: true,
       ...segment,
-      id
+      id,
+      toTimeRange() {
+        return {
+          startTime: this.startTime,
+          endTime: this.endTime ?? null,
+        };
+      }
     };
     this.dispatchEvent(new CustomEvent('add', {
       detail: {

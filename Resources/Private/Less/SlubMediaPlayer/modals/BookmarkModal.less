@@ -43,15 +43,17 @@
     }
 
     .start-at {
-        display: none;
-        margin-top: 1em;
+        div {
+            display: none;
+            margin-top: 1em;
+
+            &.shown {
+                display: block;
+            }
+        }
 
         label {
             padding-left: @label-padding;
-        }
-
-        &.shown {
-            display: block;
         }
     }
 }

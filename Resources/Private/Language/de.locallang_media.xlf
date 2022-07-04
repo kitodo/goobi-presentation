@@ -193,6 +193,10 @@
 				<source><![CDATA[Delete]]></source>
 				<target><![CDATA[Löschen]]></target>
 			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.bookmark" approved="yes">
+				<source><![CDATA[Bookmark this item]]></source>
+				<target><![CDATA[Im Bookmark-Dialog öffnen]]></target>
+			</trans-unit>
 			<trans-unit id="control.sound_tools.marker_table.title" approved="yes">
 				<source><![CDATA[Waveform Markers]]></source>
 				<target><![CDATA[Gesetzte Markierungen]]></target>
@@ -289,9 +293,17 @@
 				<source><![CDATA[Copy Link]]></source>
 				<target><![CDATA[Link kopieren]]></target>
 			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-begin" approved="yes">
+				<source><![CDATA[Don't share timecode]]></source>
+				<target><![CDATA[Keinen Zeitstempel anfügen]]></target>
+			</trans-unit>
 			<trans-unit id="modal.bookmark.start-at-current-time" approved="yes">
-				<source><![CDATA[Start at current time ({timecode}).]]></source>
-				<target><![CDATA[Bei aktueller Zeit ({timecode}) starten.]]></target>
+				<source><![CDATA[Share current time ({currentTime}).]]></source>
+				<target><![CDATA[Bei aktueller Zeit ({currentTime}) starten.]]></target>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-marker" approved="yes">
+				<source><![CDATA[{markerEnd, select, _ {Share selected marker ({markerStart}).} other {Share selected segment ({markerStart} to {markerEnd}).}}]]></source>
+				<target><![CDATA[{markerEnd, select, _ {Bei gesetzter Markierung starten ({markerStart}).} other {Gesetzten Abschnitt verwenden ({markerStart} bis {markerEnd}).}}]]></target>
 			</trans-unit>
 			<trans-unit id="modal.bookmark.title" approved="yes">
 				<source><![CDATA[Bookmark (Share Link)]]></source>

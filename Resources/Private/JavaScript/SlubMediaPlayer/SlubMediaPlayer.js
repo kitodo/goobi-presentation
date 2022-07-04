@@ -413,17 +413,40 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
     this.resumeOn(modal);
   }
 
-  showBookmarkUrl() {
+  /**
+   *
+   * @param {dlf.media.TimeRange | null} markerRange
+   */
+  showBookmarkUrl(markerRange = null) {
     // Don't show modal if we can't expect the current time to be properly
     // initialized
     if (!this.hasCurrentData) {
       return;
     }
 
-    const modal = this.modals?.bookmark
-      .setMetadata(this.metadata)
-      .setTimecode(this.displayTime)
-      .setFps(this.getFps() ?? 0);
+    const modal = this.modals?.bookmark;
+    if (modal === undefined) {
+      return;
+    }
+
+    modal.setState({
+      metadata: this.metadata,
+      timing: {
+        currentTime: this.displayTime,
+        markerRange: (
+          markerRange
+          ?? this.getMarkers().activeSegment?.toTimeRange()
+          ?? null
+        ),
+      },
+      fps: this.getFps() ?? 0,
+    });
+
+    if (markerRange !== null) {
+      modal.setState({
+        startAtMode: 'marker',
+      });
+    }
 
     this.openModal(modal, /* pause= */ true);
   }

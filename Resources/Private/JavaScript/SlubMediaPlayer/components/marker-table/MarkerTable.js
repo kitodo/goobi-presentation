@@ -84,6 +84,7 @@ export default class MarkerTable extends DlfMediaPlugin {
       onLabelEditKeydown: this.rowEvent(this.onLabelEditKeydown.bind(this)),
       onLabelEditInput: this.rowEvent(this.onLabelEditInput.bind(this)),
       onDeleteRow: this.rowEvent(this.onDeleteRow.bind(this)),
+      onBookmarkRow: this.rowEvent(this.onBookmarkRow.bind(this)),
       onSeekToStartTime: this.rowEvent(this.onSeekToStartTime.bind(this)),
       onSeekToEndTime: this.rowEvent(this.onSeekToEndTime.bind(this)),
       onClear: this.onClear.bind(this),
@@ -177,6 +178,16 @@ export default class MarkerTable extends DlfMediaPlugin {
     }
 
     this.player.getMarkers().removeById(row.segment.id);
+  }
+
+  /**
+   * @private
+   * @param {Row} row
+   */
+  onBookmarkRow(row) {
+    if (this.player instanceof SlubMediaPlayer) {
+      this.player.showBookmarkUrl(row.segment.toTimeRange());
+    }
   }
 
   /**
@@ -335,6 +346,17 @@ export default class MarkerTable extends DlfMediaPlugin {
     ]);
     $deleteBtn.rowId = segment.id;
 
+    /** @type {WithRow<HTMLButtonElement>} */
+    const $bookmarkBtn = e('button', {
+      title: this.env.t('control.sound_tools.marker_table.entry.bookmark'),
+      $click: this.handlers.onBookmarkRow,
+    }, [
+      e('span', {
+        className: 'material-icons-round inline-icon',
+      }, ['bookmark_border']),
+    ]);
+    $bookmarkBtn.rowId = segment.id;
+
     /** @type {WithRow<HTMLInputElement>} */
     const $labelEditBox = e('input', {
       placeholder: segment.id,
@@ -361,6 +383,7 @@ export default class MarkerTable extends DlfMediaPlugin {
         $click: this.handlers.onSeekToEndTime,
       }),
       e('td', { className: "marker-buttons-col" }, [
+        $bookmarkBtn,
         $deleteBtn,
       ]),
     ];

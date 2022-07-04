@@ -2,23 +2,35 @@
 
 import QRCode from 'qrcode';
 
-import { e, filterNonNull } from '../../lib/util';
+import { e, filterNonNull, setElementClass } from '../../lib/util';
 import { buildTimeString } from '../../DlfMediaPlayer';
-import { generateTimecodeUrl } from '../lib/generateTimecodeUrl';
+import { generateTimerangeUrl } from '../lib/generateTimecodeUrl';
 import SimpleModal from '../lib/SimpleModal';
 import { createShareButton } from '../lib/ShareButton';
 import { makeExtendedMetadata } from '../lib/metadata';
+
+/**
+ * The order is used for GUI rendering.
+ */
+const START_AT_MODES = /** @type {const} */(['current-time', 'marker', 'begin']);
 
 /**
  * @typedef {{
  *  shareButtons: import('../lib/ShareButton').ShareButtonInfo[];
  * }} Config
  *
+ * @typedef {typeof START_AT_MODES[number]} StartAtMode
+ *
+ * @typedef {{
+ *  currentTime: number;
+ *  markerRange: dlf.media.TimeRange | null;
+ * }} TimingInfo
+ *
  * @typedef {{
  *  metadata: MetadataArray;
- *  timecode: number | null;
+ *  timing: TimingInfo;
  *  fps: number;
- *  startAtTimecode: boolean;
+ *  startAtMode: StartAtMode;
  *  showQrCode: boolean;
  * }} State
  */
@@ -36,9 +48,12 @@ export default class BookmarkModal extends SimpleModal {
   constructor(element, env, config) {
     super(element, {
       metadata: {},
-      timecode: null,
+      timing: {
+        currentTime: 0,
+        markerRange: null,
+      },
       fps: 0,
-      startAtTimecode: true,
+      startAtMode: 'current-time',
       showQrCode: false,
     });
 
@@ -48,6 +63,7 @@ export default class BookmarkModal extends SimpleModal {
     /** @private */
     this.handlers = {
       handleClickShareButton: this.handleClickShareButton.bind(this),
+      handleChangeStartAt: this.handleChangeStartAt.bind(this),
     };
 
     /** @private */
@@ -56,7 +72,7 @@ export default class BookmarkModal extends SimpleModal {
     this.$main.classList.add('bookmark-modal');
     this.$title.innerText = this.env.t('modal.bookmark.title');
 
-    const startAtCheckId = this.env.mkid();
+    const startAtGroupId = this.env.mkid();
 
     const shareButtons = (config.shareButtons ?? []).map((info) => {
       return createShareButton(this.env, info, {
@@ -64,6 +80,12 @@ export default class BookmarkModal extends SimpleModal {
       });
     });
     this.shareButtons = filterNonNull(shareButtons);
+
+    this.$startAtVariants = /** @type {const} */({
+      'begin': this.makeStartAtVariant(startAtGroupId, 'begin'),
+      'current-time': this.makeStartAtVariant(startAtGroupId, 'current-time'),
+      'marker': this.makeStartAtVariant(startAtGroupId, 'marker'),
+    });
 
     this.$body.append(
       e("div", {}, [
@@ -78,8 +100,9 @@ export default class BookmarkModal extends SimpleModal {
             readOnly: true,
             value: location.href,
           }),
-          e("a", {
+          this.$copyLinkBtn = e("a", {
             href: "javascript:void(0)",
+            target: '_blank',
             className: "copy-to-clipboard",
             title: this.env.t('modal.bookmark.copy-link'),
             $click: this.handleCopyToClipboard.bind(this),
@@ -87,20 +110,47 @@ export default class BookmarkModal extends SimpleModal {
             e("i", { className: "material-icons-round" }, ["content_copy"]),
           ]),
         ]),
-        this.$startAt = e("div", { className: "start-at" }, [
-          this.$startAtCheck = e("input", {
-            type: "checkbox",
-            id: startAtCheckId,
-            $change: this.handleChangeStartAtTimecode.bind(this),
-          }),
-          this.$startAtLabel = e("label", { htmlFor: startAtCheckId }),
-        ]),
+        this.$startAt = e("div", { className: "start-at" }, (
+          START_AT_MODES.map(mode => this.$startAtVariants[mode].$container)
+        )),
         this.$qrCanvasContainer = e("div", { className: "url-qrcode" }, [
           e("hr"),
           this.$qrCanvas = e("canvas"),
         ]),
       ])
     );
+  }
+
+  /**
+   *
+   * @private
+   * @param {string} radioGroup
+   * @param {StartAtMode} mode
+   */
+  makeStartAtVariant(radioGroup, mode) {
+    const id = this.env.mkid();
+
+    const $radio = e('input', {
+      type: "radio",
+      name: radioGroup,
+      value: mode,
+      id,
+      $change: this.handlers.handleChangeStartAt,
+    });
+
+    const $label = e('label', { htmlFor: id }, [
+      this.translateStartAtLabel(mode, {
+        currentTime: 0,
+        markerRange: null,
+      }, null),
+    ]);
+
+    const $container = e('div', { className: `start-at-${mode}` }, [
+      $radio,
+      $label,
+    ]);
+
+    return { id, $radio, $label, $container };
   }
 
   /**
@@ -119,7 +169,13 @@ export default class BookmarkModal extends SimpleModal {
     }
   }
 
-  async handleCopyToClipboard() {
+  /**
+   *
+   * @param {MouseEvent} e
+   */
+  async handleCopyToClipboard(e) {
+    e.preventDefault();
+
     const url = this.generateUrl(this.state);
 
     // Besides being necessary for `execCommand`, the focus is also meant to
@@ -137,44 +193,14 @@ export default class BookmarkModal extends SimpleModal {
    *
    * @param {Event} e
    */
-  handleChangeStartAtTimecode(e) {
+  handleChangeStartAt(e) {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
 
     this.setState({
-      startAtTimecode: e.target.checked,
+      startAtMode: /** @type {StartAtMode} */(e.target.value),
     });
-  }
-
-  /**
-   *
-   * @param {MetadataArray} metadata
-   * @returns {this}
-   */
-  setMetadata(metadata) {
-    this.setState({ metadata });
-    return this;
-  }
-
-  /**
-   *
-   * @param {number} timecode
-   * @returns {this}
-   */
-  setTimecode(timecode) {
-    this.setState({ timecode });
-    return this;
-  }
-
-  /**
-   *
-   * @param {number} fps
-   * @returns {this}
-   */
-  setFps(fps) {
-    this.setState({ fps });
-    return this;
   }
 
   /**
@@ -182,8 +208,24 @@ export default class BookmarkModal extends SimpleModal {
    * @param {State} state
    */
   generateUrl(state) {
-    const timecode = state.startAtTimecode ? state.timecode : null;
-    return generateTimecodeUrl(timecode, this.env).toString();
+    const timerange = this.getActiveTimeRange(state);
+    return generateTimerangeUrl(timerange, this.env).toString();
+  }
+
+  /**
+   * @private
+   * @param {State} state
+   * @returns {dlf.media.TimeRange | null}
+   */
+  getActiveTimeRange(state) {
+    switch (state.startAtMode) {
+      case 'begin': return null;
+      case 'current-time': return {
+        startTime: state.timing.currentTime,
+        endTime: null,
+      };
+      case 'marker': return state.timing.markerRange;
+    }
   }
 
   /**
@@ -205,9 +247,10 @@ export default class BookmarkModal extends SimpleModal {
   render(state) {
     super.render(state);
 
-    const { show, metadata, timecode, fps, startAtTimecode, showQrCode } = state;
+    const { show, metadata, timing, fps, startAtMode, showQrCode } = state;
 
-    const extendedMetadata = makeExtendedMetadata(this.env, metadata, timecode, fps);
+    const timerange = this.getActiveTimeRange(state);
+    const extendedMetadata = makeExtendedMetadata(this.env, metadata, timerange, fps);
 
     const url = extendedMetadata['url']?.[0] ?? '';
     const urlChanged = url !== this.lastRenderedUrl;
@@ -225,6 +268,7 @@ export default class BookmarkModal extends SimpleModal {
       }
 
       this.$urlInput.value = url;
+      this.$copyLinkBtn.href = url;
       this.lastRenderedUrl = url;
     }
 
@@ -233,21 +277,42 @@ export default class BookmarkModal extends SimpleModal {
     }
 
     // TODO: Just disable when timecode is 0?
-    if (timecode === null || timecode === 0) {
-      this.$startAt.classList.remove('shown');
-    } else {
-      this.$startAtCheck.checked = startAtTimecode;
-      this.$startAtLabel.innerText =
-        this.env.t('modal.bookmark.start-at-current-time', {
-          timecode: buildTimeString(timecode, true, fps),
-        });
-
-      this.$startAt.classList.add('shown');
+    this.$startAtVariants[startAtMode].$radio.checked = true;
+    for (const mode of START_AT_MODES) {
+      this.$startAtVariants[mode].$label.innerText =
+        this.translateStartAtLabel(mode, timing, fps);
     }
+    setElementClass(this.$startAtVariants['begin'].$container, 'shown', true);
+    setElementClass(this.$startAtVariants['current-time'].$container, 'shown', timing.currentTime !== 0);
+    setElementClass(this.$startAtVariants['marker'].$container, 'shown', timing.markerRange !== null);
 
     if (show && show !== this.state.show) {
       this.$urlInput.select();
     }
+  }
+
+  /**
+   *
+   * @param {StartAtMode} mode
+   * @param {TimingInfo} timing
+   * @param {number | null} fps
+   */
+  translateStartAtLabel(mode, timing, fps) {
+    const values = {
+      currentTime: buildTimeString(timing.currentTime, true, fps),
+      markerStart: '?',
+      markerEnd: '_',
+    };
+
+    if (timing.markerRange !== null) {
+      values.markerStart = buildTimeString(timing.markerRange.startTime, true, fps);
+
+      if (timing.markerRange.endTime !== null) {
+        values.markerEnd = buildTimeString(timing.markerRange.endTime, true, fps);
+      }
+    }
+
+    return this.env.t(`modal.bookmark.start-at-${mode}`, values);
   }
 
   /**

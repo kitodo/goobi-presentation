@@ -146,6 +146,9 @@
 			<trans-unit id="control.sound_tools.marker_table.entry.delete">
 				<source><![CDATA[Delete]]></source>
 			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.bookmark">
+				<source><![CDATA[Bookmark this item]]></source>
+			</trans-unit>
 			<trans-unit id="control.sound_tools.marker_table.title">
 				<source><![CDATA[Waveform Markers]]></source>
 			</trans-unit>
@@ -218,8 +221,14 @@
 			<trans-unit id="modal.bookmark.copy-link">
 				<source><![CDATA[Copy Link]]></source>
 			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-begin">
+				<source><![CDATA[Don't share timecode]]></source>
+			</trans-unit>
 			<trans-unit id="modal.bookmark.start-at-current-time">
-				<source><![CDATA[Start at current time ({timecode}).]]></source>
+				<source><![CDATA[Share current time ({currentTime}).]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-marker">
+				<source><![CDATA[{markerEnd, select, _ {Share selected marker ({markerStart}).} other {Share selected segment ({markerStart} to {markerEnd}).}}]]></source>
 			</trans-unit>
 			<trans-unit id="modal.bookmark.title">
 				<source><![CDATA[Bookmark (Share Link)]]></source>
