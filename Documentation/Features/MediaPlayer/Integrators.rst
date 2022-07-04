@@ -82,12 +82,27 @@ To add control elements to the player, use the ``<dlf-media-controls>`` tag.
      </button>
    </dlf-media-controls>
 
+Surrounding Element
+-------------------
+
+The ID of a container element may be specified in ``player-view``:
+
+*  The element is used when switching to full screen, so that additional elements besides the player may be used.
+*  It can be used to make sure that modals are sized and positioned appropriately even in audio mode.
+
+.. code-block:: html
+
+   <div id="tx-dlf-view" class="tx-dlf-view">
+     <dlf-media player-view="tx-dlf-view">
+       <!-- snip -->
+     </dlf-media>
+   </div>
+
 More
 ----
 
 *  ``end``
 *  ``config``
-*  ``fullscreen-element``
 
 ``<slub-media>``
 ================
@@ -106,20 +121,6 @@ Video metadata may be provided in the ``<dlf-meta>`` tag. This is used, for exam
 
      <dlf-meta key="title" value="Schattensucher"></dlf-meta>
    </slub-media>
-
-Surrounding Element
--------------------
-
-To make sure that modals are sized and positioned appropriately even in audio mode, the ID of an element containing the media may be provided.
-It is also used when switching to full screen.
-
-.. code-block:: html
-
-   <div id="tx-dlf-view" class="tx-dlf-view">
-     <slub-media fullscreen-element="tx-dlf-view">
-       <!-- snip -->
-     </slub-media>
-   </div>
 
 Styling the Player
 ==================

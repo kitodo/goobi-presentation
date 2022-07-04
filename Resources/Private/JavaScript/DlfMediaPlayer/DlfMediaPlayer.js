@@ -92,6 +92,9 @@ export default class DlfMediaPlayer extends HTMLElement {
     /** @private @type {dlf.media.PlayerFrontend} */
     this.frontend = new ShakaFrontend(this.env, this.player, this.video);
 
+    /** @protected @type {HTMLElement | null} */
+    this.playerView = null;
+
     /** @private @type {dlf.media.PlayerMode | 'auto'} */
     this.mode = 'auto';
 
@@ -116,6 +119,11 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.env.setLang(config.lang);
 
     this.timeRange = this.getTimeRange();
+
+    const playerViewId = this.getAttribute('player-view');
+    if (playerViewId !== null) {
+      this.playerView = document.getElementById(playerViewId);
+    }
 
     this.configureFrontend(config);
 
@@ -206,6 +214,7 @@ export default class DlfMediaPlayer extends HTMLElement {
       volumeStep: 0.05,
       seekStep: 5,
       trickPlayFactor: 4,
+      forceLandscapeOnFullscreen: true,
     };
   }
 
@@ -632,7 +641,10 @@ export default class DlfMediaPlayer extends HTMLElement {
    * Override in child class.
    */
   async toggleFullScreen() {
-    this.env.toggleFullScreen(this.frontend.domElement, true);
+    // We use this instead of Shaka's toggleFullScreen so that we don't need to
+    // append the app elements (modals) to the player container.
+    this.env.toggleFullScreen(this.playerView ?? this.ui.domElement,
+      this.constants.forceLandscapeOnFullscreen);
   }
 
   /**

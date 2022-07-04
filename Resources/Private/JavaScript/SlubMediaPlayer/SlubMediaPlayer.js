@@ -53,9 +53,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
     this.pageSelect = null;
 
     /** @private */
-    this.fullscreenElement = null;
-
-    /** @private */
     this.modals = null;
   }
 
@@ -67,19 +64,15 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     this.addEventListener('chapterchange', this.handlers.onChapterChanged);
 
-    this.fullscreenElement = document.getElementById(
-      this.getAttribute('fullscreen-element') ?? ''
-    );
-
     /** @type {Partial<AppConfig>} */
     const config = this.getConfig();
 
     // @ts-expect-error TODO
     const constants = typoConstants(config.constants ?? {}, this.constants);
 
-    if (this.fullscreenElement !== null) {
+    if (this.playerView !== null) {
       this.modals = Modals({
-        help: new HelpModal(this.fullscreenElement, this.env, {
+        help: new HelpModal(this.playerView, this.env, {
           constants: {
             ...constants,
             // TODO: Refactor
@@ -92,10 +85,10 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
             return action !== undefined && action.isAvailable();
           },
         }),
-        bookmark: new BookmarkModal(this.fullscreenElement, this.env, {
+        bookmark: new BookmarkModal(this.playerView, this.env, {
           shareButtons: config.shareButtons ?? [],
         }),
-        screenshot: new ScreenshotModal(this.fullscreenElement, this.env, {
+        screenshot: new ScreenshotModal(this.playerView, this.env, {
           keybindings: this.keybindings,
           screnshotCaptions: config.screenshotCaptions ?? [],
           constants: config.constants ?? {},
@@ -130,16 +123,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       }
       values.push(value);
     });
-  }
-
-  /**
-   * @override
-   */
-  constantDefaults() {
-    return {
-      ...super.constantDefaults(),
-      forceLandscapeOnFullscreen: true,
-    };
   }
 
   /**
@@ -434,16 +417,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    */
   onCloseModal(modal) {
     this.resumeOn(modal);
-  }
-
-  /**
-   * @override
-   */
-  async toggleFullScreen() {
-    // We use this instead of Shaka's toggleFullScreen so that we don't need to
-    // append the app elements (modals) to the player container.
-    this.env.toggleFullScreen(this.fullscreenElement ?? this.ui.domElement,
-      this.constants.forceLandscapeOnFullscreen);
   }
 
   showBookmarkUrl() {

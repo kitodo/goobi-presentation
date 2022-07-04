@@ -62,6 +62,11 @@ namespace dlf {
        * TODO: Check if this should be input as setting or retrieved from current manifest
        */
       trickPlayFactor: number;
+
+      /**
+       * Whether or not to switch to landscape in fullscreen mode.
+       */
+      forceLandscapeOnFullscreen: boolean;
     };
 
     type PlayerConfig = {

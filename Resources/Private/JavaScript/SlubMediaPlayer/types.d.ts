@@ -39,15 +39,8 @@ type ScreenshotModalConstants = {
   screenshotCommentTemplate: string;
 };
 
-type AppConstants = {
-  /**
-   * Whether or not to switch to landscape in fullscreen mode.
-   */
-  forceLandscapeOnFullscreen: boolean;
-};
-
 type AppConstantsConfig = import("../lib/typoConstants").TypoConstants<
-  dlf.media.PlayerConstants & ScreenshotModalConstants & AppConstants
+  dlf.media.PlayerConstants & ScreenshotModalConstants
 >;
 
 type AppConfig = {
