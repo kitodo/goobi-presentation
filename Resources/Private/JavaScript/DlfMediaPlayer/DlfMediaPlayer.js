@@ -330,6 +330,19 @@ export default class DlfMediaPlayer extends HTMLElement {
           this.frontend.seekBar?.setThumbnailSnap(mode === 'down');
         },
       }),
+      'sound_tools.mode.audio': action({
+        execute: () => {
+          this.ui.updatePlayerProperties({ mode: 'audio' });
+        },
+      }),
+      'sound_tools.mode.video': action({
+        isAvailable: () => {
+          return !this.player.isAudioOnly();
+        },
+        execute: () => {
+          this.ui.updatePlayerProperties({ mode: 'video' });
+        },
+      }),
     };
   }
 

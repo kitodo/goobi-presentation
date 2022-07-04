@@ -17,6 +17,10 @@
 				<source><![CDATA[Navigate]]></source>
 				<target><![CDATA[Navigation]]></target>
 			</trans-unit>
+			<trans-unit id="action.kind.sound_tools" approved="yes">
+				<source><![CDATA[Tools]]></source>
+				<target><![CDATA[Werkzeuge]]></target>
+			</trans-unit>
 			<trans-unit id="action.kind.other" approved="yes">
 				<source><![CDATA[Other]]></source>
 				<target><![CDATA[Weitere]]></target>
@@ -100,6 +104,14 @@
 			<trans-unit id="action.playback.volume.mute.toggle" approved="yes">
 				<source><![CDATA[Mute / Unmute]]></source>
 				<target><![CDATA[Stummschaltung an / aus]]></target>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.mode.audio" approved="yes">
+				<source><![CDATA[Audio Mode]]></source>
+				<target><![CDATA[Audio-Ansicht]]></target>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.mode.video" approved="yes">
+				<source><![CDATA[Video Mode]]></source>
+				<target><![CDATA[Video-Ansicht]]></target>
 			</trans-unit>
 			<trans-unit id="action.theater.toggle" approved="yes">
 				<source><![CDATA[Toggle theater mode]]></source>

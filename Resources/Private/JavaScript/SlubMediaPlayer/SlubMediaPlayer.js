@@ -308,17 +308,6 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       return;
     }
 
-    // TODO: Remove
-    if (this.ui instanceof ShakaFrontend) {
-      if (e.key === 'F2') {
-        this.ui.updatePlayerProperties({ mode: 'audio' });
-        this.modals?.resize();
-      } else if (e.key === 'F4') {
-        this.ui.updatePlayerProperties({ mode: 'video' });
-        this.modals?.resize();
-      }
-    }
-
     this.handleKey(e, 'down');
   }
 

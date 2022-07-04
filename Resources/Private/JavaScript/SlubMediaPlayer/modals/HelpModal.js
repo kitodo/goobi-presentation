@@ -33,6 +33,7 @@ function groupKeybindings(keybindings) {
   const result = {
     'navigate': {},
     'player': {},
+    'sound_tools': {},
     'other': {},
   };
 

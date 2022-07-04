@@ -14,6 +14,9 @@
 			<trans-unit id="action.kind.navigate">
 				<source><![CDATA[Navigate]]></source>
 			</trans-unit>
+			<trans-unit id="action.kind.sound_tools">
+				<source><![CDATA[Tools]]></source>
+			</trans-unit>
 			<trans-unit id="action.kind.other">
 				<source><![CDATA[Other]]></source>
 			</trans-unit>
@@ -76,6 +79,12 @@
 			</trans-unit>
 			<trans-unit id="action.playback.volume.mute.toggle">
 				<source><![CDATA[Mute / Unmute]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.mode.audio">
+				<source><![CDATA[Audio Mode]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.mode.video">
+				<source><![CDATA[Video Mode]]></source>
 			</trans-unit>
 			<trans-unit id="action.theater.toggle">
 				<source><![CDATA[Toggle theater mode]]></source>
