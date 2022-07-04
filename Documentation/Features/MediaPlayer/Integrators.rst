@@ -151,7 +151,52 @@ The player can be styled using CSS variables, here shown in Less syntax.
 Extending the Player
 ====================
 
-If you would like to extend the player, you may inherit from it and define a custom element.
+Plugins
+-------
+
+If you would like to extend the player, one way is to write a "player plugin".
+This is intended for situations where you would like to add functionality by using the existing ``DlfMediaPlayer`` API.
+It is, for example, used to provide an table to a marker table that connects to a player instance. Roughly:
+
+.. code-block:: javascript
+
+   class MarkerTable extends DlfMediaPlugin {
+     constructor() {
+       super();
+     }
+
+     /**
+      * @override
+      * @param {DlfMediaPlayer} player
+      */
+     attachToPlayer(player) {
+       // Optionally, check player specifics
+       if (!(player instanceof SlubMediaPlayer)) {
+         return;
+       }
+
+       // Here you have access to all attributes and
+       // DOM elements inside the custom element
+     }
+   }
+
+   customElements.define('dlf-marker-table', MarkerTable);
+
+A plugin is attached to a player via the ``forPlayer`` attribute:
+
+.. code-block:: html
+
+   <dlf-marker-table forPlayer="playerOne"></dlf-marker-table>
+
+   <dlf-media id="playerOne">
+     <!-- snip -->
+   </dlf-media>
+
+Subclassing
+-----------
+
+If you would like to make more pervasive changes to the player, or if you would like to provide a player element containing all your customizations, you may also inherit from ``DlfMediaPlayer``.
+This is done in ``SlubMediaPlayer`` to define an extended ``<slub-media>`` element.
 
 .. code-block:: javascript
 
@@ -176,5 +221,3 @@ For styling, use the Less function ``dlf-media-base``:
    }
 
 The new element ``<my-media>`` may then be used just as ``<dlf-media>``, plus any additional attributes or child elements that you query within ``MyMediaPlayer``.
-
-This is done in ``SlubMediaPlayer`` to define an extended ``<slub-media>`` element.

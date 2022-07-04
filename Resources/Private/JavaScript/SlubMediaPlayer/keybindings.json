@@ -195,5 +195,20 @@
 		"action": "sound_tools.mode.video",
 		"kind": "sound_tools",
 		"order": 1
+	},
+	{
+		"keys": ["<"],
+		"scope": "player",
+		"action": "sound_tools.segments.add",
+		"kind": "sound_tools",
+		"order": 2
+	},
+	{
+		"mod": "Shift",
+		"keys": [">"],
+		"scope": "player",
+		"action": "sound_tools.segments.close",
+		"kind": "sound_tools",
+		"order": 3
 	}
 ]

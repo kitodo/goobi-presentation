@@ -1,6 +1,17 @@
 // @ts-check
 
 /**
+ *
+ * @param {string[][]} data
+ * @returns {string}
+ */
+export function arrayToCsv(data) {
+  return data.map(
+    row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(';')
+  ).join('\n');
+}
+
+/**
  * Clamps {@link value} into the closed interval [{@link min}, {@link max}].
  *
  * @param {number} value
@@ -17,6 +28,25 @@ export function clamp(value, [min, max]) {
   }
 
   return value;
+}
+
+/**
+ * Compare two values. Returns a format suited for the standard `sort` function.
+ *
+ * @param {any} lhs
+ * @param {any} rhs
+ * @returns {number}
+ */
+export function cmp(lhs, rhs) {
+  if (lhs < rhs) {
+    return -1;
+  }
+
+  if (lhs > rhs) {
+    return 1;
+  }
+
+  return 0;
 }
 
 /**

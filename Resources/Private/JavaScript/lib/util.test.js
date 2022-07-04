@@ -2,7 +2,16 @@
 
 import { beforeEach, describe, expect, test, jest } from '@jest/globals';
 import { Blob } from 'buffer';
-import { dataUrlMime, clamp, sanitizeBasename, withObjectUrl, zeroPad } from './util';
+import { arrayToCsv, dataUrlMime, clamp, sanitizeBasename, withObjectUrl, zeroPad } from './util';
+
+describe('arrayToCsv', () => {
+  test('basic', () => {
+    expect(arrayToCsv([
+      [`Hello, World`, `"Hello, World"`],
+      [`foo`],
+    ])).toBe(`"Hello, World";"""Hello, World"""\n"foo"`);
+  });
+});
 
 describe('clamp', () => {
   test('basic', () => {

@@ -56,6 +56,11 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
     this.modals = null;
   }
 
+  // TODO: Rethink
+  getKeybindings() {
+    return this.keybindings;
+  }
+
   /**
    * @override
    */

@@ -7,6 +7,10 @@ interface Window {
   };
 }
 
+interface HTMLElementTagNameMap {
+  "dlf-marker-table": import("./components/marker-table").MarkerTable;
+}
+
 /**
  * Signals that the theater mode should be changed.
  *

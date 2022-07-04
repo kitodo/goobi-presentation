@@ -92,6 +92,12 @@
 			<trans-unit id="action.unavailable">
 				<source><![CDATA[Action unavailable]]></source>
 			</trans-unit>
+			<trans-unit id="action.sound_tools.segments.add">
+				<source><![CDATA[Add marker]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.segments.close">
+				<source><![CDATA[Close segment]]></source>
+			</trans-unit>
 			<trans-unit id="control.back">
 				<source><![CDATA[Back]]></source>
 			</trans-unit>
@@ -109,6 +115,39 @@
 			</trans-unit>
 			<trans-unit id="control.screenshot.tooltip">
 				<source><![CDATA[Take screenshot]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.empty">
+				<source><![CDATA[No markers yet. Use {keybindingAdd} and {keybindingClose} to add points and segments.]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.download_csv">
+				<source><![CDATA[Download as CSV]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.clear">
+				<source><![CDATA[Clear markers]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.clear.confirm">
+				<source><![CDATA[Really?]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.jump_to_start">
+				<source><![CDATA[Jump to start]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.jump_to_end">
+				<source><![CDATA[Jump to end]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.name">
+				<source><![CDATA[Label]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.startTime">
+				<source><![CDATA[start]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.endTime">
+				<source><![CDATA[end]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.delete">
+				<source><![CDATA[Delete]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.title">
+				<source><![CDATA[Waveform Markers]]></source>
 			</trans-unit>
 			<trans-unit id="control.time.tooltip">
 				<source><![CDATA[Toggle time display]]></source>
@@ -214,6 +253,9 @@
 			</trans-unit>
 			<trans-unit id="player.loading">
 				<source><![CDATA[Loading...]]></source>
+			</trans-unit>
+			<trans-unit id="share.shared_timecode">
+				<source><![CDATA[Shared time code]]></source>
 			</trans-unit>
 			<trans-unit id="share.email.tooltip">
 				<source><![CDATA[Send in E-Mail]]></source>

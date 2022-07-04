@@ -121,6 +121,14 @@
 				<source><![CDATA[Action unavailable]]></source>
 				<target><![CDATA[Aktion nicht anwendbar]]></target>
 			</trans-unit>
+			<trans-unit id="action.sound_tools.segments.add" approved="yes">
+				<source><![CDATA[Add marker]]></source>
+				<target><![CDATA[Startpunkt setzen]]></target>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.segments.close" approved="yes">
+				<source><![CDATA[Close segment]]></source>
+				<target><![CDATA[Endpunkt setzen]]></target>
+			</trans-unit>
 			<trans-unit id="control.back" approved="yes">
 				<source><![CDATA[Back]]></source>
 				<target><![CDATA[Zurück]]></target>
@@ -144,6 +152,50 @@
 			<trans-unit id="control.screenshot.tooltip" approved="yes">
 				<source><![CDATA[Take screenshot]]></source>
 				<target><![CDATA[Screenshot]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.empty" approved="yes">
+				<source><![CDATA[No markers yet. Use {keybindingAdd} and {keybindingClose} to add points and segments.]]></source>
+				<target><![CDATA[Noch keine Marker gesetzt. Setzen Sie Start- und ggf. Endpunkte mit {keybindingAdd} und {keybindingClose}.]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.download_csv" approved="yes">
+				<source><![CDATA[Download as CSV]]></source>
+				<target><![CDATA[Tabelle als CSV herunterladen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.clear" approved="yes">
+				<source><![CDATA[Clear markers]]></source>
+				<target><![CDATA[Alle Einträge löschen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.clear.confirm" approved="yes">
+				<source><![CDATA[Really?]]></source>
+				<target><![CDATA[Wirklich?]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.jump_to_start" approved="yes">
+				<source><![CDATA[Jump to start]]></source>
+				<target><![CDATA[Zum Anfang springen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.jump_to_end" approved="yes">
+				<source><![CDATA[Jump to end]]></source>
+				<target><![CDATA[Zum Ende springen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.name" approved="yes">
+				<source><![CDATA[Label]]></source>
+				<target><![CDATA[Beschriftung]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.startTime" approved="yes">
+				<source><![CDATA[start]]></source>
+				<target><![CDATA[von]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.endTime" approved="yes">
+				<source><![CDATA[end]]></source>
+				<target><![CDATA[bis]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.delete" approved="yes">
+				<source><![CDATA[Delete]]></source>
+				<target><![CDATA[Löschen]]></target>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.title" approved="yes">
+				<source><![CDATA[Waveform Markers]]></source>
+				<target><![CDATA[Gesetzte Markierungen]]></target>
 			</trans-unit>
 			<trans-unit id="control.time.tooltip" approved="yes">
 				<source><![CDATA[Toggle time display]]></source>
@@ -288,6 +340,10 @@
 			<trans-unit id="player.loading" approved="yes">
 				<source><![CDATA[Loading...]]></source>
 				<target><![CDATA[Laden...]]></target>
+			</trans-unit>
+			<trans-unit id="share.shared_timecode" approved="yes">
+				<source><![CDATA[Shared time code]]></source>
+				<target><![CDATA[Timecode aus Link]]></target>
 			</trans-unit>
 			<trans-unit id="share.email.tooltip" approved="yes">
 				<source><![CDATA[Send in E-Mail]]>]</source>

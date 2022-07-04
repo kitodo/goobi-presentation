@@ -9,6 +9,7 @@ import Environment from '../lib/Environment';
 import { clamp, e } from '../lib/util';
 import ShakaFrontend from './frontend/ShakaFrontend';
 import Chapters from './Chapters';
+import Markers from './Markers';
 import VariantGroups from './VariantGroups';
 import { isPlayerMode } from './lib/util';
 
@@ -89,6 +90,9 @@ export default class DlfMediaPlayer extends HTMLElement {
     /** @private @type {dlf.media.Chapter | null} */
     this.currentChapter = null;
 
+    /** @private */
+    this.markers_ = new Markers();
+
     /** @private @type {dlf.media.PlayerFrontend} */
     this.frontend = new ShakaFrontend(this.env, this.player, this.video);
 
@@ -111,6 +115,15 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.actions = this.getActions();
   }
 
+  // TODO: Rethink
+  getEnv() {
+    return this.env;
+  }
+
+  getMarkers() {
+    return this.markers_;
+  }
+
   /**
    * @protected
    */
@@ -119,6 +132,15 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.env.setLang(config.lang);
 
     this.timeRange = this.getTimeRange();
+    if (this.timeRange !== null) {
+      this.markers_.add({
+        id: 'dlf.segment_shared',
+        startTime: this.timeRange.startTime,
+        endTime: this.timeRange.endTime ?? undefined,
+        labelText: this.env.t('share.shared_timecode'),
+        editable: false,
+      });
+    }
 
     const playerViewId = this.getAttribute('player-view');
     if (playerViewId !== null) {
@@ -341,6 +363,24 @@ export default class DlfMediaPlayer extends HTMLElement {
         },
         execute: () => {
           this.ui.updatePlayerProperties({ mode: 'video' });
+        },
+      }),
+      'sound_tools.segments.add': action({
+        execute: () => {
+          this.markers_.add({
+            startTime: this.displayTime,
+          });
+        },
+      }),
+      'sound_tools.segments.close': action({
+        execute: () => {
+          const activeSegment = this.markers_.activeSegment;
+          if (activeSegment) {
+            this.markers_.update({
+              id: activeSegment.id,
+              endTime: this.displayTime,
+            })
+          }
         },
       }),
     };

@@ -2,6 +2,8 @@
 @import "modals/HelpModal.less";
 @import "modals/ScreenshotModal.less";
 
+@import "components/MarkerTable.less";
+
 @zIndexModalCover: 100000;
 @zIndexModal: 999999;
 
@@ -153,14 +155,8 @@ body[data-has-video] {
     }
 
     kbd {
-        white-space: pre; // Allow marking space bar with a couple of spaces
-        font-family: monospace;
-        font-weight: bold;
+        .kbd();
         color: white;
-        background-color: rgba(#eee, 0.3);
-        border-radius: 3px;
-        border: 1px solid #b4b4b4;
-        padding: 4px 7px;
     }
 
     button {

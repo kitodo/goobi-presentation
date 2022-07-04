@@ -12,7 +12,9 @@
     <kitodo:mediaPlayerConfig id="MEDIA_CONFIG" settings="{settings}" />
 
     <div id="combined-container" class="combined-container">
-        <div class="media-panel"></div>
+        <div class="media-panel">
+            <dlf-marker-table forPlayer="{settings.elementId}"></dlf-marker-table>
+        </div>
 
         <div id="tx-dlf-view" class="tx-dlf-view">
             <slub-media id="{settings.elementId}" player-view="combined-container" poster="{video.url.poster.url}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">

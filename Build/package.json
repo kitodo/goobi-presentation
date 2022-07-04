@@ -62,7 +62,8 @@
       "<rootDir>/Build/node_modules"
     ],
     "setupFiles": [
-      "<rootDir>/Build/node_modules/jest-canvas-mock"
+      "<rootDir>/Build/node_modules/jest-canvas-mock",
+			"<rootDir>/Resources/Private/JavaScript/test-polyfills.js"
     ],
     "transform": {
       "^.+\\.js$": "babel-jest",
