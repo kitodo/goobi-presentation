@@ -59,6 +59,9 @@ export default class DlfMediaPlugin extends HTMLElement {
   }
 
   /**
+   * Attach the plugin to a player object. This is called once after
+   * `connectedCallback()` has been run.
+   *
    * Intended to be overridden in child class.
    *
    * @param {DlfMediaPlayer} player

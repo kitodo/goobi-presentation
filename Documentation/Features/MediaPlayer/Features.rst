@@ -38,12 +38,41 @@ It is, however, possible to adjust the mode; see the :ref:`guide for integrators
 
 The set of available controls and keyboard shortcuts is determined depending on source, browser and mode.
 
+There are keybindings to switch between audio and video mode (currently, additional tools are shown in audio mode).
+
+Gestures
+========
+
+Supported gestures:
+
+*  All input methods
+
+   *  Double click/tap left or right of video, but keep pressed: Rewind or fast-forward (four times original speed)
+   *  Press and hold: Scrub through video
+   *  Natural swipe left/right: Jump by the configured amount  (10 seconds by default)
+
+*  Touch only
+
+   *  Double tap left or right of the video: Jump by the configured amount
+   *  Double tap middle of video (outside of big play button): Switch to fullscreen mode
+
+*  Mouse only
+
+   *  Click to play/pause
+   *  Double click to toggle fullscreen mode
+
 Seeking
 =======
 
 The player supports sub-second seeking. When the video has constant frame rate and information about the frame rate is available to the player (DASH or HLS), this is used to simulate frame-accurate seeking and display the current frame count. Whether or not this is precise depends on the media encoding and the browser.
 
 To seek to the exact position of a thumbnail, hold the :kbd:`Shift` key. This currently assumes that the frame is in between the thumbnail time range, as produced by ffmpeg's fps filter.
+
+Wide/narrow seek:
+
+*  *Wide*: In video mode, the thumbnail/chapter preview area can be used for seeking.
+*  *Narrow*: In audio mode, only the timeline can be used for seeking.
+   (This is so that the chapter/timecode box doesn't interfer with other controls shown in the main panel.)
 
 .. note::
 
@@ -129,6 +158,14 @@ MPEG-DASH
    Because of how Shaka Player handles image tracks, they must be discriminated by either width, codec or MIME type.
    To use multiple image tracks, you may thus need to offset the width of some of them (in the example, 1600 vs 1601).
 
+Set Markers
+===========
+
+*  Set markers and segments
+*  Annotate, share, export markers
+
+The list of markers is shown in audio mode.
+
 Screenshot Download
 ===================
 
@@ -137,9 +174,23 @@ Screenshot Download
 *  Overlay metadata
 *  Directly from video
 
-Bookmarking
-===========
+Link Sharing
+============
 
-*  Bookmark with timecode
-*  Share link (e.g. via email or Twitter)
-*  Generate QR code of URL
+By passing a ``timecode`` parameter in the URL, it is possible to share a position or segment of the track.
+
+*  ``/viewer?tx_dlf[id]=...&timecode=119.5`` sets the start time almost two minutes into the video.
+*  ``/viewer?tx_dlf[id]=...&timecode=120,150`` sets a 30 second segment starting at minute 2.
+   Currently, the segment is highlighted in the waveform view and shown in the marker table.
+
+Links can be generated and shared in the *Bookmark* modal.
+
+*  You may choose to include a timecode to your current playback position, or to the last set segment, in the link.
+   It is also possible to call the bookmark modal from within the list of markers.
+*  The link may be shared via email or Twitter. The available sharing options can be configured.
+*  You may also generate a QR code for the link.
+
+Help Modal
+==========
+
+The help modal (press ``F1``) lists the available keyboard shortcuts.

@@ -6,6 +6,10 @@ For Developers
    :local:
    :depth: 2
 
+.. tip::
+
+   Target audience: Anyone who would like to work on the library code that is part of Kitodo.Presentation.
+
 Code Organization
 =================
 
@@ -76,6 +80,13 @@ The available keybindings are listed in ``keybindings.json``:
 *  The result object is an array of ``type Keybinding``, which is defined and documented in ``SlubMediaPlayer/types.d.ts``.
 *  Keys are bound to an *action*, which are defined in ``DlfMediaPlayer::getActions()`` and extended in ``SlubMediaPlayer::getActions()``.
 *  Event handlers are registered in ``SlubMediaPlayer::configureFrontend()``.
+
+Gestures
+--------
+
+*  The class ``Gestures`` defines the mechanics of several standard gestures (multi-tap, tap-and-hold, swipe).
+*  The available gestures are currently registered in ``DlfMediaPlayer::registerGestures()``, which accesses a ``Gestures`` object on ``ShakaFrontend``.
+*  ``ShakaFrontend`` constructs the ``Gestures`` object, registers event handlers on an appropriate DOM element, and checks whether or not a particular gesture is allowed (most importantly, to forbid gestures in the control button area).
 
 DOM Handling
 ------------

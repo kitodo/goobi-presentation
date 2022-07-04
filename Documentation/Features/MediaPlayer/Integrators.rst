@@ -2,6 +2,14 @@
 For Integrators
 ===============
 
+.. contents::
+   :local:
+   :depth: 2
+
+.. tip::
+
+   Target audience: Anyone who would like to integrate the player into a platform built with Kitodo.Presentation, customize it, or add features outside of the library repository.
+
 Embedding the Player
 ====================
 
@@ -82,8 +90,8 @@ To add control elements to the player, use the ``<dlf-media-controls>`` tag.
      </button>
    </dlf-media-controls>
 
-Surrounding Element
--------------------
+Player View
+-----------
 
 The ID of a container element may be specified in ``player-view``:
 
@@ -177,6 +185,29 @@ It is, for example, used to provide an table to a marker table that connects to 
 
        // Here you have access to all attributes and
        // DOM elements inside the custom element
+
+       // Add actions that can be referenced in control elements or keybindings
+       player.addActions({
+         'marker-table.action': {
+           isAvailable: () => {
+             // Optionally, check preconditions for the action. If the action is not available,
+             // the control element will be hidden, and the help entry will be grayed out.
+             return true;
+           },
+           execute: () => {
+             // ...
+           },
+         },
+       });
+
+       // Access the <media> element that underlies the player
+       player.media.addEventListener('loadedmeta', () => {
+         // ...
+       });
+
+       // Access the player environment, e.g., to translate a string
+       const btn = document.createElement('button');
+       btn.textContent = this.env.t('marker-table.button-text');
      }
    }
 
