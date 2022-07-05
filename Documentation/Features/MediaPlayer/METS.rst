@@ -5,7 +5,7 @@ METS Encoding
 Chapter Markers
 ===============
 
-To set chapter markers, use ``<mets:area>`` with type ``TIME``.
+To set chapter markers, use ``<mets:area>`` with type ``TIME`` on the physical structure node and link it from a leaf logical structure node.
 Only the begin is used.
 
 .. code-block:: xml

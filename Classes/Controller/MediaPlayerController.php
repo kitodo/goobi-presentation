@@ -174,7 +174,7 @@ class MediaPlayerController extends AbstractController
      */
     protected function recurseChapters(array $logInfo, array &$outChapters)
     {
-        if ($logInfo['type'] === 'segment' && isset($logInfo['videoChapter'])) {
+        if (empty($logInfo['children']) && isset($logInfo['videoChapter'])) {
             $outChapters[] = [
                 'fileId' => $logInfo['videoChapter']['fileId'],
                 'pageNo' => $logInfo['points'],
