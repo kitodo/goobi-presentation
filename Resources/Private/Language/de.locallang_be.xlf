@@ -561,6 +561,10 @@
 				<source><![CDATA[Table of Contents Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Inhaltsverzeichnis Plugin für Kitodo.Presentation]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.tableofcontents.flexform.showFull" approved="yes">
+				<source><![CDATA[Show complete TOC]]></source>
+				<target><![CDATA[Alle Einträge anzeigen]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.tableofcontents.title" approved="yes">
 				<source><![CDATA[Kitodo: Table of Contents]]></source>
 				<target><![CDATA[Kitodo: Inhaltsverzeichnis]]></target>
