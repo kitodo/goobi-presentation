@@ -26,11 +26,11 @@
             <slub-media id="{settings.elementId}" player-view="combined-container" poster="{video.url.poster.url}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
                 <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
                 <f:for each="{video.sources}" as="source">
-                    <source src="{source.url}" type="{source.mimeType}" data-fps="{source.frameRate}">
+                    <source src="{source.url}" type="{source.mimeType}" data-fps="{source.frameRate}" data-fileid="{source.fileId}">
                 </f:for>
 
                 <f:for each="{video.chapters}" as="chapter">
-                    <dlf-chapter title="{chapter.title}" timecode="{chapter.timecode}" pageNo="{chapter.pageNo}"></dlf-chapter>
+                    <dlf-chapter title="{chapter.title}" timecode="{chapter.timecode}" fileids="{chapter.fileIdsJoin}" pageNo="{chapter.pageNo}"></dlf-chapter>
                 </f:for>
 
                 <f:for each="{video.metadata}" as="values" key="key">

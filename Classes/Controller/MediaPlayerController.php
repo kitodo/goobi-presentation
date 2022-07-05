@@ -102,6 +102,7 @@ class MediaPlayerController extends AbstractController
                 $videoSources[] = [
                     'mimeType' => $videoFile['mimeType'],
                     'url' => $videoFile['url'],
+                    'fileId' => $videoFile['fileId'],
                     'frameRate' => $fileMetadata['video_frame_rate'][0] ?? '',
                 ];
 
@@ -176,7 +177,8 @@ class MediaPlayerController extends AbstractController
     {
         if (empty($logInfo['children']) && isset($logInfo['videoChapter'])) {
             $outChapters[] = [
-                'fileId' => $logInfo['videoChapter']['fileId'],
+                'fileIds' => $logInfo['videoChapter']['fileIds'],
+                'fileIdsJoin' => $logInfo['videoChapter']['fileIdsJoin'],
                 'pageNo' => $logInfo['points'],
                 'title' => $logInfo['label'] ?? '',
                 'timecode' => $logInfo['videoChapter']['timecode'],

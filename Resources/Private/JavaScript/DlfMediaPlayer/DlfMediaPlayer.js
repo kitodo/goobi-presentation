@@ -572,7 +572,9 @@ export default class DlfMediaPlayer extends HTMLElement {
         }
       }
 
-      sources.push({ url, mimeType, frameRate });
+      const fileId = el.getAttribute("data-fileid");
+
+      sources.push({ url, mimeType, frameRate, fileId });
     });
 
     this.loadOneOf(sources);
@@ -640,6 +642,7 @@ export default class DlfMediaPlayer extends HTMLElement {
 
     this.frontend.updateMediaProperties({
       variantGroups: this.variantGroups,
+      chapters: this.chaptersInSource,
     });
 
     this.updateFrameRate();
@@ -653,7 +656,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   onTick() {
-    const curChapter = this.chapters_.timeToChapter(this.video.currentTime) ?? null;
+    const curChapter = this.chaptersInSource.timeToChapter(this.video.currentTime) ?? null;
     if (curChapter !== this.currentChapter) {
       const prevChapter = this.currentChapter;
       this.currentChapter = curChapter;
@@ -726,13 +729,20 @@ export default class DlfMediaPlayer extends HTMLElement {
         return;
       }
 
+      /** @type {string[]} */
+      let fileIds = [];
+      const attrFileIds = el.getAttribute('fileids');
+      if (attrFileIds !== null) {
+        fileIds = attrFileIds.split(',');
+      }
+
       let pageNo = null;
       const attrPageNo = el.getAttribute('pageNo');
       if (attrPageNo !== null) {
         pageNo = parseInt(attrPageNo, 10);
       }
 
-      chapters.push({ title, timecode, pageNo });
+      chapters.push({ title, timecode, fileIds, pageNo });
     });
 
     this.setChapters(new Chapters(chapters));
@@ -742,13 +752,31 @@ export default class DlfMediaPlayer extends HTMLElement {
     return this.chapters_;
   }
 
+  get chaptersInSource() {
+    return this.chapters_.filter(ch => this.isChapterInSource(ch));
+  }
+
+  /**
+   *
+   * @param {dlf.media.Chapter} chapter
+   */
+  isChapterInSource(chapter) {
+    return (
+      this.currentSource === null
+      || this.currentSource.fileId === null
+      || chapter.fileIds.includes(this.currentSource.fileId)
+    );
+  }
+
   /**
    *
    * @param {Chapters} chapters
    */
   setChapters(chapters) {
     this.chapters_ = chapters;
-    this.frontend.updateMediaProperties({ chapters });
+    this.frontend.updateMediaProperties({
+      chapters: this.chaptersInSource,
+    });
   }
 
   loaded() {
@@ -773,7 +801,7 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @returns {dlf.media.Chapter | undefined}
    */
   timeToChapter(timecode) {
-    return this.chapters_.timeToChapter(timecode);
+    return this.chaptersInSource.timeToChapter(timecode);
   }
 
   /**
@@ -865,15 +893,40 @@ export default class DlfMediaPlayer extends HTMLElement {
    * Seek to the specified {@link position} and mark this as a manual seek.
    *
    * @param {number | dlf.media.Chapter} position Timecode (in seconds) or chapter
+   * @returns {boolean} Whether or not seeking has been possible
    */
   seekTo(position) {
     if (typeof position === 'number') {
-      this.video.currentTime = position;
+      this.seekToTime(position);
+      return true;
     } else if (typeof position.timecode === 'number') {
-      this.video.currentTime = position.timecode;
+      return this.seekToChapter(position);
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   *
+   * @param {number} timecode
+   */
+  seekToTime(timecode) {
+    this.video.currentTime = timecode;
+    this.frontend.afterManualSeek();
+  }
+
+  /**
+   *
+   * @param {dlf.media.Chapter} chapter
+   * @returns {boolean} Whether or not seeking to the chapter has been possible
+   */
+  seekToChapter(chapter) {
+    if (this.isChapterInSource(chapter)) {
+      this.seekToTime(chapter.timecode);
+      return true;
     }
 
-    this.frontend.afterManualSeek();
+    return false;
   }
 
   /**
@@ -892,7 +945,7 @@ export default class DlfMediaPlayer extends HTMLElement {
    */
   prevChapter() {
     const tolerance = this.constants.prevChapterTolerance;
-    const prev = this.chapters_.timeToChapter(this.video.currentTime - tolerance);
+    const prev = this.timeToChapter(this.video.currentTime - tolerance);
     this.seekTo(prev ?? 0);
   }
 
@@ -903,7 +956,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   nextChapter() {
     const cur = this.getCurrentChapter();
     if (cur) {
-      const next = this.chapters_.advance(cur, +1);
+      const next = this.chaptersInSource.advance(cur, +1);
 
       if (next) {
         this.seekTo(next);

@@ -35,12 +35,14 @@ namespace dlf {
     type Chapter = {
       title: string;
       timecode: number;
+      fileIds: string[];
       pageNo: number | null;
     };
 
     type Source = {
       mimeType: string;
       url: string;
+      fileId: string | null;
       frameRate: number | null;
     };
 

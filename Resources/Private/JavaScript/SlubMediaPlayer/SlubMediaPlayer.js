@@ -3,7 +3,7 @@
 import { setElementClass } from '../lib/util';
 import { Keybindings$find } from '../lib/Keyboard';
 import typoConstants from '../lib/typoConstants';
-import { action, DlfMediaPlayer } from '../DlfMediaPlayer';
+import { action, Chapters, DlfMediaPlayer } from '../DlfMediaPlayer';
 import ShakaFrontend from '../DlfMediaPlayer/frontend/ShakaFrontend';
 
 import Modals from './lib/Modals';
@@ -225,19 +225,22 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       if (Number.isFinite(timecode)) {
         return {
           timecode,
+          fileIds: [],
           title: '',
           pageNo: null,
         };
       }
     }
 
-    // Attempt: Parse timecode hash in URL ("#timecode=120")
-    const timecodeMatch = link.hash.match(/timecode=(\d+(?:\.\d?)?)/);
+    // Attempt: Parse timecode hash in URL ("#timecode=120;fileId=FILE_0000_DEFAULT_MPD,FILE_0000_DEFAULT_HLS")
+    const timecodeMatch = link.hash.match(/timecode=(\d+(?:\.\d?)?)(?:;fileIds=([a-zA-Z0-9_,]+))?/);
     if (timecodeMatch !== null) {
       const timecode = Number(timecodeMatch[1]);
       if (Number.isFinite(timecode)) {
+        const fileIdsJoin = timecodeMatch[2];
         return {
           timecode,
+          fileIds: fileIdsJoin === undefined ? [] : fileIdsJoin.split(','),
           title: '',
           pageNo: null,
         };
@@ -275,8 +278,13 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
           ?? this.chapters.at(pageNo - 1)
         );
 
-        if (chapter !== undefined) {
-          this.seekTo(chapter);
+        const couldSeekLocally = (
+          chapter !== undefined
+          && this.seekToChapter(chapter)
+        );
+
+        if (!couldSeekLocally) {
+          this.pageSelect?.form?.submit();
         }
       };
     }
@@ -390,14 +398,16 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    * @param {MouseEvent} e
    */
   onClickChapterLink(e) {
-    e.preventDefault();
-
     // Use `currentTarget` to get the <a> element to which the handler has
     // been attached.
     const target = /** @type {ChapterLinkElement} */(e.currentTarget);
 
-    this.media.play();
-    this.seekTo(target.dlfVideoLink);
+    if (this.seekToChapter(target.dlfVideoLink)) {
+      e.preventDefault();
+      this.media.play();
+    } else {
+      // Otherwise, follow the link
+    }
   }
 
   /**
@@ -422,7 +432,8 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
         continue;
       }
 
-      setElementClass(link.parentElement, 'current', link.dlfVideoLink.timecode === chapter?.timecode);
+      setElementClass(link.parentElement, 'current',
+        Chapters.isEqual(link.dlfVideoLink, chapter));
     }
   }
 
