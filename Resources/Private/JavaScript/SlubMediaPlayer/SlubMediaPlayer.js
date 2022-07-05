@@ -15,7 +15,9 @@ import keybindings from './keybindings.json';
  * @typedef {'player' | 'modal' | 'input'} KeyboardScope Currently active
  * target/scope for mapping keybindings.
  *
- * @typedef {HTMLElement & { dlfTimecode: number }} ChapterLink
+ * @typedef {dlf.media.Chapter} ChapterLink
+ *
+ * @typedef {HTMLElement & { dlfVideoLink: ChapterLink }} ChapterLinkElement
  *
  * @typedef {{
  *  help: HelpModal;
@@ -46,7 +48,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       onCloseModal: this.onCloseModal.bind(this),
     };
 
-    /** @private @type {ChapterLink[]} */
+    /** @private @type {ChapterLinkElement[]} */
     this.chapterLinks = [];
 
     /** @private @type {HTMLSelectElement | null} */
@@ -208,29 +210,37 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
   }
 
   /**
-   * Extracts timecode to jump to when clicking on {@link link}, or `null` if
-   * none could be determined.
+   * Extracts chapter to jump to when clicking on {@link link},
+   * or `null` if none could be determined.
    *
    * @private
    * @param {HTMLAnchorElement} link
-   * @returns {number | null}
+   * @returns {ChapterLink | null}
    */
-  getLinkTimecode(link) {
+  getChapterLink(link) {
     // Attempt: Parse data-timecode attribute
     const timecodeAttr = link.getAttribute("data-timecode");
     if (timecodeAttr !== null) {
       const timecode = Number(timecodeAttr);
       if (Number.isFinite(timecode)) {
-        return timecode;
+        return {
+          timecode,
+          title: '',
+          pageNo: null,
+        };
       }
     }
 
     // Attempt: Parse timecode hash in URL ("#timecode=120")
-    const timecodeMatch = link.hash.match(/timecode=(\d+(\.\d?)?)/);
+    const timecodeMatch = link.hash.match(/timecode=(\d+(?:\.\d?)?)/);
     if (timecodeMatch !== null) {
       const timecode = Number(timecodeMatch[1]);
       if (Number.isFinite(timecode)) {
-        return timecode;
+        return {
+          timecode,
+          title: '',
+          pageNo: null,
+        };
       }
     }
 
@@ -245,10 +255,10 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     document.querySelectorAll("a[data-timecode], .tx-dlf-tableofcontents a, .tx-dlf-toc a").forEach(el => {
       const link = /** @type {HTMLAnchorElement} */(el);
-      const timecode = this.getLinkTimecode(link);
-      if (timecode !== null) {
-        const dlfEl = /** @type {ChapterLink} */(el);
-        dlfEl.dlfTimecode = timecode;
+      const videoLink = this.getChapterLink(link);
+      if (videoLink !== null) {
+        const dlfEl = /** @type {ChapterLinkElement} */(el);
+        dlfEl.dlfVideoLink = videoLink;
         dlfEl.addEventListener('click', this.handlers.onClickChapterLink);
         this.chapterLinks.push(dlfEl);
       }
@@ -384,10 +394,10 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     // Use `currentTarget` to get the <a> element to which the handler has
     // been attached.
-    const target = /** @type {ChapterLink} */(e.currentTarget);
+    const target = /** @type {ChapterLinkElement} */(e.currentTarget);
 
     this.media.play();
-    this.seekTo(target.dlfTimecode);
+    this.seekTo(target.dlfVideoLink);
   }
 
   /**
@@ -412,7 +422,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
         continue;
       }
 
-      setElementClass(link.parentElement, 'current', link.dlfTimecode === chapter?.timecode);
+      setElementClass(link.parentElement, 'current', link.dlfVideoLink.timecode === chapter?.timecode);
     }
   }
 
