@@ -35,6 +35,7 @@ namespace dlf {
     type Chapter = {
       title: string;
       timecode: number;
+      pageNo: number | null;
     };
 
     type Source = {

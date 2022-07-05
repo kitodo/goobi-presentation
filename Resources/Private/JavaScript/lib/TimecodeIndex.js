@@ -123,6 +123,15 @@ export default class TimecodeIndex {
   }
 
   /**
+   *
+   * @param {(element: T) => boolean} predicate
+   * @returns {T | undefined}
+   */
+  find(predicate) {
+    return this.elements.find(predicate);
+  }
+
+  /**
    * Iterates through the elements (ordered by timecode).
    *
    * @returns {IterableIterator<T>}

@@ -258,7 +258,13 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
     if (pageSelect instanceof HTMLSelectElement) {
       this.pageSelect = pageSelect;
       this.pageSelect.onchange = (e) => {
-        const chapter = this.chapters.at(Number(pageSelect.value) - 1);
+        const pageNo = Number(pageSelect.value);
+
+        const chapter = (
+          this.chapters.find(ch => ch.pageNo === pageNo)
+          ?? this.chapters.at(pageNo - 1)
+        );
+
         if (chapter !== undefined) {
           this.seekTo(chapter);
         }
@@ -389,10 +395,15 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    * @param {dlf.media.ChapterChangeEvent} event
    */
   onChapterChanged(event) {
-    if (this.pageSelect != null && event.detail.curChapter !== null) {
-      const chapterIdx = this.chapters.indexOf(event.detail.curChapter);
-      if (chapterIdx !== undefined) {
-        this.pageSelect.value = (chapterIdx + 1).toString();
+    const chapter = event.detail.curChapter;
+    if (this.pageSelect != null && chapter !== null) {
+      if (chapter.pageNo !== null) {
+        this.pageSelect.value = chapter.pageNo.toString();
+      } else {
+        const chapterIdx = this.chapters.indexOf(chapter);
+        if (chapterIdx !== undefined) {
+          this.pageSelect.value = (chapterIdx + 1).toString();
+        }
       }
     }
 
@@ -401,7 +412,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
         continue;
       }
 
-      setElementClass(link.parentElement, 'current', link.dlfTimecode === event.detail.curChapter?.timecode);
+      setElementClass(link.parentElement, 'current', link.dlfTimecode === chapter?.timecode);
     }
   }
 

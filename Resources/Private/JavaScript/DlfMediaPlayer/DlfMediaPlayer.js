@@ -726,7 +726,13 @@ export default class DlfMediaPlayer extends HTMLElement {
         return;
       }
 
-      chapters.push({ title, timecode });
+      let pageNo = null;
+      const attrPageNo = el.getAttribute('pageNo');
+      if (attrPageNo !== null) {
+        pageNo = parseInt(attrPageNo, 10);
+      }
+
+      chapters.push({ title, timecode, pageNo });
     });
 
     this.setChapters(new Chapters(chapters));
