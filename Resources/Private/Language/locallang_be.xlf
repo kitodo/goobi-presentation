@@ -275,6 +275,9 @@
 			<trans-unit id="plugins.tableofcontents.description">
 				<source><![CDATA[Table of Contents Plugin for Kitodo.Presentation]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.tableofcontents.flexform.showFull">
+				<source><![CDATA[Show complete TOC]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.tableofcontents.title">
 				<source><![CDATA[Kitodo: Table of Contents]]></source>
 			</trans-unit>
