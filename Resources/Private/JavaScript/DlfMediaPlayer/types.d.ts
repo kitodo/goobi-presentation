@@ -150,6 +150,10 @@ namespace dlf {
       afterManualSeek();
     }
 
+    interface UrlGenerator {
+      generateUrl(timecodeOrRange: number | TimeRange | null): URL;
+    }
+
     /**
      * Signals that the current chapter has changed.
      *

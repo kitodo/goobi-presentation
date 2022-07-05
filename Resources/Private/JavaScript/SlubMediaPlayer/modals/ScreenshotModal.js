@@ -15,6 +15,7 @@ import SimpleModal from '../lib/SimpleModal';
 import { getKeybindingText } from '../lib/trans';
 import { drawScreenshot } from '../Screenshot';
 import typoConstants from '../../lib/typoConstants';
+import UrlGenerator from '../lib/UrlGenerator';
 
 /**
  * @typedef {{
@@ -59,6 +60,8 @@ export default class ScreenshotModal extends SimpleModal {
 
     /** @private */
     this.env = env;
+    /** @private */
+    this.gen = new UrlGenerator(env);
     /** @private @type {HTMLVideoElement | null} */
     this.videoDomElement = null;
     /** @private */
@@ -235,7 +238,7 @@ export default class ScreenshotModal extends SimpleModal {
     };
 
     if (showMetadata) {
-      const extendedMetadata = makeExtendedMetadata(this.env, metadata ?? {}, timecode, fps);
+      const extendedMetadata = makeExtendedMetadata(this.gen, metadata ?? {}, timecode, fps);
       config.captions = this.getCaptions(extendedMetadata);
     }
 
@@ -255,7 +258,7 @@ export default class ScreenshotModal extends SimpleModal {
       return false;
     }
 
-    const extendedMetadata = makeExtendedMetadata(this.env, metadata, timecode, fps);
+    const extendedMetadata = makeExtendedMetadata(this.gen, metadata, timecode, fps);
 
     const image = await this.makeImageBlob(
       this.$canvas, selectedImageFormat, extendedMetadata);

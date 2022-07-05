@@ -4,10 +4,10 @@ import QRCode from 'qrcode';
 
 import { e, filterNonNull, setElementClass } from '../../lib/util';
 import { buildTimeString } from '../../DlfMediaPlayer';
-import { generateTimerangeUrl } from '../lib/generateTimecodeUrl';
 import SimpleModal from '../lib/SimpleModal';
 import { createShareButton } from '../lib/ShareButton';
 import { makeExtendedMetadata } from '../lib/metadata';
+import UrlGenerator from '../lib/UrlGenerator';
 
 /**
  * The order is used for GUI rendering.
@@ -68,6 +68,9 @@ export default class BookmarkModal extends SimpleModal {
 
     /** @private */
     this.env = env;
+
+    /** @private */
+    this.gen = new UrlGenerator(this.env);
 
     this.$main.classList.add('bookmark-modal');
     this.$title.innerText = this.env.t('modal.bookmark.title');
@@ -209,7 +212,7 @@ export default class BookmarkModal extends SimpleModal {
    */
   generateUrl(state) {
     const timerange = this.getActiveTimeRange(state);
-    return generateTimerangeUrl(timerange, this.env).toString();
+    return this.gen.generateTimerangeUrl(timerange).toString();
   }
 
   /**
@@ -250,7 +253,7 @@ export default class BookmarkModal extends SimpleModal {
     const { show, metadata, timing, fps, startAtMode, showQrCode } = state;
 
     const timerange = this.getActiveTimeRange(state);
-    const extendedMetadata = makeExtendedMetadata(this.env, metadata, timerange, fps);
+    const extendedMetadata = makeExtendedMetadata(this.gen, metadata, timerange, fps);
 
     const url = extendedMetadata['url']?.[0] ?? '';
     const urlChanged = url !== this.lastRenderedUrl;

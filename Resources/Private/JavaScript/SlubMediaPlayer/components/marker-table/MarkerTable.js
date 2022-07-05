@@ -14,9 +14,9 @@ import {
   DlfMediaPlayer,
   DlfMediaPlugin,
 } from '../../../DlfMediaPlayer';
-import { generateTimerangeUrl } from '../../lib/generateTimecodeUrl';
 import { getKeybindingText } from '../../lib/trans';
 import SlubMediaPlayer from '../../SlubMediaPlayer';
+import UrlGenerator from '../../lib/UrlGenerator';
 
 /**
  * @typedef {{
@@ -239,6 +239,7 @@ export default class MarkerTable extends DlfMediaPlugin {
    */
   onDownloadCsv(event) {
     event.preventDefault();
+    const gen = new UrlGenerator(this.env);
     const csvText = arrayToCsv([
       ["ID", "Label", "Start [s]", "End [s]", "URL"],
       ...Object.values(this.rows).map(row => [
@@ -246,7 +247,7 @@ export default class MarkerTable extends DlfMediaPlugin {
         row.segment.labelText,
         row.segment.startTime.toString(),
         row.segment.endTime?.toString() ?? '',
-        generateTimerangeUrl(row.segment.toTimeRange(), this.env).toString(),
+        gen.generateTimerangeUrl(row.segment.toTimeRange()).toString(),
       ])
     ]);
     const csv = new Blob([csvText], { type: 'text/csv' });

@@ -2,7 +2,6 @@
 
 import { getTimeStringPlaceholders } from '../../DlfMediaPlayer';
 import { fillPlaceholders } from '../../lib/util';
-import { generateTimecodeUrl, generateTimerangeUrl } from './generateTimecodeUrl';
 
 /**
  *
@@ -20,16 +19,14 @@ export function fillMetadata(template, metadata) {
 
 /**
  *
- * @param {Browser} env
+ * @param {dlf.media.UrlGenerator} gen
  * @param {MetadataArray} metadata
  * @param {number | dlf.media.TimeRange | null} timecode
  * @param {number | null} fps
  * @returns {MetadataArray}
  */
-export function makeExtendedMetadata(env, metadata, timecode, fps) {
-  const url = typeof timecode === 'number'
-    ? generateTimecodeUrl(timecode, env)
-    : generateTimerangeUrl(timecode, env);
+export function makeExtendedMetadata(gen, metadata, timecode, fps) {
+  const url = gen.generateUrl(timecode);
 
   /** @type {MetadataArray} */
   const result = {
