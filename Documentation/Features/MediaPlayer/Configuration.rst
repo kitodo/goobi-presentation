@@ -46,6 +46,11 @@ These may contain placeholders that substitute timecode or metadata information.
      :Description:
          Hours, minutes, seconds, frames elapsed (two-digit, leading zero)
 
+   - :Placeholder:
+         ``{00}``, ``{000}``
+     :Description:
+         Fractional part of seconds elapsed (two or three digit, leading zeros)
+
 Commented Example
 =================
 

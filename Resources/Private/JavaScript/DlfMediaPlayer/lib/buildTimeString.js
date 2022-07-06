@@ -24,6 +24,8 @@ export default function buildTimeString(totalSeconds, showHour, fps = null) {
     if (!showHour) {
       template += "f";
     }
+  } else {
+    template += ".{00}";
   }
 
   return fillPlaceholders(template, getTimeStringPlaceholders(totalSeconds, fps));
@@ -44,6 +46,8 @@ export function getTimeStringPlaceholders(totalSeconds, fps = null) {
     mm: zeroPad(parts.minutes, 2),
     ss: zeroPad(parts.seconds, 2),
     ff: zeroPad(parts.frames, 2),
+    '00': zeroPad(Math.floor(parts.fractional * 100), 2),
+    '000': zeroPad(Math.floor(parts.fractional * 1000), 3),
   };
 }
 
@@ -51,14 +55,15 @@ export function getTimeStringPlaceholders(totalSeconds, fps = null) {
  *
  * @param {number} totalSeconds
  * @param {number} fps
- * @returns {Record<'hours' | 'minutes' | 'totalMinutes' | 'seconds' | 'frames', number>}
+ * @returns {Record<'hours' | 'minutes' | 'totalMinutes' | 'seconds' | 'fractional' | 'frames', number>}
  */
 export function getTimeStringParts(totalSeconds, fps = 0) {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds / 60) % 60);
   const totalMinutes = hours * 60 + minutes;
   const seconds = Math.floor(totalSeconds % 60);
-  const frames = Math.floor((totalSeconds % 1) * fps);
+  const fractional = totalSeconds % 1;
+  const frames = Math.floor(fractional * fps);
 
-  return { hours, minutes, totalMinutes, seconds, frames };
+  return { hours, minutes, totalMinutes, seconds, fractional, frames };
 }
