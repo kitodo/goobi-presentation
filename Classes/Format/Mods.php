@@ -75,6 +75,7 @@ class Mods implements MetadataInterface
         $this->getHolders();
         $this->getPlaces();
         $this->getProdPlaces();
+        $this->getNamePersonal();
         $this->getYears();
 
         $metadata = $this->metadata;
@@ -352,6 +353,34 @@ class Mods implements MetadataInterface
             }
 
             $metadata['production_place'][] = $prodPlaceMd;
+        }
+    }
+
+    // allocated Function from @dvoracek
+    /**
+     * Get MODS personal names to allow linking valueURI
+     *
+     * @access private
+     *
+     * @return void
+     */
+    private function getNamePersonal(): void
+    {
+        $namePersonal = $this->xml->xpath('./mods:name[@type="personal"]');
+        foreach ($namePersonal as $person) {
+            $roleCode = (string) $person->xpath('./mods:role/mods:roleTerm[@type="code" and @authority="marcrelator"]')[0];
+            if (empty($roleCode)) {
+                continue;
+            }
+
+            $personMd = implode(chr(31), [
+                (string) $person->xpath('./mods:displayForm')[0],
+                (string) $person['valueURI'],
+                (string) $person->xpath('./mods:role/mods:roleTerm[@type="text"]')[0],
+                $roleCode,
+            ]);
+
+            $metadata['name_personal_' . $roleCode][] = $personMd;
         }
     }
 
