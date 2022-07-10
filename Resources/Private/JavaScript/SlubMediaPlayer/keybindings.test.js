@@ -19,7 +19,7 @@ describe('format translated key description', () => {
       'key.ArrowRight': "Arrow Right",
       'key.generic': "Key {key}",
       'key.generic.mod': "{key}",
-      'key.mod.Shift': "Shift",
+      'key.mod.ibm.Shift': "Shift",
       'key.repeat': "{key} (repeat)",
       'key.unto': " to ",
       'key.unto.mod': "-",

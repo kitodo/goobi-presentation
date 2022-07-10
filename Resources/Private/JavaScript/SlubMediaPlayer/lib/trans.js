@@ -25,23 +25,30 @@ export function getKeyText(env, key, mod) {
 /**
  * Returns a translated DOM element describing keybinding {@link kb}.
  *
- * @param {Translator} env
+ * @param {Translator & Browser} env
  * @param {Keybinding<any, any>} kb
  * @returns {HTMLElement}
  */
 export function getKeybindingText(env, kb) {
   const keyRanges = Keybinding$splitKeyRanges(kb.keys);
   const rangeTexts = [];
-  const mod = kb.mod !== undefined || keyRanges.length > 1;
-  const untoText = env.t(`key.unto${mod ? '.mod' : ''}`);
+  const mods = [];
+  if (kb.mod !== undefined) {
+    mods.push(kb.mod);
+  }
+  if (kb.mod !== 'Shift' && kb.keys.every(c => /^[A-Z]$/.test(c))) {
+    mods.push('Shift');
+  }
+  const hasMod = mods.length > 0 || keyRanges.length > 1;
+  const untoText = env.t(`key.unto${hasMod ? '.mod' : ''}`);
 
   for (const range of keyRanges) {
-    const beginText = e("kbd", {}, [getKeyText(env, range.begin, mod)]);
+    const beginText = e("kbd", {}, [getKeyText(env, range.begin, hasMod)]);
 
     if (range.begin === range.end) {
       rangeTexts.push(beginText);
     } else {
-      const endText = e("kbd", {}, [getKeyText(env, range.end, mod)]);
+      const endText = e("kbd", {}, [getKeyText(env, range.end, hasMod)]);
 
       rangeTexts.push(
         e("span", { className: "kb-range" }, [beginText, untoText, endText])
@@ -49,11 +56,15 @@ export function getKeybindingText(env, kb) {
     }
   }
 
-  let text;
+  let text = [];
 
-  if (kb.mod) {
-    const modifierText = e("kbd", {}, [env.t(`key.mod.${kb.mod}`)]);
-    text = [modifierText, " + ", ...domJoin(rangeTexts, "/")];
+  if (mods.length > 0) {
+    const keyboard = env.getKeyboardVariant();
+    for (const mod of mods) {
+      const modifierText = e("kbd", {}, [env.t(`key.mod.${keyboard}.${mod}`)]);
+      text.push(modifierText, " + ");
+    }
+    text.push(...domJoin(rangeTexts, "/"));
   } else {
     text = domJoin(rangeTexts, " / ");
   }

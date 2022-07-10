@@ -212,11 +212,26 @@
 			<trans-unit id="key.Shift">
 				<source><![CDATA[⇧ Shift]]></source>
 			</trans-unit>
-			<trans-unit id="key.mod.CtrlMeta">
+			<trans-unit id="key.mod.ibm.Ctrl">
 				<source><![CDATA[Ctrl]]></source>
 			</trans-unit>
-			<trans-unit id="key.mod.Shift">
+			<trans-unit id="key.mod.mac.Ctrl">
+				<source><![CDATA[⌃ Control]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Meta">
+				<source><![CDATA[⌘ Command]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.ibm.Shift">
 				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Shift">
+				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.ibm.Alt">
+				<source><![CDATA[Alt]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Alt">
+				<source><![CDATA[⌥ Option]]></source>
 			</trans-unit>
 			<trans-unit id="key.repeat">
 				<source><![CDATA[(hold) {key}]]></source>

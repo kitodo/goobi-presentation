@@ -366,7 +366,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    */
   handleKey(e, mode) {
     const curKbScope = this.getKeyboardScope();
-    const result = Keybindings$find(this.keybindings, e, curKbScope);
+    const result = Keybindings$find(this.env, this.keybindings, e, curKbScope);
 
     if (result) {
       const { keybinding, keyIndex } = result;

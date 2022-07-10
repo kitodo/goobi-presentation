@@ -90,6 +90,14 @@ export default class Environment {
 
   /**
    * @inheritdoc
+   * @return {'ibm' | 'mac'}
+   */
+  getKeyboardVariant() {
+    return navigator.userAgent.includes('Mac') ? 'mac' : 'ibm';
+  }
+
+  /**
+   * @inheritdoc
    * @returns {boolean}
    */
   isInFullScreen() {

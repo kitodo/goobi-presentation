@@ -8,9 +8,9 @@ describe('modifiersFromEvent', () => {
   const mfe = (/** @type {any} */ e) => modifiersFromEvent(e);
 
   test('basic', () => {
-    expect(mfe({ ctrlKey: true })).toBe(Modifier.CtrlMeta);
-    expect(mfe({ metaKey: true })).toBe(Modifier.CtrlMeta);
-    expect(mfe({ ctrlKey: true, metaKey: true })).toBe(Modifier.CtrlMeta);
+    expect(mfe({ ctrlKey: true })).toBe(Modifier.Ctrl);
+    expect(mfe({ metaKey: true })).toBe(Modifier.Meta);
+    expect(mfe({ ctrlKey: true, metaKey: true })).toBe(Modifier.Ctrl | Modifier.Meta);
     expect(mfe({ shiftKey: true })).toBe(Modifier.Shift);
     expect(mfe({ altKey: true })).toBe(Modifier.Alt);
     expect(mfe({ shiftKey: true, altKey: true }))
@@ -19,8 +19,8 @@ describe('modifiersFromEvent', () => {
 
   test('does not modify a modifier key with itself', () => {
     expect(mfe({ ctrlKey: true, key: 'Control' })).toBe(0);
-    expect(mfe({ ctrlKey: true, key: 'Meta' })).toBe(Modifier.CtrlMeta);
-    expect(mfe({ metaKey: true, key: 'Control' })).toBe(Modifier.CtrlMeta);
+    expect(mfe({ ctrlKey: true, key: 'Meta' })).toBe(Modifier.Ctrl);
+    expect(mfe({ metaKey: true, key: 'Control' })).toBe(Modifier.Meta);
     expect(mfe({ metaKey: true, key: 'Meta' })).toBe(0);
 
     expect(mfe({ shiftKey: true, key: 'a' })).toBe(Modifier.Shift);

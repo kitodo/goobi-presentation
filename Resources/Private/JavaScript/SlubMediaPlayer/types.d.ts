@@ -56,11 +56,16 @@ type AppConfig = {
 
 type Keybinding<ScopeT extends string, ActionT extends string> = {
   /**
+   * Which keyboard variant this applies to.
+   */
+  keyboard?: 'ibm' | 'mac' | null;
+
+  /**
    * Modifier to be pressed.
    *
    * See definition of `const Modifier`.
    */
-  mod?: "None" | "CtrlMeta" | "Shift" | "Alt";
+  mod?: "None" | "Ctrl" | "Shift" | "Alt" | "Meta";
 
   /**
    * Names of the key or keys to be bound.

@@ -24,10 +24,13 @@ import { getKeybindingText } from '../lib/trans';
  * Groups list of keybindings by overall group (used to split by tables)
  * and action.
  *
+ * @param {Browser} env
  * @param {ShownKeybinding[]} keybindings
  * @returns {KeybindingGroups}
  */
-function groupKeybindings(keybindings) {
+function groupKeybindings(env, keybindings) {
+  const keyboard = env.getKeyboardVariant();
+
   // Prepopulate to determine an order
   /** @type {KeybindingGroups} */
   const result = {
@@ -41,6 +44,10 @@ function groupKeybindings(keybindings) {
   keybindingsSorted.sort((a, b) => a.order - b.order);
 
   for (const kb of keybindingsSorted) {
+    if (kb.keyboard != null && kb.keyboard !== keyboard) {
+      continue;
+    }
+
     let kind = result[kb.kind];
     if (!kind) {
       kind = result[kb.kind] = {};
@@ -64,7 +71,7 @@ export default class HelpModal extends SimpleModal {
   /**
    *
    * @param {HTMLElement} parent
-   * @param {Translator} env
+   * @param {Translator & Browser} env
    * @param {object} config
    * @param {Record<string, string | number>} config.constants
    * @param {ShownKeybinding[]} config.keybindings
@@ -106,7 +113,7 @@ export default class HelpModal extends SimpleModal {
 
     const $table = e("table", { className: "keybindings-table" });
 
-    const allKbGrouped = groupKeybindings(this.config.keybindings);
+    const allKbGrouped = groupKeybindings(env, this.config.keybindings);
     for (const [kind, kbGrouped] of Object.entries(allKbGrouped)) {
       const keybindings = [...Object.entries(kbGrouped)];
       if (keybindings.length === 0) {

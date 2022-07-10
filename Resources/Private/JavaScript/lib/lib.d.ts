@@ -64,6 +64,11 @@ interface Browser {
   supportsVideoMime(mimeType: string): boolean;
 
   /**
+   * Checks whether a Mac keyboard should be assumed (has Cmd and Option keys).
+   */
+  getKeyboardVariant(): 'ibm' | 'mac';
+
+  /**
    * Checks whether the browser is in full screen.
    */
   isInFullScreen(): boolean;

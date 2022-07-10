@@ -7,9 +7,10 @@
  */
 export const Modifier = {
   None: 0,
-  CtrlMeta: 1,
+  Ctrl: 1,
   Shift: 2,
   Alt: 4,
+  Meta: 8,
 };
 
 /**
@@ -20,8 +21,12 @@ export const Modifier = {
 export function modifiersFromEvent(e) {
   let mod = Modifier.None;
 
-  if ((e.ctrlKey && e.key !== 'Control') || (e.metaKey && e.key !== 'Meta')) {
-    mod |= Modifier.CtrlMeta;
+  if (e.ctrlKey && e.key !== 'Control') {
+    mod |= Modifier.Ctrl;
+  }
+
+  if (e.metaKey && e.key !== 'Meta') {
+    mod |= Modifier.Meta;
   }
 
   if (e.shiftKey && e.key !== 'Shift') {
@@ -37,21 +42,47 @@ export function modifiersFromEvent(e) {
 
 /**
  *
+ * @param {Browser} env
+ * @param {KeyboardEvent['key']} key Key from keyboard event
+ * @param {number} mod
+ */
+export function normalizeModifiers(env, key, mod) {
+  let res = mod;
+
+  if (key.length === 1) {
+    // In this case, we assume `key` represents a regular printable character
+    // (as opposed to modifiers, function keys etc.)
+    //
+    // Then, second assumption, Shift and Option have already made a difference,
+    // so we don't need to check for them separately.
+    // (That may not be fully true, but close enough.)
+
+    res &= ~Modifier.Shift;
+
+    if (env.getKeyboardVariant() === 'mac') {
+      res &= ~Modifier.Alt;
+    }
+  }
+
+  return res;
+}
+
+/**
+ *
  * @template {string} ScopeT
  * @template {string} ActionT
+ * @param {Browser} env
  * @param {Keybinding<ScopeT, ActionT>[]} keybindings
  * @param {KeyboardEvent} e
  * @param {ScopeT} currentScope
  * @returns {{ keybinding: Keybinding<ScopeT, ActionT>, keyIndex: number } | undefined}
  */
-export function Keybindings$find(keybindings, e, currentScope) {
+export function Keybindings$find(env, keybindings, e, currentScope) {
   const mod = modifiersFromEvent(e);
-
-  // Ignore casing, e.g. for `S` vs. `Shift + S`.
-  const key = e.key.toLowerCase();
+  const keyboard = env.getKeyboardVariant();
 
   for (const kb of keybindings) {
-    const keyIndex = kb.keys.findIndex(k => k.toLowerCase() === key);
+    const keyIndex = kb.keys.findIndex(k => k === e.key);
     if (keyIndex === -1) {
       continue;
     }
@@ -59,7 +90,8 @@ export function Keybindings$find(keybindings, e, currentScope) {
     const isSuitable = (
       (kb.repeat == null || kb.repeat === e.repeat)
       && (kb.scope == null || kb.scope === currentScope)
-      && Modifier[kb.mod ?? 'None'] === mod
+      && normalizeModifiers(env, e.key, Modifier[kb.mod ?? 'None']) === normalizeModifiers(env, e.key, mod)
+      && (kb.keyboard == null || kb.keyboard === keyboard)
     );
 
     if (isSuitable) {

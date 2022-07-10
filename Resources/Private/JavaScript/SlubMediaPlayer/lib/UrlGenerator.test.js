@@ -18,6 +18,7 @@ describe('UrlGenerator', () => {
       supportsMediaSource: () => false,
       supportsCanvasExport: () => false,
       supportsVideoMime: () => false,
+      getKeyboardVariant: () => 'ibm',
       isInFullScreen: () => false,
       toggleFullScreen: () => { },
     };
