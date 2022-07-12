@@ -92,6 +92,30 @@ dlf-media {
     }
 }
 
+.dlf-playrate-slider {
+    background: #ccc;
+
+    margin-top: 8px;
+    margin-bottom: 10px;
+
+    input {
+        &:focus {
+            outline: none;
+            border: 0;
+        }
+
+        &:-moz-focus-outer {
+            outline: none;
+            border: 0;
+        }
+
+        &::-webkit-slider-thumb,
+        &::-moz-range-thumb {
+            background: black !important;
+        }
+    }
+}
+
 body {
     .shaka-video-container {
         touch-action: none !important;

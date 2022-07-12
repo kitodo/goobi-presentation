@@ -9,6 +9,7 @@ import {
   ControlPanelButton,
   FlatSeekBar,
   FullScreenButton,
+  PlaybackRateSelection,
   PresentationTimeTracker,
   VideoTrackSelection
 } from '../controls';
@@ -350,7 +351,7 @@ export default class ShakaFrontend {
       overflowMenuButtons: [
         'language',
         VideoTrackSelection.register(this.env),
-        'playback_rate',
+        PlaybackRateSelection.register(this.env),
         'loop',
         'quality',
         'picture_in_picture',
