@@ -6,6 +6,7 @@ import VideoFrame from './3rd-party/VideoFrame';
 
 import { action } from './lib/action';
 import Environment from '../lib/Environment';
+import EventManager from '../lib/EventManager';
 import { clamp, e } from '../lib/util';
 import ShakaFrontend from './frontend/ShakaFrontend';
 import Chapters from './Chapters';
@@ -34,6 +35,9 @@ export default class DlfMediaPlayer extends HTMLElement {
 
     /** @protected */
     this.env = new Environment();
+
+    /** @protected */
+    this.eventMgr_ = new EventManager();
 
     /**
      * @protected
@@ -94,13 +98,16 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.markers_ = new Markers();
 
     /** @private @type {dlf.media.PlayerFrontend} */
-    this.frontend = new ShakaFrontend(this.env, this.player, this.video);
+    this.frontend = new ShakaFrontend(this.env, this.eventMgr_, this.player, this.video);
 
     /** @protected @type {HTMLElement | null} */
     this.playerView = null;
 
     /** @private @type {dlf.media.PlayerMode | 'auto'} */
     this.mode = 'auto';
+
+    /** @protected */
+    this.hasBeenConnected_ = false;
 
     this.__dlfRegisterEvents();
 
@@ -128,6 +135,12 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @protected
    */
   connectedCallback() {
+    if (this.hasBeenConnected_) {
+      return;
+    }
+
+    this.hasBeenConnected_ = true;
+
     const config = this.getConfig();
     this.env.setLang(config.lang);
 
@@ -158,6 +171,19 @@ export default class DlfMediaPlayer extends HTMLElement {
 
     this.appendChild(this.frontend.domElement);
     this.frontend.domElement.className += ` ${this.className}`;
+  }
+
+  /**
+   * Remove player from DOM, destroy the Shaka player instance and deregister
+   * event handlers. If wanted, this must be called manually; it is not
+   * automatically called in `disconnectedCallback`, because, for example, that
+   * is also called when the DOM node is merely moved to another container.
+   */
+  destroy() {
+    this.eventMgr_.removeAll();
+    this.player.destroy();
+    this.frontend.destroy();
+    this.remove();
   }
 
   /**
@@ -443,13 +469,15 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @private
    */
   __dlfRegisterEvents() {
-    window.addEventListener('DOMContentLoaded', this.dlf.handlers.onDomContentLoaded);
+    this.eventMgr_.record(() => {
+      window.addEventListener('DOMContentLoaded', this.dlf.handlers.onDomContentLoaded);
 
-    this.player.addEventListener('error', this.dlf.handlers.onPlayerErrorEvent);
-    this.player.addEventListener('adaptation', this.dlf.handlers.onTrackChange);
-    this.player.addEventListener('variantchanged', this.dlf.handlers.onTrackChange);
+      this.player.addEventListener('error', this.dlf.handlers.onPlayerErrorEvent);
+      this.player.addEventListener('adaptation', this.dlf.handlers.onTrackChange);
+      this.player.addEventListener('variantchanged', this.dlf.handlers.onTrackChange);
 
-    this.video.addEventListener('play', this.dlf.handlers.onPlay);
+      this.video.addEventListener('play', this.dlf.handlers.onPlay);
+    });
 
     /** @private */
     this.tickInterval = setInterval(this.dlf.handlers.onTick, 50);

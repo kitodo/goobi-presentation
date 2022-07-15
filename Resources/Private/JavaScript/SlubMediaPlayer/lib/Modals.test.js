@@ -5,12 +5,13 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
+import EventManager from '../../lib/EventManager';
 import Modals from './Modals';
 import SimpleModal from './SimpleModal';
 
 describe('Modals', () => {
   test('basic', async () => {
-    const modals = Modals({
+    const modals = Modals(new EventManager(), {
       first: new SimpleModal(document.body, {}),
       second: new SimpleModal(document.body, {}),
     });

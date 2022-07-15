@@ -1,6 +1,7 @@
 // @ts-check
 
 import EventEmitter from 'events';
+import EventManager from '../../lib/EventManager';
 
 /**
  * @template T
@@ -24,10 +25,11 @@ import EventEmitter from 'events';
  * Mixin to add modal-related utility functions to set of modals.
  *
  * @template {Record<string, Modal>} T
+ * @param {EventManager} eventMgr
  * @param {T} modals
  * @returns {ModalsType<T>}
  */
-export default function Modals(modals) {
+export default function Modals(eventMgr, modals) {
   const modalsArray = Object.values(modals);
 
   // Set DOM element that is used to cover the background of the modals. It is
@@ -86,12 +88,14 @@ export default function Modals(modals) {
   const result = Object.assign(new EventEmitter(), modals, resultFuncs);
 
   // TODO: Performance
-  window.addEventListener('resize', () => {
-    result.resize();
-  });
+  eventMgr.record(() => {
+    window.addEventListener('resize', () => {
+      result.resize();
+    });
 
-  document.addEventListener('fullscreenchange', () => {
-    result.setFullscreen(document.fullscreenElement);
+    document.addEventListener('fullscreenchange', () => {
+      result.setFullscreen(document.fullscreenElement);
+    });
   });
 
   for (const modal of modalsArray) {

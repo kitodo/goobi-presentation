@@ -118,6 +118,8 @@ namespace dlf {
     interface PlayerFrontend<
       PlayerT extends PlayerProperties = PlayerProperties
     > {
+      destroy();
+
       /**
        * Main DOM element / container of the frontend.
        */

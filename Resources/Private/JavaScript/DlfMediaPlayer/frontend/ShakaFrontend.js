@@ -3,6 +3,7 @@
 import shaka from 'shaka-player/dist/shaka-player.ui';
 import 'shaka-player/ui/controls.less';
 
+import EventManager from '../../lib/EventManager';
 import Gestures from '../../lib/Gestures';
 import { e, setElementClass } from '../../lib/util';
 import {
@@ -29,10 +30,11 @@ export default class ShakaFrontend {
   /**
    *
    * @param {Translator & Identifier} env
+   * @param {EventManager} eventMgr
    * @param {shaka.Player} player
    * @param {HTMLMediaElement} media
    */
-  constructor(env, player, media) {
+  constructor(env, eventMgr, player, media) {
     /** @private */
     this.constants = {
       minBottomControlsReadyState: 2, // Enough data for current position
@@ -40,6 +42,9 @@ export default class ShakaFrontend {
 
     /** @private */
     this.env = env;
+
+    /** @private */
+    this.eventMgr_ = eventMgr;
 
     /** @private */
     this.player = player;
@@ -126,6 +131,11 @@ export default class ShakaFrontend {
 
     this.registerEventHandlers();
     this.scheduleConfigure();
+  }
+
+  destroy() {
+    this.controls.destroy();
+    this.gestures_.deregister(this.$videoBox);
   }
 
   /**

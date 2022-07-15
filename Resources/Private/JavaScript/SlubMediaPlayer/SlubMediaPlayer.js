@@ -67,9 +67,15 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    * @override
    */
   connectedCallback() {
+    if (this.hasBeenConnected_) {
+      return;
+    }
+
     super.connectedCallback();
 
-    this.addEventListener('chapterchange', this.handlers.onChapterChanged);
+    this.eventMgr_.record(() => {
+      this.addEventListener('chapterchange', this.handlers.onChapterChanged);
+    });
 
     /** @type {Partial<AppConfig>} */
     const config = this.getConfig();
@@ -78,7 +84,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
     const constants = typoConstants(config.constants ?? {}, this.constants);
 
     if (this.playerView !== null) {
-      this.modals = Modals({
+      this.modals = Modals(this.eventMgr_, {
         help: new HelpModal(this.playerView, this.env, {
           constants: {
             ...constants,
@@ -262,7 +268,9 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       if (videoLink !== null) {
         const dlfEl = /** @type {ChapterLinkElement} */(el);
         dlfEl.dlfVideoLink = videoLink;
-        dlfEl.addEventListener('click', this.handlers.onClickChapterLink);
+        this.eventMgr_.record(() => {
+          dlfEl.addEventListener('click', this.handlers.onClickChapterLink);
+        });
         this.chapterLinks.push(dlfEl);
       }
     });
@@ -305,8 +313,10 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
   configureFrontend(config) {
     super.configureFrontend(config);
 
-    document.addEventListener('keydown', this.handlers.onKeyDown, { capture: true });
-    document.addEventListener('keyup', this.handlers.onKeyUp, { capture: true });
+    this.eventMgr_.record(() => {
+      document.addEventListener('keydown', this.handlers.onKeyDown, { capture: true });
+      document.addEventListener('keyup', this.handlers.onKeyUp, { capture: true });
+    });
   }
 
   /**
