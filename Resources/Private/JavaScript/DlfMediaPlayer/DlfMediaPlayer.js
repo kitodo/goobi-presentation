@@ -103,6 +103,9 @@ export default class DlfMediaPlayer extends HTMLElement {
     /** @protected @type {HTMLElement | null} */
     this.playerView = null;
 
+    /** @protected */
+    this.autoplay_ = false;
+
     /** @private @type {dlf.media.PlayerMode | 'auto'} */
     this.mode = 'auto';
 
@@ -143,6 +146,9 @@ export default class DlfMediaPlayer extends HTMLElement {
 
     const config = this.getConfig();
     this.env.setLang(config.lang);
+
+    const autoplay = this.getAttribute('autoplay');
+    this.autoplay_ = autoplay !== null && autoplay !== "false";
 
     this.timeRange = this.getTimeRange();
     if (this.timeRange !== null) {
@@ -808,7 +814,9 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   loaded() {
-    //
+    if (this.autoplay_) {
+      this.video.play();
+    }
   }
 
   get hasVideo() {

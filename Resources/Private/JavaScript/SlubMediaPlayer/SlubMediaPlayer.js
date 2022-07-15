@@ -302,6 +302,8 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    * @override
    */
   loaded() {
+    super.loaded();
+
     // TODO: Resize appropriately
     this.modals?.resize();
   }
