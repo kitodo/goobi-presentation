@@ -65,6 +65,10 @@ For information on equalizer configuration, see :ref:`the equalizer subpage <eq_
        playerTranslations {
          // Language file of player localization strings without language prefix
          baseFile = EXT:dlf/Resources/Private/Language/locallang_media.xlf
+         // More files can be added, e.g., to override or add translation keys in a sitepackage
+         baseFile {
+           10 = EXT:myextension/Resources/Private/Language/locallang_media.xlf
+         }
        }
 
        // Share buttons to be shown in bookmark modal

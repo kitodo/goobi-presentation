@@ -39,12 +39,16 @@ class MediaPlayerConfigViewHelper extends AbstractViewHelper
         $id = $arguments['id'];
         $inputSettings = $arguments['settings'];
 
-        // Whitelist keys to keep out stuff such as playerTranslationsFile
+        // Whitelist keys to keep out stuff such as playerTranslations
         $allowedKeys = ['shareButtons', 'screenshotCaptions', 'constants', 'equalizer'];
         $result = array_intersect_key($inputSettings, array_flip($allowedKeys));
 
         // Add translations
-        $result['lang'] = self::getTranslations($inputSettings['playerTranslations']['baseFile'] ?? 'EXT:dlf/Resources/Private/Language/locallang_media.xlf');
+        $translationBaseFiles = $inputSettings['playerTranslations']['baseFile'] ?? 'EXT:dlf/Resources/Private/Language/locallang_media.xlf';
+        if (!is_array($translationBaseFiles)) {
+            $translationBaseFiles = [$translationBaseFiles];
+        }
+        $result['lang'] = self::getTranslations($translationBaseFiles);
 
         // Resolve paths
         foreach ($result['shareButtons'] ?? [] as $key => $button) {
@@ -91,26 +95,31 @@ CONFIG;
      * - twoLetterIsoCode: Two-letter ISO code of current site language
      * - phrases: Map from translation keys to their translations
      */
-    private static function getTranslations(string $baseTranslationFile)
+    private static function getTranslations(array $translationBaseFiles)
     {
         $language = $GLOBALS['TYPO3_REQUEST']->getAttribute('language');
         $languageKey = $language->getTypo3Language();
-
-        // Grab available translation keys from the specified file
-        $localizationFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
-        $translationKeys = array_keys($localizationFactory->getParsedData($baseTranslationFile, 'default')['default']);
-
-        // Translate each available key as per the current language.
-        // - This falls back to default language if a key isn't translated
-        // - Pass $languageKey to ensure that translation matches ISO code
         $phrases = [];
-        foreach ($translationKeys as $transKey) {
-            $phrases[$transKey] = LocalizationUtility::translate(
-                "LLL:$baseTranslationFile:$transKey",
-                /* extensionName= */null,
-                /* arguments= */null,
-                $languageKey
-            );
+
+        $localizationFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
+
+        // TODO: Wouldn't there be a TypoScript utility?
+        ksort($translationBaseFiles);
+        foreach ($translationBaseFiles as $filename) {
+            // Grab available translation keys from the specified file
+            $translationKeys = array_keys($localizationFactory->getParsedData($filename, 'default')['default']);
+
+            // Translate each available key as per the current language.
+            // - This falls back to default language if a key isn't translated
+            // - Pass $languageKey to ensure that translation matches ISO code
+            foreach ($translationKeys as $transKey) {
+                $phrases[$transKey] = LocalizationUtility::translate(
+                    "LLL:$filename:$transKey",
+                    /* extensionName= */null,
+                    /* arguments= */null,
+                    $languageKey
+                );
+            }
         }
 
         return [
