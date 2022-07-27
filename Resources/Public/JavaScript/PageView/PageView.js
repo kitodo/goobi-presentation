@@ -645,6 +645,8 @@ dlfViewer.prototype.addCustomControls = function() {
 /**
  * Add highlight field
  *
+ * Used for SRU search highlighting in DFG Viewer.
+ *
  * @param {Array.<number>} highlightField
  * @param {number} imageIndex
  * @param {number} width
