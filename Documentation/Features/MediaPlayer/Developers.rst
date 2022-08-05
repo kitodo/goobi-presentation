@@ -31,6 +31,10 @@ DlfMediaPlayer
 
 ``class ShakaFrontend`` encapsulates the visible part of the player UI. It is based upon Shaka Player UI, configuring it and replacing, for example, the seek bar with a custom one (``FlatSeekBar``).
 
+``ShakaFrontend`` implements the interface ``dlf.media.PlayerFrontend``, which I originally introduced when planning to write a separate frontend class for the audio player.
+This plan got dropped, and instead the frontend distinguishes between video and audio mode. Still, the interface is kept to help make sure the frontend handling isn't too reliant on Shaka internals.
+
+
 SlubMediaPlayer
 ---------------
 
@@ -94,7 +98,7 @@ DOM Handling
 Generally speaking, DOM construction and manipulation is done in a "vanilla" way,
 though with some utilities to make this less tedious.
 
-``lib/util.js`` defines a utility function ``e()`` for constructing DOM elements and trees.
+``lib/util.js`` defines a utility function ``e()`` (``e`` for "element") for constructing DOM elements and trees.
 
 Tooling
 =======

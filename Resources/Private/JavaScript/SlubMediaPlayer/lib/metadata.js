@@ -4,6 +4,8 @@ import { getTimeStringPlaceholders } from '../../DlfMediaPlayer';
 import { fillPlaceholders } from '../../lib/util';
 
 /**
+ * In {@link template} string, fill placeholders representing metadata with the
+ * value given in {@link metadata}.
  *
  * @param {string} template
  * @param {MetadataArray} metadata
@@ -18,6 +20,10 @@ export function fillMetadata(template, metadata) {
 }
 
 /**
+ * Create metadata array that extends {@link metadata} and contains additional
+ * information that may be relevant for filling placeholders.
+ *
+ * The result may be used, in particular, with {@link fillMetadata}.
  *
  * @param {dlf.media.UrlGenerator} gen
  * @param {MetadataArray} metadata

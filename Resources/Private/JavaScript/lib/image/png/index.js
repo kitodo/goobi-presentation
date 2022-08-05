@@ -1,4 +1,5 @@
 // @ts-check
+// See LICENSE file
 
 const PNG_SIG = String.fromCharCode(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a);
 
@@ -205,40 +206,38 @@ export default class PNG {
 }
 
 /**
+ * Encode {@link size} bytes of {@link value} in a binary string (big endian).
  *
- * @param {number} v
+ * @param {number} value
  * @param {number} size
  * @returns {string}
  */
-export function itos(v, size) {
-  var a = [];
-  var t = size - 1;
-  while (t >= 0) {
-    var c = v & 0xFF;
-    a[t--] = c;
-    v = v >> 8;
+export function itos(value, size) {
+  var chars = new Array(size);
+  for (let t = size - 1; t >= 0; t--) {
+    chars[t] = String.fromCharCode(value & 0xFF);
+    value >>= 8;
   }
-  a = a.map(function (v) {
-    return String.fromCharCode(v);
-  });
-  return a.join('');
+  return chars.join('');
 }
 
 /**
+ * Interpret {@link str} as a binary string that encodes an unsigned integer (big endian).
  *
- * @param {string} s
+ * @param {string} str
  * @returns {number}
  */
-export function stoi(s) {
-  var v = 0;
-  for (var i = 0; i < s.length; i++) {
-    var c = s.charCodeAt(i);
-    v = (v << 8) | (c & 0xFF);
+export function stoi(str) {
+  let v = 0;
+  for (let i = 0; i < str.length; i++) {
+    v <<= 8;
+    v |= str.charCodeAt(i) & 0xFF;
   }
   return v;
 }
 
 /**
+ * Calculate CRC32 checksum.
  *
  * @param {string} str
  * @returns {number}

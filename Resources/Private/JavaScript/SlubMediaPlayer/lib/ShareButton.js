@@ -3,28 +3,34 @@
 import { e, fillPlaceholders } from '../../lib/util';
 
 /**
- * @typedef {(
- *  | { type: "material"; icon: string; }
- *  | { type: "image"; src: string; }
- * ) & {
- *  hrefTemplate: string;
- *  titleTranslationKey: string;
- * }} ShareButtonInfo
+ * @typedef ShareButtonMaterialIcon
+ * @property {'material'} type
+ * @property {string} icon Key of the material icon.
  *
- * @typedef {{
- *  hrefTemplate: string;
- *  fillPlaceholders: (values: Record<string, string | undefined>) => void;
- *  element: HTMLAnchorElement;
- * }} ShareButton
+ * @typedef ShareButtonImage
+ * @property {'image'} type
+ * @property {string} src URL of the image to be shown.
+ *
+ * @typedef ShareButtonBaseInfo
+ * @property {string} hrefTemplate URL for sharing, may contain placeholders (e.g. "{url}").
+ * @property {string} titleTranslationKey Language label key to be used as tooltip.
+ *
+ * @typedef {(ShareButtonMaterialIcon | ShareButtonImage) & ShareButtonBaseInfo} ShareButtonInfo
+ *
+ * @typedef ShareButton
+ * @property {string} hrefTemplate
+ * @property {(values: Record<string, string | undefined>) => void} setFullUrl Build full sharing
+ * URL and set it on element href, built from hrefTemplate by replacing given values.
+ * @property {HTMLAnchorElement} element
  */
 
 /**
  *
  * @param {Translator} env
- * @param {import('../lib/ShareButton').ShareButtonInfo} info
+ * @param {ShareButtonInfo} info
  * @param {object} config
  * @param {(e: MouseEvent) => void} config.onClick
- * @return {import('../lib/ShareButton').ShareButton}
+ * @return {ShareButton}
  */
 export function createShareButton(env, info, config) {
   /** @type {HTMLElement} */
@@ -54,7 +60,7 @@ export function createShareButton(env, info, config) {
 
   return {
     hrefTemplate: info.hrefTemplate,
-    fillPlaceholders: (values) => {
+    setFullUrl: (values) => {
       element.href = fillPlaceholders(info.hrefTemplate, values);
     },
     element,

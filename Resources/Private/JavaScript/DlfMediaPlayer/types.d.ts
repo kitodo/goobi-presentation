@@ -115,6 +115,11 @@ namespace dlf {
       playerView: HTMLElement | null;
     };
 
+    /**
+     * Frontend to encapsulate the visible part of the player.
+     *
+     * See the developers documentation for more information.
+     */
     interface PlayerFrontend<
       PlayerT extends PlayerProperties = PlayerProperties
     > {
@@ -206,7 +211,7 @@ namespace dlf {
     };
 
     /**
-     * Description on a thumbnail on a tileset.
+     * Description of a thumbnail on a tileset.
      *
      * Generally oriented at {@link shaka.extern.Thumbnail}.
      */

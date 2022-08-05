@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, test, jest } from '@jest/globals';
 import { Blob } from 'buffer';
-import { arrayToCsv, dataUrlMime, clamp, sanitizeBasename, withObjectUrl, zeroPad } from './util';
+import { arrayToCsv, dataUrlMime, clamp, sanitizeBasename, withObjectUrl, zeroPad, fillPlaceholders } from './util';
 
 describe('arrayToCsv', () => {
   test('basic', () => {
@@ -18,6 +18,12 @@ describe('clamp', () => {
     expect(clamp(1, [2, 3])).toBe(2);
     expect(clamp(2.5, [2, 3])).toBe(2.5);
     expect(clamp(4, [2, 3])).toBe(3);
+  });
+});
+
+describe('fillPlaceholders', () => {
+  test('basic', () => {
+    expect(fillPlaceholders("{a} {b}", { a: "A", b: "B" })).toBe("A B");
   });
 });
 

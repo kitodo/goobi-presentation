@@ -193,14 +193,14 @@ export default class ThumbnailPreview {
     this.thumbnailTracks = thumbnails.slice();
     this.thumbnailTracks.sort((a, b) => b.bandwidth - a.bandwidth);
 
-    await this.setThumbnailSnap(false);
+    await this.activateThumbnailSnap(false);
   }
 
   /**
    *
-   * @param {boolean} value
+   * @param {boolean} value Whether or not to activate thumbnail snap.
    */
-  async setThumbnailSnap(value) {
+  async activateThumbnailSnap(value) {
     if (value) {
       this.snapToThumbnail = this.lastRendered?.thumb.track ?? this.thumbnailTracks[0] ?? null;
     } else {

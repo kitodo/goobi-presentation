@@ -9,10 +9,12 @@ describe('test', function () {
   it('stoi', function () {
     expect(stoi(String.fromCharCode(0, 0xFF, 0xFF))).toBe(0xFFFF);
     expect(stoi(String.fromCharCode(0, 0, 0, 10))).toBe(10);
+    expect(stoi("ABCD")).toBe(0x41424344);
   });
 
   it('itos', function () {
     expect(itos(10, 4)).toBe(String.fromCharCode(0, 0, 0, 10));
+    expect(itos(0x41424344, 4)).toBe("ABCD");
   });
 
   const data = fs.readFileSync(__dirname + '/simple.png', 'binary');

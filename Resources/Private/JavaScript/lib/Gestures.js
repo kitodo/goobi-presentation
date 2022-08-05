@@ -47,16 +47,19 @@ import EventEmitter from 'events';
  *  release: () => void;
  * }} Handlers
  *
- * @typedef {{
- *  tapMaxDelay: number;
- *  tapMaxDistance: number;
- *  swipeMinDistance: number;
- *  holdMinDelay: number;
- *  allowGesture: (event: PointerEvent) => boolean;
- * }} Config
+ * @typedef Config
+ * @property {number} tapMaxDelay
+ * @property {number} tapMaxDistance
+ * @property {number} swipeMinDistance
+ * @property {number} holdMinDelay
+ * @property {(event: PointerEvent) => boolean} allowGesture Determine whether or not the given
+ * `PointerEvent` should be interpreted as (part of) a gesture. This is used to declare reserved
+ * areas on which gestures should not be handled.
  */
 
 /**
+ * Detect various standard gestures such as tap, multi-tap and swipe.
+ *
  * @extends {TypedEvents<Handlers>}
  */
 export default class Gestures {
@@ -98,6 +101,7 @@ export default class Gestures {
   }
 
   /**
+   * Listen for gestures on {@link container}.
    *
    * @param {GlobalEventHandlers} container
    */
@@ -110,6 +114,7 @@ export default class Gestures {
   }
 
   /**
+   * Stop listening for gestures on {@link container}.
    *
    * @param {GlobalEventHandlers} container
    */
@@ -132,7 +137,7 @@ export default class Gestures {
   }
 
   /**
-   *
+   * @private
    * @param {MouseEvent} e
    */
   handleContextMenu(e) {
@@ -141,7 +146,7 @@ export default class Gestures {
   }
 
   /**
-   *
+   * @private
    * @param {PointerEvent} e
    */
   handlePointerDown(e) {
@@ -177,7 +182,7 @@ export default class Gestures {
   }
 
   /**
-   *
+   * @private
    * @param {PointerEvent} e
    */
   handlePointerUp(e) {
@@ -231,7 +236,7 @@ export default class Gestures {
   }
 
   /**
-   *
+   * @private
    * @param {PointerEvent} e
    */
   handlePointerCancel(e) {
@@ -239,7 +244,7 @@ export default class Gestures {
   }
 
   /**
-   *
+   * @private
    * @param {PointerEvent} e
    */
   handlePointerLeave(e) {

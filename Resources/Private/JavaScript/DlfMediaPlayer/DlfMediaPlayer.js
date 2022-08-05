@@ -172,7 +172,7 @@ export default class DlfMediaPlayer extends HTMLElement {
     // Wait for DOM being parsed before loading sources.
     setTimeout(() => {
       this.loadSources();
-      this.loadChapters();
+      this.parseChapters();
     });
 
     this.appendChild(this.frontend.domElement);
@@ -420,6 +420,9 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   /**
+   * Add player action that can be triggered from keybindings and control buttons.
+   *
+   * See {@link getActions} and the main documentation on extending the player.
    *
    * @param {Record<string, dlf.media.PlayerAction>} actions
    */
@@ -615,6 +618,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   /**
+   * Try loading {@link sources} one after the other until one works.
    *
    * @param {dlf.media.Source[]} sources
    */
@@ -676,7 +680,7 @@ export default class DlfMediaPlayer extends HTMLElement {
 
     this.frontend.updateMediaProperties({
       variantGroups: this.variantGroups,
-      chapters: this.chaptersInSource,
+      chapters: this.chaptersInFile,
     });
 
     this.updateFrameRate();
@@ -690,7 +694,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   onTick() {
-    const curChapter = this.chaptersInSource.timeToChapter(this.video.currentTime) ?? null;
+    const curChapter = this.chaptersInFile.timeToChapter(this.video.currentTime) ?? null;
     if (curChapter !== this.currentChapter) {
       const prevChapter = this.currentChapter;
       this.currentChapter = curChapter;
@@ -709,6 +713,11 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.updateFrameRate();
   }
 
+  /**
+   * Try to determine the current FPS rate and tell the frontend about it.
+   *
+   * @protected
+   */
   updateFrameRate() {
     const fps = (
       this.variantGroups?.findActiveTrack()?.frameRate
@@ -748,9 +757,11 @@ export default class DlfMediaPlayer extends HTMLElement {
   }
 
   /**
+   * Build list of chapters from `<dlf-chapter>` child tags.
+   *
    * @private
    */
-  loadChapters() {
+  parseChapters() {
     /** @type {dlf.media.Chapter[]} */
     const chapters = [];
 
@@ -782,19 +793,25 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.setChapters(new Chapters(chapters));
   }
 
+  /**
+   * All chapters contained in the media document.
+   */
   get chapters() {
     return this.chapters_;
   }
 
-  get chaptersInSource() {
-    return this.chapters_.filter(ch => this.isChapterInSource(ch));
+  /**
+   * Chapters contained in current file.
+   */
+  get chaptersInFile() {
+    return this.chapters_.filter(ch => this.isChapterInFile(ch));
   }
 
   /**
    *
    * @param {dlf.media.Chapter} chapter
    */
-  isChapterInSource(chapter) {
+  isChapterInFile(chapter) {
     return (
       this.currentSource === null
       || this.currentSource.fileId === null
@@ -809,7 +826,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   setChapters(chapters) {
     this.chapters_ = chapters;
     this.frontend.updateMediaProperties({
-      chapters: this.chaptersInSource,
+      chapters: this.chaptersInFile,
     });
   }
 
@@ -837,7 +854,7 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @returns {dlf.media.Chapter | undefined}
    */
   timeToChapter(timecode) {
-    return this.chaptersInSource.timeToChapter(timecode);
+    return this.chaptersInFile.timeToChapter(timecode);
   }
 
   /**
@@ -957,7 +974,7 @@ export default class DlfMediaPlayer extends HTMLElement {
    * @returns {boolean} Whether or not seeking to the chapter has been possible
    */
   seekToChapter(chapter) {
-    if (this.isChapterInSource(chapter)) {
+    if (this.isChapterInFile(chapter)) {
       this.seekToTime(chapter.timecode);
       return true;
     }
@@ -992,7 +1009,7 @@ export default class DlfMediaPlayer extends HTMLElement {
   nextChapter() {
     const cur = this.getCurrentChapter();
     if (cur) {
-      const next = this.chaptersInSource.advance(cur, +1);
+      const next = this.chaptersInFile.advance(cur, +1);
 
       if (next) {
         this.seekTo(next);

@@ -19,8 +19,15 @@ import ShakaThumbnailTrack from './lib/thumbnails/ShakaThumbnailTrack';
  */
 
 /**
- * Switch among video tracks in Shaka Player by grouping the manifest variants.
- * This allows to adapt bitrate and switch audio language within a group.
+ * This class is used to allow switching between independent video tracks.
+ *
+ * By default, Shaka Player considers all variants that match the selected role
+ * and language to be playable. (For information on what a variant is, see
+ * https://shaka-player-demo.appspot.com/docs/api/shaka.extern.html#.Variant.)
+ *
+ * To add video tracks (more generally, "groups") as a third category, here we
+ * store all available variants, and allow selecting a group by limiting the
+ * variants seen by Shaka to those in the selected group.
  *
  * The variants are grouped via their representation id (MPD) or name (HLS).
  */

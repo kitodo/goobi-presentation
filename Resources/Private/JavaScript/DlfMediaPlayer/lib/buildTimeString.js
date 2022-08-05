@@ -32,6 +32,8 @@ export default function buildTimeString(totalSeconds, showHour, fps = null) {
 }
 
 /**
+ * Split total number of seconds into parts (hours, minutes, etc.), then key and
+ * format them as suitable to fill timecode placeholders.
  *
  * @param {number} totalSeconds Total number of seconds to be formatted.
  * @param {number | null} fps (Optional) Number of FPS used to calculate frame count.
@@ -52,6 +54,7 @@ export function getTimeStringPlaceholders(totalSeconds, fps = null) {
 }
 
 /**
+ * Split total number of seconds into parts (hours, minutes, etc.).
  *
  * @param {number} totalSeconds
  * @param {number} fps

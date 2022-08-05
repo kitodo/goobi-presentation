@@ -21,7 +21,15 @@ type EventListenersDesc<Prefix extends string> = {
 };
 
 interface ImageFormat {
+  /**
+   * Store {@link metadata} in the image as suited in the format, e.g. as PNG
+   * metadata or JPEG EXIF data.
+   */
   addMetadata(metadata: Partial<ImageMetadata>);
+  /**
+   * Export encoded image data to a binary string. The result can be turned
+   * into a Blob for download.
+   */
   toBinaryString(): string;
 }
 
@@ -108,6 +116,9 @@ interface Translator {
   t(key: string, values?: Record<string, string | number>, fallback?: () => string): string;
 }
 
+/**
+ * TODO: Use EventTarget instead and remove this
+ */
 interface TypedEvents<Handlers> {
   on<T extends keyof Handlers>(event: T, callback: Handlers[T]): void;
 }

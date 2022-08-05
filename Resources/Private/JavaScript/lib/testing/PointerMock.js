@@ -11,6 +11,8 @@ import { setTimeout } from 'timers/promises';
  */
 
 /**
+ * Mock class for unit-testing `Gestures`.
+ *
  * The API is oriented at Puppeteer.
  */
 export class PointerMock {

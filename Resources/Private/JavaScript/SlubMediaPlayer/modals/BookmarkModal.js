@@ -267,7 +267,7 @@ export default class BookmarkModal extends SimpleModal {
       }
 
       for (const btn of this.shareButtons) {
-        btn.fillPlaceholders(urlMetadata);
+        btn.setFullUrl(urlMetadata);
       }
 
       this.$urlInput.value = url;

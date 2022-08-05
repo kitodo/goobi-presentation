@@ -3,6 +3,10 @@
 import Environment from '../lib/Environment';
 import DlfMediaPlayer from './DlfMediaPlayer';
 
+/**
+ * A player plugin is a custom HTML element that attaches to a player instance.
+ * For more information, see the extension documentation.
+ */
 export default class DlfMediaPlugin extends HTMLElement {
   constructor() {
     super();

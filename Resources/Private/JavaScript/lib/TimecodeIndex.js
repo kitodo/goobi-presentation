@@ -7,6 +7,8 @@
  */
 
 /**
+ * Represents a set of objects that is ordered by timecode.
+ *
  * @template {TimecodeIndexObject} T
  */
 export default class TimecodeIndex {

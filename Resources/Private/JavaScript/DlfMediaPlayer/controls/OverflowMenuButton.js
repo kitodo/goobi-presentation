@@ -10,7 +10,7 @@ import shaka from 'shaka-player/dist/shaka-player.ui';
  */
 
 /**
- * Generic overflow menu item with icon, text and click handler.
+ * Generic Shaka overflow menu item with icon, text and click handler.
  */
 export default class OverflowMenuButton extends shaka.ui.SettingsMenu {
   /**

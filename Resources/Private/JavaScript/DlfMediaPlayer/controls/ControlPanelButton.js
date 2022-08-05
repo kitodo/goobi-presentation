@@ -11,7 +11,7 @@ import { e, setElementClass } from '../../lib/util';
  */
 
 /**
- * Generic control panel button with icon, text and click handler.
+ * Generic Shaka control panel button with icon, text and click handler.
  */
 export default class ControlPanelButton extends shaka.ui.Element {
   /**

@@ -33,6 +33,13 @@
  */
 
 /**
+ * Reimplementation of `EventTarget` to allow inheriting from it and using the
+ * standard `addEventListener` API. This is done, in particular, because Safari
+ * supports inheriting from EventTarget only rather recently (version 14?).
+ *
+ * Additionally, this allows typechecking via the generic {@link Events} parameter,
+ * which should be a map from the event name to its detail object.
+ *
  * @template Events
  */
 export class EventTarget {

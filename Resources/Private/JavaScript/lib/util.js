@@ -1,18 +1,20 @@
 // @ts-check
 
 /**
+ * Serialize a two-dimensional array (row-major) as CSV.
  *
  * @param {string[][]} data
  * @returns {string}
  */
 export function arrayToCsv(data) {
   return data.map(
+    // To serialize row, wrap in double quotes and escape quotes
     row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(';')
   ).join('\n');
 }
 
 /**
- * Clamps {@link value} into the closed interval [{@link min}, {@link max}].
+ * Clamp {@link value} into the closed interval [{@link min}, {@link max}].
  *
  * @param {number} value
  * @param {[number, number]} range
@@ -33,6 +35,13 @@ export function clamp(value, [min, max]) {
 /**
  * Compare two values. Returns a format suited for the standard `sort` function.
  *
+ * This can be chained via the `||` operator to sort on multiple fields:
+ *
+ *     array.sort((lhs, rhs) => (
+ *       cmp(lhs.primaryField, rhs.primaryField)
+ *       || cmp(lhs.secondaryField, rhs.secondaryField)
+ *     ));
+ *
  * @param {any} lhs
  * @param {any} rhs
  * @returns {number}
@@ -50,6 +59,8 @@ export function cmp(lhs, rhs) {
 }
 
 /**
+ * For each key-value-pair in {@link values}, replace `{key}` by `value` within
+ * {@link template}.
  *
  * @private
  * @param {string} template
@@ -69,7 +80,7 @@ export function fillPlaceholders(template, values) {
 }
 
 /**
- * Zero-pad {@link value} to at least {@link length} digits.
+ * Zero-left-pad {@link value} to at least {@link length} digits.
  *
  * @param {number} value
  * @param {number} length
@@ -113,6 +124,8 @@ export function canvasToBlob(canvas, mimeType, quality = undefined) {
 }
 
 /**
+ * Convert {@link blob} into a string containing the binary blob data. This can
+ * be useful to raw manipulation of the binary data stored in the blob.
  *
  * @param {Blob} blob
  * @returns {Promise<string>}
@@ -135,9 +148,12 @@ export function blobToDataURL(blob) {
 }
 
 /**
+ * Read {@link blob} into another format.
+ *
+ * Promisification of `FileReader`.
  *
  * @param {Blob} blob
- * @param {'readAsBinaryString' | 'readAsDataURL'} method
+ * @param {'readAsArrayBuffer' | 'readAsBinaryString' | 'readAsDataURL' | 'readAsText'} method
  * @returns {Promise<string>}
  */
 export function readBlob(blob, method) {
@@ -158,7 +174,7 @@ export function readBlob(blob, method) {
 }
 
 /**
- * Loads a `Blob` that contains an image into an `HTMLImageElement`.
+ * Load {@link blob} (assumed to contain an image) into an `HTMLImageElement`.
  *
  * @param {Blob} blob
  * @returns {Promise<HTMLImageElement>}
@@ -168,7 +184,7 @@ export function blobToImage(blob) {
 }
 
 /**
- * Loads an image from {@link src} into an `HTMLImageElement`.
+ * Load an image from {@link src} into an `HTMLImageElement`.
  *
  * @param {string} src
  * @returns {Promise<HTMLImageElement>}
@@ -182,7 +198,7 @@ export async function loadImage(src) {
 }
 
 /**
- * Downloads a file from a `Blob` or from a URL.
+ * Download a file from a `Blob` or from a URL.
  *
  * @param {Blob | string} obj
  * @param {string} filename Name of the target file.
@@ -198,9 +214,9 @@ export function download(obj, filename) {
 }
 
 /**
- * Calls {@link callback} with a temporary object URL to {@link obj}.
+ * Call {@link callback} with a temporary object URL to {@link obj}.
  *
- * The object URL is automatically resolved once the callback returns, or, if
+ * The object URL is automatically revoked once the callback returns, or, if
  * the callback returns a promise, once that promise resolves.
  *
  * @template T
@@ -247,6 +263,7 @@ export function withObjectUrl(obj, callback) {
 }
 
 /**
+ * Convert binary string into an `ArrayBuffer`.
  *
  * @param {string} s
  * @returns {ArrayBuffer}
@@ -272,7 +289,7 @@ export function cancelAction(e) {
 }
 
 /**
- * Ensures that an element may not be dragged.
+ * Ensure that an element may not be dragged.
  *
  * @param {HTMLElement} e
  */
@@ -312,12 +329,31 @@ export function domJoin(array, elements) {
 }
 
 /**
- * Creates a nested HTML element.
+ * Create a DOM tree in a declarative syntax. `e` is short for "element".
+ *
+ * Example:
+ *
+ *     this.$container = e('div', { className: 'container' }, [
+ *       this.$button = e('button', { $click: this.onResume }, ['Resume']),
+ *     ]);
+ *
+ * This is equivalent to:
+ *
+ *     this.$container = document.createElement('div');
+ *     this.$container.className = 'container';
+ *     this.$button = document.createElement('button');
+ *     button.addEventListener('click', this.onResume);
+ *     button.textContent = 'Resume';
+ *     this.$container.appendChild(button);
  *
  * @template {keyof HTMLElementTagNameMap} K
- * @param {K} tag
- * @param {Partial<HTMLElementTagNameMap[K]> & Partial<EventListeners<'$'>>} attrs
- * @param {(HTMLElement | string | null | undefined | boolean)[]} children
+ * @param {K} tag Tag name of the element to be created.
+ * @param {Partial<HTMLElementTagNameMap[K]> & Partial<EventListeners<'$'>>} attrs Key-value-map of
+ * properties to be set on the HTML element. If the key starts with a `$` sign,
+ * it is interpreted as event handler.
+ * @param {(HTMLElement | string | null | undefined | boolean)[]} children Array of children to be
+ * appended to the element. Strings are appended as text nodes. Anything other
+ * than a string or a DOMElement is skipped.
  * @returns {HTMLElementTagNameMap[K]}
  */
 export function e(tag, attrs = {}, children = []) {
@@ -347,12 +383,14 @@ export function e(tag, attrs = {}, children = []) {
 }
 
 /**
+ * Add or remove class from {@link element} depending on boolean.
+ *
  * @param {HTMLElement} element
  * @param {string} className
- * @param {boolean} hasClass
+ * @param {boolean} shouldHaveClass
  */
-export function setElementClass(element, className, hasClass) {
-  if (hasClass) {
+export function setElementClass(element, className, shouldHaveClass) {
+  if (shouldHaveClass) {
     element.classList.add(className);
   } else {
     element.classList.remove(className);
@@ -360,7 +398,7 @@ export function setElementClass(element, className, hasClass) {
 }
 
 /**
- * Sanitizes {@link str} for use in a file name.
+ * Sanitize {@link str} for use in a file name.
  *
  * @param {string} str
  * @returns {string}
@@ -371,7 +409,7 @@ export function sanitizeBasename(str) {
 }
 
 /**
- * Returns HTML-encoded string that represents {@link text}.
+ * HTML-encode {@link text}.
  *
  * @param {string} text
  * @returns {string}
@@ -381,6 +419,9 @@ export function textToHtml(text) {
 }
 
 /**
+ * Get array containing only the non-null values in {@link arr}.
+ *
+ * Compared to just `array.filter(x => x !== null)`, this is used for typechecking.
  *
  * @template T
  * @param {(T | null)[]} arr

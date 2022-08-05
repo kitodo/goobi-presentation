@@ -17,6 +17,8 @@ import {
 import { action } from '../lib/action';
 
 /**
+ * Player frontend based on Shaka UI.
+ *
  * Listens to the following custom events:
  * - {@link dlf.media.SeekBarEvent}
  * - {@link dlf.media.ManualSeekEvent}
@@ -456,6 +458,9 @@ export default class ShakaFrontend {
   }
 
   /**
+   * Determine whether or not {@link event} should be interpreted as (part of)
+   * a gesture. See configuration of {@link Gestures} for more information.
+   *
    * @private
    * @param {PointerEvent} event
    */

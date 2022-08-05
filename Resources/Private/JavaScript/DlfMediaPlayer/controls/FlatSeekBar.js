@@ -189,7 +189,7 @@ export default class FlatSeekBar extends shaka.ui.Element {
    * @param {boolean} value
    */
   setThumbnailSnap(value) {
-    this.dlf.thumbnailPreview?.setThumbnailSnap(value);
+    this.dlf.thumbnailPreview?.activateThumbnailSnap(value);
   }
 
   /**
