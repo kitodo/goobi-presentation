@@ -224,7 +224,7 @@ var dlfViewer = function (settings) {
      * @type {DlfDocument | null}
      * @private
      */
-    this.document = tx_dlf_loaded_document || null;
+    this.document = tx_dlf_loaded.document || null;
 
     /**
      * @type {Boolean|false}

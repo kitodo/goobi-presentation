@@ -473,6 +473,8 @@ class PageViewController extends AbstractController
             'useInternalProxy' => !empty($this->settings['useInternalProxy']),
         ];
 
+        $documentJson = json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config));
+
         if (is_array($this->documentArray) && count($this->documentArray) > 1) {
             $jsViewer = 'tx_dlf_viewer = [];';
             $i = 0;
@@ -525,9 +527,15 @@ class PageViewController extends AbstractController
                 }
             }
 
+            // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
-                    tx_dlf_loaded_document = ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ';
+                    tx_dlf_loaded = {
+                        state: {
+                            page: ' . $docPage . '
+                        },
+                        document: ' . $documentJson . '
+                    };
 
                     if (dlfUtils.exists(dlfViewer)) {
                         ' . $jsViewer . '
@@ -559,9 +567,15 @@ class PageViewController extends AbstractController
                 'measureIdLinks' => $docMeasures['measureLinks']
             ];
 
+            // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
-                    tx_dlf_loaded_document = ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ';
+                    tx_dlf_loaded = {
+                        state: {
+                            page: ' . $docPage . '
+                        },
+                        document: ' . $documentJson . '
+                    };
 
                     if (dlfUtils.exists(dlfViewer)) {
                         tx_dlf_viewer = new dlfViewer(' . json_encode($viewer) . ');
