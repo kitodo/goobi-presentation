@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Ubl\Iiif\Presentation\Common\Model\Resources\IiifResourceInterface;
 use Ubl\Iiif\Tools\IiifHelper;
-use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 /**
  * Document class for the 'dlf' extension
@@ -1173,7 +1172,7 @@ abstract class AbstractDocument
         $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
         for ($page = 1; $page <= $this->numPages; $page++) {
             foreach ($fileGrpsImages as $fileGrpImages) {
-            // Get image link.
+                // Get image link.
                 if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages])) {
                     $image['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
                     $image['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);

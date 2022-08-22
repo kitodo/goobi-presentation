@@ -222,7 +222,7 @@ var dlfViewer = function (settings) {
      */
     this.ovView = null;
 
-	this.document = dlfUtils.exists(settings.document) ? settings.document : null;
+    this.document = dlfUtils.exists(settings.document) ? settings.document : null;
 
     /**
      * @type {Boolean|false}
@@ -256,7 +256,7 @@ var dlfViewer = function (settings) {
      */
     this.useInternalProxy = dlfUtils.exists(settings.useInternalProxy) ? settings.useInternalProxy : false;
 
-	this.registerEvents();
+    this.registerEvents();
     this.init(dlfUtils.exists(settings.controls) ? settings.controls : []);
 };
 
@@ -954,7 +954,7 @@ dlfViewer.prototype.registerEvents = function() {
 };
 
 dlfViewer.prototype.updateLayerSize = function() {
-  this.map.updateSize();
+    this.map.updateSize();
 };
 
 /**

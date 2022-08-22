@@ -85,19 +85,19 @@
         </f:if>
     </div>
 
-	<script>
-		$(window).ready( function () {
-			$('.page-first').click( function(e) {
-				e.preventDefault();
-				$('body').trigger(
-					'tx-dlf-pageChanged',
-					{
-						'page': 1
-					}
-				);
-			});
-		});
-	</script>
+    <script>
+        $(window).ready( function () {
+            $('.page-first').click( function(e) {
+                e.preventDefault();
+                $('body').trigger(
+                    'tx-dlf-pageChanged',
+                    {
+                        'page': 1
+                    }
+                );
+            });
+        });
+    </script>
 </f:section>
 
 <f:section name="render.pageStepBack">
