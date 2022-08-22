@@ -498,12 +498,12 @@ class PageViewController extends AbstractController
                         $currentMeasureId = $docMeasures['measureCounterToMeasureId'][$this->requestData['docMeasure'][$i]];
                     }
 
+                    // TODO: Rethink global tx_dlf_loaded_document
                     $jsViewer .= 'tx_dlf_viewer[' . $i . '] = new dlfViewer({
                                 controls: ["' . implode('", "', $this->controls) . '"],
                                 div: "tx-dfgviewer-map-' . $i . '",
                                 progressElementId: "' . $this->settings['progressElementId'] . '",
                                 counter: "' . $i . '",
-                                document: ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ',
                                 images: ' . json_encode($docImage) . ',
                                 fulltexts: ' . json_encode($docFulltext) . ',
                                 score: ' . json_encode($docScore) . ',
@@ -520,6 +520,8 @@ class PageViewController extends AbstractController
 
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
+                    tx_dlf_loaded_document = ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ';
+
                     if (dlfUtils.exists(dlfViewer)) {
                         ' . $jsViewer . '
                         viewerCount = ' . ($i - 1) . ';
@@ -536,12 +538,13 @@ class PageViewController extends AbstractController
 
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
+                    tx_dlf_loaded_document = ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ';
+
                     if (dlfUtils.exists(dlfViewer)) {
                         tx_dlf_viewer = new dlfViewer({
                             controls: ["' . implode('", "', $this->controls) . '"],
                             div: "' . $this->settings['elementId'] . '",
                             progressElementId: "' . $this->settings['progressElementId'] . '",
-                            document: ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ',
                             images: ' . json_encode($this->images) . ',
                             fulltexts: ' . json_encode($this->fulltexts) . ',
                             score: ' . json_encode($this->scores) . ',
