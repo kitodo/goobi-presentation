@@ -509,7 +509,6 @@ class PageViewController extends AbstractController
                         'div' => "tx-dfgviewer-map-' . $i . '",
                         'progressElementId' => $this->settings['progressElementId'],
                         'counter' => $i,
-                        'document' => $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config),
                         'images' => $docImage,
                         'fulltexts' => $docFulltext,
                         'score' => $docScore,
@@ -528,6 +527,8 @@ class PageViewController extends AbstractController
 
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
+                    tx_dlf_loaded_document = ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ';
+
                     if (dlfUtils.exists(dlfViewer)) {
                         ' . $jsViewer . '
                         viewerCount = ' . ($i - 1) . ';
@@ -545,12 +546,8 @@ class PageViewController extends AbstractController
             $viewer = [
                 'controls' => $this->controls,
                 'div' => $this->settings['elementId'],
-<<<<<<< HEAD
                 'progressElementId' => $this->settings['progressElementId'] ?? 'tx-dlf-page-progress',
-=======
-                'progressElementId' => $this->settings['progressElementId'],
                 'document' => $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config),
->>>>>>> 3043018a (Add Basic JSON Representation for Document and First Navigation Button)
                 'images' => $this->images,
                 'fulltexts' => $this->fulltexts,
                 'score' => $this->scores,
@@ -564,6 +561,8 @@ class PageViewController extends AbstractController
 
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
+                    tx_dlf_loaded_document = ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ';
+
                     if (dlfUtils.exists(dlfViewer)) {
                         tx_dlf_viewer = new dlfViewer(' . json_encode($viewer) . ');
                     }
