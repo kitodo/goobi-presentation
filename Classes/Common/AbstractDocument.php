@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Ubl\Iiif\Presentation\Common\Model\Resources\IiifResourceInterface;
 use Ubl\Iiif\Tools\IiifHelper;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 /**
  * Document class for the 'dlf' extension
@@ -1300,5 +1301,49 @@ abstract class AbstractDocument
 
         // Save value in cache
         $cache->set($cacheIdentifier, $currentDocument);
+    }
+
+    public function toArray($uriBuilder, array $config = [])
+    {
+        $useInternalProxy = $config['useInternalProxy'] ?? false;
+        $forceAbsoluteUrl = $config['forceAbsoluteUrl'] ?? false;
+        $result = [];
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
+        $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
+        for ($page = 1; $page <= $this->numPages; $page++) {
+            foreach ($fileGrpsImages as $fileGrpImages) {
+            // Get image link.
+                if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages])) {
+                    $image['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+                    $image['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+
+                    // Only deliver static images via the internal PageViewProxy.
+                    // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
+                    if ($useInternalProxy && strpos($image['mimetype'], 'image/') === 0) {
+                        // Configure @action URL for form.
+                        $uri = $uriBuilder
+                            ->reset()
+                            ->setTargetPageUid($GLOBALS['TSFE']->id)
+                            ->setCreateAbsoluteUri($forceAbsoluteUrl)
+                            ->setArguments([
+                                'eID' => 'tx_dlf_pageview_proxy',
+                                'url' => $image['url'],
+                                'uHash' => GeneralUtility::hmac($image['url'], 'PageViewProxy')
+                                ])
+                            ->build();
+                        $image['url'] = $uri;
+                    }
+                    $result[] = $image;
+                    break;
+                } else {
+                    $this->logger->notice('No image file found for page "' . $page . '" in fileGrp "' . $fileGrpImages . '"');
+                }
+            }
+            if (empty($image)) {
+                $this->logger->warning('No image file found for page "' . $page . '" in fileGrps "' . $extConf['fileGrpImages'] . '"');
+            }
+        }
+
+        return $result;
     }
 }

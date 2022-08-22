@@ -462,6 +462,11 @@ class PageViewController extends AbstractController
      */
     protected function addViewerJS(): void
     {
+        $config = [
+            'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
+            'useInternalProxy' => !empty($this->settings['useInternalProxy']),
+        ];
+
         if (count($this->documentArray) > 1) {
             $jsViewer = 'tx_dlf_viewer = [];';
             $i = 0;
@@ -498,12 +503,13 @@ class PageViewController extends AbstractController
                                 div: "tx-dfgviewer-map-' . $i . '",
                                 progressElementId: "' . $this->settings['progressElementId'] . '",
                                 counter: "' . $i . '",
+						        document: ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ',
                                 images: ' . json_encode($docImage) . ',
                                 fulltexts: ' . json_encode($docFulltext) . ',
                                 score: ' . json_encode($docScore) . ',
                                 annotationContainers: ' . json_encode($docAnnotationContainers) . ',
                                 measureCoords: ' . json_encode($docMeasures['measureCoordsCurrentSite']) . ',
-                                useInternalProxy: ' . ($this->settings['useInternalProxy'] ? 1 : 0) . ',
+                                useInternalProxy: ' . $config['useInternalProxy'] ? 1 : 0 . ',
                                 currentMeasureId: "' . $currentMeasureId . '",
                                 measureIdLinks: ' . json_encode($docMeasures['measureLinks']) . '
                             });
@@ -535,12 +541,13 @@ class PageViewController extends AbstractController
                             controls: ["' . implode('", "', $this->controls) . '"],
                             div: "' . $this->settings['elementId'] . '",
                             progressElementId: "' . $this->settings['progressElementId'] . '",
+                            document: ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ',
                             images: ' . json_encode($this->images) . ',
                             fulltexts: ' . json_encode($this->fulltexts) . ',
                             score: ' . json_encode($this->scores) . ',
                             annotationContainers: ' . json_encode($this->annotationContainers) . ',
                             measureCoords: ' . json_encode($docMeasures['measureCoordsCurrentSite']) . ',
-                            useInternalProxy: ' . ($this->settings['useInternalProxy'] ? 1 : 0) . ',
+                            useInternalProxy: ' . $config['useInternalProxy'] ? 1 : 0 . ',
                             verovioAnnotations: ' . json_encode($this->verovioAnnotations) . ',
                             currentMeasureId: "' . $currentMeasureId . '",
                             measureIdLinks: ' . json_encode($docMeasures['measureLinks']) . '

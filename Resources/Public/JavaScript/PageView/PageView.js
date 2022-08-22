@@ -36,8 +36,12 @@
  *  fulltexts?: FulltextDesc[] | [];
  *  scores?: ScoreDesc[] | [];
  *  controls?: ('OverviewMap' | 'ZoomPanel')[];
+<<<<<<< HEAD
  *  measureCoords?: MeasureDesc[] | [];
  *  measureIdLinks?: MeasureDesc[] | [];
+=======
+ *  document?: any;
+>>>>>>> 64fb3677 (Add Basic JSON Representation for Document and First Navigation Button)
  * }} DlfViewerConfig
  */
 
@@ -218,6 +222,8 @@ var dlfViewer = function (settings) {
      */
     this.ovView = null;
 
+	this.document = dlfUtils.exists(settings.document) ? settings.document : null;
+
     /**
      * @type {Boolean|false}
      * @private
@@ -250,6 +256,7 @@ var dlfViewer = function (settings) {
      */
     this.useInternalProxy = dlfUtils.exists(settings.useInternalProxy) ? settings.useInternalProxy : false;
 
+	this.registerEvents();
     this.init(dlfUtils.exists(settings.controls) ? settings.controls : []);
 };
 
@@ -914,6 +921,21 @@ dlfViewer.prototype.init = function(controlNames) {
         });
 
         this.initCropping();
+};
+
+dlfViewer.prototype.registerEvents = function() {
+    $(document.body).on('tx-dlf-pageChanged', e => {
+        const page = e.originalEvent.detail.page;
+        const entry = this.document[page - 1];
+        const url = entry.url;
+        const mimetype = entry.mimetype;
+
+        // TODO don't forget double page mode
+        this.initLayer([entry])
+            .done(layers => {
+                this.map.setLayers(layers);
+        });
+    });
 };
 
 dlfViewer.prototype.updateLayerSize = function() {
