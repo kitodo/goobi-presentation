@@ -503,7 +503,7 @@ class PageViewController extends AbstractController
                                 div: "tx-dfgviewer-map-' . $i . '",
                                 progressElementId: "' . $this->settings['progressElementId'] . '",
                                 counter: "' . $i . '",
-						        document: ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ',
+                                document: ' . json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config)) . ',
                                 images: ' . json_encode($docImage) . ',
                                 fulltexts: ' . json_encode($docFulltext) . ',
                                 score: ' . json_encode($docScore) . ',
