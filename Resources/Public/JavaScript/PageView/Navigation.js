@@ -21,69 +21,52 @@ class dlfNavigation {
         /** @private */
         this.config = config;
 
+        /**
+         * @private
+         */
+        this.navigationButtons = {
+            pageStepBack: {
+                button: document.querySelector('.page-step-back'),
+                getPage: (prevPageNo) => prevPageNo - this.config.pageSteps,
+            },
+            pageBack: {
+                button: document.querySelector('.page-back'),
+                getPage: (prevPageNo) => prevPageNo - 1,
+            },
+            pageFirst: {
+                button: document.querySelector('.page-first'),
+                getPage: (prevPageNo) => 1,
+            },
+            pageStepForward: {
+                button: document.querySelector('.page-step-forward'),
+                getPage: (prevPageNo) => prevPageNo + this.config.pageSteps,
+            },
+            pageForward: {
+                button: document.querySelector('.page-forward'),
+                getPage: (prevPageNo) => prevPageNo + 1,
+            },
+            pageLast: {
+                button: document.querySelector('.page-last'),
+                getPage: (prevPageNo) => tx_dlf_loaded.document.length,
+            },
+        }
+
         this.registerEvents();
+        this.updateNavigationButtons();
     }
 
     /**
      * @private
      */
     registerEvents() {
-        if (this.config.features.pageStepBack) {
-            const btn = document.querySelector('.page-step-back');
-            if (btn !== null) {
-                btn.addEventListener('click', e => {
+        for (const [key, value] of Object.entries(this.navigationButtons)) {
+            if (this.config.features[key]) {
+                value.button.addEventListener('click', e => {
                     e.preventDefault();
-                    this.changePage(tx_dlf_loaded.state.page - this.config.pageSteps, e);
-                });
-            }
-        }
 
-        if (this.config.features.pageBack) {
-            const btn = document.querySelector('.page-back');
-            if (btn !== null) {
-                btn.addEventListener('click', e => {
-                    e.preventDefault();
-                    this.changePage(tx_dlf_loaded.state.page - 1, e);
-                });
-            }
-        }
-
-        if (this.config.features.pageFirst) {
-            const btn = document.querySelector('.page-first');
-            if (btn !== null) {
-                btn.addEventListener('click', e => {
-                    e.preventDefault();
-                    this.changePage(1, e);
-                });
-            }
-        }
-
-        if (this.config.features.pageStepForward) {
-            const btn = document.querySelector('.page-step-forward');
-            if (btn !== null) {
-                btn.addEventListener('click', e => {
-                    e.preventDefault();
-                    this.changePage(tx_dlf_loaded.state.page + this.config.pageSteps, e);
-                });
-            }
-        }
-
-        if (this.config.features.pageForward) {
-            const btn = document.querySelector('.page-forward');
-            if (btn !== null) {
-                btn.addEventListener('click', e => {
-                    e.preventDefault();
-                    this.changePage(tx_dlf_loaded.state.page + 1, e);
-                });
-            }
-        }
-
-        if (this.config.features.pageLast) {
-            const btn = document.querySelector('.page-last');
-            if (btn !== null) {
-                btn.addEventListener('click', e => {
-                    e.preventDefault();
-                    this.changePage(tx_dlf_loaded.document.length, e);
+                    const pageNo = value.getPage(tx_dlf_loaded.state.page);
+                    const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.length, pageNo));
+                    this.changePage(clampedPageNo, e);
                 });
             }
         }
@@ -95,19 +78,37 @@ class dlfNavigation {
      * @private
      */
     changePage(pageNo, e) {
-        const pageNoClamped = Math.max(1, Math.min(tx_dlf_loaded.document.length, pageNo));
-
-        tx_dlf_loaded.state.page = pageNoClamped;
-        document.body.dispatchEvent(
-            new CustomEvent(
-                'tx-dlf-pageChanged',
-                {
-                    'detail': {
-                        'page': pageNoClamped,
-                        'target': e.target
+        if (pageNo !== tx_dlf_loaded.state.page) {
+            tx_dlf_loaded.state.page = pageNo;
+            document.body.dispatchEvent(
+                new CustomEvent(
+                    'tx-dlf-pageChanged',
+                    {
+                        'detail': {
+                            'page': pageNo,
+                            'target': e.target
+                        }
                     }
-                }
-            )
-        );
+                )
+            );
+            this.updateNavigationButtons();
+        }
+    }
+
+    /**
+     * Update DOM state of navigation buttons, for example, to enable/disable
+     * them depending on current page.
+     *
+     * @private
+     */
+    updateNavigationButtons() {
+        for (const [key, value] of Object.entries(this.navigationButtons)) {
+            const btnPageNo = value.getPage(tx_dlf_loaded.state.page);
+            if (btnPageNo !== tx_dlf_loaded.state.page && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.length) {
+                value.button.classList.remove('disabled');
+            } else {
+                value.button.classList.add('disabled');
+            }
+        }
     }
 }
