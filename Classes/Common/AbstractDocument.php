@@ -1310,6 +1310,9 @@ abstract class AbstractDocument
      */
     public function getLogicalSectionsOnPage($pageNo)
     {
+        $this->_getSmLinks();
+        $this->_getPhysicalStructure();
+
         $ids = [];
         if (!empty($this->physicalStructure[$pageNo]) && !empty($this->smLinks['p2l'][$this->physicalStructure[$pageNo]])) {
             foreach ($this->smLinks['p2l'][$this->physicalStructure[$pageNo]] as $logId) {
