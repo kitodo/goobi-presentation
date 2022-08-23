@@ -50,7 +50,6 @@ page {
     # PageView plugin
     kitodo-openLayers = EXT:dlf/Resources/Public/JavaScript/OpenLayers/openlayers.js
 
-<<<<<<< HEAD
     kitodo-pageView-utility = EXT:dlf/Resources/Public/JavaScript/PageView/Utility.js
     kitodo-pageView-ol = EXT:dlf/Resources/Public/JavaScript/PageView/OL.js
     kitodo-pageView-olStyles = EXT:dlf/Resources/Public/JavaScript/PageView/OLStyles.js
@@ -68,6 +67,7 @@ page {
     kitodo-pageView-searchInDocument = EXT:dlf/Resources/Public/JavaScript/PageView/SearchInDocument.js
     kitodo-pageView-pageView = EXT:dlf/Resources/Public/JavaScript/PageView/PageView.js
     kitodo-pageView-navigation = EXT:dlf/Resources/Public/JavaScript/PageView/Navigation.js
+    kitodo-pageView-metadata = EXT:dlf/Resources/Public/JavaScript/PageView/Metadata.js
     kitodo-search-suggest = EXT:dlf/Resources/Public/JavaScript/Search/Suggester.js
   }
 }

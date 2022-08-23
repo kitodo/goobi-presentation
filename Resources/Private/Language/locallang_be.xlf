@@ -392,6 +392,9 @@
 			<trans-unit id="plugins.metadata.flexform.showFull">
 				<source><![CDATA[Show all available metadata]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.metadata.flexform.prerenderAllSections">
+				<source><![CDATA[Pre-render all metadata sections for client-side toggling]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.flexform.rootline">
 				<source><![CDATA[Show metadata of superior structures]]></source>
 			</trans-unit>

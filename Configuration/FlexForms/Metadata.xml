@@ -82,6 +82,16 @@
                             </config>
                         </TCEforms>
                     </settings.showFull>
+                    <settings.prerenderAllSections>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.metadata.flexform.prerenderAllSections</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </settings.prerenderAllSections>
                     <settings.rootline>
                         <TCEforms>
                             <exclude>1</exclude>

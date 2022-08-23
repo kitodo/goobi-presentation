@@ -507,6 +507,13 @@ Metadata
        1
 
  - :Property:
+        prerenderAllSections
+   :Data Type:
+        :ref:`t3tsref:data-type-boolean`
+   :Default:
+       1
+
+ - :Property:
        rootline
    :Data Type:
        :ref:`t3tsref:data-type-integer`
