@@ -51,6 +51,8 @@ class dlfNavigation {
             },
         }
 
+        this.pageSelect = document.querySelector('.page-select')
+
         this.registerEvents();
         this.updateNavigationButtons();
     }
@@ -70,6 +72,15 @@ class dlfNavigation {
                 });
             }
         }
+
+        this.pageSelect.addEventListener('change', e => {
+            e.preventDefault();
+
+            const pageNo = e.target.value;
+            const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.length, pageNo));
+            this.changePage(clampedPageNo, e);
+        });
+
     }
 
     /**
