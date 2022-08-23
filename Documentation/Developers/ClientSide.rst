@@ -8,12 +8,6 @@ Document Descriptor
 The method ``Doc::toArray()`` collects all information used by the frontend into a JSON-serializable array.
 See the type ``dlf.PageObject`` for an outline of its structure.
 
-*  For each page, there is an entry with the following keys:
-
-   *  ``url``: URL of the image
-   *  ``mimetype``: MIME type of the image.
-   *  ``logSections``
-
 Page Change
 ===========
 

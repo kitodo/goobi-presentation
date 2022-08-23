@@ -1,15 +1,19 @@
 namespace dlf {
+    type ResourceLocator = {
+        url: string;
+        mimetype: string;
+    };
+
+    type ImageDesc = ResourceLocator;
+    type FulltextDesc = ResourceLocator;
+
     type PageObject = {
-        url?: string;
-        mimetype?: string;
+        image?: ImageDesc;
         /**
          * IDs of the logical structures that the page belongs to, ordered by depth.
          */
         logSections: string[];
-        fulltext?: {
-            url: string;
-            mimetype: string;
-        };
+        fulltext?: dlf.FulltextDesc;
     };
 
     type PageChangeEvent = CustomEvent<{

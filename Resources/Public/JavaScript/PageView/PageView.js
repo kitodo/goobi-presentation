@@ -16,15 +16,6 @@
  */
 
 /**
- * @typedef {{
- *  url: string;
- *  mimetype: string;
- * }} ResourceLocator
- *
- * @typedef {ResourceLocator} ImageDesc
- *
- * @typedef {ResourceLocator} FulltextDesc
- *
  * @typedef {ResourceLocator} ScoreDesc
  *
  * @typedef {ResourceLocator} MeasureDesc
@@ -32,9 +23,8 @@
  * @typedef {{
  *  div: string;
  *  progressElementId?: string;
- *  images?: ImageDesc[] | [];
- *  fulltexts?: FulltextDesc[] | [];
- *  scores?: ScoreDesc[] | [];
+ *  images?: dlf.ImageDesc[] | [];
+ *  fulltexts?: dlf.FulltextDesc[] | [];
  *  controls?: ('OverviewMap' | 'ZoomPanel')[];
  *  measureCoords?: MeasureDesc[] | [];
  *  measureIdLinks?: MeasureDesc[] | [];
@@ -965,11 +955,9 @@ dlfViewer.prototype.registerEvents = function() {
 
         const page = e.originalEvent.detail.page;
         const entry = this.document.pages[page - 1];
-        const url = entry.url;
-        const mimetype = entry.mimetype;
 
         // TODO don't forget double page mode
-        this.initLayer([entry])
+        this.initLayer([entry.image])
             .done(layers => {
                 this.map.setLayers(layers);
                 this.initLoadFulltexts(page, [entry]);
@@ -986,7 +974,7 @@ dlfViewer.prototype.updateLayerSize = function() {
 /**
  * Generate the OpenLayers layer objects for given image sources. Returns a promise / jQuery deferred object.
  *
- * @param {ImageDesc[]} imageSourceObjs
+ * @param {dlf.ImageDesc[]} imageSourceObjs
  * @returns {jQuery.Deferred.<function(Array.<ol.layer.Layer>)>}
  * @private
  */
