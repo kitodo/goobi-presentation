@@ -462,12 +462,6 @@ class PageViewController extends AbstractController
      */
     protected function addViewerJS(): void
     {
-        if ($this->requestData['double']) {
-            $fulltextUrls = $this->document->getCurrentDocument()->getDoublePageFulltextUrls();
-        } else {
-            $fulltextUrls = $this->document->getCurrentDocument()->getSinglePageFulltextUrls();
-        }
-
         $config = [
             'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
             'useInternalProxy' => !empty($this->settings['useInternalProxy']),
@@ -532,8 +526,7 @@ class PageViewController extends AbstractController
                         state: {
                             page: ' . $docPage . '
                         },
-                        document: ' . $documentJson . ',
-                        fulltextUrls: ' . json_encode($fulltextUrls->getFulltextUrls()) . '
+                        document: ' . $documentJson . '
                     };
 
                     if (dlfUtils.exists(dlfViewer)) {
@@ -557,8 +550,7 @@ class PageViewController extends AbstractController
                         state: {
                             page: ' . $docPage . '
                         },
-                        document: ' . $documentJson . ',
-                        fulltextUrls: ' . json_encode($fulltextUrls->getFulltextUrls()) . '
+                        document: ' . $documentJson . '
                     };
 
                     if (dlfUtils.exists(dlfViewer)) {

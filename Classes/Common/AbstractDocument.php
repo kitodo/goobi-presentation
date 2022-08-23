@@ -1333,6 +1333,7 @@ abstract class AbstractDocument
         $result = [];
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
         $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
+        $fileGrpsFulltext = GeneralUtility::trimExplode(',', $extConf['fileGrpFulltext']);
         for ($page = 1; $page <= $this->numPages; $page++) {
             $pageEntry = [
                 'logSections' => array_merge(...$this->getLogicalSectionsOnPage($page)),
@@ -1370,45 +1371,31 @@ abstract class AbstractDocument
                 $this->logger->warning('No image file found for page "' . $page . '" in fileGrps "' . $extConf['fileGrpImages'] . '"');
             }
 
+            foreach ($fileGrpsFulltext as $fileGrpFulltext) {
+                if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext])) {
+                    $pageEntry['fulltext']['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext]);
+                    if ($useInternalProxy) {
+                        // Configure @action URL for form.
+                        $uri = $uriBuilder->reset()
+                            ->setTargetPageUid($GLOBALS['TSFE']->id)
+                            ->setCreateAbsoluteUri($forceAbsoluteUrl)
+                            ->setArguments([
+                                'eID' => 'tx_dlf_pageview_proxy',
+                                'url' => $pageEntry['fulltext']['url'],
+                                'uHash' => GeneralUtility::hmac($pageEntry['fulltext']['url'], 'PageViewProxy')
+                                ])
+                            ->build();
+
+                        $pageEntry['fulltext']['url'] = $uri;
+                    }
+                    $pageEntry['fulltext']['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext]);
+                    break;
+                }
+            }
+
             $result[] = $pageEntry;
         }
 
         return $result;
     }
-
-	protected function getFulltextUrls() {
-		$result = [];
-        for ($page = 1; $page <= $this->numPages; $page++) {
-            foreach ($fileGrpsFulltext as $fileGrpFulltext) {
-                if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext])) {
-					$result[$page] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext]);
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	public function getSinglePageFulltextUrls() {
-		$result = [];
-		$urls = $this->getFulltextUrls();
-		foreach ($urls as $url) {
-			$result[] = [ $url ];
-		}
-	}
-
-	public function getDoublePageFulltextUrls($currentPage) {
-		$urls = $this->getFulltextUrls();
-
-		$pairedUrls = [];
-		if ($currentPage % 2 == 0) {
-			// even pagenumber
-			$pairedUrls[] = [ array_shift($urls) ];
-		}
-		while ($urls) {
-			$pairedUrls[] = [ array_shift($urls), array_shift($urls) ];
-		}
-
-		return $pairedUrls;
-	}
 }
