@@ -54,7 +54,7 @@ class dlfNavigation {
         this.pageSelect = document.querySelector('.page-select')
 
         this.registerEvents();
-        this.updateNavigationButtons();
+        this.updateNavigationControls();
     }
 
     /**
@@ -81,6 +81,15 @@ class dlfNavigation {
             this.changePage(clampedPageNo, e);
         });
 
+        document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
+    }
+
+    /**
+     *
+     * @param {dlf.PageChangeEvent} e
+     */
+    onPageChanged(e) {
+        this.updateNavigationControls();
     }
 
     /**
@@ -103,17 +112,16 @@ class dlfNavigation {
                     }
                 )
             );
-            this.updateNavigationButtons();
         }
     }
 
     /**
-     * Update DOM state of navigation buttons, for example, to enable/disable
-     * them depending on current page.
+     * Update DOM state of navigation buttons and dropdown. (For example,
+     * enable/disable the buttons depending on current page.)
      *
      * @private
      */
-    updateNavigationButtons() {
+    updateNavigationControls() {
         for (const [key, value] of Object.entries(this.navigationButtons)) {
             const btnPageNo = value.getPage(tx_dlf_loaded.state.page);
             if (btnPageNo !== tx_dlf_loaded.state.page && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.length) {
@@ -123,6 +131,10 @@ class dlfNavigation {
             }
             // TODO: check if it needs to be done always or only for not disabled buttons
             this.updateUrl(value.button, value.getPage(tx_dlf_loaded.state.page));
+        }
+
+        if (this.pageSelect instanceof HTMLSelectElement) {
+            this.pageSelect.value = tx_dlf_loaded.state.page;
         }
     }
 
@@ -136,7 +148,7 @@ class dlfNavigation {
         var queryParams = this.getQueryParams(currentLink);
         var queryParam;
         var pageParamIndex = -1;
-        
+
         for (var i = 0; i < queryParams.length; i++) {
             queryParam = queryParams[i].split('=');
 
@@ -173,7 +185,7 @@ class dlfNavigation {
         if(baseUrl.indexOf('?') > 0) {
             return baseUrl.slice(baseUrl.indexOf('?') + 1).split('&');
         }
-    
+
         return [];
     }
 }
