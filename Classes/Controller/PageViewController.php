@@ -532,10 +532,13 @@ class PageViewController extends AbstractController
             $viewerConfiguration = '$(document).ready(function() {
                     tx_dlf_loaded = {
                         state: {
+                            documentId: ' . json_encode($this->requestData['id']) . ',
                             page: ' . $docPage . '
                         },
                         document: ' . $documentJson . '
                     };
+
+                    new dlfController();
 
                     if (dlfUtils.exists(dlfViewer)) {
                         ' . $jsViewer . '
@@ -572,10 +575,13 @@ class PageViewController extends AbstractController
             $viewerConfiguration = '$(document).ready(function() {
                     tx_dlf_loaded = {
                         state: {
+                            documentId: ' . json_encode($this->requestData['id']) . ',
                             page: ' . $docPage . '
                         },
                         document: ' . $documentJson . '
                     };
+
+                    new dlfController();
 
                     if (dlfUtils.exists(dlfViewer)) {
                         tx_dlf_viewer = new dlfViewer(' . json_encode($viewer) . ');

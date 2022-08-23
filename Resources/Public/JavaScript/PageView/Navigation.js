@@ -99,12 +99,14 @@ class dlfNavigation {
      */
     changePage(pageNo, e) {
         if (pageNo !== tx_dlf_loaded.state.page) {
+            // TODO: Avoid redundancy to Controller
             tx_dlf_loaded.state.page = pageNo;
             document.body.dispatchEvent(
                 new CustomEvent(
                     'tx-dlf-pageChanged',
                     {
                         'detail': {
+                            'source': 'navigation',
                             'page': pageNo,
                             'pageObj': tx_dlf_loaded.document[pageNo - 1],
                             'target': e.target
