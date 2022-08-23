@@ -121,6 +121,59 @@ class dlfNavigation {
             } else {
                 value.button.classList.add('disabled');
             }
+            // TODO: check if it needs to be done always or only for not disabled buttons
+            this.updateUrl(value.button, value.getPage(tx_dlf_loaded.state.page));
         }
+    }
+
+    /**
+     * Update URLs of navigation buttons.
+     *
+     * @private
+     */
+    updateUrl(button, page) {
+        var currentLink = button.getAttribute('href');
+        var queryParams = this.getQueryParams(currentLink);
+        var queryParam;
+        var pageParamIndex = -1;
+        
+        for (var i = 0; i < queryParams.length; i++) {
+            queryParam = queryParams[i].split('=');
+
+            if (queryParam[0].indexOf('page') != -1) {
+                pageParamIndex = i;
+                queryParam[1] = page;
+                break;
+            }
+        }
+
+        // update page number if it was found and assigned
+        if (pageParamIndex > -1) {
+            queryParams[pageParamIndex] = queryParam[0] + '=' + queryParam[1];
+        }
+
+        const url = currentLink.split("?");
+        if (url.length > 1) {
+            currentLink = url[0] + '?';
+            // overwrite all query params
+            for (var i = 0; i < queryParams.length; i++) {
+                currentLink += queryParams[i] + '&';
+            }
+        }
+
+        button.setAttribute('href', currentLink);
+    }
+
+    /**
+     * Get  URLs of navigation buttons.
+     *
+     * @private
+     */
+    getQueryParams(baseUrl) {
+        if(baseUrl.indexOf('?') > 0) {
+            return baseUrl.slice(baseUrl.indexOf('?') + 1).split('&');
+        }
+    
+        return [];
     }
 }
