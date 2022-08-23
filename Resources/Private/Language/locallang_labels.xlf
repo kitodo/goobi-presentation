@@ -528,7 +528,7 @@
 				<source>Audio fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "AUDIO")</source>
 			</trans-unit>
 			<trans-unit id="config.files.fileGrpVideo">
-				<source>Video fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "DEFAULT")</source>
+				<source>Video fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "VIDEO,DEFAULT")</source>
 			</trans-unit>
 			<trans-unit id="config.iiif.indexAnnotations">
 				<source>Handle IIIF annotations with motivation "painting" as fulltext?: Handling annotations as fulltexts means they are ided (default is "FALSE")</source>
