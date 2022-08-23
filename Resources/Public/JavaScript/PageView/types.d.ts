@@ -13,7 +13,17 @@ namespace dlf {
     };
 
     type PageChangeEvent = CustomEvent<{
+        source: string;
         page: number;
         pageObj: PageObject;
     }>;
+
+    /**
+     * State of document stored in `window.history`.
+     */
+    type PageHistoryState = {
+        type: 'tx-dlf-page-state';
+        documentId: string | number;
+        page: number;
+    };
 }
