@@ -86,6 +86,7 @@ class dlfNavigation {
                     {
                         'detail': {
                             'page': pageNo,
+                            'pageObj': tx_dlf_loaded.document[pageNo - 1],
                             'target': e.target
                         }
                     }
