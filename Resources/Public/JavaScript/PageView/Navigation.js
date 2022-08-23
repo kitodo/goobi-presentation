@@ -47,7 +47,7 @@ class dlfNavigation {
             },
             pageLast: {
                 button: document.querySelector('.page-last'),
-                getPage: (prevPageNo) => tx_dlf_loaded.document.length,
+                getPage: (prevPageNo) => tx_dlf_loaded.document.pages.length,
             },
         }
 
@@ -67,7 +67,7 @@ class dlfNavigation {
                     e.preventDefault();
 
                     const pageNo = value.getPage(tx_dlf_loaded.state.page);
-                    const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.length, pageNo));
+                    const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.pages.length, pageNo));
                     this.changePage(clampedPageNo, e);
                 });
             }
@@ -77,7 +77,7 @@ class dlfNavigation {
             e.preventDefault();
 
             const pageNo = e.target.value;
-            const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.length, pageNo));
+            const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.pages.length, pageNo));
             this.changePage(clampedPageNo, e);
         });
 
@@ -108,7 +108,7 @@ class dlfNavigation {
                         'detail': {
                             'source': 'navigation',
                             'page': pageNo,
-                            'pageObj': tx_dlf_loaded.document[pageNo - 1],
+                            'pageObj': tx_dlf_loaded.document.pages[pageNo - 1],
                             'target': e.target
                         }
                     }
@@ -126,7 +126,7 @@ class dlfNavigation {
     updateNavigationControls() {
         for (const [key, value] of Object.entries(this.navigationButtons)) {
             const btnPageNo = value.getPage(tx_dlf_loaded.state.page);
-            if (btnPageNo !== tx_dlf_loaded.state.page && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.length) {
+            if (btnPageNo !== tx_dlf_loaded.state.page && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.pages.length) {
                 value.button.classList.remove('disabled');
             } else {
                 value.button.classList.add('disabled');

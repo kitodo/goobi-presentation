@@ -1194,7 +1194,9 @@ abstract class AbstractDocument
         $this->magicGetSmLinks();
         $this->magicGetPhysicalStructure();
 
-        $result = [];
+        $result = [
+            'pages' => [],
+        ];
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
         $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
         $fileGrpsFulltext = GeneralUtility::trimExplode(',', $extConf['fileGrpFulltext']);
@@ -1257,7 +1259,7 @@ abstract class AbstractDocument
                 }
             }
 
-            $result[] = $pageEntry;
+            $result['pages'][] = $pageEntry;
         }
 
         return $result;
