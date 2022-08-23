@@ -1163,23 +1163,52 @@ abstract class AbstractDocument
         }
     }
 
+    /**
+     * Get IDs of logical structures that a page belongs to, indexed by depth.
+     *
+     * @param int $pageNo
+     * @return array
+     */
+    public function getLogicalSectionsOnPage($pageNo)
+    {
+        $ids = [];
+        if (!empty($this->physicalStructure[$pageNo]) && !empty($this->smLinks['p2l'][$this->physicalStructure[$pageNo]])) {
+            foreach ($this->smLinks['p2l'][$this->physicalStructure[$pageNo]] as $logId) {
+                $depth = $this->getStructureDepth($logId);
+                $ids[$depth][] = $logId;
+            }
+        }
+        ksort($ids);
+        reset($ids);
+        return $ids;
+    }
+
     public function toArray($uriBuilder, array $config = [])
     {
         $useInternalProxy = $config['useInternalProxy'] ?? false;
         $forceAbsoluteUrl = $config['forceAbsoluteUrl'] ?? false;
+
+        $this->magicGetSmLinks();
+        $this->magicGetPhysicalStructure();
+
         $result = [];
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
         $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
         for ($page = 1; $page <= $this->numPages; $page++) {
+            $pageEntry = [
+                'logSections' => array_merge(...$this->getLogicalSectionsOnPage($page)),
+            ];
+
+            // Get image URL
             foreach ($fileGrpsImages as $fileGrpImages) {
                 // Get image link.
                 if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages])) {
-                    $image['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
-                    $image['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+                    $pageEntry['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+                    $pageEntry['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
 
                     // Only deliver static images via the internal PageViewProxy.
                     // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
-                    if ($useInternalProxy && strpos($image['mimetype'], 'image/') === 0) {
+                    if ($useInternalProxy && strpos($pageEntry['mimetype'], 'image/') === 0) {
                         // Configure @action URL for form.
                         $uri = $uriBuilder
                             ->reset()
@@ -1187,21 +1216,22 @@ abstract class AbstractDocument
                             ->setCreateAbsoluteUri($forceAbsoluteUrl)
                             ->setArguments([
                                 'eID' => 'tx_dlf_pageview_proxy',
-                                'url' => $image['url'],
-                                'uHash' => GeneralUtility::hmac($image['url'], 'PageViewProxy')
+                                'url' => $pageEntry['url'],
+                                'uHash' => GeneralUtility::hmac($pageEntry['url'], 'PageViewProxy')
                                 ])
                             ->build();
-                        $image['url'] = $uri;
+                        $pageEntry['url'] = $uri;
                     }
-                    $result[] = $image;
                     break;
                 } else {
                     $this->logger->notice('No image file found for page "' . $page . '" in fileGrp "' . $fileGrpImages . '"');
                 }
             }
-            if (empty($image)) {
+            if (empty($pageEntry['url'])) {
                 $this->logger->warning('No image file found for page "' . $page . '" in fileGrps "' . $extConf['fileGrpImages'] . '"');
             }
+
+            $result[] = $pageEntry;
         }
 
         return $result;

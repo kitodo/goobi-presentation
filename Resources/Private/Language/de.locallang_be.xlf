@@ -241,6 +241,10 @@
 				<source><![CDATA[Show all available metadata]]></source>
 				<target><![CDATA[Alle verfügbaren Metadaten anzeigen]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.metadata.flexform.prerenderAllSections" approved="yes">
+				<source><![CDATA[Pre-render all metadata sections for client-side toggling]]></source>
+				<target><![CDATA[Alle Metadaten-Sektionen ausgeben (für clientseitiges Umschalten)]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.metadata.title" approved="yes">
 				<source><![CDATA[Kitodo: Metadata]]></source>
 				<target><![CDATA[Kitodo: Metadata]]></target>

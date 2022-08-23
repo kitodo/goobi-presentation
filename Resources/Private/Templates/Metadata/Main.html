@@ -25,7 +25,7 @@
     </f:then>
     <f:else>
         <f:for each="{documentMetadataSections}" as="documentMetadataSection" iteration="sectionIterator">
-            <dl class="tx-dlf-metadata-titledata">
+            <dl class="tx-dlf-metadata-titledata" data-dlf-section="{documentMetadataSection._id}" {f:if(condition: "!{documentMetadataSection._active}", then: "hidden")}>
                 <f:for each="{configMetadata}" as="configObject">
                     <f:if condition="{documentMetadataSection.{configObject.indexName}}">
                         <f:render partial="Metadata/Entries" arguments="{_all}" />
@@ -35,3 +35,11 @@
         </f:for>
     </f:else>
 </f:if>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const rootline = {settings.rootline};
+
+        new dlfMetadata({ rootline });
+    });
+</script>
