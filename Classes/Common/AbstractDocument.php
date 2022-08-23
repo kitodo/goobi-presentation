@@ -1375,4 +1375,40 @@ abstract class AbstractDocument
 
         return $result;
     }
+
+	protected function getFulltextUrls() {
+		$result = [];
+        for ($page = 1; $page <= $this->numPages; $page++) {
+            foreach ($fileGrpsFulltext as $fileGrpFulltext) {
+                if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext])) {
+					$result[$page] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext]);
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	public function getSinglePageFulltextUrls() {
+		$result = [];
+		$urls = $this->getFulltextUrls();
+		foreach ($urls as $url) {
+			$result[] = [ $url ];
+		}
+	}
+
+	public function getDoublePageFulltextUrls($currentPage) {
+		$urls = $this->getFulltextUrls();
+
+		$pairedUrls = [];
+		if ($currentPage % 2 == 0) {
+			// even pagenumber
+			$pairedUrls[] = [ array_shift($urls) ];
+		}
+		while ($urls) {
+			$pairedUrls[] = [ array_shift($urls), array_shift($urls) ];
+		}
+
+		return $pairedUrls;
+	}
 }

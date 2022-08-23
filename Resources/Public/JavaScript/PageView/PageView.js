@@ -130,7 +130,8 @@ var dlfViewer = function (settings) {
      * @type {Array.<string|?>}
      * @private
      */
-    this.fulltexts = dlfUtils.exists(settings.fulltexts) ? settings.fulltexts : [];
+    //this.fulltexts = dlfUtils.exists(settings.fulltexts) ? settings.fulltexts : [];
+    this.fulltextUrls = tx_dlf_loaded.fulltextUrls || null
 
     /**
      * Loaded scores (as jQuery deferred object).
@@ -144,7 +145,7 @@ var dlfViewer = function (settings) {
      * @type {JQueryStatic.Deferred[]}
      * @private
      */
-    this.fulltextsLoaded_ = [];
+    this.fulltextsLoaded_ = {};
 
     /**
      * IIIF annotation lists URLs for the current canvas
@@ -473,11 +474,12 @@ dlfViewer.prototype.addCustomControls = function() {
 
     // Adds fulltext behavior and download only if there is fulltext available and no double page
     // behavior is active
-    if (this.fulltextsLoaded_[0] !== undefined && this.images.length === 1) {
+	const currentFulltext = this.fulltextsLoaded_[tx_dlf_loaded.state.page];
+    if (currentFulltext[0] !== undefined && this.images.length === 1) {
         fulltextControl = new dlfViewerFullTextControl(this.map);
         fulltextDownloadControl = new dlfViewerFullTextDownloadControl(this.map);
 
-        this.fulltextsLoaded_[0]
+        currentFulltext[0]
             .then(function (fulltextData) {
                 fulltextControl.loadFulltextData(fulltextData);
                 fulltextDownloadControl.setFulltextData(fulltextData);
@@ -801,7 +803,8 @@ dlfViewer.prototype.displayHighlightWord = function(highlightWords = null) {
         var self = this;
         var values = decodeURIComponent(this.highlightWords).split(';');
 
-        $.when.apply($, this.fulltextsLoaded_)
+		const currentFulltext = this.fulltextsLoaded_[tx_dlf_loaded.state.page];
+        $.when.apply($, currentFulltext)
             .done(function (fulltextData, fulltextDataImageTwo) {
                 var stringFeatures = [];
 
@@ -993,18 +996,30 @@ dlfViewer.prototype.initLoadScores = function () {
  * @private
  */
 dlfViewer.prototype.initLoadFulltexts = function () {
-    var cnt = Math.min(this.fulltexts.length, this.images.length);
-    var xOffset = 0;
-    for (var i = 0; i < cnt; i++) {
-        var fulltext = this.fulltexts[i];
-        var image = this.images[i];
+	const doublePage = this.fulltextUrls[0].length == 2 ? true : false;
+	let pageCount = 1;
 
-        if (dlfUtils.isFulltextDescriptor(fulltext)) {
-            this.fulltextsLoaded_[i] = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext.url, image, xOffset);
-        }
+	for (pageFulltext in this.fulltextUrls) {
+		var cnt = Math.min(pageFulltext.length, this.images.length);
+		var xOffset = 0;
+		for (var i = 0; i < cnt; i++) {
+			var fulltext = pageFulltext[i];
+			var image = this.images[i];
 
-        xOffset += image.width;
-    }
+			if (dlfUtils.isFulltextDescriptor(fulltext)) {
+				fulltextEntry = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext, image, xOffset);
+			}
+
+			xOffset += image.width;
+		}
+
+		this.fulltextsLoaded_[pageCount] = fulltextEntry;
+		if (doublePage) {
+			pageCount += 2;
+		} else {
+			pageCount += 1;
+		}
+	}
 };
 
 dlfViewer.prototype.degreeToRadian = function (degree) {
