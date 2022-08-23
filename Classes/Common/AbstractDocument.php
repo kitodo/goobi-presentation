@@ -1310,8 +1310,8 @@ abstract class AbstractDocument
      */
     public function getLogicalSectionsOnPage($pageNo)
     {
-        $this->_getSmLinks();
-        $this->_getPhysicalStructure();
+        $this->magicGetSmLinks();
+        $this->magicGetPhysicalStructure();
 
         $ids = [];
         if (!empty($this->physicalStructure[$pageNo]) && !empty($this->smLinks['p2l'][$this->physicalStructure[$pageNo]])) {
@@ -1330,8 +1330,8 @@ abstract class AbstractDocument
         $useInternalProxy = $config['useInternalProxy'] ?? false;
         $forceAbsoluteUrl = $config['forceAbsoluteUrl'] ?? false;
 
-        $this->_getSmLinks();
-        $this->_getPhysicalStructure();
+        $this->magicGetSmLinks();
+        $this->magicGetPhysicalStructure();
 
         $result = [
             'pages' => [],
@@ -1348,12 +1348,12 @@ abstract class AbstractDocument
             foreach ($fileGrpsImages as $fileGrpImages) {
                 // Get image link.
                 if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages])) {
-                    $pageEntry['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
-                    $pageEntry['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+                    $imageUrl = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+                    $imageMimetype = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
 
                     // Only deliver static images via the internal PageViewProxy.
                     // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
-                    if ($useInternalProxy && strpos($pageEntry['mimetype'], 'image/') === 0) {
+                    if ($useInternalProxy && strpos($imageMimetype, 'image/') === 0) {
                         // Configure @action URL for form.
                         $uri = $uriBuilder
                             ->reset()
@@ -1361,12 +1361,18 @@ abstract class AbstractDocument
                             ->setCreateAbsoluteUri($forceAbsoluteUrl)
                             ->setArguments([
                                 'eID' => 'tx_dlf_pageview_proxy',
-                                'url' => $pageEntry['url'],
-                                'uHash' => GeneralUtility::hmac($pageEntry['url'], 'PageViewProxy')
+                                'url' => $imageUrl,
+                                'uHash' => GeneralUtility::hmac($imageUrl, 'PageViewProxy')
                                 ])
                             ->build();
-                        $pageEntry['url'] = $uri;
+                        $imageUrl = $uri;
                     }
+
+                    $pageEntry['image'] = [
+                        'url' => $imageUrl,
+                        'mimetype' => $imageMimetype,
+                    ];
+
                     break;
                 } else {
                     $this->logger->notice('No image file found for page "' . $page . '" in fileGrp "' . $fileGrpImages . '"');
