@@ -130,8 +130,8 @@ var dlfViewer = function (settings) {
      * @type {Array.<string|?>}
      * @private
      */
-    //this.fulltexts = dlfUtils.exists(settings.fulltexts) ? settings.fulltexts : [];
-    this.fulltextUrls = tx_dlf_loaded.fulltextUrls || null
+    this.fulltexts = dlfUtils.exists(settings.fulltexts) ? settings.fulltexts : [];
+    //this.fulltextUrls = tx_dlf_loaded.fulltextUrls || null
 
     /**
      * Loaded scores (as jQuery deferred object).
@@ -346,14 +346,42 @@ dlfViewer.prototype.countPages = function () {
 };
 
 /**
+ * Update Fulltext in UI
+ *
+ * @param {JQueryStatic.Deferred | undefined} currentFulltext
+ */
+dlfViewer.prototype.updateFulltext = function (currentFulltext) {
+    if (!this.fulltextControl) {
+        this.fulltextControl = new dlfViewerFullTextControl(this.map);
+    }
+    if (!this.fulltextDownloadControl) {
+        this.fulltextDownloadControl = new dlfViewerFullTextDownloadControl(this.map);
+    }
+    if (currentFulltext !== undefined && this.images.length === 1) {
+        $('#tx-dlf-tools-fulltext').show();
+
+        currentFulltext
+            .then( (fulltextData) => {
+                this.fulltextControl.loadFulltextData(fulltextData);
+                this.fulltextDownloadControl.setFulltextData(fulltextData);
+            })
+            .catch( () => {
+                this.fulltextControl.deactivate();
+            });
+    } else {
+        $('#tx-dlf-tools-fulltext').hide();
+        this.fulltextControl.deactivate();
+    }
+};
+
+/**
  * Methods inits and binds the custom controls to the dlfViewer. Right now that are the
  * fulltext, score, and the image manipulation control
  */
 dlfViewer.prototype.addCustomControls = function() {
-    var fulltextControl = undefined,
-        fulltextDownloadControl = undefined,
-        annotationControl = undefined,
-        imageManipulationControl = undefined;
+    var annotationControl = undefined,
+        imageManipulationControl = undefined,
+        images = this.images;
 
     //
     // Annotation facsimile
@@ -473,22 +501,8 @@ dlfViewer.prototype.addCustomControls = function() {
 
     // Adds fulltext behavior and download only if there is fulltext available and no double page
     // behavior is active
-	const currentFulltext = this.fulltextsLoaded_[tx_dlf_loaded.state.page];
-    if (currentFulltext[0] !== undefined && this.images.length === 1) {
-        fulltextControl = new dlfViewerFullTextControl(this.map);
-        fulltextDownloadControl = new dlfViewerFullTextDownloadControl(this.map);
-
-        currentFulltext[0]
-            .then(function (fulltextData) {
-                fulltextControl.loadFulltextData(fulltextData);
-                fulltextDownloadControl.setFulltextData(fulltextData);
-            })
-            .catch(function () {
-                fulltextControl.deactivate();
-            });
-    } else {
-        $('#tx-dlf-tools-fulltext').remove();
-    }
+	const currentFulltext = this.fulltextsLoaded_[`${tx_dlf_loaded.state.page}-0`];
+    this.updateFulltext(currentFulltext);
 
     if (this.scoresLoaded_ !== undefined && this.scoresLoaded_ !== null) {
         var context = this;
@@ -851,7 +865,8 @@ dlfViewer.prototype.init = function(controlNames) {
         .done($.proxy(function(layers){
 
             // Initiate loading fulltexts
-            this.initLoadFulltexts();
+            const pageNo = tx_dlf_loaded.state.page;
+            this.initLoadFulltexts(pageNo, [tx_dlf_loaded.document[pageNo - 1]]);
 
             if (this.score !== '') {
                 // Initiate loading scores
@@ -957,7 +972,10 @@ dlfViewer.prototype.registerEvents = function() {
         this.initLayer([entry])
             .done(layers => {
                 this.map.setLayers(layers);
-        });
+                this.initLoadFulltexts(page, [entry]);
+                const currentFulltext = this.fulltextsLoaded_[`${page}-0`];
+                this.updateFulltext(currentFulltext);
+            });
     });
 };
 
@@ -1007,33 +1025,26 @@ dlfViewer.prototype.initLoadScores = function () {
 /**
  * Start loading fulltexts and store them to `fulltextsLoaded_` (as jQuery deferred objects).
  *
+ * @param {number} firstPageNo
+ * @param {dlf.PageObject[]} pageObjects
  * @private
  */
-dlfViewer.prototype.initLoadFulltexts = function () {
-	const doublePage = this.fulltextUrls[0].length == 2 ? true : false;
-	let pageCount = 1;
+dlfViewer.prototype.initLoadFulltexts = function (firstPageNo, pageObjects) {
+    var cnt = Math.min(pageObjects.length, this.images.length);
+    var xOffset = 0;
+    for (var i = 0; i < cnt; i++) {
+        const fulltext = pageObjects[i].fulltext;
+        console.log(fulltext);
+        const image = this.images[i];
+        const key = `${firstPageNo+i}-${i}`;
 
-	for (pageFulltext in this.fulltextUrls) {
-		var cnt = Math.min(pageFulltext.length, this.images.length);
-		var xOffset = 0;
-		for (var i = 0; i < cnt; i++) {
-			var fulltext = pageFulltext[i];
-			var image = this.images[i];
+        if (!(key in this.fulltextsLoaded_) && dlfUtils.isFulltextDescriptor(fulltext)) {
+            fulltextEntry = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext.url, image, xOffset);
+            this.fulltextsLoaded_[key] = fulltextEntry;
+        }
 
-			if (dlfUtils.isFulltextDescriptor(fulltext)) {
-				fulltextEntry = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext, image, xOffset);
-			}
-
-			xOffset += image.width;
-		}
-
-		this.fulltextsLoaded_[pageCount] = fulltextEntry;
-		if (doublePage) {
-			pageCount += 2;
-		} else {
-			pageCount += 1;
-		}
-	}
+        xOffset += image.width;
+    }
 };
 
 dlfViewer.prototype.degreeToRadian = function (degree) {
