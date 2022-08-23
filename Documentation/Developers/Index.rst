@@ -8,5 +8,6 @@ These pages are aimed at developers working on Kitodo.Presentation.
 
    Metadata
    Database
+   ClientSide
    Validation
    Embedded3DViewer
