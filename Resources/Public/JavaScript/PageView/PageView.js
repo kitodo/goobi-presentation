@@ -855,7 +855,7 @@ dlfViewer.prototype.init = function(controlNames) {
 
             // Initiate loading fulltexts
             const pageNo = tx_dlf_loaded.state.page;
-            this.initLoadFulltexts(pageNo, [tx_dlf_loaded.document[pageNo - 1]]);
+            this.initLoadFulltexts(pageNo, [tx_dlf_loaded.document.pages[pageNo - 1]]);
             this.initLoadScores();
 
             var controls = controlNames.length > 0 || controlNames[0] === ""
@@ -949,7 +949,7 @@ dlfViewer.prototype.registerEvents = function() {
         }
 
         const page = e.originalEvent.detail.page;
-        const entry = this.document[page - 1];
+        const entry = this.document.pages[page - 1];
         const url = entry.url;
         const mimetype = entry.mimetype;
 
