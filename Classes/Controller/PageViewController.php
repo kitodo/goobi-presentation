@@ -467,7 +467,7 @@ class PageViewController extends AbstractController
             'useInternalProxy' => !empty($this->settings['useInternalProxy']),
         ];
 
-        $documentJson = json_encode($this->document->getCurrentDocument()->toArray($this->uriBuilder, $config));
+        $currentDocumentArray = $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config);
 
         if (count($this->documentArray) > 1) {
             $jsViewer = 'tx_dlf_viewer = [];';
@@ -500,6 +500,14 @@ class PageViewController extends AbstractController
                         $currentMeasureId = $docMeasures['measureCounterToMeasureId'][$this->requestData['docMeasure'][$i]];
                     }
 
+                    $tx_dlf_loaded = [
+                        'state' => [
+                            'documentId' => $this->requestData['id'],
+                            'page' => $docPage,
+                        ],
+                        'document' => $currentDocumentArray,
+                    ];
+
                     $jsViewer .= 'tx_dlf_viewer[' . $i . '] = new dlfViewer({
                                 controls: ["' . implode('", "', $this->controls) . '"],
                                 div: "tx-dfgviewer-map-' . $i . '",
@@ -522,13 +530,7 @@ class PageViewController extends AbstractController
             // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
-                    tx_dlf_loaded = {
-                        state: {
-                            documentId: ' . json_encode($this->requestData['id']) . ',
-                            page: ' . $docPage . '
-                        },
-                        document: ' . $documentJson . '
-                    };
+                    tx_dlf_loaded = ' . $tx_dlf_loaded . ';
 
                     new dlfController();
 
@@ -546,16 +548,18 @@ class PageViewController extends AbstractController
                 $currentMeasureId = $docMeasures['measureCounterToMeasureId'][$this->requestData['measure']];
             }
 
+            $tx_dlf_loaded = [
+                'state' => [
+                    'documentId' => $this->requestData['id'],
+                    'page' => $docPage,
+                ],
+                'document' => $currentDocumentArray,
+            ];
+
             // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
-                    tx_dlf_loaded = {
-                        state: {
-                            documentId: ' . json_encode($this->requestData['id']) . ',
-                            page: ' . $docPage . '
-                        },
-                        document: ' . $documentJson . '
-                    };
+                    tx_dlf_loaded = ' . $tx_dlf_loaded . ';
 
                     new dlfController();
 
