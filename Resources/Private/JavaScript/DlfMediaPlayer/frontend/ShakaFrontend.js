@@ -213,7 +213,12 @@ export default class ShakaFrontend {
       || (props.controlElements !== undefined && (!this.isConfigured || props.controlElements !== this.playerProperties.controlElements))
     );
 
-    Object.assign(this.playerProperties, props);
+    for (const [key, value] of Object.entries(props)) {
+      if (value !== undefined) {
+        // @ts-expect-error: `Object.entries()` is too coarse-grained
+        this.playerProperties[key] = value;
+      }
+    }
 
     if (props.locale !== undefined) {
       this.controls.getLocalization()?.changeLocale([props.locale]);
