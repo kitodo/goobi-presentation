@@ -942,13 +942,18 @@ dlfViewer.prototype.registerEvents = function() {
         const entry = this.document.pages[page - 1];
 
         // TODO don't forget double page mode
-        this.initLayer([entry.image])
-            .done(layers => {
-                this.map.setLayers(layers);
-                this.initLoadFulltexts(page, [entry]);
-                const currentFulltext = this.fulltextsLoaded_[`${page}-0`];
-                this.updateFulltext(currentFulltext);
-            });
+        const file = dlfUtils.findFirstSet(entry.files, tx_dlf_loaded.fileGroups['images']);
+        if (file === undefined) {
+            console.warn("No image file found");
+        } else {
+            this.initLayer([file])
+                .done(layers => {
+                    this.map.setLayers(layers);
+                    this.initLoadFulltexts(page, [entry]);
+                    const currentFulltext = this.fulltextsLoaded_[`${page}-0`];
+                    this.updateFulltext(currentFulltext);
+                });
+        }
     });
 };
 
@@ -1006,14 +1011,17 @@ dlfViewer.prototype.initLoadFulltexts = function (firstPageNo, pageObjects) {
     var cnt = Math.min(pageObjects.length, this.images.length);
     var xOffset = 0;
     for (var i = 0; i < cnt; i++) {
-        const fulltext = pageObjects[i].fulltext;
-        console.log(fulltext);
         const image = this.images[i];
-        const key = `${firstPageNo+i}-${i}`;
+        const key = `${firstPageNo + i}-${i}`;
 
-        if (!(key in this.fulltextsLoaded_) && dlfUtils.isFulltextDescriptor(fulltext)) {
-            fulltextEntry = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext.url, image, xOffset);
-            this.fulltextsLoaded_[key] = fulltextEntry;
+        const fulltext = dlfUtils.findFirstSet(pageObjects[i].files, tx_dlf_loaded.fileGroups['fulltext']);
+        if (fulltext !== undefined) {
+            if (!(key in this.fulltextsLoaded_) && dlfUtils.isFulltextDescriptor(fulltext)) {
+                fulltextEntry = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext.url, image, xOffset);
+                this.fulltextsLoaded_[key] = fulltextEntry;
+            }
+        } else {
+            console.warn("No fulltext file found");
         }
 
         xOffset += image.width;

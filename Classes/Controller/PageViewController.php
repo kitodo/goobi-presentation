@@ -462,9 +462,16 @@ class PageViewController extends AbstractController
      */
     protected function addViewerJS(): void
     {
+        $filesConfig = $this->extConf['files'];
+
+        $imageFileGroups = array_reverse(GeneralUtility::trimExplode(',', $filesConfig['fileGrpImages']));
+        $fulltextFileGroups = GeneralUtility::trimExplode(',', $filesConfig['fileGrpFulltext']);
+
         $config = [
             'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
-            'useInternalProxy' => !empty($this->settings['useInternalProxy']),
+            'proxyFileGroups' => !empty($this->settings['useInternalProxy'])
+                ? array_merge($imageFileGroups, $fulltextFileGroups)
+                : [],
         ];
 
         $currentDocumentArray = $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config);
@@ -505,6 +512,11 @@ class PageViewController extends AbstractController
                             'documentId' => $this->requestData['id'],
                             'page' => $docPage,
                         ],
+                        'fileGroups' => [
+                            'images' => $imageFileGroups,
+                            'fulltext' => $fulltextFileGroups,
+                            'download' => GeneralUtility::trimExplode(',', $filesConfig['fileGrpDownload']),
+                        ],
                         'document' => $currentDocumentArray,
                     ];
 
@@ -518,7 +530,7 @@ class PageViewController extends AbstractController
                                 score: ' . json_encode($docScore) . ',
                                 annotationContainers: ' . json_encode($docAnnotationContainers) . ',
                                 measureCoords: ' . json_encode($docMeasures['measureCoordsCurrentSite']) . ',
-                                useInternalProxy: ' . $config['useInternalProxy'] ? 1 : 0 . ',
+                                useInternalProxy: ' . $this->settings['useInternalProxy'] ? 1 : 0 . ',
                                 currentMeasureId: "' . $currentMeasureId . '",
                                 measureIdLinks: ' . json_encode($docMeasures['measureLinks']) . '
                             });
@@ -553,13 +565,18 @@ class PageViewController extends AbstractController
                     'documentId' => $this->requestData['id'],
                     'page' => $docPage,
                 ],
+                'fileGroups' => [
+                    'images' => $imageFileGroups,
+                    'fulltext' => $fulltextFileGroups,
+                    'download' => GeneralUtility::trimExplode(',', $filesConfig['fileGrpDownload']),
+                ],
                 'document' => $currentDocumentArray,
             ];
 
             // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
-                    tx_dlf_loaded = ' . $tx_dlf_loaded . ';
+                    tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
 
                     new dlfController();
 
@@ -573,7 +590,7 @@ class PageViewController extends AbstractController
                             score: ' . json_encode($this->scores) . ',
                             annotationContainers: ' . json_encode($this->annotationContainers) . ',
                             measureCoords: ' . json_encode($docMeasures['measureCoordsCurrentSite']) . ',
-                            useInternalProxy: ' . $config['useInternalProxy'] ? 1 : 0 . ',
+                            useInternalProxy: ' . $this->settings['useInternalProxy'] ? 1 : 0 . ',
                             verovioAnnotations: ' . json_encode($this->verovioAnnotations) . ',
                             currentMeasureId: "' . $currentMeasureId . '",
                             measureIdLinks: ' . json_encode($docMeasures['measureLinks']) . '
