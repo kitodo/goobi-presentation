@@ -405,42 +405,22 @@ class ToolboxController extends AbstractController
      */
     private function getPageLink(): array
     {
-        $firstPageLink = '';
-        $secondPageLink = '';
-        $pageLinkArray = [];
-        $pageNumber = $this->requestData['page'] ?? 0;
-        $useGroups = $this->useGroupsConfiguration->getDownload();
-        // Get image link.
-        while ($useGroup = array_shift($useGroups)) {
-            $firstFileGroupDownload = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$pageNumber]]['files'][$useGroup] ?? [];
-            if (!empty($firstFileGroupDownload)) {
-                $firstPageLink = $this->currentDocument->getFileLocation($firstFileGroupDownload);
-                // Get second page, too, if double page view is activated.
-                $secondFileGroupDownload = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$pageNumber + 1]]['files'][$useGroup];
-                if (
-                    $this->requestData['double']
-                    && $pageNumber < $this->currentDocument->numPages
-                    && !empty($secondFileGroupDownload)
-                ) {
-                    $secondPageLink = $this->currentDocument->getFileLocation($secondFileGroupDownload);
-                }
-                break;
-            }
+        $pageNumber = $this->requestData['page'];
+        $pageLinks = [
+            $this->currentDocument->getPageLink($pageNumber),
+        ];
+        // Get second page, too, if double page view is activated.
+        if ($this->requestData['double'] && $pageNumber < $this->currentDocument->numPages) {
+            $pageLinks[1] = $this->currentDocument->getPageLink($pageNumber + 1);
         }
         if (
-            empty($firstPageLink)
-            && empty($secondPageLink)
+            empty($pageLinks[0])
+            && empty($pageLinks[1])
         ) {
             $this->logger->warning('File not found in fileGrps "' . $this->extConf['files']['useGroupsDownload'] . '"');
         }
 
-        if (!empty($firstPageLink)) {
-            $pageLinkArray[0] = $firstPageLink;
-        }
-        if (!empty($secondPageLink)) {
-            $pageLinkArray[1] = $secondPageLink;
-        }
-        return $pageLinkArray;
+        return $pageLinks;
     }
 
     /**
