@@ -79,17 +79,36 @@
 <f:section name="render.pageStepBack">
     <div class="tx-dlf-navigation-back">
         <f:variable name="backTextTemplate" value="{f:translate(key: 'backXPages', arguments: '{0: \'PAGE_STEPS\'}')}" />
-        <f:link.action class="page-step-back {f:if(condition:\"{viewData.requestData.page} <= {pageSteps}\", then: \"disabled:\")}" addQueryString="1" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - pageSteps}'}" additionalAttributes="{'data-text': '{backTextTemplate}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
-            <f:translate key="backXPages" arguments="{0: '{pageSteps}'}"/>
-        </f:link.action>
+        <f:comment>Make sure that no negative number is put into tx_dlf[page], so that a route enhancer that requires matches against "\d+" won't fail</f:comment>
+        <f:if condition="{viewData.requestData.page} > {pageSteps}">
+            <f:then>
+                <f:link.action class="page-step-back" addQueryString="1" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - pageSteps}'}" additionalAttributes="{'data-text': '{backTextTemplate}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+                    <f:translate key="backXPages" arguments="{0: '{pageSteps}'}"/>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <f:link.action class="page-step-back disabled" additionalAttributes="{'data-text': '{backTextTemplate}'}">
+                    <f:translate key="backXPages" arguments="{0: '{pageSteps}'}"/>
+                </f:link.action>
+            </f:else>
+        </f:if>
     </div>
 </f:section>
 
 <f:section name="render.pageBack">
     <div class="tx-dlf-navigation-prev">
-        <f:link.action class="page-back {f:if(condition: \"{viewData.requestData.page} <= {viewData.requestData.double + 1}\", then: \"disabled:\")}" addQueryString="1" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - 1 - viewData.requestData.double}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
-            <f:translate key="prevPage"/>
-        </f:link.action>
+        <f:if condition="{viewData.requestData.page} > {viewData.requestData.double + 1}">
+            <f:then>
+                <f:link.action class="page-back" addQueryString="1" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - 1 - viewData.requestData.double}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+                    <f:translate key="prevPage"/>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <f:link.action class="page-back disabled">
+                    <f:translate key="prevPage"/>
+                </f:link.action>
+            </f:else>
+        </f:if>
     </div>
 </f:section>
 
