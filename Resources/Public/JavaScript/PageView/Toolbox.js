@@ -24,11 +24,36 @@ class dlfToolbox {
         this.pageLinks.forEach(element => {
             const offset = Number(element.getAttribute('data-page-link'));
             const pageObj = tx_dlf_loaded.document.pages[e.detail.page - 1 + offset];
-            if (pageObj) {
-                const file = dlfUtils.findFirstSet(pageObj.files, tx_dlf_loaded.fileGroups['download']);
-                if (file) {
-                    element.href = file.url;
+            if (!pageObj) {
+                return;
+            }
+
+            const fileGroupsJson = element.getAttribute('data-file-groups');
+            const fileGroups = fileGroupsJson
+                ? JSON.parse(fileGroupsJson)
+                : tx_dlf_loaded.fileGroups['download'];
+            const file = dlfUtils.findFirstSet(pageObj.files, fileGroups);
+            if (!file) {
+                return;
+            }
+
+            element.href = file.url;
+
+            const mimetypeLabelEl = element.querySelector('.dlf-mimetype-label');
+            if (mimetypeLabelEl !== null) {
+                // Transliterated from ToolboxController
+                let mimetypeLabel = '';
+                switch (file.mimetype) {
+                    case 'image/jpeg':
+                        mimetypeLabel = ' (JPG)';
+                        break;
+
+                    case 'image/tiff':
+                        mimetypeLabel = ' (TIFF)';
+                        break;
                 }
+
+                mimetypeLabelEl.textContent = mimetypeLabel;
             }
         });
     }

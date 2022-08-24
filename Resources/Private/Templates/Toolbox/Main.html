@@ -48,22 +48,23 @@
     <f:if condition="{renderImageDownloadTool} && {imageDownload}">
         <f:then>
             <li>
+                <f:variable name="fileGrpsJson">{fileGrpsImageDownload -> f:format.json()}</f:variable>
                 <span class="tx-dlf-tools-imagedownload">
                     <f:if condition="{double} === 0">
                         <f:then>
-                            <f:link.external uri="{imageDownload.0.url}">
-                                <f:translate key="downloadSinglePage" /> {imageDownload.0.mimetypeLabel}
+                            <f:link.external uri="{imageDownload.0.url}" additionalAttributes="{'data-page-link': 0, 'data-file-groups': fileGrpsJson}">
+                                <f:translate key="downloadSinglePage" /> <span class="dlf-mimetype-label">{imageDownload.0.mimetypeLabel}</span>
                             </f:link.external>
                         </f:then>
                         <f:else>
-                            <f:link.external uri="{imageDownload.0.url}">
-                                <f:translate key="downloadLeftPage" /> {imageDownload.0.mimetypeLabel}
+                            <f:link.external uri="{imageDownload.0.url}" additionalAttributes="{'data-page-link': 0, 'data-file-groups': fileGrpsJson}">
+                                <f:translate key="downloadLeftPage" /> <span class="dlf-mimetype-label">{imageDownload.0.mimetypeLabel}</span>
                             </f:link.external>
                             <f:if condition="{imageDownload.1}">
                                 <f:then>
                                     <span class="tx-dlf-tools-imagedownload">
-                                        <f:link.external uri="{imageDownload.1.url}">
-                                            <f:translate key="downloadRightPage" /> {imageDownload.1.mimetypeLabel}
+                                        <f:link.external uri="{imageDownload.1.url}" additionalAttributes="{'data-page-link': 1, 'data-file-groups': fileGrpsJson}">
+                                            <f:translate key="downloadRightPage" /> <span class="dlf-mimetype-label">{imageDownload.1.mimetypeLabel}</span>
                                         </f:link.external>
                                     </span>
                                 </f:then>
