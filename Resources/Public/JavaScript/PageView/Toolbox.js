@@ -24,8 +24,11 @@ class dlfToolbox {
         this.pageLinks.forEach(element => {
             const offset = Number(element.getAttribute('data-page-link'));
             const pageObj = tx_dlf_loaded.document.pages[e.detail.page - 1 + offset];
-            if (pageObj && pageObj.download) {
-                element.href = pageObj.download.url;
+            if (pageObj) {
+                const file = dlfUtils.findFirstSet(pageObj.files, tx_dlf_loaded.fileGroups['download']);
+                if (file) {
+                    element.href = file.url;
+                }
             }
         });
     }

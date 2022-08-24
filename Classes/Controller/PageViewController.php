@@ -468,9 +468,16 @@ class PageViewController extends AbstractController
      */
     protected function addViewerJS(): void
     {
+        $filesConfig = $this->extConf['files'];
+
+        $imageFileGroups = array_reverse(GeneralUtility::trimExplode(',', $filesConfig['fileGrpImages']));
+        $fulltextFileGroups = GeneralUtility::trimExplode(',', $filesConfig['fileGrpFulltext']);
+
         $config = [
             'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
-            'useInternalProxy' => !empty($this->settings['useInternalProxy']),
+            'proxyFileGroups' => !empty($this->settings['useInternalProxy'])
+                ? array_merge($imageFileGroups, $fulltextFileGroups)
+                : [],
         ];
 
         $currentDocumentArray = $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config);
@@ -529,9 +536,13 @@ class PageViewController extends AbstractController
                             'documentId' => $this->requestData['id'],
                             'page' => $docPage,
                         ],
+                        'fileGroups' => [
+                            'images' => $imageFileGroups,
+                            'fulltext' => $fulltextFileGroups,
+                            'download' => GeneralUtility::trimExplode(',', $filesConfig['fileGrpDownload']),
+                        ],
                         'document' => $currentDocumentArray,
                     ];
-
                     $i++;
                 }
             }
@@ -580,13 +591,18 @@ class PageViewController extends AbstractController
                     'documentId' => $this->requestData['id'],
                     'page' => $docPage,
                 ],
+                'fileGroups' => [
+                    'images' => $imageFileGroups,
+                    'fulltext' => $fulltextFileGroups,
+                    'download' => GeneralUtility::trimExplode(',', $filesConfig['fileGrpDownload']),
+                ],
                 'document' => $currentDocumentArray
             ];
 
             // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '$(document).ready(function() {
-                    tx_dlf_loaded = ' . $tx_dlf_loaded . ';
+                    tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
 
                     new dlfController();
 

@@ -8,16 +8,11 @@ namespace dlf {
     type FulltextDesc = ResourceLocator;
 
     type PageObject = {
-        image?: ImageDesc;
         /**
          * IDs of the logical structures that the page belongs to, ordered by depth.
          */
         logSections: string[];
-        fulltext?: dlf.FulltextDesc;
-        download?: {
-            url: string;
-            // TODO: Consider adding MIME type
-        };
+        files: Record<string, dlf.FulltextDesc>;
     };
 
     type PageChangeEvent = CustomEvent<{

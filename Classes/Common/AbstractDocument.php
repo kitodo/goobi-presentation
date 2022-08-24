@@ -85,6 +85,17 @@ abstract class AbstractDocument
     protected array $fileInfos = [];
 
     /**
+     * TODO: Consider moving this to extension configuration
+     * @access public
+     * @var string[] MIME types that are excluded from PageViewProxy.
+     */
+    public static $nonProxyMimeTypes = [
+        'application/vnd.kitodo.iiif',
+        'application/vnd.netfpx',
+        'application/vnd.kitodo.zoomify',
+    ];
+
+    /**
      * @access protected
      * @var array This holds the configuration for all supported metadata encodings
      *
@@ -1207,7 +1218,7 @@ abstract class AbstractDocument
 
     public function toArray($uriBuilder, array $config = [])
     {
-        $useInternalProxy = $config['useInternalProxy'] ?? false;
+        $proxyFileGroups = $config['proxyFileGroups'] ?? [];
         $forceAbsoluteUrl = $config['forceAbsoluteUrl'] ?? false;
 
         $this->magicGetSmLinks();
@@ -1222,72 +1233,33 @@ abstract class AbstractDocument
         for ($page = 1; $page <= $this->numPages; $page++) {
             $pageEntry = [
                 'logSections' => array_merge(...$this->getLogicalSectionsOnPage($page)),
+                'files' => [],
             ];
 
-            // Get image URL
-            foreach ($fileGrpsImages as $fileGrpImages) {
-                // Get image link.
-                if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages])) {
-                    $imageUrl = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
-                    $imageMimetype = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpImages]);
+            foreach ($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'] as $fileGrp => $fileId) {
+                $url = $this->getFileLocation($fileId);
+                $mimetype = $this->getFileMimeType($fileId);
 
-                    // Only deliver static images via the internal PageViewProxy.
-                    // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
-                    if ($useInternalProxy && strpos($imageMimetype, 'image/') === 0) {
-                        // Configure @action URL for form.
-                        $uri = $uriBuilder
-                            ->reset()
-                            ->setTargetPageUid($GLOBALS['TSFE']->id)
-                            ->setCreateAbsoluteUri($forceAbsoluteUrl)
-                            ->setArguments([
-                                'eID' => 'tx_dlf_pageview_proxy',
-                                'url' => $imageUrl,
-                                'uHash' => GeneralUtility::hmac($imageUrl, 'PageViewProxy')
-                                ])
-                            ->build();
-                        $imageUrl = $uri;
-                    }
-
-                    $pageEntry['image'] = [
-                        'url' => $imageUrl,
-                        'mimetype' => $imageMimetype,
-                    ];
-
-                    break;
-                } else {
-                    $this->logger->notice('No image file found for page "' . $page . '" in fileGrp "' . $fileGrpImages . '"');
+                // Only deliver static images via the internal PageViewProxy.
+                // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
+                if (in_array($fileGrp, $proxyFileGroups) && !in_array($mimetype, self::$nonProxyMimeTypes)) {
+                    // Configure @action URL for form.
+                    $url = $uriBuilder
+                        ->reset()
+                        ->setTargetPageUid($GLOBALS['TSFE']->id)
+                        ->setCreateAbsoluteUri($forceAbsoluteUrl)
+                        ->setArguments([
+                            'eID' => 'tx_dlf_pageview_proxy',
+                            'url' => $url,
+                            'uHash' => GeneralUtility::hmac($url, 'PageViewProxy')
+                        ])
+                        ->build();
                 }
-            }
-            if (empty($pageEntry['url'])) {
-                $this->logger->warning('No image file found for page "' . $page . '" in fileGrps "' . $extConf['fileGrpImages'] . '"');
-            }
 
-            foreach ($fileGrpsFulltext as $fileGrpFulltext) {
-                if (!empty($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext])) {
-                    $pageEntry['fulltext']['url'] = $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext]);
-                    if ($useInternalProxy) {
-                        // Configure @action URL for form.
-                        $uri = $uriBuilder->reset()
-                            ->setTargetPageUid($GLOBALS['TSFE']->id)
-                            ->setCreateAbsoluteUri($forceAbsoluteUrl)
-                            ->setArguments([
-                                'eID' => 'tx_dlf_pageview_proxy',
-                                'url' => $pageEntry['fulltext']['url'],
-                                'uHash' => GeneralUtility::hmac($pageEntry['fulltext']['url'], 'PageViewProxy')
-                                ])
-                            ->build();
-
-                        $pageEntry['fulltext']['url'] = $uri;
-                    }
-                    $pageEntry['fulltext']['mimetype'] = $this->getFileMimeType($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'][$fileGrpFulltext]);
-                    break;
-                }
-            }
-
-            // Get download URL
-            $pageLink = $this->getPageLink($page);
-            if (!empty($pageLink)) {
-                $pageEntry['download']['url'] = $pageLink;
+                $pageEntry['files'][$fileGrp] = [
+                    'url' => $url,
+                    'mimetype' => $mimetype,
+                ];
             }
 
             $result['pages'][] = $pageEntry;
