@@ -17,7 +17,6 @@ When an element such as a navigation button wants to change the page, the ``tx-d
 *  The detail object contains the following properties:
 
    *  ``page``: Number of new page
-   *  ``pageObj``
 
 Metadata
 ========
