@@ -535,7 +535,9 @@ class PageViewController extends AbstractController
                         'state' => [
                             'documentId' => $this->requestData['id'],
                             'page' => $docPage,
+                            'simultaneousPages' => (int) $this->requestData['double'] + 1,
                         ],
+                        'urlTemplate' => $this->getUrlTemplate(),
                         'fileGroups' => [
                             'images' => $imageFileGroups,
                             'fulltext' => $fulltextFileGroups,
@@ -564,6 +566,13 @@ class PageViewController extends AbstractController
                         }
                     }
                     return result;
+                };
+
+                tx_dlf_loaded.makePageUrl = function (pageNo) {
+                    const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
+                    return tx_dlf_loaded.urlTemplate
+                        .replace(/DOUBLE_PAGE/, doublePage)
+                        .replace(/PAGE_NO/, pageNo);
                 };
 
                 $(document).ready(function() {
@@ -605,7 +614,9 @@ class PageViewController extends AbstractController
                 'state' => [
                     'documentId' => $this->requestData['id'],
                     'page' => $docPage,
+                    'simultaneousPages' => (int) $this->requestData['double'] + 1,
                 ],
+                'urlTemplate' => $this->getUrlTemplate(),
                 'fileGroups' => [
                     'images' => $imageFileGroups,
                     'fulltext' => $fulltextFileGroups,
@@ -633,6 +644,13 @@ class PageViewController extends AbstractController
                     return result;
                 };
 
+                tx_dlf_loaded.makePageUrl = function (pageNo) {
+                    const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
+                    return tx_dlf_loaded.urlTemplate
+                        .replace(/DOUBLE_PAGE/, doublePage)
+                        .replace(/PAGE_NO/, pageNo);
+                };
+
                 $(document).ready(function() {
                     new dlfController();
 
@@ -642,6 +660,75 @@ class PageViewController extends AbstractController
                 });';
         }
         $this->view->assign('viewerConfiguration', $viewerConfiguration);
+    }
+
+    /**
+     * Get URL template with the following placeholders:
+     *
+     * * `PAGE_NO` (for value of `tx_dlf[page]`)
+     * * `DOUBLE_PAGE` (for value of `tx_dlf[double]`)
+     *
+     * @return string
+     */
+    protected function getUrlTemplate()
+    {
+        // Should work for route enhancers like this:
+        //
+        //   routeEnhancers:
+        //     KitodoWorkview:
+        //     type: Plugin
+        //     namespace: tx_dlf
+        //     routePath: '/{page}/{double}'
+        //     requirements:
+        //       page: \d+
+        //       double: 0|1
+
+        $make = function ($page, $double) {
+            $result = $this->uriBuilder->reset()
+                ->setTargetPageUid($GLOBALS['TSFE']->id)
+                ->setCreateAbsoluteUri(!empty($this->settings['forceAbsoluteUrl']) ? true : false)
+                ->setArguments([
+                    'tx_dlf' => array_merge($this->requestData, [
+                        'page' => $page,
+                        'double' => $double,
+                    ]),
+                ])
+                ->build();
+
+            $cHashIdx = strpos($result, '&cHash=');
+            if ($cHashIdx !== false) {
+                $result = substr($result, 0, $cHashIdx);
+            }
+
+            return $result;
+        };
+
+        // Generate two URLs that differ only in tx_dlf[page] and tx_dlf[double].
+        // We don't know the order of page and double parameters, so use the values for matching.
+        $a = $make(1, 0);
+        $b = $make(2, 1);
+
+        $lastIdx = 0;
+        $result = '';
+        for ($i = 0, $len = strlen($a); $i < $len; $i++) {
+            if ($a[$i] === $b[$i]) {
+                continue;
+            }
+
+            $result .= substr($a, $lastIdx, $i - $lastIdx);
+            $lastIdx = $i + 1;
+
+            if ($a[$i] === '1') {
+                $placeholder = 'PAGE_NO';
+            } else {
+                $placeholder = 'DOUBLE_PAGE';
+            }
+
+            $result .= $placeholder;
+        }
+        $result .= substr($a, $lastIdx);
+
+        return $result;
     }
 
     /**
