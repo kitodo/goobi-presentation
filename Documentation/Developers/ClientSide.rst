@@ -31,3 +31,34 @@ To dynamically show the metadata sections of the current page:
 *  On page change, this information is used to show/hide the sections depending on whether or not the page belongs to it.
 
 Rootline configuration is considered.
+
+Various
+=======
+
+*  Events
+
+   *  ``tx-dlf-pageChanged``
+   *  ``tx-dlf-configChanged``
+
+*  Properties
+
+   *  ``data-page-link``
+   *  ``data-file-groups``
+   *  ``data-dlf-section``
+   *  ``data-text``
+
+*  Data CSS classes
+
+   *  ``dlf-mimetype-label``
+   *  ``page-step-back``
+   *  ``page-back``
+   *  ``page-first``
+   *  ``page-step-forward``
+   *  ``page-forward``
+   *  ``page-last``
+   *  ``page-select``
+
+*  Display CSS classes
+
+   *  ``shown-if-single``
+   *  ``shown-if-double``

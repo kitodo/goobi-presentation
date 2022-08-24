@@ -11,6 +11,7 @@
 class dlfController {
     constructor() {
         document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
+        document.body.addEventListener('tx-dlf-configChanged', this.onConfigChanged.bind(this));
         window.addEventListener('popstate', this.onPopState.bind(this));
 
         // Set initial state, so that browser navigation also works initial page
@@ -18,7 +19,10 @@ class dlfController {
             type: 'tx-dlf-page-state',
             documentId: tx_dlf_loaded.state.documentId,
             page: tx_dlf_loaded.state.page,
+            simultaneousPages: tx_dlf_loaded.state.simultaneousPages,
         }), '');
+
+        this.updateMultiPage();
     }
 
     /**
@@ -26,17 +30,16 @@ class dlfController {
      * @param {dlf.PageChangeEvent} e
      */
     onPageChanged(e) {
-        // Avoid loop of pushState/dispatchEvent
-        if (e.detail.source === 'history') {
-            return;
-        }
+        this.pushHistory(e);
+    }
 
-        // TODO: Set URL
-        history.pushState(/** @type {dlf.PageHistoryState} */({
-            type: 'tx-dlf-page-state',
-            documentId: tx_dlf_loaded.state.documentId,
-            page: e.detail.page,
-        }), '');
+    /**
+     * @private
+     * @param {dlf.ConfigChangeEvent} e
+     */
+    onConfigChanged(e) {
+        this.pushHistory(e);
+        this.updateMultiPage();
     }
 
     /**
@@ -71,6 +74,57 @@ class dlfController {
                     }
                 )
             );
+        }
+
+        if (state.simultaneousPages !== tx_dlf_loaded.state.simultaneousPages) {
+            e.preventDefault();
+
+            tx_dlf_loaded.state.simultaneousPages = state.simultaneousPages;
+            document.body.dispatchEvent(
+                new CustomEvent(
+                    'tx-dlf-configChanged',
+                    {
+                        'detail': {
+                            'source': 'history',
+                            'simultaneousPages': state.simultaneousPages,
+                        }
+                    }
+                )
+            );
+        }
+    }
+
+    /**
+     * @private
+     * @param {dlf.PageChangeEvent | dlf.ConfigChangeEvent} e
+     */
+    pushHistory(e) {
+        // Avoid loop of pushState/dispatchEvent
+        if (e.detail.source === 'history') {
+            return;
+        }
+
+        // TODO: Set URL
+        history.pushState(/** @type {dlf.PageHistoryState} */({
+            type: 'tx-dlf-page-state',
+            documentId: tx_dlf_loaded.state.documentId,
+            page: tx_dlf_loaded.state.page,
+            simultaneousPages: tx_dlf_loaded.state.simultaneousPages,
+        }), '');
+    }
+
+    /**
+     * @private
+     */
+    updateMultiPage() {
+        const { simultaneousPages } = tx_dlf_loaded.state;
+
+        if (simultaneousPages === 1) {
+            document.body.classList.add('page-single');
+            document.body.classList.remove('page-double');
+        } else if (simultaneousPages === 2) {
+            document.body.classList.remove('page-single');
+            document.body.classList.add('page-double');
         }
     }
 }

@@ -21,6 +21,7 @@ page {
     embedded3dviewer = EXT:dlf/Resources/Public/Stylesheets/embedded-3d-viewer.css
     jPlayer = EXT:dlf/Resources/Public/JavaScript/jPlayer/blue.monday/css/jplayer.blue.monday.min.css
     openLayers = EXT:dlf/Resources/Public/JavaScript/OpenLayers/openlayers.css
+    kitodo = EXT:dlf/Resources/Public/Css/Kitodo.css
   }
 
   includeJSFooterlibs {

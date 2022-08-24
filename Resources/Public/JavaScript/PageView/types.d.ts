@@ -21,6 +21,11 @@ namespace dlf {
         pageObj: PageObject;
     }>;
 
+    type ConfigChangeEvent = CustomEvent<{
+        source: string;
+        simultaneousPages?: number;
+    }>;
+
     /**
      * State of document stored in `window.history`.
      */
@@ -28,5 +33,6 @@ namespace dlf {
         type: 'tx-dlf-page-state';
         documentId: string | number;
         page: number;
+        simultaneousPages: number;
     };
 }
