@@ -330,10 +330,10 @@
 				<source><![CDATA[Send in E-Mail]]></source>
 			</trans-unit>
 			<trans-unit id="share.qr_code.tooltip">
-				<source><![CDATA[Show QR-Code]]>]</source>
+				<source><![CDATA[Show QR-Code]]></source>
 			</trans-unit>
 			<trans-unit id="share.tweet.tooltip">
-				<source><![CDATA[Tweet]]>]</source>
+				<source><![CDATA[Tweet]]></source>
 			</trans-unit>
 		</body>
 	</file>

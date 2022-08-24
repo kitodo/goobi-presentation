@@ -111,8 +111,8 @@ var lang = {
       "player.loading": "Loading...",
       "share.shared_timecode": "Shared time code",
       "share.email.tooltip": "Send in E-Mail",
-      "share.qr_code.tooltip": "Show QR-Code]",
-      "share.tweet.tooltip": "Tweet]"
+      "share.qr_code.tooltip": "Show QR-Code",
+      "share.tweet.tooltip": "Tweet"
     },
   },
 };

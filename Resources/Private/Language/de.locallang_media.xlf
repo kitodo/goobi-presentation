@@ -438,15 +438,15 @@
 				<target><![CDATA[Timecode aus Link]]></target>
 			</trans-unit>
 			<trans-unit id="share.email.tooltip" approved="yes">
-				<source><![CDATA[Send in E-Mail]]>]</source>
+				<source><![CDATA[Send in E-Mail]]></source>
 				<target><![CDATA[E-Mail senden]]></target>
 			</trans-unit>
 			<trans-unit id="share.qr_code.tooltip" approved="yes">
-				<source><![CDATA[Show QR-Code]]>]</source>
+				<source><![CDATA[Show QR-Code]]></source>
 				<target><![CDATA[QR-Code einblenden]]></target>
 			</trans-unit>
 			<trans-unit id="share.tweet.tooltip" approved="yes">
-				<source><![CDATA[Tweet]]>]</source>
+				<source><![CDATA[Tweet]]></source>
 				<target><![CDATA[Twittern]]></target>
 			</trans-unit>
 		</body>
