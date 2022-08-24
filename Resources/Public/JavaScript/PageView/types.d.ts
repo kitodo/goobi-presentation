@@ -14,6 +14,10 @@ namespace dlf {
          */
         logSections: string[];
         fulltext?: dlf.FulltextDesc;
+        download?: {
+            url: string;
+            // TODO: Consider adding MIME type
+        };
     };
 
     type PageChangeEvent = CustomEvent<{
