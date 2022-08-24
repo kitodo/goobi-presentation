@@ -221,7 +221,7 @@ export default class BookmarkModal extends SimpleModal {
    * @returns {dlf.media.TimeRange | null}
    */
   getActiveTimeRange(state) {
-    switch (state.startAtMode) {
+    switch (this.getStartAtMode(state)) {
       case 'begin': return null;
       case 'current-time': return {
         startTime: state.timing.currentTime,
@@ -250,7 +250,8 @@ export default class BookmarkModal extends SimpleModal {
   render(state) {
     super.render(state);
 
-    const { show, metadata, timing, fps, startAtMode, showQrCode } = state;
+    const { show, metadata, timing, fps, showQrCode } = state;
+    const startAtMode = this.getStartAtMode(state);
 
     const timerange = this.getActiveTimeRange(state);
     const extendedMetadata = makeExtendedMetadata(this.gen, metadata, timerange, fps);
@@ -281,13 +282,19 @@ export default class BookmarkModal extends SimpleModal {
 
     // TODO: Just disable when timecode is 0?
     this.$startAtVariants[startAtMode].$radio.checked = true;
+    let numModeOptions = 0;
     for (const mode of START_AT_MODES) {
       this.$startAtVariants[mode].$label.innerText =
         this.translateStartAtLabel(mode, timing, fps);
+
+      const modeAllowed = this.isStartAtModeAllowed(mode, state);
+      setElementClass(this.$startAtVariants[mode].$container, 'shown', modeAllowed);
+      if (modeAllowed) {
+        numModeOptions++;
+      }
     }
-    setElementClass(this.$startAtVariants['begin'].$container, 'shown', true);
-    setElementClass(this.$startAtVariants['current-time'].$container, 'shown', timing.currentTime !== 0);
-    setElementClass(this.$startAtVariants['marker'].$container, 'shown', timing.markerRange !== null);
+    // Don't show "begin" as single radio button
+    setElementClass(this.$startAtVariants['begin'].$container, 'shown', numModeOptions > 1);
 
     if (show && show !== this.state.show) {
       this.$urlInput.select();
@@ -316,6 +323,31 @@ export default class BookmarkModal extends SimpleModal {
     }
 
     return this.env.t(`modal.bookmark.start-at-${mode}`, values);
+  }
+
+  /**
+   * @private
+   * @param {Pick<State, 'startAtMode' | 'timing'>} state
+   * @returns {StartAtMode}
+   */
+  getStartAtMode(state) {
+    return this.isStartAtModeAllowed(state.startAtMode, state)
+      ? state.startAtMode
+      : 'begin';
+  }
+
+  /**
+   * @private
+   * @param {StartAtMode} mode
+   * @param {Pick<State, 'timing'>} state
+   * @returns {boolean}
+   */
+  isStartAtModeAllowed(mode, state) {
+    switch (mode) {
+      case 'begin': return true;
+      case 'current-time': return state.timing.currentTime !== 0;
+      case 'marker': return state.timing.markerRange !== null;
+    }
   }
 
   /**
