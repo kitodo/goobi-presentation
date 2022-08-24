@@ -136,19 +136,31 @@ class ToolboxController extends AbstractController
      *
      * @return array Array of image information's.
      */
-    public function getImage(int $page): array
+    private function getImage(int $page, array $fileGrps): array
     {
-        // Get @USE value of METS fileGroup.
-        $image = $this->getFile($page, GeneralUtility::trimExplode(',', $this->settings['fileGrpsImageDownload']));
-        switch ($image['mimetype']) {
-            case 'image/jpeg':
-                $image['mimetypeLabel'] = ' (JPG)';
+        $image = [];
+        foreach ($fileGrps as $fileGrp) {
+            // Get image link.
+            $physicalStructureInfo = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$page]];
+            $fileId = $physicalStructureInfo['files'][$fileGrp];
+            if (!empty($fileId)) {
+                $image['url'] = $this->currentDocument->getDownloadLocation($fileId);
+                $image['mimetype'] = $this->currentDocument->getFileMimeType($fileId);
+                // Also see Toolbox.js
+                switch ($image['mimetype']) {
+                    case 'image/jpeg':
+                        $image['mimetypeLabel']  = ' (JPG)';
+                        break;
+                    case 'image/tiff':
+                        $image['mimetypeLabel']  = ' (TIFF)';
+                        break;
+                    default:
+                        $image['mimetypeLabel']  = '';
+                }
                 break;
-            case 'image/tiff':
-                $image['mimetypeLabel'] = ' (TIFF)';
-                break;
-            default:
-                $image['mimetypeLabel'] = '';
+            } else {
+                $this->logger->warning('File not found in fileGrp "' . $fileGrp . '"');
+            }
         }
         return $image;
     }
@@ -289,14 +301,18 @@ class ToolboxController extends AbstractController
 
         $this->setPage();
 
+        // Get @USE value of METS fileGrp.
+        $fileGrpsImageDownload = array_reverse(GeneralUtility::trimExplode(',', $this->settings['fileGrpsImageDownload']));
+
         $imageArray = [];
         // Get left or single page download.
-        $imageArray[0] = $this->getImage($this->requestData['page']);
+        $imageArray[0] = $this->getImage($this->requestData['page'], $fileGrpsImageDownload);
         if ($this->requestData['double'] == 1) {
-            $imageArray[1] = $this->getImage($this->requestData['page'] + 1);
+            $imageArray[1] = $this->getImage($this->requestData['page'] + 1, $fileGrpsImageDownload);
         }
 
         $this->view->assign('imageDownload', $imageArray);
+        $this->view->assign('fileGrpsImageDownload', $fileGrpsImageDownload);
     }
 
     /**
@@ -305,6 +321,7 @@ class ToolboxController extends AbstractController
      * @access private
      *
      * @param int $page Page number
+     * @param string[] $fileGrps File groups to consider
      *
      * @return array Array of file information
      */
