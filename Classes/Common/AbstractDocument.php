@@ -1325,6 +1325,25 @@ abstract class AbstractDocument
         return $ids;
     }
 
+    /**
+     * Get URL of download file of specified page, or the empty string if there is no such link.
+     *
+     * @param int $pageNumber
+     * @return string
+     */
+    public function getPageLink($pageNumber)
+    {
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
+        $fileGrpsDownload = GeneralUtility::trimExplode(',', $extConf['files']['fileGrpDownload']);
+        // Get image link.
+        foreach ($fileGrpsDownload as $fileGrpDownload) {
+            if (!empty($this->physicalStructureInfo[$this->physicalStructure[$pageNumber]]['files'][$fileGrpDownload])) {
+                return $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$pageNumber]]['files'][$fileGrpDownload]);
+            }
+        }
+        return '';
+    }
+
     public function toArray($uriBuilder, array $config = [])
     {
         $useInternalProxy = $config['useInternalProxy'] ?? false;
