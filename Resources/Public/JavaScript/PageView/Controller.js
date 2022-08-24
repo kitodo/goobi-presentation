@@ -10,8 +10,7 @@
 
 class dlfController {
     constructor() {
-        document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
-        document.body.addEventListener('tx-dlf-configChanged', this.onConfigChanged.bind(this));
+        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
         window.addEventListener('popstate', this.onPopState.bind(this));
 
         // Set initial state, so that browser navigation also works initial page
@@ -22,24 +21,19 @@ class dlfController {
             simultaneousPages: tx_dlf_loaded.state.simultaneousPages,
         }), '');
 
-        this.updateMultiPage();
+        this.updateMultiPage(tx_dlf_loaded.state.simultaneousPages);
     }
 
     /**
      * @private
-     * @param {dlf.PageChangeEvent} e
+     * @param {dlf.StateChangeEvent} e
      */
-    onPageChanged(e) {
+    onStateChanged(e) {
         this.pushHistory(e);
-    }
 
-    /**
-     * @private
-     * @param {dlf.ConfigChangeEvent} e
-     */
-    onConfigChanged(e) {
-        this.pushHistory(e);
-        this.updateMultiPage();
+        if (e.detail.simultaneousPages !== undefined) {
+            this.updateMultiPage(e.detail.simultaneousPages);
+        }
     }
 
     /**
@@ -61,40 +55,30 @@ class dlfController {
 
             // TODO: Avoid redundancy to Navigation
             tx_dlf_loaded.state.page = state.page;
-            document.body.dispatchEvent(
-                new CustomEvent(
-                    'tx-dlf-pageChanged',
-                    {
-                        'detail': {
-                            'source': 'history',
-                            'page': state.page,
-                        }
-                    }
-                )
-            );
+            document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
+                'detail': {
+                    'source': 'history',
+                    'page': state.page,
+                }
+            }));
         }
 
         if (state.simultaneousPages !== tx_dlf_loaded.state.simultaneousPages) {
             e.preventDefault();
 
             tx_dlf_loaded.state.simultaneousPages = state.simultaneousPages;
-            document.body.dispatchEvent(
-                new CustomEvent(
-                    'tx-dlf-configChanged',
-                    {
-                        'detail': {
-                            'source': 'history',
-                            'simultaneousPages': state.simultaneousPages,
-                        }
-                    }
-                )
-            );
+            document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
+                'detail': {
+                    'source': 'history',
+                    'simultaneousPages': state.simultaneousPages,
+                }
+            }));
         }
     }
 
     /**
      * @private
-     * @param {dlf.PageChangeEvent | dlf.ConfigChangeEvent} e
+     * @param {dlf.StateChangeEvent} e
      */
     pushHistory(e) {
         // Avoid loop of pushState/dispatchEvent
@@ -113,10 +97,9 @@ class dlfController {
 
     /**
      * @private
+     * @param {number} simultaneousPages
      */
-    updateMultiPage() {
-        const { simultaneousPages } = tx_dlf_loaded.state;
-
+    updateMultiPage(simultaneousPages) {
         if (simultaneousPages === 1) {
             document.body.classList.add('page-single');
             document.body.classList.remove('page-double');

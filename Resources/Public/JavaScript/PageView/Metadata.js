@@ -37,31 +37,21 @@ class dlfMetadata {
         /** @protected */
         this.config = config;
 
-        document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
-        document.body.addEventListener('tx-dlf-configChanged', this.onConfigChanged.bind(this));
+        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
     }
 
     /**
      * @private
-     * @param {dlf.PageChangeEvent} e
+     * @param {dlf.StateChangeEvent} e
      */
-    onPageChanged(e) {
-        this.updateSectionVisibility();
-    }
-
-    /**
-     * @private
-     * @param {dlf.ConfigChangeEvent} e
-     */
-    onConfigChanged(e) {
+    onStateChanged(e) {
         this.updateSectionVisibility();
     }
 
     /**
      * @protected
-     * @param {dlf.PageChangeEvent} e
      */
-    updateSectionVisibility(e) {
+    updateSectionVisibility() {
         document.querySelectorAll('[data-dlf-section]').forEach((element) => {
             let isShown = false;
             for (const page of tx_dlf_loaded.getVisiblePages()) {
