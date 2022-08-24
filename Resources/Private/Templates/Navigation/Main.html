@@ -78,7 +78,8 @@
 
 <f:section name="render.pageStepBack">
     <div class="tx-dlf-navigation-back">
-        <f:link.action class="page-step-back {f:if(condition: \"{viewData.requestData.page} <= {pageSteps}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - pageSteps}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+        <f:variable name="backTextTemplate" value="{f:translate(key: 'backXPages', arguments: '{0: \'PAGE_STEPS\'}')}" />
+        <f:link.action class="page-step-back {f:if(condition:\"{viewData.requestData.page} <= {pageSteps}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - pageSteps}'}" additionalAttributes="{'data-text': '{backTextTemplate}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
             <f:translate key="backXPages" arguments="{0: '{pageSteps}'}"/>
         </f:link.action>
     </div>
@@ -125,7 +126,8 @@
 
 <f:section name="render.pageStepForward">
     <div class="tx-dlf-navigation-fwd">
-        <f:link.action class="page-step-forward {f:if(condition: \"{viewData.requestData.page} > {numPages - pageSteps}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page + pageSteps}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+        <f:variable name="forwardTextTemplate" value="{f:translate(key: 'forwardXPages', arguments: '{0: \'PAGE_STEPS\'}')}" />
+        <f:link.action class="page-step-forward {f:if(condition: \"{viewData.requestData.page} > {numPages - pageSteps}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page + pageSteps}'}" additionalAttributes="{'data-text': '{forwardTextTemplate}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
             <f:translate key="forwardXPages" arguments="{0: '{pageSteps}'}"/>
         </f:link.action>
     </div>
@@ -279,10 +281,9 @@
     // NOTE: The navigation plugin may be instantiated multiple times, even on a single page view
     document.addEventListener('DOMContentLoaded', () => {
         const features = {features -> f:format.json() -> f:format.raw()};
-        const pageSteps = {pageSteps};
-        const pageSelect = {pageSelect};
+        const basePageSteps = {basePageSteps};
 
-        new dlfNavigation({ features, pageSteps });
+        new dlfNavigation({ features, basePageSteps });
     });
 </script>
 </html>

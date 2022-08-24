@@ -1,0 +1,4 @@
+body.page-single .shown-if-double,
+body.page-double .shown-if-single {
+    display: none !important;
+}

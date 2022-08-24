@@ -14,6 +14,7 @@ class dlfToolbox {
         this.pageLinks = document.querySelectorAll('[data-page-link]');
 
         document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
+        this.updatePageLinks(tx_dlf_loaded.state.page);
     }
 
     /**
@@ -21,12 +22,22 @@ class dlfToolbox {
      * @param {dlf.PageChangeEvent} e
      */
     onPageChanged(e) {
+        this.updatePageLinks(e.detail.page);
+    }
+
+    /**
+     * @private
+     * @param {number} firstPageNo
+     */
+    updatePageLinks(firstPageNo) {
         this.pageLinks.forEach(element => {
             const offset = Number(element.getAttribute('data-page-link'));
-            const pageObj = tx_dlf_loaded.document.pages[e.detail.page - 1 + offset];
+            const pageObj = tx_dlf_loaded.document.pages[firstPageNo - 1 + offset];
             if (!pageObj) {
+                $(element).hide();
                 return;
             }
+            $(element).show();
 
             const fileGroupsJson = element.getAttribute('data-file-groups');
             const fileGroups = fileGroupsJson
@@ -37,7 +48,9 @@ class dlfToolbox {
                 return;
             }
 
-            element.href = file.url;
+            element.querySelectorAll('a').forEach(linkEl => {
+                linkEl.href = file.url;
+            });
 
             const mimetypeLabelEl = element.querySelector('.dlf-mimetype-label');
             if (mimetypeLabelEl !== null) {

@@ -38,6 +38,7 @@ class dlfMetadata {
         this.config = config;
 
         document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
+        document.body.addEventListener('tx-dlf-configChanged', this.onConfigChanged.bind(this));
     }
 
     /**
@@ -45,10 +46,32 @@ class dlfMetadata {
      * @param {dlf.PageChangeEvent} e
      */
     onPageChanged(e) {
-        const { pageObj } = e.detail;
+        this.updateSectionVisibility();
+    }
 
+    /**
+     * @private
+     * @param {dlf.ConfigChangeEvent} e
+     */
+    onConfigChanged(e) {
+        this.updateSectionVisibility();
+    }
+
+    /**
+     * @protected
+     * @param {dlf.PageChangeEvent} e
+     */
+    updateSectionVisibility(e) {
         document.querySelectorAll('[data-dlf-section]').forEach((element) => {
-            element.hidden = !this.shouldShowSection(pageObj, element.getAttribute('data-dlf-section'));
+            let isShown = false;
+            for (const page of tx_dlf_loaded.getVisiblePages()) {
+                if (this.shouldShowSection(page.pageObj, element.getAttribute('data-dlf-section'))) {
+                    isShown = true;
+                    break;
+                }
+            }
+
+            element.hidden = !isShown;
         });
     }
 

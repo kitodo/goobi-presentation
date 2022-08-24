@@ -14,8 +14,8 @@ class dlfNavigation {
      * @param {object} config
      * @param {Record<string, boolean | undefined>} config.features Which navigation features should
      * be handled by this instance.
-     * @param {number} config.pageSteps Number of pages to skip for long step (currently calculated for
-     * double page mode)
+     * @param {number} config.basePageSteps Number of pages to skip for long step (not yet considering
+     * single/double page mode).
      */
     constructor(config) {
         /** @private */
@@ -27,11 +27,12 @@ class dlfNavigation {
         this.navigationButtons = {
             pageStepBack: {
                 button: document.querySelector('.page-step-back'),
-                getPage: (prevPageNo) => prevPageNo - this.config.pageSteps,
+                getPage: (prevPageNo) => prevPageNo - this.getLongStep(),
             },
             pageBack: {
                 button: document.querySelector('.page-back'),
-                getPage: (prevPageNo) => prevPageNo - 1,
+                // When we're on second page in double-page mode, make sure the "back" button is still shown
+                getPage: (prevPageNo) => Math.max(1, prevPageNo - tx_dlf_loaded.state.simultaneousPages),
             },
             pageFirst: {
                 button: document.querySelector('.page-first'),
@@ -39,18 +40,19 @@ class dlfNavigation {
             },
             pageStepForward: {
                 button: document.querySelector('.page-step-forward'),
-                getPage: (prevPageNo) => prevPageNo + this.config.pageSteps,
+                getPage: (prevPageNo) => prevPageNo + this.getLongStep(),
             },
             pageForward: {
                 button: document.querySelector('.page-forward'),
-                getPage: (prevPageNo) => prevPageNo + 1,
+                getPage: (prevPageNo) => prevPageNo + tx_dlf_loaded.state.simultaneousPages,
             },
             pageLast: {
                 button: document.querySelector('.page-last'),
-                getPage: (prevPageNo) => tx_dlf_loaded.document.pages.length,
+                getPage: (prevPageNo) => tx_dlf_loaded.document.pages.length - (tx_dlf_loaded.simultaneousPages - 1),
             },
         }
 
+        /** @private */
         this.pageSelect = document.querySelector('.page-select')
 
         this.registerEvents();
@@ -82,6 +84,7 @@ class dlfNavigation {
         });
 
         document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
+        document.body.addEventListener('tx-dlf-configChanged', this.onConfigChanged.bind(this));
     }
 
     /**
@@ -89,6 +92,14 @@ class dlfNavigation {
      * @param {dlf.PageChangeEvent} e
      */
     onPageChanged(e) {
+        this.updateNavigationControls();
+    }
+
+    /**
+     *
+     * @param {dlf.ConfigChangeEvent} e
+     */
+    onConfigChanged(e) {
         this.updateNavigationControls();
     }
 
@@ -118,6 +129,17 @@ class dlfNavigation {
     }
 
     /**
+     * Number of pages to jump in long step (e.g., 10 pages in single page mode
+     * vs. 20 pages in double page mode).
+     *
+     * @protected
+     * @returns {number}
+     */
+    getLongStep() {
+        return this.config.basePageSteps * tx_dlf_loaded.state.simultaneousPages;
+    }
+
+    /**
      * Update DOM state of navigation buttons and dropdown. (For example,
      * enable/disable the buttons depending on current page.)
      *
@@ -133,6 +155,11 @@ class dlfNavigation {
             }
             // TODO: check if it needs to be done always or only for not disabled buttons
             this.updateUrl(value.button, value.getPage(tx_dlf_loaded.state.page));
+
+            const textTemplate = value.button.getAttribute('data-text');
+            if (textTemplate) {
+                value.button.textContent = textTemplate.replace(/PAGE_STEPS/, this.getLongStep());
+            }
         }
 
         if (this.pageSelect instanceof HTMLSelectElement) {
@@ -184,7 +211,7 @@ class dlfNavigation {
      * @private
      */
     getQueryParams(baseUrl) {
-        if(baseUrl.indexOf('?') > 0) {
+        if (baseUrl.indexOf('?') > 0) {
             return baseUrl.slice(baseUrl.indexOf('?') + 1).split('&');
         }
 
