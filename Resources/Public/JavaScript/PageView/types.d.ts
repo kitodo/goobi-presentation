@@ -18,7 +18,6 @@ namespace dlf {
     type PageChangeEvent = CustomEvent<{
         source: string;
         page: number;
-        pageObj: PageObject;
     }>;
 
     type ConfigChangeEvent = CustomEvent<{

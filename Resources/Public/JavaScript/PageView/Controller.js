@@ -68,8 +68,6 @@ class dlfController {
                         'detail': {
                             'source': 'history',
                             'page': state.page,
-                            'pageObj': tx_dlf_loaded.document.pages[state.page - 1],
-                            'target': e.target
                         }
                     }
                 )
