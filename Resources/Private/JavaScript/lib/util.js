@@ -361,10 +361,8 @@ export function e(tag, attrs = {}, children = []) {
 
   for (const [key, value] of Object.entries(attrs)) {
     if (key[0] === '$') {
-      // @ts-expect-error: `Object.entries()` is too coarse-grained
       element.addEventListener(key.substring(1), value);
     } else {
-      // @ts-expect-error: `Object.entries()` is too coarse-grained
       element[key] = value;
     }
   }

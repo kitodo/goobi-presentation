@@ -223,7 +223,6 @@ export default class Environment {
    * @returns {HTMLElementTagNameMap[K]}
    */
   getTestElement(tagName) {
-    // @ts-expect-error TODO
     return this.testElements[tagName] ?? document.createElement(tagName);
   }
 }
