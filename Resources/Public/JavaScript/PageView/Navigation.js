@@ -83,23 +83,14 @@ class dlfNavigation {
             this.changePage(clampedPageNo, e);
         });
 
-        document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
-        document.body.addEventListener('tx-dlf-configChanged', this.onConfigChanged.bind(this));
+        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
     }
 
     /**
-     *
-     * @param {dlf.PageChangeEvent} e
+     * @private
+     * @param {dlf.StateChangeEvent} e
      */
-    onPageChanged(e) {
-        this.updateNavigationControls();
-    }
-
-    /**
-     *
-     * @param {dlf.ConfigChangeEvent} e
-     */
-    onConfigChanged(e) {
+    onStateChanged(e) {
         this.updateNavigationControls();
     }
 
@@ -112,17 +103,12 @@ class dlfNavigation {
         if (pageNo !== tx_dlf_loaded.state.page) {
             // TODO: Avoid redundancy to Controller
             tx_dlf_loaded.state.page = pageNo;
-            document.body.dispatchEvent(
-                new CustomEvent(
-                    'tx-dlf-pageChanged',
-                    {
-                        'detail': {
-                            'source': 'navigation',
-                            'page': pageNo,
-                        }
-                    }
-                )
-            );
+            document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
+                'detail': {
+                    'source': 'navigation',
+                    'page': pageNo,
+                }
+            }));
         }
     }
 

@@ -13,16 +13,18 @@ class dlfToolbox {
         /** @private */
         this.pageLinks = document.querySelectorAll('[data-page-link]');
 
-        document.body.addEventListener('tx-dlf-pageChanged', this.onPageChanged.bind(this));
+        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
         this.updatePageLinks(tx_dlf_loaded.state.page);
     }
 
     /**
      * @private
-     * @param {dlf.PageChangeEvent} e
+     * @param {dlf.StateChangeEvent} e
      */
-    onPageChanged(e) {
-        this.updatePageLinks(e.detail.page);
+    onStateChanged(e) {
+        if (e.detail.page !== undefined) {
+            this.updatePageLinks(e.detail.page);
+        }
     }
 
     /**

@@ -15,13 +15,15 @@ namespace dlf {
         files: Record<string, dlf.FulltextDesc>;
     };
 
-    type PageChangeEvent = CustomEvent<{
-        source: string;
-        page: number;
-    }>;
-
-    type ConfigChangeEvent = CustomEvent<{
-        source: string;
+    type StateChangeEvent = CustomEvent<{
+        /**
+         * Who triggered the event.
+         * * `history`: Event is trigerred due to history popstate. This is used
+         *   to avoid pushing a popped state again.
+         * * `history`: Event is triggered by user navigation.
+         */
+        source: 'history' | 'navigation';
+        page?: number;
         simultaneousPages?: number;
     }>;
 
