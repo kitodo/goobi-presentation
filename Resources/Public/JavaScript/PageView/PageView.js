@@ -249,6 +249,18 @@ var dlfViewer = function (settings) {
      */
     this.useInternalProxy = dlfUtils.exists(settings.useInternalProxy) ? settings.useInternalProxy : false;
 
+    /**
+     * Cache of promises / jQuery Deferred returned by `initLayer()`.
+     * This has two benefits:
+     * - Switching to a page that has already been visited is basically instantaneous.
+     *   When relying on browser cache, there still is a flicker.
+     * - It may allow to prefetch pages that are likely to be visited next (TODO: do that).
+     *
+     * @type {Record<string, JQueryStatic.Deferred>}
+     * @private
+     */
+    this.layersCache = {};
+
     this.registerEvents();
     this.init(dlfUtils.exists(settings.controls) ? settings.controls : []);
 };
@@ -931,7 +943,7 @@ dlfViewer.prototype.init = function(controlNames) {
         this.initCropping();
 };
 
-dlfViewer.prototype.registerEvents = function() {
+dlfViewer.prototype.registerEvents = function () {
     $(document.body).on('tx-dlf-stateChanged', () => {
         this.loadPages(tx_dlf_loaded.getVisiblePages());
     });
@@ -946,7 +958,7 @@ dlfViewer.prototype.loadPages = function (visiblePages) {
     const files = [];
     for (const page of visiblePages) {
         const file = dlfUtils.findFirstSet(page.pageObj.files, tx_dlf_loaded.fileGroups['images']);
-        if (file === undefined){
+        if (file === undefined) {
             console.warn(`No image file found on page ${page.pageNo}`);
             continue;
         }
@@ -978,25 +990,32 @@ dlfViewer.prototype.updateLayerSize = function() {
  * @returns {jQuery.Deferred.<function(Array.<ol.layer.Layer>)>}
  * @private
  */
-dlfViewer.prototype.initLayer = function(imageSourceObjs) {
+dlfViewer.prototype.initLayer = function (imageSourceObjs) {
+    const layersCacheKey = imageSourceObjs.map(image => image.url)
+        .join('\u001c'); // 0x1c = 28 = ASCII file separator
 
-    // use deferred for async behavior
-    var deferredResponse = new $.Deferred(),
-      /**
-       * @param {Array.<{src: *, width: *, height: *}>} imageSourceData
-       * @param {Array.<ol.layer.Layer>} layers
-       */
-      resolveCallback = $.proxy(function(imageSourceData, layers) {
-            this.images = imageSourceData;
-            deferredResponse.resolve(layers);
-        }, this);
+    let deferredResponse = this.layersCache[layersCacheKey];
+    if (deferredResponse === undefined) {
+        // use deferred for async behavior
+        deferredResponse = this.layersCache[layersCacheKey]
+            = new $.Deferred();
 
-    dlfUtils.fetchImageData(imageSourceObjs, this.loadingIndicator)
-      .done(function(imageSourceData) {
-          resolveCallback(imageSourceData, dlfUtils.createOlLayers(imageSourceData));
-      });
+        dlfUtils.fetchImageData(imageSourceObjs, this.loadingIndicator)
+            .done((imageSourceData) => {
+                deferredResponse.resolve({
+                    layers: dlfUtils.createOlLayers(imageSourceData),
+                    images: imageSourceData,
+                });
+            });
+    }
 
-    return deferredResponse;
+    const initDeferred = new $.Deferred();
+    deferredResponse.done(({ layers, images }) => {
+        this.images = images;
+        initDeferred.resolve(layers);
+    });
+
+    return initDeferred;
 };
 
 /**
