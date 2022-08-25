@@ -42,6 +42,7 @@ Various
 
    *  ``data-page-link``
    *  ``data-file-groups``
+   *  ``data-metadata-list``
    *  ``data-dlf-section``
    *  ``data-text``
 
