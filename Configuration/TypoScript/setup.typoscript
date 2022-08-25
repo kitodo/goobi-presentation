@@ -70,6 +70,7 @@ page {
     kitodo-pageView-navigation = EXT:dlf/Resources/Public/JavaScript/PageView/Navigation.js
     kitodo-pageView-metadata = EXT:dlf/Resources/Public/JavaScript/PageView/Metadata.js
     kitodo-pageView-toolbox = EXT:dlf/Resources/Public/JavaScript/PageView/Toolbox.js
+    kitodo-pageView-tableofcontents = EXT:dlf/Resources/Public/JavaScript/PageView/TableOfContents.js
     kitodo-controller = EXT:dlf/Resources/Public/JavaScript/PageView/Controller.js
     kitodo-search-suggest = EXT:dlf/Resources/Public/JavaScript/Search/Suggester.js
   }
