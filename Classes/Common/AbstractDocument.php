@@ -533,6 +533,31 @@ abstract class AbstractDocument
     abstract protected function setPreloadedDocument($preloadedDocument): bool;
 
     /**
+     * Get information about all files contained in the document, or null if this information is not available.
+     *
+     * Returns an associative array of the following form:
+     *
+     * ```php
+     * [
+     *     '#FILE_ID' => [
+     *         'url' => '...',
+     *         'mimetype' => '...',
+     *     ],
+     *     // ...
+     * ]
+     * ```
+     *
+     * @access public
+     *
+     * @return array|null
+     */
+    public function getAllFiles()
+    {
+        // TODO: Implement for IiifManifest
+        return null;
+    }
+
+    /**
      * This is a singleton class, thus an instance must be created by this method
      *
      * @access public
@@ -1230,6 +1255,9 @@ abstract class AbstractDocument
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
         $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
         $fileGrpsFulltext = GeneralUtility::trimExplode(',', $extConf['fileGrpFulltext']);
+
+        $allFiles = $this->getAllFiles();
+
         for ($page = 1; $page <= $this->numPages; $page++) {
             $pageEntry = [
                 'logSections' => array_merge(...$this->getLogicalSectionsOnPage($page)),
@@ -1237,29 +1265,35 @@ abstract class AbstractDocument
             ];
 
             foreach ($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'] as $fileGrp => $fileId) {
-                $url = $this->getFileLocation($fileId);
-                $mimetype = $this->getFileMimeType($fileId);
+                if ($allFiles === null) {
+                    $file = [
+                        'url' => $this->getFileLocation($fileId),
+                        'mimetype' => $this->getFileMimeType($fileId),
+                    ];
+                } else {
+                    $file = $allFiles[$fileId] ?? null;
+                    if ($file === null) {
+                        continue;
+                    }
+                }
 
                 // Only deliver static images via the internal PageViewProxy.
                 // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
-                if (in_array($fileGrp, $proxyFileGroups) && !in_array($mimetype, self::$nonProxyMimeTypes)) {
+                if (in_array($fileGrp, $proxyFileGroups) && !in_array($file['mimetype'], self::$nonProxyMimeTypes)) {
                     // Configure @action URL for form.
-                    $url = $uriBuilder
+                    $file['url'] = $uriBuilder
                         ->reset()
                         ->setTargetPageUid($GLOBALS['TSFE']->id)
                         ->setCreateAbsoluteUri($forceAbsoluteUrl)
                         ->setArguments([
                             'eID' => 'tx_dlf_pageview_proxy',
-                            'url' => $url,
-                            'uHash' => GeneralUtility::hmac($url, 'PageViewProxy')
+                            'url' => $file['url'],
+                            'uHash' => GeneralUtility::hmac($file['url'], 'PageViewProxy')
                         ])
                         ->build();
                 }
 
-                $pageEntry['files'][$fileGrp] = [
-                    'url' => $url,
-                    'mimetype' => $mimetype,
-                ];
+                $pageEntry['files'][$fileGrp] = $file;
             }
 
             $result['pages'][] = $pageEntry;
