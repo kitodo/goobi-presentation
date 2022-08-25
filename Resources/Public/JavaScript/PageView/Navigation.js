@@ -48,7 +48,7 @@ class dlfNavigation {
             },
             pageLast: {
                 button: document.querySelector('.page-last'),
-                getPage: (prevPageNo) => tx_dlf_loaded.document.pages.length - (tx_dlf_loaded.simultaneousPages - 1),
+                getPage: (prevPageNo) => tx_dlf_loaded.document.pages.length - (tx_dlf_loaded.state.simultaneousPages - 1),
             },
         }
 
@@ -132,7 +132,8 @@ class dlfNavigation {
     updateNavigationControls() {
         for (const [key, value] of Object.entries(this.navigationButtons)) {
             const btnPageNo = value.getPage(tx_dlf_loaded.state.page);
-            if (btnPageNo !== tx_dlf_loaded.state.page && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.pages.length) {
+            const isBtnPageVisible = tx_dlf_loaded.getVisiblePages(btnPageNo).some(page => page.pageNo === tx_dlf_loaded.state.page);
+            if (!isBtnPageVisible && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.pages.length) {
                 value.button.classList.remove('disabled');
             } else {
                 value.button.classList.add('disabled');
