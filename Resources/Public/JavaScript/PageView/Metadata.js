@@ -52,7 +52,7 @@ class dlfMetadata {
      * @protected
      */
     updateSectionVisibility() {
-        document.querySelectorAll('[data-dlf-section]').forEach((element) => {
+        document.querySelectorAll('[data-metadata-list][data-dlf-section]').forEach((element) => {
             let isShown = false;
             for (const page of tx_dlf_loaded.getVisiblePages()) {
                 if (this.shouldShowSection(page.pageObj, element.getAttribute('data-dlf-section'))) {
