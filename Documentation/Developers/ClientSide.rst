@@ -45,6 +45,11 @@ Various
    *  ``data-metadata-list``
    *  ``data-dlf-section``
    *  ``data-text``
+   *  ``data-toc-item``
+   *  ``data-toc-expand-always``
+   *  ``data-toc-link``
+   *  ``data-document-id``
+   *  ``data-page``
 
 *  Data CSS classes
 
