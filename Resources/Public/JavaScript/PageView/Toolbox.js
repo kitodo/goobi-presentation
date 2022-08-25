@@ -50,9 +50,13 @@ class dlfToolbox {
                 return;
             }
 
-            element.querySelectorAll('a').forEach(linkEl => {
-                linkEl.href = file.url;
-            });
+            if (element instanceof HTMLAnchorElement) {
+                element.href = file.url;
+            } else {
+                element.querySelectorAll('a').forEach(linkEl => {
+                    linkEl.href = file.url;
+                });
+            }
 
             const mimetypeLabelEl = element.querySelector('.dlf-mimetype-label');
             if (mimetypeLabelEl !== null) {

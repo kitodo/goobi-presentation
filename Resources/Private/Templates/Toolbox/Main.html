@@ -49,17 +49,17 @@
         <f:then>
             <li>
                 <f:variable name="fileGrpsJson">{fileGrpsImageDownload -> f:format.json()}</f:variable>
-                <span class="tx-dlf-tools-imagedownload shown-if-single" additionalAttributes="{'data-page-link': 0, 'data-file-groups': fileGrpsJson}">
+                <span class="tx-dlf-tools-imagedownload shown-if-single" data-page-link="0" data-file-groups="{fileGrpsJson}">
                     <f:link.external uri="{imageDownload.0.url}">
                         <f:translate key="downloadSinglePage" /> <span class="dlf-mimetype-label">{imageDownload.0.mimetypeLabel}</span>
                     </f:link.external>
                 </span>
-                <span class="tx-dlf-tools-imagedownload shown-if-double" additionalAttributes="{'data-page-link': 0, 'data-file-groups': fileGrpsJson}">
+                <span class="tx-dlf-tools-imagedownload shown-if-double" data-page-link="0" data-file-groups="{fileGrpsJson}">
                     <f:link.external uri="{imageDownload.0.url}">
                         <f:translate key="downloadLeftPage" /> <span class="dlf-mimetype-label">{imageDownload.0.mimetypeLabel}</span>
                     </f:link.external>
                 </span>
-                <span class="tx-dlf-tools-imagedownload shown-if-double" additionalAttributes="{'data-page-link': 1, 'data-file-groups': fileGrpsJson}">
+                <span class="tx-dlf-tools-imagedownload shown-if-double" data-page-link="1" data-file-groups="{fileGrpsJson}">
                     <f:link.external uri="{imageDownload.1.url}">
                         <f:translate key="downloadRightPage" /> <span class="dlf-mimetype-label">{imageDownload.1.mimetypeLabel}</span>
                     </f:link.external>
