@@ -86,13 +86,12 @@ class dlfController {
             return;
         }
 
-        // TODO: Set URL
         history.pushState(/** @type {dlf.PageHistoryState} */({
             type: 'tx-dlf-page-state',
             documentId: tx_dlf_loaded.state.documentId,
             page: tx_dlf_loaded.state.page,
             simultaneousPages: tx_dlf_loaded.state.simultaneousPages,
-        }), '');
+        }), '', tx_dlf_loaded.makePageUrl(tx_dlf_loaded.state.page));
     }
 
     /**
