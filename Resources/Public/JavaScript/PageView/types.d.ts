@@ -15,6 +15,13 @@ namespace dlf {
         files: Record<string, dlf.FulltextDesc>;
     };
 
+    type Document = {
+        pages: PageObjects[];
+        query: {
+            minPage: number;
+        }
+    };
+
     type StateChangeEvent = CustomEvent<StateChangeDetail>;
 
     type StateChangeDetail = {

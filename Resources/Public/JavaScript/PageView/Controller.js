@@ -27,6 +27,18 @@ class dlfController {
         this.updateMultiPage(this.doc.state.simultaneousPages);
     }
 
+    getVisiblePages (firstPageNo = this.doc.state.page) {
+        const result = [];
+        for (let i = 0; i < this.doc.state.simultaneousPages; i++) {
+            const pageNo = firstPageNo + i;
+            const pageObj = this.doc.document.pages[pageNo - 1];
+            if (pageObj !== undefined) {
+                result.push({ pageNo, pageObj });
+            }
+        }
+        return result;
+    };
+
     /**
      * @param {dlf.StateChangeDetail} detail
      */
