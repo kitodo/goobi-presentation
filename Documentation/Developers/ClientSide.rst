@@ -37,6 +37,7 @@ Various
 *  Events
 
    *  ``tx-dlf-stateChanged``
+   *  ``tx-dlf-documentLoaded``
 
 *  Properties
 
