@@ -136,7 +136,7 @@ class dlfNavigation {
     updateNavigationControls() {
         for (const [key, value] of Object.entries(this.navigationButtons)) {
             const btnPageNo = value.getPage(tx_dlf_loaded.state.page);
-            const isBtnPageVisible = tx_dlf_loaded.getVisiblePages(btnPageNo).some(page => page.pageNo === tx_dlf_loaded.state.page);
+            const isBtnPageVisible = this.docController.getVisiblePages(btnPageNo).some(page => page.pageNo === tx_dlf_loaded.state.page);
             if (!isBtnPageVisible && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.pages.length) {
                 value.button.classList.remove('disabled');
             } else {
