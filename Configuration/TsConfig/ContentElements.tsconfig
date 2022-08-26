@@ -146,6 +146,15 @@ mod.wizards.newContentElement.wizardItems {
           list_type = dlf_toolbox
         }
       }
+      tx_dlf_document {
+        iconIdentifier = tx-dlf-document
+        title = LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.document.title
+        description = LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.document.description
+        tt_content_defValues {
+          CType = list
+          list_type = dlf_document
+        }
+      }
     }
     show = *
   }

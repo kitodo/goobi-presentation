@@ -292,6 +292,23 @@ The collection plugin shows one collection, all collections or selected collecti
        `t3tsref:data-type-page-id`
    :Default:
 
+
+Document
+--------
+
+:typoscript:`plugin.tx_dlf_document`
+
+.. t3-field-list-table::
+  :header-rows: 1
+
+  - :Property:
+        Property
+    :Data Type:
+        Data Type
+    :Default:
+        Default
+
+
 Embedded 3D Viewer
 -----------
 

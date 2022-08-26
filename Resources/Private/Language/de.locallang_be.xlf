@@ -169,6 +169,14 @@
 				<source><![CDATA[Kitodo: Collection]]></source>
 				<target><![CDATA[Kitodo: Kollektion]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.document.title" approved="yes">
+				<source><![CDATA[Kitodo: Document]]></source>
+				<target><![CDATA[Kitodo: Dokument]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.document.description" approved="yes">
+				<source><![CDATA[Document Plugin for Kitodo.Presentation]]></source>
+				<target><![CDATA[Dokument-Plugin für Kitodo.Presentation]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.feeds.description" approved="yes">
 				<source><![CDATA[Feeds Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Feeds Plugin für Kitodo.Presentation]]></target>

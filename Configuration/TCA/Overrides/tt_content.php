@@ -311,3 +311,10 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$plugin] = $a
     $pluginsLabel . 'toolbox.title',
     $iconsDirectory . 'tx-dlf-toolbox.svg'
 );
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'Dlf',
+    'Document',
+    'LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.document.title',
+    'EXT:dlf/Resources/Public/Icons/tx-dlf-document.svg'
+);
