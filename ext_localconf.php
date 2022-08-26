@@ -36,6 +36,7 @@ $iconArray = [
     'tx-dlf-basket' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-basket.svg',
     'tx-dlf-calendar' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-calendar.svg',
     'tx-dlf-collection' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-collection.svg',
+    'tx-dlf-document' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-document.svg',
     'tx-dlf-feeds' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-feeds.svg',
     'tx-dlf-listview' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-listview.svg',
     'tx-dlf-metadata' => 'EXT:dlf/Resources/Public/Icons/tx-dlf-metadata.svg',
@@ -156,6 +157,18 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Kitodo\Dlf\U
     = \Kitodo\Dlf\Updates\MigrateSettings::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Kitodo\Dlf\Updates\FileLocationUpdater::class]
     = \Kitodo\Dlf\Updates\FileLocationUpdater::class;
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'Dlf',
+    'Document',
+    [
+        \Kitodo\Dlf\Controller\DocumentController::class => 'main'
+    ],
+    // non-cacheable actions
+    [
+        \Kitodo\Dlf\Controller\DocumentController::class => ''
+    ]
+);
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Dlf',

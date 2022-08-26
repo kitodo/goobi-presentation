@@ -191,7 +191,14 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dlf_embedded
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Kitodo.Dlf',
+    'Dlf',
     'Annotation',
     'LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.annotation.title',
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'Dlf',
+    'Document',
+    'LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.document.title',
+    'EXT:dlf/Resources/Public/Icons/tx-dlf-document.svg'
 );

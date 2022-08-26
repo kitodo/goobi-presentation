@@ -380,6 +380,12 @@
 			<trans-unit id="plugins.collection.flexform.randomize">
 				<source><![CDATA[Randomize sorting?]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.document.title">
+				<source><![CDATA[Kitodo: Document]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.document.description">
+				<source><![CDATA[Document Plugin for Kitodo.Presentation]]></source>
+			</trans-unit>
 			<trans-unit id="flexform.targetPidFeed">
 				<source><![CDATA[Target page (with "Kitodo: Feeds" plugin)]]></source>
 			</trans-unit>
