@@ -15,7 +15,9 @@ namespace dlf {
         files: Record<string, dlf.FulltextDesc>;
     };
 
-    type StateChangeEvent = CustomEvent<{
+    type StateChangeEvent = CustomEvent<StateChangeDetail>;
+
+    type StateChangeDetail = {
         /**
          * Who triggered the event.
          * * `history`: Event is trigerred due to history popstate. This is used
@@ -25,7 +27,7 @@ namespace dlf {
         source: 'history' | 'navigation';
         page?: number;
         simultaneousPages?: number;
-    }>;
+    };
 
     /**
      * State of document stored in `window.history`.

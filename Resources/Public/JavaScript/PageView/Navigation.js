@@ -11,13 +11,17 @@
 class dlfNavigation {
     /**
      *
+     * @param {dlfController} docController
      * @param {object} config
      * @param {Record<string, boolean | undefined>} config.features Which navigation features should
      * be handled by this instance.
      * @param {number} config.basePageSteps Number of pages to skip for long step (not yet considering
      * single/double page mode).
      */
-    constructor(config) {
+    constructor(docController, config) {
+        /** @private */
+        this.docController = docController;
+
         /** @private */
         this.config = config;
 
@@ -158,6 +162,6 @@ class dlfNavigation {
      * @private
      */
     updateUrl(button, page) {
-        button.setAttribute('href', tx_dlf_loaded.makePageUrl(page));
+        button.setAttribute('href', this.docController.makePageUrl(page));
     }
 }

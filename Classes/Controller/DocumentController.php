@@ -85,16 +85,12 @@ class DocumentController extends AbstractController
                 return result;
             };
 
-            tx_dlf_loaded.makePageUrl = function (pageNo, pageGrid = false) {
-                const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
-                return tx_dlf_loaded.urlTemplate
-                    .replace(/DOUBLE_PAGE/, doublePage)
-                    .replace(/PAGE_NO/, pageNo)
-                    .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
-            };
-
             window.addEventListener("DOMContentLoaded", function() {
-                new dlfController();
+                window.dispatchEvent(new CustomEvent("tx-dlf-documentLoaded", {
+                    detail: {
+                        docController: new dlfController(tx_dlf_loaded)
+                    }
+                }));
             });';
 
         $this->view->assign('docConfiguration', $docConfiguration);

@@ -9,19 +9,47 @@
  */
 
 class dlfController {
-    constructor() {
+    constructor(doc) {
+        /** @private */
+        this.doc = doc;
+
         document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
         window.addEventListener('popstate', this.onPopState.bind(this));
 
         // Set initial state, so that browser navigation also works initial page
         history.replaceState(/** @type {dlf.PageHistoryState} */({
             type: 'tx-dlf-page-state',
-            documentId: tx_dlf_loaded.state.documentId,
-            page: tx_dlf_loaded.state.page,
-            simultaneousPages: tx_dlf_loaded.state.simultaneousPages,
+            documentId: this.doc.state.documentId,
+            page: this.doc.state.page,
+            simultaneousPages: this.doc.state.simultaneousPages,
         }), '');
 
-        this.updateMultiPage(tx_dlf_loaded.state.simultaneousPages);
+        this.updateMultiPage(this.doc.state.simultaneousPages);
+    }
+
+    /**
+     * @param {dlf.StateChangeDetail} detail
+     */
+    changeState(detail) {
+        if (detail.page !== undefined) {
+            this.doc.state.page = detail.page;
+        }
+        if (detail.simultaneousPages !== undefined) {
+            this.doc.state.simultaneousPages = detail.simultaneousPages;
+        }
+        document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', { detail }));
+    }
+
+    /**
+     * @param {number} pageNo
+     * @param {boolean} pageGrid
+     */
+    makePageUrl(pageNo, pageGrid = false) {
+        const doublePage = this.doc.state.simultaneousPages >= 2 ? 1 : 0;
+        return this.doc.urlTemplate
+            .replace(/DOUBLE_PAGE/, doublePage)
+            .replace(/PAGE_NO/, pageNo)
+            .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
     }
 
     /**
@@ -46,33 +74,25 @@ class dlfController {
         }
 
         const state = /** @type {dlf.PageHistoryState} */(e.state);
-        if (state.documentId !== tx_dlf_loaded.state.documentId) {
+        if (state.documentId !== this.doc.state.documentId) {
             return;
         }
 
-        if (state.page !== tx_dlf_loaded.state.page) {
+        if (state.page !== this.doc.state.page) {
             e.preventDefault();
 
-            // TODO: Avoid redundancy to Navigation
-            tx_dlf_loaded.state.page = state.page;
-            document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
-                'detail': {
-                    'source': 'history',
-                    'page': state.page,
-                }
-            }));
+            this.changeState({
+                'source': 'history',
+                'page': state.page,
+            });
         }
 
-        if (state.simultaneousPages !== tx_dlf_loaded.state.simultaneousPages) {
+        if (state.simultaneousPages !== this.doc.state.simultaneousPages) {
             e.preventDefault();
-
-            tx_dlf_loaded.state.simultaneousPages = state.simultaneousPages;
-            document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
-                'detail': {
-                    'source': 'history',
-                    'simultaneousPages': state.simultaneousPages,
-                }
-            }));
+            this.changeState({
+                'source': 'history',
+                'simultaneousPages': state.simultaneousPages,
+            });
         }
     }
 
@@ -88,10 +108,10 @@ class dlfController {
 
         history.pushState(/** @type {dlf.PageHistoryState} */({
             type: 'tx-dlf-page-state',
-            documentId: tx_dlf_loaded.state.documentId,
-            page: tx_dlf_loaded.state.page,
-            simultaneousPages: tx_dlf_loaded.state.simultaneousPages,
-        }), '', tx_dlf_loaded.makePageUrl(tx_dlf_loaded.state.page));
+            documentId: this.doc.state.documentId,
+            page: this.doc.state.page,
+            simultaneousPages: this.doc.state.simultaneousPages,
+        }), '', this.makePageUrl(this.doc.state.page));
     }
 
     /**
