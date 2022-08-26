@@ -566,11 +566,12 @@ class PageViewController extends AbstractController
                     return result;
                 };
 
-                tx_dlf_loaded.makePageUrl = function (pageNo) {
+                tx_dlf_loaded.makePageUrl = function (pageNo, pageGrid = false) {
                     const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
                     return tx_dlf_loaded.urlTemplate
                         .replace(/DOUBLE_PAGE/, doublePage)
-                        .replace(/PAGE_NO/, pageNo);
+                        .replace(/PAGE_NO/, pageNo)
+                        .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
                 };
 
                 $(document).ready(function() {
@@ -640,11 +641,12 @@ class PageViewController extends AbstractController
                     return result;
                 };
 
-                tx_dlf_loaded.makePageUrl = function (pageNo) {
+                tx_dlf_loaded.makePageUrl = function (pageNo, pageGrid = false) {
                     const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
                     return tx_dlf_loaded.urlTemplate
                         .replace(/DOUBLE_PAGE/, doublePage)
-                        .replace(/PAGE_NO/, pageNo);
+                        .replace(/PAGE_NO/, pageNo)
+                        .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
                 };
 
                 $(document).ready(function() {
@@ -679,7 +681,7 @@ class PageViewController extends AbstractController
         //       page: \d+
         //       double: 0|1
 
-        $make = function ($page, $double) {
+        $make = function ($page, $double, $pagegrid) {
             $result = $this->uriBuilder->reset()
                 ->setTargetPageUid($GLOBALS['TSFE']->id)
                 ->setCreateAbsoluteUri(!empty($this->settings['forceAbsoluteUrl']) ? true : false)
@@ -687,6 +689,7 @@ class PageViewController extends AbstractController
                     'tx_dlf' => array_merge($this->requestData, [
                         'page' => $page,
                         'double' => $double,
+                        'pagegrid' => $pagegrid
                     ]),
                 ])
                 ->build();
@@ -701,8 +704,8 @@ class PageViewController extends AbstractController
 
         // Generate two URLs that differ only in tx_dlf[page] and tx_dlf[double].
         // We don't know the order of page and double parameters, so use the values for matching.
-        $a = $make(1, 0);
-        $b = $make(2, 1);
+        $a = $make(2, 1, 0);
+        $b = $make(3, 0, 1);
 
         $lastIdx = 0;
         $result = '';
@@ -714,10 +717,12 @@ class PageViewController extends AbstractController
             $result .= substr($a, $lastIdx, $i - $lastIdx);
             $lastIdx = $i + 1;
 
-            if ($a[$i] === '1') {
+            if ($a[$i] === '2') {
                 $placeholder = 'PAGE_NO';
-            } else {
+            } else if ($a[$i] === '1') {
                 $placeholder = 'DOUBLE_PAGE';
+            } else {
+                $placeholder = 'PAGE_GRID';
             }
 
             $result .= $placeholder;
