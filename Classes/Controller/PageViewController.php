@@ -462,19 +462,6 @@ class PageViewController extends AbstractController
      */
     protected function addViewerJS(): void
     {
-        $filesConfig = $this->extConf['files'];
-
-        $imageFileGroups = array_reverse(GeneralUtility::trimExplode(',', $filesConfig['fileGrpImages']));
-        $fulltextFileGroups = GeneralUtility::trimExplode(',', $filesConfig['fileGrpFulltext']);
-
-        $config = [
-            'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
-            'proxyFileGroups' => !empty($this->settings['useInternalProxy'])
-                ? array_merge($imageFileGroups, $fulltextFileGroups)
-                : [],
-        ];
-
-        $currentDocumentArray = $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config);
 
         if (count($this->documentArray) > 1) {
             $jsViewer = 'tx_dlf_viewer = [];';
@@ -507,21 +494,6 @@ class PageViewController extends AbstractController
                         $currentMeasureId = $docMeasures['measureCounterToMeasureId'][$this->requestData['docMeasure'][$i]];
                     }
 
-                    $tx_dlf_loaded = [
-                        'state' => [
-                            'documentId' => $this->requestData['id'],
-                            'page' => $docPage,
-                            'simultaneousPages' => (int) $this->requestData['double'] + 1,
-                        ],
-                        'urlTemplate' => $this->getUrlTemplate(),
-                        'fileGroups' => [
-                            'images' => $imageFileGroups,
-                            'fulltext' => $fulltextFileGroups,
-                            'download' => GeneralUtility::trimExplode(',', $filesConfig['fileGrpDownload']),
-                        ],
-                        'document' => $currentDocumentArray,
-                    ];
-
                     $jsViewer .= 'tx_dlf_viewer[' . $i . '] = new dlfViewer({
                                 controls: ["' . implode('", "', $this->controls) . '"],
                                 div: "tx-dfgviewer-map-' . $i . '",
@@ -541,34 +513,9 @@ class PageViewController extends AbstractController
                 }
             }
 
-            // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '
-                tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
-
-                tx_dlf_loaded.getVisiblePages = function (firstPageNo = tx_dlf_loaded.state.page) {
-                    const result = [];
-                    for (let i = 0; i < tx_dlf_loaded.state.simultaneousPages; i++) {
-                        const pageNo = firstPageNo + i;
-                        const pageObj = tx_dlf_loaded.document.pages[pageNo - 1];
-                        if (pageObj !== undefined) {
-                            result.push({ pageNo, pageObj });
-                        }
-                    }
-                    return result;
-                };
-
-                tx_dlf_loaded.makePageUrl = function (pageNo, pageGrid = false) {
-                    const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
-                    return tx_dlf_loaded.urlTemplate
-                        .replace(/DOUBLE_PAGE/, doublePage)
-                        .replace(/PAGE_NO/, pageNo)
-                        .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
-                };
-
                 $(document).ready(function() {
-                    new dlfController();
-
                     if (dlfUtils.exists(dlfViewer)) {
                         ' . $jsViewer . '
                         viewerCount = ' . ($i - 1) . ';
@@ -583,49 +530,9 @@ class PageViewController extends AbstractController
                 $currentMeasureId = $docMeasures['measureCounterToMeasureId'][$this->requestData['measure']];
             }
 
-            $tx_dlf_loaded = [
-                'state' => [
-                    'documentId' => $this->requestData['id'],
-                    'page' => $docPage,
-                    'simultaneousPages' => (int) $this->requestData['double'] + 1,
-                ],
-                'urlTemplate' => $this->getUrlTemplate(),
-                'fileGroups' => [
-                    'images' => $imageFileGroups,
-                    'fulltext' => $fulltextFileGroups,
-                    'download' => GeneralUtility::trimExplode(',', $filesConfig['fileGrpDownload']),
-                ],
-                'document' => $currentDocumentArray,
-            ];
-
-            // TODO: Rethink global tx_dlf_loaded
             // Viewer configuration.
             $viewerConfiguration = '
-                tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
-
-                tx_dlf_loaded.getVisiblePages = function (firstPageNo = tx_dlf_loaded.state.page) {
-                    const result = [];
-                    for (let i = 0; i < tx_dlf_loaded.state.simultaneousPages; i++) {
-                        const pageNo = firstPageNo + i;
-                        const pageObj = tx_dlf_loaded.document.pages[pageNo - 1];
-                        if (pageObj !== undefined) {
-                            result.push({ pageNo, pageObj });
-                        }
-                    }
-                    return result;
-                };
-
-                tx_dlf_loaded.makePageUrl = function (pageNo, pageGrid = false) {
-                    const doublePage = tx_dlf_loaded.state.simultaneousPages >= 2 ? 1 : 0;
-                    return tx_dlf_loaded.urlTemplate
-                        .replace(/DOUBLE_PAGE/, doublePage)
-                        .replace(/PAGE_NO/, pageNo)
-                        .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
-                };
-
                 $(document).ready(function() {
-                    new dlfController();
-
                     if (dlfUtils.exists(dlfViewer)) {
                         tx_dlf_viewer = new dlfViewer({
                             controls: ["' . implode('", "', $this->controls) . '"],
@@ -645,78 +552,6 @@ class PageViewController extends AbstractController
                 });';
         }
         $this->view->assign('viewerConfiguration', $viewerConfiguration);
-    }
-
-    /**
-     * Get URL template with the following placeholders:
-     *
-     * * `PAGE_NO` (for value of `tx_dlf[page]`)
-     * * `DOUBLE_PAGE` (for value of `tx_dlf[double]`)
-     *
-     * @return string
-     */
-    protected function getUrlTemplate()
-    {
-        // Should work for route enhancers like this:
-        //
-        //   routeEnhancers:
-        //     KitodoWorkview:
-        //     type: Plugin
-        //     namespace: tx_dlf
-        //     routePath: '/{page}/{double}'
-        //     requirements:
-        //       page: \d+
-        //       double: 0|1
-
-        $make = function ($page, $double, $pagegrid) {
-            $result = $this->uriBuilder->reset()
-                ->setTargetPageUid($GLOBALS['TSFE']->id)
-                ->setCreateAbsoluteUri(!empty($this->settings['forceAbsoluteUrl']) ? true : false)
-                ->setArguments([
-                    'tx_dlf' => array_merge($this->requestData, [
-                        'page' => $page,
-                        'double' => $double,
-                        'pagegrid' => $pagegrid
-                    ]),
-                ])
-                ->build();
-
-            $cHashIdx = strpos($result, '&cHash=');
-            if ($cHashIdx !== false) {
-                $result = substr($result, 0, $cHashIdx);
-            }
-
-            return $result;
-        };
-
-        // Generate two URLs that differ only in tx_dlf[page] and tx_dlf[double].
-        // We don't know the order of page and double parameters, so use the values for matching.
-        $a = $make(2, 1, 0);
-        $b = $make(3, 0, 1);
-
-        $lastIdx = 0;
-        $result = '';
-        for ($i = 0, $len = strlen($a); $i < $len; $i++) {
-            if ($a[$i] === $b[$i]) {
-                continue;
-            }
-
-            $result .= substr($a, $lastIdx, $i - $lastIdx);
-            $lastIdx = $i + 1;
-
-            if ($a[$i] === '2') {
-                $placeholder = 'PAGE_NO';
-            } else if ($a[$i] === '1') {
-                $placeholder = 'DOUBLE_PAGE';
-            } else {
-                $placeholder = 'PAGE_GRID';
-            }
-
-            $result .= $placeholder;
-        }
-        $result .= substr($a, $lastIdx);
-
-        return $result;
     }
 
     /**
