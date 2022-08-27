@@ -64,6 +64,21 @@ class dlfController {
     }
 
     /**
+     * Navigate to given page.
+     *
+     * @param {number} pageNo
+     */
+    changePage(pageNo) {
+        const clampedPageNo = Math.max(1, Math.min(this.doc.document.pages.length, pageNo));
+        if (clampedPageNo !== this.doc.state.page) {
+            this.changeState({
+                source: 'navigation',
+                page: clampedPageNo,
+            });
+        }
+    }
+
+    /**
      * @param {number} pageNo
      * @param {boolean} pageGrid
      */
@@ -72,7 +87,7 @@ class dlfController {
         return this.doc.urlTemplate
             .replace(/DOUBLE_PAGE/, doublePage)
             .replace(/PAGE_NO/, pageNo)
-            .replace(/PAGE_GRID/, pageGrid ? "1" : "0");
+            .replace(/PAGE_GRID/, pageGrid ? '1' : '0');
     }
 
     /**
@@ -103,7 +118,6 @@ class dlfController {
 
         if (state.page !== this.doc.state.page) {
             e.preventDefault();
-
             this.changeState({
                 'source': 'history',
                 'page': state.page,
