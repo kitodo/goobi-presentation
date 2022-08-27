@@ -32,6 +32,7 @@ class dlfMetadata {
      *
      * @param {dlfController} docController
      * @param {object} config
+     * @param {HTMLElement} config.container
      * @param {0 | 1 | 2} config.rootline Rootline configuration, see enum {@link dlfRootline}.
      */
     constructor(docController, config) {
@@ -41,6 +42,21 @@ class dlfMetadata {
         this.config = config;
 
         docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+
+        // TODO: Add spinner or so
+        docController.fetchMetadata()
+            .then((metadata) => {
+                const element = document.createElement('div');
+                element.innerHTML = metadata.htmlCode;
+                const metadataContainer = element.querySelector('.dlf-metadata-container');
+                if (metadataContainer !== null) {
+                    config.container.replaceWith(metadataContainer);
+                    this.updateSectionVisibility();
+                }
+            })
+            .catch(() => {
+                console.warn("Could not fetch additional metadata");
+            });
     }
 
     /**

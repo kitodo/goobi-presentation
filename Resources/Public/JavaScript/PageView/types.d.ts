@@ -33,6 +33,7 @@ namespace dlf {
     type Loaded = {
         state: PageDisplayState;
         urlTemplate: string;
+        metadataUrl: string | null;
         fileGroups: Record<FileKind, string[]>;
         document: Document;
     };

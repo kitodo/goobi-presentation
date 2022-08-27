@@ -466,7 +466,7 @@ class MetadataController extends AbstractController
             $ids = $this->currentDocument->getLogicalSectionsOnPage((int) $this->requestData['page']);
 
             // Check if we should display all metadata up to the root.
-            if ($this->settings['prerenderAllSections'] ?? true) {
+            if ($this->settings['prerenderAllSections'] ?? false) {
                 // Collect IDs of all logical structures. This is a flattened tree, so the
                 // order also works for rootline configurations.
                 $allIds = [];

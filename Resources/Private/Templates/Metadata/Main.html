@@ -19,27 +19,31 @@
 
     NOTE: We assume unescaped values
 </f:comment>
-<f:if condition="{useIiif}">
-    <f:then>
-        <f:render partial="Metadata/IiifEntries" arguments="{_all}"/>
-    </f:then>
-    <f:else>
-        <f:for each="{documentMetadataSections}" as="documentMetadataSection" iteration="sectionIterator">
-            <dl class="tx-dlf-metadata-titledata" data-metadata-list data-dlf-section="{documentMetadataSection._id}" {f:if(condition: "!{documentMetadataSection._active}", then: "hidden")}>
-                <f:for each="{configMetadata}" as="configObject">
-                    <f:if condition="{documentMetadataSection.{configObject.indexName}}">
-                        <f:render partial="Metadata/Entries" arguments="{_all}" />
-                    </f:if>
-                </f:for>
-            </dl>
-        </f:for>
-    </f:else>
-</f:if>
+<div class="dlf-metadata-container">
+    <f:if condition="{useIiif}">
+        <f:then>
+            <f:render partial="Metadata/IiifEntries" arguments="{_all}"/>
+        </f:then>
+        <f:else>
+            <f:for each="{documentMetadataSections}" as="documentMetadataSection" iteration="sectionIterator">
+                <dl class="tx-dlf-metadata-titledata" data-metadata-list data-dlf-section="{documentMetadataSection._id}" {f:if(condition: "!{documentMetadataSection._active}", then: "hidden")}>
+                    <f:for each="{configMetadata}" as="configObject">
+                        <f:if condition="{documentMetadataSection.{configObject.indexName}}">
+                            <f:render partial="Metadata/Entries" arguments="{_all}" />
+                        </f:if>
+                    </f:for>
+                </dl>
+            </f:for>
+        </f:else>
+    </f:if>
+</div>
 
 <script>
     window.addEventListener('tx-dlf-documentLoaded', (e) => {
+        // TODO: When there are multiple instances of metadata plugin?
+        const container = document.querySelector('.dlf-metadata-container');
         const rootline = {settings.rootline};
 
-        new dlfMetadata(e.detail.docController, { rootline });
+        new dlfMetadata(e.detail.docController, { container, rootline });
     });
 </script>

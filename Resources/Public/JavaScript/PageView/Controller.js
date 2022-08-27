@@ -27,6 +27,16 @@ class dlfController {
         }), '');
 
         this.updateMultiPage(this.simultaneousPages);
+
+        if (doc.metadataUrl !== null) {
+            this.metadataPromise = fetch(doc.metadataUrl)
+                .then(response => response.text())
+                .then(html => ({
+                    htmlCode: html,
+                }));
+        } else {
+            this.metadataPromise = Promise.reject();
+        }
     }
 
     /**
@@ -100,6 +110,10 @@ class dlfController {
      */
     findFileByKind(pageNo, fileKind) {
         return this.findFileByGroup(pageNo, this.doc.fileGroups[fileKind]);
+    }
+
+    fetchMetadata() {
+        return this.metadataPromise;
     }
 
     /**
