@@ -69,11 +69,9 @@ class DocumentController extends AbstractController
             'document' => $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config),
         ];
 
-        // TODO: Rethink global tx_dlf_loaded
         $docConfiguration = '
-            tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
-
             window.addEventListener("DOMContentLoaded", function() {
+                const tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
                 window.dispatchEvent(new CustomEvent("tx-dlf-documentLoaded", {
                     detail: {
                         docController: new dlfController(tx_dlf_loaded)

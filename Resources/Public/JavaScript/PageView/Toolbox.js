@@ -20,7 +20,7 @@ class dlfToolbox {
         this.pageLinks = document.querySelectorAll('[data-page-link]');
 
         docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
-        this.updatePageLinks(tx_dlf_loaded.state.page);
+        this.updatePageLinks(this.docController.currentPageNo);
     }
 
     /**
@@ -40,21 +40,18 @@ class dlfToolbox {
     updatePageLinks(firstPageNo) {
         this.pageLinks.forEach(element => {
             const offset = Number(element.getAttribute('data-page-link'));
-            const pageObj = tx_dlf_loaded.document.pages[firstPageNo - 1 + offset];
-            if (!pageObj) {
+            const pageNo = firstPageNo + offset;
+
+            const fileGroups = this.getFileGroups(element);
+            const file = fileGroups !== null
+                ? this.docController.findFileByGroup(pageNo, fileGroups)
+                : this.docController.findFileByKind(pageNo, 'download');
+
+            if (file === undefined) {
                 $(element).hide();
                 return;
             }
             $(element).show();
-
-            const fileGroupsJson = element.getAttribute('data-file-groups');
-            const fileGroups = fileGroupsJson
-                ? JSON.parse(fileGroupsJson)
-                : tx_dlf_loaded.fileGroups['download'];
-            const file = dlfUtils.findFirstSet(pageObj.files, fileGroups);
-            if (!file) {
-                return;
-            }
 
             if (element instanceof HTMLAnchorElement) {
                 element.href = file.url;
@@ -81,5 +78,24 @@ class dlfToolbox {
                 mimetypeLabelEl.textContent = mimetypeLabel;
             }
         });
+    }
+
+    /**
+     * @private
+     * @param {Element} element
+     * @return {string[] | null}
+     */
+    getFileGroups(element) {
+        const fileGroupsJson = element.getAttribute('data-file-groups');
+        try {
+            const fileGroups = JSON.parse(fileGroupsJson);
+            if (Array.isArray(fileGroups) && fileGroups.every(entry => typeof entry === 'string')) {
+                return fileGroups;
+            }
+        } catch (e) {
+            //
+        }
+
+        return null;
     }
 }

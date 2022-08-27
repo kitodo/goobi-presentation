@@ -19,7 +19,22 @@ namespace dlf {
         pages: PageObjects[];
         query: {
             minPage: number;
-        }
+        };
+    };
+
+    type PageDisplayState = {
+        documentId: string | number;
+        page: number;
+        simultaneousPages: number;
+    };
+
+    type FileKind = 'images' | 'fulltext' | 'download';
+
+    type Loaded = {
+        state: PageDisplayState;
+        urlTemplate: string;
+        fileGroups: Record<FileKind, string[]>;
+        document: Document;
     };
 
     type StateChangeEvent = CustomEvent<StateChangeDetail>;
@@ -32,9 +47,7 @@ namespace dlf {
          * * `history`: Event is triggered by user navigation.
          */
         source: 'history' | 'navigation';
-        page?: number;
-        simultaneousPages?: number;
-    };
+    } & Partial<PageDisplayState>;
 
     /**
      * State of document stored in `window.history`.
@@ -42,7 +55,5 @@ namespace dlf {
     type PageHistoryState = {
         type: 'tx-dlf-page-state';
         documentId: string | number;
-        page: number;
-        simultaneousPages: number;
-    };
+    } & PageDisplayState;
 }

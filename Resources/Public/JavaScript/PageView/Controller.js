@@ -9,6 +9,10 @@
  */
 
 class dlfController {
+    /**
+     *
+     * @param {dlf.Loaded} doc
+     */
     constructor(doc) {
         /** @private */
         this.doc = doc;
@@ -19,12 +23,10 @@ class dlfController {
         // Set initial state, so that browser navigation also works initial page
         history.replaceState(/** @type {dlf.PageHistoryState} */({
             type: 'tx-dlf-page-state',
-            documentId: this.doc.state.documentId,
-            page: this.doc.state.page,
-            simultaneousPages: this.doc.state.simultaneousPages,
+            ...this.doc.state
         }), '');
 
-        this.updateMultiPage(this.doc.state.simultaneousPages);
+        this.updateMultiPage(this.simultaneousPages);
     }
 
     /**
@@ -38,9 +40,21 @@ class dlfController {
         return document.body;
     }
 
+    get documentId() {
+        return this.doc.state.documentId;
+    }
+
+    get currentPageNo() {
+        return this.doc.state.page;
+    }
+
+    get simultaneousPages() {
+        return this.doc.state.simultaneousPages;
+    }
+
     getVisiblePages(firstPageNo = this.doc.state.page) {
         const result = [];
-        for (let i = 0; i < this.doc.state.simultaneousPages; i++) {
+        for (let i = 0; i < this.simultaneousPages; i++) {
             const pageNo = firstPageNo + i;
             const pageObj = this.doc.document.pages[pageNo - 1];
             if (pageObj !== undefined) {
@@ -48,12 +62,53 @@ class dlfController {
             }
         }
         return result;
-    };
+    }
+
+    /**
+     *
+     * @param {number} pageNo
+     * @returns {dlf.PageObject | undefined}
+     */
+    getPageByNo(pageNo) {
+        return this.doc.document.pages[pageNo - 1];
+    }
+
+    get numPages() {
+        return this.doc.document.pages.length;
+    }
+
+    /**
+     *
+     * @param {number} pageNo
+     * @param {string[]} fileGroups
+     * @returns {dlf.ResourceLocator | undefined}
+     */
+    findFileByGroup(pageNo, fileGroups) {
+        const pageObj = this.getPageByNo(pageNo);
+        if (pageObj === undefined) {
+            return;
+        }
+
+        return dlfUtils.findFirstSet(pageObj.files, fileGroups);
+    }
+
+    /**
+     *
+     * @param {number} pageNo
+     * @param {dlf.FileKind} fileKind
+     * @returns {dlf.ResourceLocator | undefined}
+     */
+    findFileByKind(pageNo, fileKind) {
+        return this.findFileByGroup(pageNo, this.doc.fileGroups[fileKind]);
+    }
 
     /**
      * @param {dlf.StateChangeDetail} detail
      */
     changeState(detail) {
+        // TODO: Consider passing full new state in stateChanged event,
+        //       then reduce usage of currentPageNo and simultaneousPages properties
+
         if (detail.page !== undefined) {
             this.doc.state.page = detail.page;
         }
@@ -69,7 +124,7 @@ class dlfController {
      * @param {number} pageNo
      */
     changePage(pageNo) {
-        const clampedPageNo = Math.max(1, Math.min(this.doc.document.pages.length, pageNo));
+        const clampedPageNo = Math.max(1, Math.min(this.numPages, pageNo));
         if (clampedPageNo !== this.doc.state.page) {
             this.changeState({
                 source: 'navigation',
@@ -83,7 +138,7 @@ class dlfController {
      * @param {boolean} pageGrid
      */
     makePageUrl(pageNo, pageGrid = false) {
-        const doublePage = this.doc.state.simultaneousPages >= 2 ? 1 : 0;
+        const doublePage = this.simultaneousPages >= 2 ? 1 : 0;
         return this.doc.urlTemplate
             .replace(/DOUBLE_PAGE/, doublePage)
             .replace(/PAGE_NO/, pageNo)
@@ -116,21 +171,12 @@ class dlfController {
             return;
         }
 
-        if (state.page !== this.doc.state.page) {
-            e.preventDefault();
-            this.changeState({
-                'source': 'history',
-                'page': state.page,
-            });
-        }
-
-        if (state.simultaneousPages !== this.doc.state.simultaneousPages) {
-            e.preventDefault();
-            this.changeState({
-                'source': 'history',
-                'simultaneousPages': state.simultaneousPages,
-            });
-        }
+        e.preventDefault();
+        this.changeState({
+            'source': 'history',
+            'page': state.page === this.currentPageNo ? undefined : state.page,
+            'simultaneousPages': state.simultaneousPages === this.simultaneousPages ? undefined : state.simultaneousPages
+        });
     }
 
     /**
@@ -145,9 +191,7 @@ class dlfController {
 
         history.pushState(/** @type {dlf.PageHistoryState} */({
             type: 'tx-dlf-page-state',
-            documentId: this.doc.state.documentId,
-            page: this.doc.state.page,
-            simultaneousPages: this.doc.state.simultaneousPages,
+            ...this.doc.state
         }), '', this.makePageUrl(this.doc.state.page));
     }
 

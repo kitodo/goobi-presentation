@@ -27,9 +27,9 @@ class dlfTableOfContents {
         /** @private */
         this.tocLinks = document.querySelectorAll('[data-toc-link]');
 
-        this.tocLinks.forEach(link => {
+        this.tocLinks.forEach((link) => {
             const documentId = link.getAttribute('data-document-id');
-            if (documentId && documentId !== tx_dlf_loaded.state.documentId) {
+            if (documentId && documentId !== this.docController.documentId) {
                 return;
             }
 
