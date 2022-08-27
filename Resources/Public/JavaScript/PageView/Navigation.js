@@ -36,7 +36,7 @@ class dlfNavigation {
             pageBack: {
                 button: document.querySelector('.page-back'),
                 // When we're on second page in double-page mode, make sure the "back" button is still shown
-                getPage: (prevPageNo) => Math.max(1, prevPageNo - tx_dlf_loaded.state.simultaneousPages),
+                getPage: (prevPageNo) => Math.max(1, prevPageNo - this.docController.simultaneousPages),
             },
             pageFirst: {
                 button: document.querySelector('.page-first'),
@@ -48,11 +48,11 @@ class dlfNavigation {
             },
             pageForward: {
                 button: document.querySelector('.page-forward'),
-                getPage: (prevPageNo) => prevPageNo + tx_dlf_loaded.state.simultaneousPages,
+                getPage: (prevPageNo) => prevPageNo + this.docController.simultaneousPages,
             },
             pageLast: {
                 button: document.querySelector('.page-last'),
-                getPage: (prevPageNo) => tx_dlf_loaded.document.pages.length - (tx_dlf_loaded.state.simultaneousPages - 1),
+                getPage: (prevPageNo) => this.docController.numPages - (this.docController.simultaneousPages - 1),
             },
         }
 
@@ -69,10 +69,10 @@ class dlfNavigation {
     registerEvents() {
         for (const [key, value] of Object.entries(this.navigationButtons)) {
             if (this.config.features[key]) {
-                value.button.addEventListener('click', e => {
+                value.button.addEventListener('click', (e) => {
                     e.preventDefault();
 
-                    const pageNo = value.getPage(tx_dlf_loaded.state.page);
+                    const pageNo = value.getPage(this.docController.currentPageNo);
                     this.docController.changePage(pageNo);
                 });
             }
@@ -104,26 +104,29 @@ class dlfNavigation {
      * @returns {number}
      */
     getLongStep() {
-        return this.config.basePageSteps * tx_dlf_loaded.state.simultaneousPages;
+        return this.config.basePageSteps * this.docController.simultaneousPages;
     }
 
     /**
      * Update DOM state of navigation buttons and dropdown. (For example,
      * enable/disable the buttons depending on current page.)
      *
+     * @param {number} pageNo
      * @private
      */
     updateNavigationControls() {
+        const currentPageNo = this.docController.currentPageNo;
+
         for (const [key, value] of Object.entries(this.navigationButtons)) {
-            const btnPageNo = value.getPage(tx_dlf_loaded.state.page);
-            const isBtnPageVisible = this.docController.getVisiblePages(btnPageNo).some(page => page.pageNo === tx_dlf_loaded.state.page);
-            if (!isBtnPageVisible && 1 <= btnPageNo && btnPageNo <= tx_dlf_loaded.document.pages.length) {
+            const btnPageNo = value.getPage(currentPageNo);
+            const isBtnPageVisible = this.docController.getVisiblePages(btnPageNo).some(page => page.pageNo === currentPageNo);
+            if (!isBtnPageVisible && 1 <= btnPageNo && btnPageNo <= this.docController.numPages) {
                 value.button.classList.remove('disabled');
             } else {
                 value.button.classList.add('disabled');
             }
             // TODO: check if it needs to be done always or only for not disabled buttons
-            this.updateUrl(value.button, value.getPage(tx_dlf_loaded.state.page));
+            this.updateUrl(value.button, btnPageNo);
 
             const textTemplate = value.button.getAttribute('data-text');
             if (textTemplate) {
@@ -132,7 +135,7 @@ class dlfNavigation {
         }
 
         if (this.pageSelect instanceof HTMLSelectElement) {
-            this.pageSelect.value = tx_dlf_loaded.state.page;
+            this.pageSelect.value = currentPageNo.toString();
         }
     }
 
