@@ -15,7 +15,13 @@ const dlfTocState = {
 };
 
 class dlfTableOfContents {
-    constructor() {
+    /**
+     *
+     * @param {dlfController} docController
+     */
+    constructor(docController) {
+        /** @private */
+        this.docController = docController;
         /** @private */
         this.tocItems = document.querySelectorAll('[data-toc-item]');
         /** @private */
@@ -51,7 +57,7 @@ class dlfTableOfContents {
     onStateChanged(e) {
         const activeLogSections = [];
         // TODO: Add toplevel sections
-        for (const page of tx_dlf_loaded.getVisiblePages()) {
+        for (const page of this.docController.getVisiblePages()) {
             activeLogSections.push(...page.pageObj.logSections);
         }
 
