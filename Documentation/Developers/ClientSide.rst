@@ -13,7 +13,7 @@ Page Change
 
 When an element such as a navigation button wants to change the page, the ``tx-dlf-stateChanged`` event is fired.
 
-*  The event is dispatched on ``document.body`` and is of type ``dlf.StateChangeEvent``.
+*  ``docController.eventTarget`` tells which element the event is dispatched on. The event is of type ``dlf.StateChangeEvent``.
 *  The detail object contains the following properties:
 
    *  ``page``: Number of new page

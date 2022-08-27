@@ -273,7 +273,6 @@ var dlfViewer = function (settings) {
      */
     this.docController = null;
 
-    this.registerEvents();
     this.init(dlfUtils.exists(settings.controls) ? settings.controls : []);
 };
 
@@ -966,15 +965,25 @@ dlfViewer.prototype.getVisiblePages = function () {
     }
 }
 
+/**
+ *
+ * @param {dlfController | null} docController
+ */
 dlfViewer.prototype.setDocController = function (docController) {
-    this.docController = docController;
-}
+    if (docController === this.docController) {
+        return;
+    }
 
-dlfViewer.prototype.registerEvents = function () {
-    $(document.body).on('tx-dlf-stateChanged', () => {
+    this.docController = docController;
+
+    if (docController === null) {
+        return;
+    }
+
+    this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', () => {
         this.loadPages(this.getVisiblePages());
     });
-};
+}
 
 dlfViewer.prototype.loadPages = function (visiblePages) {
     if (this.document === undefined) {
