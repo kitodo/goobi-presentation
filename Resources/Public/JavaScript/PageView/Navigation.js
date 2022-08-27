@@ -125,7 +125,7 @@ class dlfNavigation {
             } else {
                 value.button.classList.add('disabled');
             }
-            // TODO: check if it needs to be done always or only for not disabled buttons
+            // TODO(client-side): Check if it needs to be done always or only for not disabled buttons
             this.updateUrl(value.button, btnPageNo);
 
             const textTemplate = value.button.getAttribute('data-text');

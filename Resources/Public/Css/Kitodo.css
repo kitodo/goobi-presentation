@@ -3,7 +3,7 @@ body.page-double .shown-if-single {
     display: none !important;
 }
 
-/* TODO: Better condition? */
+/* TODO(client-side): Better condition? */
 .dlf-toc-collapsed ul {
     display: none;
 }
