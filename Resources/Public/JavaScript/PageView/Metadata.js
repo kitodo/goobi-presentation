@@ -30,10 +30,13 @@ const dlfRootline = {
 class dlfMetadata {
     /**
      *
+     * @param {dlfController} docController
      * @param {object} config
      * @param {0 | 1 | 2} config.rootline Rootline configuration, see enum {@link dlfRootline}.
      */
-    constructor(config) {
+    constructor(docController, config) {
+        /** @protected */
+        this.docController = docController;
         /** @protected */
         this.config = config;
 
@@ -54,7 +57,7 @@ class dlfMetadata {
     updateSectionVisibility() {
         document.querySelectorAll('[data-metadata-list][data-dlf-section]').forEach((element) => {
             let isShown = false;
-            for (const page of tx_dlf_loaded.getVisiblePages()) {
+            for (const page of this.docController.getVisiblePages()) {
                 if (this.shouldShowSection(page.pageObj, element.getAttribute('data-dlf-section'))) {
                     isShown = true;
                     break;

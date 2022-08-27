@@ -37,9 +37,9 @@
 </f:if>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('tx-dlf-documentLoaded', (e) => {
         const rootline = {settings.rootline};
 
-        new dlfMetadata({ rootline });
+        new dlfMetadata(e.detail.docController, { rootline });
     });
 </script>

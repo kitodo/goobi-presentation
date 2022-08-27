@@ -73,18 +73,6 @@ class DocumentController extends AbstractController
         $docConfiguration = '
             tx_dlf_loaded = ' . json_encode($tx_dlf_loaded) . ';
 
-            tx_dlf_loaded.getVisiblePages = function (firstPageNo = tx_dlf_loaded.state.page) {
-                const result = [];
-                for (let i = 0; i < tx_dlf_loaded.state.simultaneousPages; i++) {
-                    const pageNo = firstPageNo + i;
-                    const pageObj = tx_dlf_loaded.document.pages[pageNo - 1];
-                    if (pageObj !== undefined) {
-                        result.push({ pageNo, pageObj });
-                    }
-                }
-                return result;
-            };
-
             window.addEventListener("DOMContentLoaded", function() {
                 window.dispatchEvent(new CustomEvent("tx-dlf-documentLoaded", {
                     detail: {
