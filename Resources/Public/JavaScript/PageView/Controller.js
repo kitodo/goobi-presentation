@@ -42,7 +42,7 @@ class dlfController {
     /**
      * Get event target on which stateChanged events are dispatched.
      *
-     * TODO: Either make this customizable, e.g. use some top-level wrapper element, or make dlfController the EventTarget
+     * TODO(client-side): Either make this customizable, e.g. use some top-level wrapper element, or make dlfController the EventTarget
      *
      * @returns {EventTarget}
      */
@@ -120,8 +120,8 @@ class dlfController {
      * @param {dlf.StateChangeDetail} detail
      */
     changeState(detail) {
-        // TODO: Consider passing full new state in stateChanged event,
-        //       then reduce usage of currentPageNo and simultaneousPages properties
+        // TODO(client-side): Consider passing full new state in stateChanged event,
+        //                    then reduce usage of currentPageNo and simultaneousPages properties
 
         if (detail.page !== undefined) {
             this.doc.state.page = detail.page;

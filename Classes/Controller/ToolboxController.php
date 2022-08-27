@@ -173,6 +173,7 @@ class ToolboxController extends AbstractController
      *
      * @return void
      */
+    // TODO(client-side)
     private function renderAnnotationTool(): void
     {
         if ($this->isDocMissingOrEmpty()) {

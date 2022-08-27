@@ -43,7 +43,7 @@ class dlfMetadata {
 
         docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
 
-        // TODO: Add spinner or so
+        // TODO(client-side): Add spinner or so
         docController.fetchMetadata()
             .then((metadata) => {
                 const element = document.createElement('div');

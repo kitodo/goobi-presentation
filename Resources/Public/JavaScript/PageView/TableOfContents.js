@@ -49,12 +49,12 @@ class dlfTableOfContents {
      */
     onStateChanged(e) {
         const activeLogSections = [];
-        // TODO: Add toplevel sections
+        // TODO(client-side): Add toplevel sections
         for (const page of this.docController.getVisiblePages()) {
             activeLogSections.push(...page.pageObj.logSections);
         }
 
-        // TODO: TOC from DB
+        // TODO(client-side): TOC from DB
 
         // See TableOfContentsController::getMenuEntry()
         this.tocItems.forEach((tocItem) => {
@@ -68,7 +68,7 @@ class dlfTableOfContents {
 
             const children = Array.from(tocItem.querySelectorAll('[data-toc-item]'));
             if (children.length > 0 && isCurrent) {
-                // TODO: check depth?
+                // TODO(client-side): check depth?
                 const isActive = children.some(tocItemChild => activeLogSections.includes(tocItemChild.getAttribute('data-dlf-section')));
                 if (isActive) {
                     tocItemState = dlfTocState.Active;

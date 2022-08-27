@@ -248,7 +248,7 @@ var dlfViewer = function (settings) {
      * This has two benefits:
      * - Switching to a page that has already been visited is basically instantaneous.
      *   When relying on browser cache, there still is a flicker.
-     * - It may allow to prefetch pages that are likely to be visited next (TODO: do that).
+     * - It may allow to prefetch pages that are likely to be visited next (TODO(client-side): do that).
      *
      * @type {Record<string, JQueryStatic.Deferred>}
      * @private
@@ -1072,7 +1072,7 @@ dlfViewer.prototype.initLoadScores = function () {
  */
 dlfViewer.prototype.initLoadFulltexts = function (visiblePages) {
     if (this.docController === null) {
-        // TODO: Make it work then docController === null
+        // TODO(client-side): Make it work then docController === null
         return;
     }
 
