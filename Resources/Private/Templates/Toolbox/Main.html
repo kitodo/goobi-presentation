@@ -227,11 +227,11 @@
 </ul>
 
 <script>
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('tx-dlf-documentLoaded', (e) => {
         // Avoid instantiating dlfToolbox multiple times;
         // TODO: Rethink how it's done
         if (!window.tx_dlf_toolbox) {
-            window.tx_dlf_toolbox = new dlfToolbox();
+            window.tx_dlf_toolbox = new dlfToolbox(e.detail.docController);
         }
     });
 </script>

@@ -9,11 +9,17 @@
  */
 
 class dlfToolbox {
-    constructor() {
+    /**
+     *
+     * @param {dlfController} docController
+     */
+    constructor(docController) {
+        /** @private */
+        this.docController = docController;
         /** @private */
         this.pageLinks = document.querySelectorAll('[data-page-link]');
 
-        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
         this.updatePageLinks(tx_dlf_loaded.state.page);
     }
 

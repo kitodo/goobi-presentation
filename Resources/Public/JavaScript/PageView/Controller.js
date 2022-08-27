@@ -13,7 +13,7 @@ class dlfController {
         /** @private */
         this.doc = doc;
 
-        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        this.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
         window.addEventListener('popstate', this.onPopState.bind(this));
 
         // Set initial state, so that browser navigation also works initial page
@@ -25,6 +25,17 @@ class dlfController {
         }), '');
 
         this.updateMultiPage(this.doc.state.simultaneousPages);
+    }
+
+    /**
+     * Get event target on which stateChanged events are dispatched.
+     *
+     * TODO: Either make this customizable, e.g. use some top-level wrapper element, or make dlfController the EventTarget
+     *
+     * @returns {EventTarget}
+     */
+    get eventTarget() {
+        return document.body;
     }
 
     getVisiblePages(firstPageNo = this.doc.state.page) {

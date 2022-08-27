@@ -47,7 +47,7 @@ class dlfTableOfContents {
             });
         });
 
-        document.body.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
     }
 
     /**
