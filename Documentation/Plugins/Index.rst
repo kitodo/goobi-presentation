@@ -308,6 +308,26 @@ Document
     :Default:
         Default
 
+  - :Property:
+        excludeOther_
+    :Data Type:
+        :ref:`t3tsref:data-type-boolean`
+    :Default:
+        1
+
+  - :Property:
+        useInternalProxy
+    :Data Type:
+        :ref:`t3tsref:data-type-boolean`
+    :Default:
+        0
+
+  - :Property:
+        targetPidMetadata
+    :Data Type:
+        :ref:`t3tsref:data-type-page-id`
+    :Default:
+
 
 Embedded 3D Viewer
 -----------

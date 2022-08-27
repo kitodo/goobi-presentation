@@ -177,6 +177,10 @@
 				<source><![CDATA[Document Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Dokument-Plugin für Kitodo.Presentation]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.document.flexform.targetPidMetadata" approved="yes">
+				<source><![CDATA[Page to render metadata snippet]]></source>
+				<target><![CDATA[Seite, um Metadaten-Ausschnitt nachzuladen]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.feeds.description" approved="yes">
 				<source><![CDATA[Feeds Plugin for Kitodo.Presentation]]></source>
 				<target><![CDATA[Feeds Plugin für Kitodo.Presentation]]></target>
