@@ -36,14 +36,7 @@ class dlfTableOfContents {
             const pageNo = Number(link.getAttribute('data-page'));
             link.addEventListener('click', e => {
                 e.preventDefault();
-                // TODO: Avoid redundancy to Controller
-                tx_dlf_loaded.state.page = pageNo;
-                document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
-                    'detail': {
-                        'source': 'navigation',
-                        'page': pageNo,
-                    }
-                }));
+                this.docController.changePage(pageNo);
             });
         });
 

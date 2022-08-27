@@ -73,18 +73,16 @@ class dlfNavigation {
                     e.preventDefault();
 
                     const pageNo = value.getPage(tx_dlf_loaded.state.page);
-                    const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.pages.length, pageNo));
-                    this.changePage(clampedPageNo, e);
+                    this.docController.changePage(pageNo);
                 });
             }
         }
 
-        this.pageSelect.addEventListener('change', e => {
+        this.pageSelect.addEventListener('change', (e) => {
             e.preventDefault();
 
-            const pageNo = e.target.value;
-            const clampedPageNo = Math.max(1, Math.min(tx_dlf_loaded.document.pages.length, pageNo));
-            this.changePage(clampedPageNo, e);
+            const pageNo = Number(e.target.value);
+            this.docController.changePage(pageNo);
         });
 
         this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
@@ -96,24 +94,6 @@ class dlfNavigation {
      */
     onStateChanged(e) {
         this.updateNavigationControls();
-    }
-
-    /**
-     * @param {number} pageNo
-     * @param {MouseEvent} e
-     * @private
-     */
-    changePage(pageNo, e) {
-        if (pageNo !== tx_dlf_loaded.state.page) {
-            // TODO: Avoid redundancy to Controller
-            tx_dlf_loaded.state.page = pageNo;
-            document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', {
-                'detail': {
-                    'source': 'navigation',
-                    'page': pageNo,
-                }
-            }));
-        }
     }
 
     /**
