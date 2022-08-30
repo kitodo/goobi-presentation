@@ -19,15 +19,36 @@ Document Descriptor
 The method ``Doc::toArray()`` collects all information used by the frontend into a JSON-serializable array.
 See the type ``dlf.PageObject`` for an outline of its structure.
 
-Page Change
-===========
+Control Flow and Events
+=======================
 
-When an element such as a navigation button wants to change the page, the ``tx-dlf-stateChanged`` event is fired.
+*  The ``Document`` plugin creates an instance of the ``Controller`` class (see ``Controller.js``) and dispatches the event ``tx-dlf-documentLoaded``.
 
-*  ``docController.eventTarget`` tells which element the event is dispatched on. The event is of type ``dlf.StateChangeEvent``.
-*  The detail object contains the following properties:
+*  Plugins that would like to interact with the document object listen to ``tx-dlf-documentLoaded``, and get the ``Controller`` instance from the event detail.
 
-   *  ``page``: Number of new page
+   .. code-block:: javascript
+
+      window.addEventListener('tx-dlf-documentLoaded', (e) => {
+          this.docController = e.detail.docController;
+      });
+
+*  Whenever a plugin would like to *change* the view state (currently, to change the page or to toggle doublepage mode), it should call the ``Controller::changeState`` or ``Controller::changePage`` method.
+   This dispatches the event ``tx-dlf-stateChanged``, which is of type ``dlf.StateChangeEvent`` (see ``types.d.ts``).
+
+   .. code-block:: javascript
+
+      this.docController.changePage(1);
+
+*  If a plugin would like to react to changes of the view state, it may listen to the ``tx-dlf-stateChanged`` event.
+   The ``Controller::eventTarget`` tells on which element the event listener should be registered.
+
+   .. code-block:: javascript
+
+      this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', (e) => {
+          if (e.detail.page !== undefined) {
+              console.log(`Switched to page ${e.detail.page}`);
+          }
+      });
 
 Metadata
 ========
@@ -85,12 +106,13 @@ Various
 Code
 ====
 
-*  ``TODO(client-side)``
+*  See ``types.d.ts`` for JavaScript type declarations
+*  ``TODO(client-side)``: TODOs related to client-side features
 
 Migration
 =========
 
 - Add page for prerendering metadata
 - Add document plugin to page view
-- Set `showFull = 1` in table of contents
+- Set ``showFull = 1`` in table of contents
 - Template adjustments
