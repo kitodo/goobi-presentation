@@ -102,6 +102,7 @@ class DocumentController extends AbstractController
      *
      * * `PAGE_NO` (for value of `tx_dlf[page]`)
      * * `DOUBLE_PAGE` (for value of `tx_dlf[double]`)
+     * * `PAGE_GRID` (for value of `tx_dlf[pagegrid]`)
      *
      * @return string
      */
@@ -139,8 +140,8 @@ class DocumentController extends AbstractController
             return $result;
         };
 
-        // Generate two URLs that differ only in tx_dlf[page] and tx_dlf[double].
-        // We don't know the order of page and double parameters, so use the values for matching.
+        // Generate two URLs that differ in tx_dlf[page], tx_dlf[double] and tx_dlf[highlight].
+        // We don't know the order of these parameters, so use the values for matching.
         $a = $make(2, 1, 0);
         $b = $make(3, 0, 1);
 

@@ -66,6 +66,15 @@ To dynamically show the metadata sections of the current page:
 
 Rootline configuration is considered.
 
+URLs and Slugs
+==============
+
+For dynamic link generation on the client, a URL template is generated in ``DocumentController::getUrlTemplate()``.
+The template contains placeholders for the relevant parameters, which are then replaced by the current values in ``Controller::makePageUrl()``.
+The generated URL does not include a ``cHash``.
+
+This solution is intended to avoid generating all possible URL variants on the backend while still supporting slugs.
+
 Various
 =======
 
