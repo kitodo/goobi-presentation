@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  */
 class DocumentController extends AbstractController
 {
-   /**
+    /**
      * The main method of the PlugIn
      *
      * @access public
@@ -142,22 +142,22 @@ class DocumentController extends AbstractController
 
         // Generate two URLs that differ in tx_dlf[page], tx_dlf[double] and tx_dlf[highlight].
         // We don't know the order of these parameters, so use the values for matching.
-        $a = $make(2, 1, 0);
-        $b = $make(3, 0, 1);
+        $first = $make(2, 1, 0);
+        $second = $make(3, 0, 1);
 
         $lastIdx = 0;
         $result = '';
-        for ($i = 0, $len = strlen($a); $i < $len; $i++) {
-            if ($a[$i] === $b[$i]) {
+        for ($i = 0, $len = strlen($first); $i < $len; $i++) {
+            if ($first[$i] === $second[$i]) {
                 continue;
             }
 
-            $result .= substr($a, $lastIdx, $i - $lastIdx);
+            $result .= substr($first, $lastIdx, $i - $lastIdx);
             $lastIdx = $i + 1;
 
-            if ($a[$i] === '2') {
+            if ($first[$i] === '2') {
                 $placeholder = 'PAGE_NO';
-            } else if ($a[$i] === '1') {
+            } else if ($first[$i] === '1') {
                 $placeholder = 'DOUBLE_PAGE';
             } else {
                 $placeholder = 'PAGE_GRID';
@@ -165,7 +165,7 @@ class DocumentController extends AbstractController
 
             $result .= $placeholder;
         }
-        $result .= substr($a, $lastIdx);
+        $result .= substr($first, $lastIdx);
 
         return $result;
     }

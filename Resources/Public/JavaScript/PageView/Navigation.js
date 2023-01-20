@@ -54,10 +54,10 @@ class dlfNavigation {
                 button: document.querySelector('.page-last'),
                 getPage: (prevPageNo) => this.docController.numPages - (this.docController.simultaneousPages - 1),
             },
-        }
+        };
 
         /** @private */
-        this.pageSelect = document.querySelector('.page-select')
+        this.pageSelect = document.querySelector('.page-select');
 
         this.registerEvents();
         this.updateNavigationControls();
