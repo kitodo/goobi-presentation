@@ -1260,9 +1260,6 @@ abstract class AbstractDocument
                 'minPage' => $minPage
             ]
         ];
-        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
-        $fileGrpsImages = array_reverse(GeneralUtility::trimExplode(',', $extConf['fileGrpImages']));
-        $fileGrpsFulltext = GeneralUtility::trimExplode(',', $extConf['fileGrpFulltext']);
 
         $allFiles = $this->getAllFiles();
 
