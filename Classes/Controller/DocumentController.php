@@ -42,8 +42,10 @@ class DocumentController extends AbstractController
             // Quit without doing anything if required variables are not set.
             return;
         }
-        
+
         $this->setPage();
+
+        $metadataUrl = null;
 
         if (!empty($this->settings['targetPidMetadata'])) {
             $metadataUrl = $this->uriBuilder
