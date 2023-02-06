@@ -14,6 +14,8 @@ general.caching = 0
 general.publishNewCollections = 1
 # cat=General; type=boolean; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.general.unhideOnIndex
 general.unhideOnIndex = 0
+# cat=General; type=string; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xml:config.general.nonProxyMimeType
+general.nonProxyMimeType = application/vnd.kitodo.iiif,application/vnd.netfpx,application/vnd.kitodo.zoomify
 # cat=General; type=boolean; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.general.useExternalApisForMetadata
 general.useExternalApisForMetadata = 0
 # cat=General; type=string; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.general.requiredMetadataFields
