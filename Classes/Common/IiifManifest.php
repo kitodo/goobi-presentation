@@ -849,8 +849,7 @@ final class IiifManifest extends AbstractDocument
          *  https://digi.ub.uni-heidelberg.de/diglit/iiif/hirsch_hamburg1933_04_25/list/0001.json
          */
         if (!$this->hasFulltextSet && $this->iiif instanceof ManifestInterface) {
-            $manifest = $this->iiif;
-            $canvases = $manifest->getDefaultCanvases();
+            $canvases = $this->iiif->getDefaultCanvases();
             foreach ($canvases as $canvas) {
                 if (
                     !empty($canvas->getSeeAlsoUrlsForFormat("application/alto+xml")) ||
