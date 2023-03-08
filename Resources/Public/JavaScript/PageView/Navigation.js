@@ -85,14 +85,15 @@ class dlfNavigation {
             this.docController.changePage(pageNo);
         });
 
-        this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', () => {
+            this.onStateChanged();
+        });
     }
 
     /**
      * @private
-     * @param {dlf.StateChangeEvent} e
      */
-    onStateChanged(e) {
+    onStateChanged() {
         this.updateNavigationControls();
     }
 
@@ -111,27 +112,16 @@ class dlfNavigation {
      * Update DOM state of navigation buttons and dropdown. (For example,
      * enable/disable the buttons depending on current page.)
      *
-     * @param {number} pageNo
      * @private
      */
     updateNavigationControls() {
         const currentPageNo = this.docController.currentPageNo;
 
-        for (const [key, value] of Object.entries(this.navigationButtons)) {
+        for (const value of Object.values(this.navigationButtons)) {
             const btnPageNo = value.getPage(currentPageNo);
-            const isBtnPageVisible = this.docController.getVisiblePages(btnPageNo).some(page => page.pageNo === currentPageNo);
-            if (!isBtnPageVisible && 1 <= btnPageNo && btnPageNo <= this.docController.numPages) {
-                value.button.classList.remove('disabled');
-            } else {
-                value.button.classList.add('disabled');
-            }
-            // TODO(client-side): Check if it needs to be done always or only for not disabled buttons
+            this.toggleButtonDisabled(value.button, btnPageNo);
             this.updateUrl(value.button, btnPageNo);
-
-            const textTemplate = value.button.getAttribute('data-text');
-            if (textTemplate) {
-                value.button.textContent = textTemplate.replace(/PAGE_STEPS/, this.getLongStep());
-            }
+            this.updateText(value.button);
         }
 
         if (this.pageSelect instanceof HTMLSelectElement) {
@@ -140,11 +130,44 @@ class dlfNavigation {
     }
 
     /**
-     * Update URLs of navigation buttons.
+     * Enable/disable the button depending on current page.
+     *
+     * @param {button} Element
+     * @param {pageNo}
      *
      * @private
      */
-    updateUrl(button, page) {
-        button.setAttribute('href', this.docController.makePageUrl(page));
+    toggleButtonDisabled(button, pageNo) {
+        const isBtnPageVisible = this.docController.getVisiblePages(pageNo).some(page => page.pageNo === this.docController.currentPageNo);
+        if (!isBtnPageVisible && 1 <= pageNo && pageNo <= this.docController.numPages) {
+            button.classList.remove('disabled');
+        } else {
+            button.classList.add('disabled');
+        }
+    }
+
+    /**
+     * Update URLs of navigation button.
+     * 
+     * @param {button} Element
+     *
+     * @private
+     */
+    updateUrl(button, pageNo) {
+        button.setAttribute('href', this.docController.makePageUrl(pageNo));
+    }
+
+    /**
+     * Update text of navigation button.
+     * 
+     * @param {button} Element
+     *
+     * @private
+     */
+    updateText(button) {
+        const textTemplate = button.getAttribute('data-text');
+        if (textTemplate) {
+            button.textContent = textTemplate.replace(/PAGE_STEPS/, this.getLongStep());
+        }
     }
 }
