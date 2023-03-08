@@ -41,29 +41,35 @@ class dlfMetadata {
         /** @protected */
         this.config = config;
 
-        docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', () => {
+            this.onStateChanged();
+        });
 
-        // TODO(client-side): Add spinner or so
-        docController.fetchMetadata()
-            .then((metadata) => {
-                const element = document.createElement('div');
-                element.innerHTML = metadata.htmlCode;
-                const metadataContainer = element.querySelector('.dlf-metadata-container');
-                if (metadataContainer !== null) {
-                    config.container.replaceWith(metadataContainer);
-                    this.updateSectionVisibility();
-                }
-            })
-            .catch(() => {
-                console.warn("Could not fetch additional metadata");
-            });
+        this.fetchMetadata();
     }
 
     /**
      * @private
-     * @param {dlf.StateChangeEvent} e
      */
-    onStateChanged(e) {
+    async fetchMetadata() {
+        try {
+            const metadata = await this.docController.fetchMetadata();
+            const element = document.createElement('div');
+            element.innerHTML = metadata.htmlCode;
+            const metadataContainer = element.querySelector('.dlf-metadata-container');
+            if (metadataContainer !== null) {
+                this.config.container.replaceWith(metadataContainer);
+                this.updateSectionVisibility();
+            }
+        } catch (error) {
+            console.warn("Could not fetch additional metadata:", error);
+        }
+    }
+
+    /**
+     * @private
+     */
+    onStateChanged() {
         this.updateSectionVisibility();
     }
 
