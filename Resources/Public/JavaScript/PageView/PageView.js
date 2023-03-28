@@ -1085,8 +1085,7 @@ dlfViewer.prototype.initLoadFulltexts = function (visiblePages) {
         const fulltext = this.docController.findFileByKind(visiblePages[i].pageNo, 'fulltext');
         if (fulltext !== undefined) {
             if (!(key in this.fulltextsLoaded_) && dlfUtils.isFulltextDescriptor(fulltext)) {
-                fulltextEntry = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext.url, image, xOffset);
-                this.fulltextsLoaded_[key] = fulltextEntry;
+                this.fulltextsLoaded_[key] = dlfFullTextUtils.fetchFullTextDataFromServer(fulltext.url, image, xOffset);
             }
         } else {
             console.warn("No fulltext file found");
