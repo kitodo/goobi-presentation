@@ -43,9 +43,9 @@ namespace dlf {
     type StateChangeDetail = {
         /**
          * Who triggered the event.
-         * * `history`: Event is trigerred due to history popstate. This is used
+         * * `history`: Event is triggered due to history popstate. This is used
          *   to avoid pushing a popped state again.
-         * * `history`: Event is triggered by user navigation.
+         * * `navigation`: Event is triggered by user navigation.
          */
         source: 'history' | 'navigation';
     } & Partial<PageDisplayState>;
