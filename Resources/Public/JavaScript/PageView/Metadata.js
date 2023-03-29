@@ -62,6 +62,7 @@ class dlfMetadata {
                 this.updateSectionVisibility();
             }
         } catch (error) {
+            /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
             console.warn("Could not fetch additional metadata:", error);
         }
     }
