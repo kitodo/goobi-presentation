@@ -357,6 +357,8 @@ class ToolboxController extends AbstractController
 
         $this->view->assign('imageManipulation', true);
         $this->view->assign('parentContainer', $parentContainer);
+        // activate it here as it is the most common used tool
+        $this->view->assign('activateToolbox', true);
     }
 
     /**

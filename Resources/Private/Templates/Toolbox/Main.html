@@ -226,14 +226,16 @@
     </f:if>
 </ul>
 
-<script>
-    window.addEventListener('tx-dlf-documentLoaded', (e) => {
-        // Avoid instantiating dlfToolbox multiple times;
-        // TODO(client-side): Rethink how it's done
-        if (!window.tx_dlf_toolbox) {
-            window.tx_dlf_toolbox = new dlfToolbox(e.detail.docController);
-        }
-    });
-</script>
+<f:if condition="{activateToolbox}">
+    <f:then>
+        <script>
+            window.addEventListener('tx-dlf-documentLoaded', (e) => {
+                if (!window.tx_dlf_toolbox) {
+                    window.tx_dlf_toolbox = new dlfToolbox(e.detail.docController);
+                }
+            });
+        </script>
+    </f:then>
+</f:if>
 
 </html>
