@@ -462,22 +462,6 @@ class PageViewController extends AbstractController
      */
     protected function addViewerJS(): void
     {
-        // TODO(client-side): Avoid redundancy to DocumentController
-        $filesConfiguration = $this->extConf['files'];
-        $imageFileGroups = array_reverse(GeneralUtility::trimExplode(',', $filesConfiguration['fileGrpImages']));
-        $fulltextFileGroups = GeneralUtility::trimExplode(',', $filesConfiguration['fileGrpFulltext']);
-        $config = [
-            'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
-            'proxyFileGroups' => !empty($this->settings['useInternalProxy'])
-                ? array_merge($imageFileGroups, $fulltextFileGroups)
-                : [],
-            // toArray uses closed interval [minPage, maxPage]
-            'minPage' => $this->requestData['page'],
-            'maxPage' => $this->requestData['page'] + $this->requestData['double']
-        ];
-
-        $initDoc = $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config);
-
         if (count($this->documentArray) > 1) {
             $jsViewer = 'tx_dlf_viewer = [];';
             $i = 0;
