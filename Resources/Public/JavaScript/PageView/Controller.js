@@ -124,7 +124,6 @@ class dlfController {
      * @param {dlf.StateChangeDetail} detail
      */
     changeState(detail) {
-        // TODO(client-side): Consider passing full new state in stateChanged event, then reduce usage of currentPageNo and simultaneousPages properties
         if (detail.page !== undefined) {
             this.doc.state.page = detail.page;
         }
