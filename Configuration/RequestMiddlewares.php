@@ -12,6 +12,9 @@
 
 return [
     'frontend' => [
+        'dlf/page-view-proxy' => [
+            'target' => \Kitodo\Dlf\Middleware\PageViewProxy::class,
+        ],
         'dlf/search-in-document' => [
             'target' => \Kitodo\Dlf\Middleware\SearchInDocument::class,
             'after' => [
