@@ -23,32 +23,35 @@ class dlfTableOfContents {
         /** @private */
         this.docController = docController;
         /** @private */
-        this.tocItems = document.querySelectorAll('[data-toc-item]');
+        this.tocItems = document.querySelectorAll("[data-toc-item]");
         /** @private */
-        this.tocLinks = document.querySelectorAll('[data-toc-link]');
+        this.tocLinks = document.querySelectorAll("[data-toc-link]");
 
         this.tocLinks.forEach((link) => {
-            const documentId = link.getAttribute('data-document-id');
+            const documentId = link.getAttribute("data-document-id");
+
             if (documentId && documentId !== this.docController.documentId) {
                 return;
             }
 
-            const pageNo = Number(link.getAttribute('data-page'));
-            link.addEventListener('click', e => {
+            const pageNo = Number(link.getAttribute("data-page"));
+
+            link.addEventListener("click", (e) => {
                 e.preventDefault();
                 this.docController.changePage(pageNo);
             });
         });
 
-        docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        docController.eventTarget.addEventListener("tx-dlf-stateChanged", this.onStateChanged.bind(this));
     }
 
     /**
-     * @private
      * @param {dlf.StateChangeEvent} e
+     * @private
      */
     onStateChanged(e) {
         const activeLogSections = [];
+
         // TODO(client-side): Add toplevel sections
         for (const page of this.docController.getVisiblePages()) {
             activeLogSections.push(...page.pageObj.logSections);
@@ -59,17 +62,20 @@ class dlfTableOfContents {
         // See TableOfContentsController::getMenuEntry()
         this.tocItems.forEach((tocItem) => {
             let tocItemState = dlfTocState.Normal;
-            let isExpanded = Boolean(tocItem.getAttribute('data-toc-expand-always'));
+            let isExpanded = Boolean(tocItem.getAttribute("data-toc-expand-always"));
 
-            const isCurrent = activeLogSections.includes(tocItem.getAttribute('data-dlf-section'));
+            const isCurrent = activeLogSections.includes(tocItem.getAttribute("data-dlf-section"));
+
             if (isCurrent) {
                 tocItemState = dlfTocState.Current;
             }
 
-            const children = Array.from(tocItem.querySelectorAll('[data-toc-item]'));
+            const children = Array.from(tocItem.querySelectorAll("[data-toc-item]"));
+
             if (children.length > 0 && isCurrent) {
                 // TODO(client-side): check depth?
-                const isActive = children.some(tocItemChild => activeLogSections.includes(tocItemChild.getAttribute('data-dlf-section')));
+                const isActive = children.some((tocItemChild) => activeLogSections.includes(tocItemChild.getAttribute("data-dlf-section")));
+
                 if (isActive) {
                     tocItemState = dlfTocState.Active;
                 }
@@ -78,27 +84,27 @@ class dlfTableOfContents {
             }
 
             if (tocItemState === dlfTocState.Normal) {
-                tocItem.classList.add('tx-dlf-toc-no');
+                tocItem.classList.add("tx-dlf-toc-no");
             } else {
-                tocItem.classList.remove('tx-dlf-toc-no');
+                tocItem.classList.remove("tx-dlf-toc-no");
             }
 
             if (tocItemState === dlfTocState.Active) {
-                tocItem.classList.add('active', 'tx-dlf-toc-act');
+                tocItem.classList.add("active", "tx-dlf-toc-act");
             } else {
-                tocItem.classList.remove('active', 'tx-dlf-toc-act');
+                tocItem.classList.remove("active", "tx-dlf-toc-act");
             }
 
             if (tocItemState === dlfTocState.Current) {
-                tocItem.classList.add('current', 'tx-dlf-toc-cur');
+                tocItem.classList.add("current", "tx-dlf-toc-cur");
             } else {
-                tocItem.classList.remove('current', 'tx-dlf-toc-cur');
+                tocItem.classList.remove("current", "tx-dlf-toc-cur");
             }
 
             if (isExpanded) {
-                tocItem.classList.remove('dlf-toc-collapsed');
+                tocItem.classList.remove("dlf-toc-collapsed");
             } else {
-                tocItem.classList.add('dlf-toc-collapsed');
+                tocItem.classList.add("dlf-toc-collapsed");
             }
 
             // "submenu" class does not change

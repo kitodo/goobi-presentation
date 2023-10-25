@@ -17,21 +17,21 @@ class dlfController {
         /** @private */
         this.doc = doc;
 
-        this.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
-        window.addEventListener('popstate', this.onPopState.bind(this));
+        this.eventTarget.addEventListener("tx-dlf-stateChanged", this.onStateChanged.bind(this));
+        window.addEventListener("popstate", this.onPopState.bind(this));
 
         // Set initial state, so that browser navigation also works initial page
         history.replaceState(/** @type {dlf.PageHistoryState} */({
-            type: 'tx-dlf-page-state',
+            type: "tx-dlf-page-state",
             ...this.doc.state
-        }), '');
+        }), "");
 
         this.updateMultiPage(this.simultaneousPages);
 
         if (doc.metadataUrl !== null) {
             this.metadataPromise = fetch(doc.metadataUrl)
-                .then(response => response.text())
-                .then(html => ({
+                .then((response) => response.text())
+                .then((html) => ({
                     htmlCode: html,
                 }));
         } else {
@@ -64,13 +64,16 @@ class dlfController {
 
     getVisiblePages(firstPageNo = this.doc.state.page) {
         const result = [];
+
         for (let i = 0; i < this.simultaneousPages; i++) {
             const pageNo = firstPageNo + i;
             const pageObj = this.doc.document.pages[pageNo - 1];
+
             if (pageObj !== undefined) {
                 result.push({ pageNo, pageObj });
             }
         }
+
         return result;
     }
 
@@ -95,6 +98,7 @@ class dlfController {
      */
     findFileByGroup(pageNo, fileGroups) {
         const pageObj = this.getPageByNo(pageNo);
+
         if (pageObj === undefined) {
             return;
         }
@@ -109,7 +113,7 @@ class dlfController {
      * @returns {dlf.ResourceLocator | undefined}
      */
     findFileByKind(pageNo, fileKind) {
-        return this.findFileByGroup(pageNo, this.doc.fileGroups[fileKind]);
+        return this.findFileByGroup(pageNo, this.doc.fileGroups[fileKind]); // eslint-disable-line
     }
 
     fetchMetadata() {
@@ -120,16 +124,14 @@ class dlfController {
      * @param {dlf.StateChangeDetail} detail
      */
     changeState(detail) {
-        // TODO(client-side): Consider passing full new state in stateChanged event,
-        //                    then reduce usage of currentPageNo and simultaneousPages properties
-
+        // TODO(client-side): Consider passing full new state in stateChanged event, then reduce usage of currentPageNo and simultaneousPages properties
         if (detail.page !== undefined) {
             this.doc.state.page = detail.page;
         }
         if (detail.simultaneousPages !== undefined) {
             this.doc.state.simultaneousPages = detail.simultaneousPages;
         }
-        document.body.dispatchEvent(new CustomEvent('tx-dlf-stateChanged', { detail }));
+        document.body.dispatchEvent(new CustomEvent("tx-dlf-stateChanged", { detail }));
     }
 
     /**
@@ -139,9 +141,10 @@ class dlfController {
      */
     changePage(pageNo) {
         const clampedPageNo = Math.max(1, Math.min(this.numPages, pageNo));
+
         if (clampedPageNo !== this.doc.state.page) {
             this.changeState({
-                source: 'navigation',
+                source: "navigation",
                 page: clampedPageNo,
             });
         }
@@ -150,18 +153,20 @@ class dlfController {
     /**
      * @param {number} pageNo
      * @param {boolean} pageGrid
+     * @returns {string}
      */
     makePageUrl(pageNo, pageGrid = false) {
         const doublePage = this.simultaneousPages >= 2 ? 1 : 0;
+
         return this.doc.urlTemplate
-            .replace(/DOUBLE_PAGE/, doublePage)
-            .replace(/PAGE_NO/, pageNo)
-            .replace(/PAGE_GRID/, pageGrid ? '1' : '0');
+            .replace(/DOUBLE_PAGE/u, doublePage)
+            .replace(/PAGE_NO/u, pageNo)
+            .replace(/PAGE_GRID/u, pageGrid ? "1" : "0");
     }
 
     /**
-     * @private
      * @param {dlf.StateChangeEvent} e
+     * @private
      */
     onStateChanged(e) {
         this.pushHistory(e);
@@ -172,54 +177,55 @@ class dlfController {
     }
 
     /**
-     * @private
      * @param {PopStateEvent} e
+     * @private
      */
     onPopState(e) {
-        if (e.state == null || e.state.type !== 'tx-dlf-page-state') {
+        if (e.state == null || e.state.type !== "tx-dlf-page-state") {
             return;
         }
 
         const state = /** @type {dlf.PageHistoryState} */(e.state);
+
         if (state.documentId !== this.doc.state.documentId) {
             return;
         }
 
         e.preventDefault();
         this.changeState({
-            'source': 'history',
-            'page': state.page === this.currentPageNo ? undefined : state.page,
-            'simultaneousPages': state.simultaneousPages === this.simultaneousPages ? undefined : state.simultaneousPages
+            "source": "history",
+            "page": state.page === this.currentPageNo ? undefined : state.page,
+            "simultaneousPages": state.simultaneousPages === this.simultaneousPages ? undefined : state.simultaneousPages
         });
     }
 
     /**
-     * @private
      * @param {dlf.StateChangeEvent} e
+     * @private
      */
     pushHistory(e) {
         // Avoid loop of pushState/dispatchEvent
-        if (e.detail.source === 'history') {
+        if (e.detail.source === "history") {
             return;
         }
 
         history.pushState(/** @type {dlf.PageHistoryState} */({
-            type: 'tx-dlf-page-state',
+            type: "tx-dlf-page-state",
             ...this.doc.state
-        }), '', this.makePageUrl(this.doc.state.page));
+        }), "", this.makePageUrl(this.doc.state.page));
     }
 
     /**
-     * @private
      * @param {number} simultaneousPages
+     * @private
      */
     updateMultiPage(simultaneousPages) {
         if (simultaneousPages === 1) {
-            document.body.classList.add('page-single');
-            document.body.classList.remove('page-double');
+            document.body.classList.add("page-single");
+            document.body.classList.remove("page-double");
         } else if (simultaneousPages === 2) {
-            document.body.classList.remove('page-single');
-            document.body.classList.add('page-double');
+            document.body.classList.remove("page-single");
+            document.body.classList.add("page-double");
         }
     }
 }

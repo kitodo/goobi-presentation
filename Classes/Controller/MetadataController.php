@@ -387,7 +387,7 @@ class MetadataController extends AbstractController
         }
     }
 
-     /**
+    /**
      * Get metadata for given id array.
      *
      * @access private
@@ -397,7 +397,8 @@ class MetadataController extends AbstractController
      *
      * @return void
      */
-    private function getIds($toc, &$output) {
+    private function getIds($toc, &$output)
+    {
         foreach ($toc as $entry) {
             $output[$entry['id']] = true;
             if (is_array($entry['children'])) {

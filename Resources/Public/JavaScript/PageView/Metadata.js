@@ -41,7 +41,7 @@ class dlfMetadata {
         /** @protected */
         this.config = config;
 
-        this.docController.eventTarget.addEventListener('tx-dlf-stateChanged', () => {
+        this.docController.eventTarget.addEventListener("tx-dlf-stateChanged", () => {
             this.onStateChanged();
         });
 
@@ -54,9 +54,11 @@ class dlfMetadata {
     async fetchMetadata() {
         try {
             const metadata = await this.docController.fetchMetadata();
-            const element = document.createElement('div');
-            element.innerHTML = metadata.htmlCode;
-            const metadataContainer = element.querySelector('.dlf-metadata-container');
+            const element = document.createElement("div");
+
+            element.innerHTML = metadata.htmlCode; // eslint-disable-line
+            const metadataContainer = element.querySelector(".dlf-metadata-container");
+
             if (metadataContainer !== null) {
                 this.config.container.replaceWith(metadataContainer);
                 this.updateSectionVisibility();
@@ -78,10 +80,11 @@ class dlfMetadata {
      * @protected
      */
     updateSectionVisibility() {
-        document.querySelectorAll('[data-metadata-list][data-dlf-section]').forEach((element) => {
+        document.querySelectorAll("[data-metadata-list][data-dlf-section]").forEach((element) => {
             let isShown = false;
+
             for (const page of this.docController.getVisiblePages()) {
-                if (this.shouldShowSection(page.pageObj, element.getAttribute('data-dlf-section'))) {
+                if (this.shouldShowSection(page.pageObj, element.getAttribute("data-dlf-section"))) {
                     isShown = true;
                     break;
                 }
@@ -92,9 +95,10 @@ class dlfMetadata {
     }
 
     /**
-     * @protected
      * @param {dlf.PageObject} pageObj
      * @param {string} section
+     * @returns {boolean}
+     * @protected
      */
     shouldShowSection(pageObj, section) {
         switch (this.config.rootline) {

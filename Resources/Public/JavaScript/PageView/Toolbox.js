@@ -17,15 +17,15 @@ class dlfToolbox {
         /** @private */
         this.docController = docController;
         /** @private */
-        this.pageLinks = document.querySelectorAll('[data-page-link]');
+        this.pageLinks = document.querySelectorAll("[data-page-link]");
 
-        docController.eventTarget.addEventListener('tx-dlf-stateChanged', this.onStateChanged.bind(this));
+        docController.eventTarget.addEventListener("tx-dlf-stateChanged", this.onStateChanged.bind(this));
         this.updatePageLinks(this.docController.currentPageNo);
     }
 
     /**
-     * @private
      * @param {dlf.StateChangeEvent} e
+     * @private
      */
     onStateChanged(e) {
         if (e.detail.page !== undefined) {
@@ -34,21 +34,20 @@ class dlfToolbox {
     }
 
     /**
-     * @private
      * @param {number} firstPageNo
+     * @private
      */
     updatePageLinks(firstPageNo) {
-        this.pageLinks.forEach(element => {
-            const offset = Number(element.getAttribute('data-page-link'));
+        this.pageLinks.forEach((element) => {
+            const offset = Number(element.getAttribute("data-page-link"));
             const pageNo = firstPageNo + offset;
 
             const fileGroups = this.getFileGroups(element);
-            const file = fileGroups !== null
-                ? this.docController.findFileByGroup(pageNo, fileGroups)
-                : this.docController.findFileByKind(pageNo, 'download');
+            const file = fileGroups !== null ? this.docController.findFileByGroup(pageNo, fileGroups) : this.docController.findFileByKind(pageNo, "download");
 
             if (file === undefined) {
                 $(element).hide();
+
                 return;
             }
             $(element).show();
@@ -56,22 +55,24 @@ class dlfToolbox {
             if (element instanceof HTMLAnchorElement) {
                 element.href = file.url;
             } else {
-                element.querySelectorAll('a').forEach(linkEl => {
+                element.querySelectorAll("a").forEach((linkEl) => {
                     linkEl.href = file.url;
                 });
             }
 
-            const mimetypeLabelEl = element.querySelector('.dlf-mimetype-label');
+            const mimetypeLabelEl = element.querySelector(".dlf-mimetype-label");
+
             if (mimetypeLabelEl !== null) {
                 // Transliterated from ToolboxController
-                let mimetypeLabel = '';
+                let mimetypeLabel = "";
+
                 switch (file.mimetype) {
-                    case 'image/jpeg':
-                        mimetypeLabel = ' (JPG)';
+                    case "image/jpeg":
+                        mimetypeLabel = " (JPG)";
                         break;
 
-                    case 'image/tiff':
-                        mimetypeLabel = ' (TIFF)';
+                    case "image/tiff":
+                        mimetypeLabel = " (TIFF)";
                         break;
                 }
 
@@ -81,15 +82,17 @@ class dlfToolbox {
     }
 
     /**
-     * @private
      * @param {Element} element
-     * @return {string[] | null}
+     * @returns {string[] | null}
+     * @private
      */
     getFileGroups(element) {
-        const fileGroupsJson = element.getAttribute('data-file-groups');
+        const fileGroupsJson = element.getAttribute("data-file-groups");
+
         try {
             const fileGroups = JSON.parse(fileGroupsJson);
-            if (Array.isArray(fileGroups) && fileGroups.every(entry => typeof entry === 'string')) {
+
+            if (Array.isArray(fileGroups) && fileGroups.every((entry) => typeof entry === "string")) {
                 return fileGroups;
             }
         } catch (e) {

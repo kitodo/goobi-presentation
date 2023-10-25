@@ -422,7 +422,7 @@ final class IiifManifest extends AbstractDocument
     /**
      * @see AbstractDocument::getAllFiles()
      */
-    public function getAllFiles()
+    public function getAllFiles(): array
     {
         $files = [];
         $canvases = $this->iiif->getDefaultCanvases();
