@@ -28,7 +28,7 @@ namespace dlf {
         simultaneousPages: number;
     };
 
-    type FileKind = 'images' | 'fulltext' | 'download';
+    type FileKind = "images" | "fulltext" | "download";
 
     type Loaded = {
         state: PageDisplayState;
@@ -38,23 +38,23 @@ namespace dlf {
         document: Document;
     };
 
-    type StateChangeEvent = CustomEvent<StateChangeDetail>;
-
     type StateChangeDetail = {
         /**
          * Who triggered the event.
          * * `history`: Event is triggered due to history popstate. This is used
-         *   to avoid pushing a popped state again.
+         * to avoid pushing a popped state again.
          * * `navigation`: Event is triggered by user navigation.
          */
-        source: 'history' | 'navigation';
+        source: "history" | "navigation";
     } & Partial<PageDisplayState>;
+
+    type StateChangeEvent = CustomEvent<StateChangeDetail>;
 
     /**
      * State of document stored in `window.history`.
      */
     type PageHistoryState = {
-        type: 'tx-dlf-page-state';
+        type: "tx-dlf-page-state";
         documentId: string | number;
     } & PageDisplayState;
 }

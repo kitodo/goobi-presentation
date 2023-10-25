@@ -314,7 +314,7 @@ final class MetsDocument extends AbstractDocument
     /**
      * @see AbstractDocument::getAllFiles()
      */
-    public function getAllFiles()
+    public function getAllFiles(): array
     {
         $files = [];
         $fileNodes = $this->mets->xpath('./mets:fileSec/mets:fileGrp/mets:file');
