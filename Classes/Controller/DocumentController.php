@@ -29,10 +29,7 @@ class DocumentController extends AbstractController
      *
      * @access public
      *
-     * @param string $content: The PlugIn content
-     * @param array $conf: The PlugIn configuration
-     *
-     * @return string The content that is displayed on the website
+     * @return void
      */
     public function mainAction()
     {
@@ -42,6 +39,8 @@ class DocumentController extends AbstractController
             // Quit without doing anything if required variables are not set.
             return;
         }
+        
+        $this->setPage();
 
         $this->setPage();
 
