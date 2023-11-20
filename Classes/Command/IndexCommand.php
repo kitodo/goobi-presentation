@@ -168,11 +168,11 @@ class IndexCommand extends BaseCommand
                 $io->error('ERROR: Document with UID "' . $input->getOption('doc') . '" could not be found on PID ' . $this->storagePid . ' .');
                 return BaseCommand::FAILURE;
             } else {
-                $doc = AbstractDocument::getInstance($document->getLocation(), ['storagePid' => $this->storagePid], true);
+                $doc = AbstractDocument::getInstance($document->getLocation(), 0, ['storagePid' => $this->storagePid], true);
             }
 
         } else if (GeneralUtility::isValidUrl($input->getOption('doc'))) {
-            $doc = AbstractDocument::getInstance($input->getOption('doc'), ['storagePid' => $this->storagePid], true);
+            $doc = AbstractDocument::getInstance($input->getOption('doc'), 0, ['storagePid' => $this->storagePid], true);
 
             $document = $this->getDocumentFromUrl($doc, $input->getOption('doc'));
         }

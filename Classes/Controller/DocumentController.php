@@ -123,7 +123,7 @@ class DocumentController extends AbstractController
 
         $make = function ($page, $double, $pageGrid) {
             $result = $this->uriBuilder->reset()
-                ->setTargetPageUid($this->configurationManager->getContentObject()->data['pid'])
+                ->setTargetPageUid($this->getRequest()->getAttribute('routing')->getPageId())
                 ->setCreateAbsoluteUri(!empty($this->settings['forceAbsoluteUrl']) ? true : false)
                 ->setArguments(
                     [
