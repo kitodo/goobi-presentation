@@ -232,7 +232,7 @@ class HarvestCommand extends BaseCommand
             $docLocation = $baseLocation . http_build_query($params);
             // ...index the document...
             $document = null;
-            $doc = AbstractDocument::getInstance($docLocation, ['storagePid' => $this->storagePid], true);
+            $doc = AbstractDocument::getInstance($docLocation, 0, ['storagePid' => $this->storagePid], true);
 
             if ($doc === null) {
                 $io->warning('WARNING: Document "' . $docLocation . '" could not be loaded. Skip to next document.');

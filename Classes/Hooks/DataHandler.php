@@ -343,7 +343,7 @@ class DataHandler implements LoggerAwareInterface
     {
         $documentRepository = GeneralUtility::makeInstance(DocumentRepository::class);
         $document = $documentRepository->findByUid((int) $id);
-        $doc = AbstractDocument::getInstance($document->getLocation(), ['storagePid' => $document->getPid()], true);
+        $doc = AbstractDocument::getInstance($document->getLocation(), 0, ['storagePid' => $document->getPid()], true);
         if ($document !== null && $doc !== null) {
             $document->setCurrentDocument($doc);
             Indexer::add($document, $documentRepository);

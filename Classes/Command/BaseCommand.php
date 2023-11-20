@@ -292,7 +292,7 @@ class BaseCommand extends Command
 
         if ($doc !== null && !empty($doc->parentHref)) {
             // find document object by record_id of parent
-            $parent = AbstractDocument::getInstance($doc->parentHref, ['storagePid' => $this->storagePid]);
+            $parent = AbstractDocument::getInstance($doc->parentHref, 0, ['storagePid' => $this->storagePid]);
 
             if ($parent->recordId) {
                 $parentDocument = $this->documentRepository->findOneByRecordId($parent->recordId);
