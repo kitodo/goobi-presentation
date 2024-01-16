@@ -12,7 +12,7 @@
 
 namespace Kitodo\Dlf\Controller;
 
-use Kitodo\Dlf\Common\Doc;
+use Kitodo\Dlf\Common\AbstractDocument;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -37,34 +37,19 @@ class MediaPlayerController extends AbstractController
      *
      * @return string The content that is displayed on the website
      */
-    public function mainAction()
+    public function mainAction(): void
     {
         // Load current document.
-        $this->loadDocument($this->requestData);
-        if (
-            $this->document === null
-            || $this->document->getDoc() === null
-            || $this->document->getDoc()->numPages < 1
-        ) {
+        $this->loadDocument();
+        if ($this->isDocMissingOrEmpty()) {
             // Quit without doing anything if required variables are not set.
             return;
         } else {
-            if (!empty($this->requestData['logicalPage'])) {
-                $this->requestData['page'] = $this->document->getDoc()->getPhysicalPage($this->requestData['logicalPage']);
-                // The logical page parameter should not appear again
-                unset($this->requestData['logicalPage']);
-            }
-            // Set default values if not set.
-            // $this->requestData['page'] may be integer or string (physical structure @ID)
-            if ((int) $this->requestData['page'] > 0 || empty($this->requestData['page'])) {
-                $this->requestData['page'] = MathUtility::forceIntegerInRange((int) $this->requestData['page'], 1, $this->document->getDoc()->numPages, 1);
-            } else {
-                $this->requestData['page'] = array_search($this->requestData['page'], $this->document->getDoc()->physicalStructure);
-            }
+            $this->setPage();
             $this->requestData['double'] = MathUtility::forceIntegerInRange($this->requestData['double'], 0, 1, 0);
         }
 
-        $doc = $this->document->getDoc();
+        $doc = $this->document->getCurrentDocument();
         $pageNo = $this->requestData['page'];
         $video = $this->getVideoInfo($doc, $pageNo);
         if ($video === null) {
@@ -81,7 +66,7 @@ class MediaPlayerController extends AbstractController
      *
      * @return ?array The video data, or `null` if no video source is found
      */
-    protected function getVideoInfo(Doc $doc, int $pageNo): ?array
+    protected function getVideoInfo(AbstractDocument $doc, int $pageNo): ?array
     {
         $videoFileGrps = GeneralUtility::trimExplode(',', $this->extConf['fileGrpVideo']);
         $mainVideoFileGrp = $videoFileGrps[0] ?? '';
@@ -136,7 +121,7 @@ class MediaPlayerController extends AbstractController
             'start' => $videoChapters[$pageNo - 1]['timecode'] ?: '',
             'mode' => $initialMode,
             'chapters' => $videoChapters,
-            'metadata' => $doc->getTitledata($this->settings['storagePid']),
+            'metadata' => $doc->getToplevelMetadata($this->settings['storagePid']),
             'sources' => $videoSources,
             'url' => $videoUrl,
         ];
@@ -145,12 +130,12 @@ class MediaPlayerController extends AbstractController
     /**
      * Find files of the given file groups that are referenced on a page.
      *
-     * @param Doc $doc
+     * @param AbstractDocument $doc
      * @param int $pageNo
      * @param string[] $fileGrps
      * @return string[]
      */
-    protected function findFiles(Doc $doc, int $pageNo, array $fileGrps): array
+    protected function findFiles(AbstractDocument $doc, int $pageNo, array $fileGrps): array
     {
         $pagePhysKey = $doc->physicalStructure[$pageNo];
         $pageFiles = $doc->physicalStructureInfo[$pagePhysKey]['all_files'] ?? [];
@@ -212,7 +197,7 @@ class MediaPlayerController extends AbstractController
     {
         // TODO: TYPO3 v10
         // $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);
-        // $assetCollector->addJavaScript('DlfMediaPlayer.js', 'EXT:dlf/Resources/Public/Javascript/DlfMediaPlayer.js');
+        // $assetCollector->addJavaScript('DlfMediaPlayer.js', 'EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer.js');
         // $assetCollector->addStyleSheet('DlfMediaPlayer.css', 'EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css');
 
         // TODO: Move to TypoScript
@@ -220,7 +205,7 @@ class MediaPlayerController extends AbstractController
         $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaPlayer.css');
         $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaVendor.css', 'stylesheet', 'all', '', true, false, '', /* excludeFromConcatenation= */true);
         $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css');
-        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/Javascript/DlfMediaPlayer.js');
-        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/Javascript/DlfMediaVendor.js', 'text/javascript', true, false, '', /* excludeFromConcatenation= */true);
+        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer.js');
+        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/JavaScript/DlfMediaVendor.js', 'text/javascript', true, false, '', /* excludeFromConcatenation= */true);
     }
 }
