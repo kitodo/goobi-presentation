@@ -74,8 +74,11 @@ class Mods implements MetadataInterface
         $this->getAuthors();
         $this->getHolders();
         $this->getPlaces();
+
+        // dislocated Functions from @dvoracek added by @fschoelzel
         $this->getProdPlaces();
         $this->getNamePersonal();
+
         $this->getYears();
 
         $metadata = $this->metadata;
@@ -334,7 +337,7 @@ class Mods implements MetadataInterface
         }
     }
 
-    // allocated Function from @dvoracek
+    // dislocated Function from @dvoracek
     /**
      * Get MODS production places to allow linking valueURI
      *
@@ -356,7 +359,7 @@ class Mods implements MetadataInterface
         }
     }
 
-    // allocated Function from @dvoracek
+    // dislocated Function from @dvoracek
     /**
      * Get MODS personal names to allow linking valueURI
      *
