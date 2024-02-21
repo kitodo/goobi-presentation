@@ -124,11 +124,11 @@ The Dev Server is intended for developing and testing the media player in a well
 *  To start the server, run ``npm run serve`` in the ``Build/`` folder.
    This will watch, recompile and reload when source files change; other builds should not be run simultaneously.
 
-*  The live JavaScript and CSS builds are available at ``/Javascript`` and ``/Css``, for example:
+*  The live JavaScript and CSS builds are available at ``/JavaScript`` and ``/Css``, for example:
 
    .. code-block:: html
 
-      <script src="/Javascript/DlfMediaPlayer.js"></script>
+      <script src="/JavaScript/DlfMediaPlayer.js"></script>
 
 *  The server is configured in the ``devServer`` key in ``/Build/webpack.config.js``.
 

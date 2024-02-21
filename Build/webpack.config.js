@@ -29,7 +29,7 @@ module.exports = (env, argv) => {
       'DlfMediaPlayerStyles': path.resolve(PRIVATE_PATH, `Less/DlfMediaPlayer.less`),
     },
     output: {
-      filename: 'Javascript/[name].js',
+      filename: 'JavaScript/[name].js',
       path: PUBLIC_PATH,
     },
     plugins: [
