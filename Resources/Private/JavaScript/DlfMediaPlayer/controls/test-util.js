@@ -7,7 +7,10 @@ export function createShakaPlayer() {
   const container = document.createElement('div');
   container.append(video);
 
-  const player = new shaka.Player(video);
+  const player = new shaka.Player();
+  // Use attach method instead of passing video directly shaka-player v5
+  player.attach(video);
+
   const ui = new shaka.ui.Overlay(player, container, video);
   const controls = ui.getControls();
 

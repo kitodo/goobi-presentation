@@ -80,7 +80,8 @@ export default class DlfMediaPlayer extends HTMLElement {
     this.timeRange = null;
 
     /** @private @type {shaka.Player} */
-    this.player = new shaka.Player(this.video);
+    this.player = new shaka.Player();
+    this.player.attach(this.video);
 
     /** @private @type {dlf.media.Fps | null} */
     this.fps = null;

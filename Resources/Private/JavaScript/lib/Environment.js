@@ -128,6 +128,9 @@ export default class Environment {
           try {
             // Locking to 'landscape' should let it be either
             // 'landscape-primary' or 'landscape-secondary' as appropriate.
+
+            // typescript issue - see: https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1615
+            // @ts-ignore
             await screen.orientation.lock('landscape');
           } catch (error) {
             // If screen.orientation.lock does not work on a device, it will

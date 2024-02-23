@@ -67,7 +67,7 @@ export default class WaveForm extends DlfMediaPlugin {
     /** @private */
     this.samplesPerPixel = 0;
 
-    /** @private @type {Peaks.WaveformZoomView | null} */
+    /** @private @type {import('peaks.js').WaveformZoomView | null} */
     this.zoomview = null;
 
     /** @private */
