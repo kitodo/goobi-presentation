@@ -459,7 +459,7 @@ final class MetsDocument extends AbstractDocument
             $details['thumbnailId'] = $this->getThumbnail();
             // Get page/track number of the first page/track related to this structure element.
             $details['pagination'] = $this->physicalStructureInfo[$this->smLinks['l2p'][$details['id']][0]]['orderlabel'];
-            $details['videoChapter'] = $this->getTimecode($details, GeneralUtility::trimExplode(',', $extConf['fileGrpVideo']));
+            $details['videoChapter'] = $this->getTimecode($details);
         } elseif ($details['id'] == $this->magicGetToplevelId()) {
             // Point to self if this is the toplevel structure.
             $details['points'] = 1;
