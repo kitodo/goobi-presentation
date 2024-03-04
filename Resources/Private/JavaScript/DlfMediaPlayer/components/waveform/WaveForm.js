@@ -140,10 +140,14 @@ export default class WaveForm extends DlfMediaPlugin {
               editable: segment.editable,
             });
           } else if (segment.endTime === undefined) {
-            this.peaks_.points.getPoint(segment.id)?.update(segment);
+            this.peaks_.points.getPoint(segment.id)?.update({
+              time: segment.startTime,
+              ...segment
+            });
           } else {
             this.peaks_.segments.getSegment(segment.id)?.update({
               time: segment.startTime,
+              endTime: segment.endTime,
               ...segment
             });
           }
