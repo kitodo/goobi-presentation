@@ -28,13 +28,21 @@ export default class PlaybackRateSelection extends shaka.ui.PlaybackRateSelectio
   constructor(parent, controls, env) {
     super(parent, controls);
 
+    this.$playRateTooltip = e('div', {
+      className: 'dlf-playrate-tooltip',
+    });
+
+    // Set the tooltip's content to the default playback rate
+    const playerPlaybackRate = this.player?.getPlaybackRate() || 1;
+    this.$playRateTooltip.textContent = this.getRateStr(playerPlaybackRate);
+
     this.$container = e('div', {
       className: 'shaka-range-container dlf-playrate-slider',
     }, [
       this.$input = e('input', {
         className: 'shaka-range-element',
         type: 'range',
-        valueAsNumber: Math.log2(this.player?.getPlaybackRate() || 1),
+        valueAsNumber: Math.log2(playerPlaybackRate),
         min: '-1',
         max: '1',
         step: '0.01',
@@ -47,6 +55,7 @@ export default class PlaybackRateSelection extends shaka.ui.PlaybackRateSelectio
           }
         },
       }),
+      this.$playRateTooltip
     ]);
 
     if (this.player !== null) {
@@ -58,13 +67,48 @@ export default class PlaybackRateSelection extends shaka.ui.PlaybackRateSelectio
         if (this.player !== null) {
           const rate = this.player.getPlaybackRate();
 
+          // Update the input's value to reflect the new rate
           this.$input.valueAsNumber = Math.log2(rate);
 
-          const rateStr = `${rate.toLocaleString(undefined, { maximumFractionDigits: 2 })}x`;
+          // Update the text content to display the new rate
+          const rateStr = this.getRateStr(rate);
           this.currentSelection.textContent = rateStr;
           this.button.setAttribute('shaka-status', rateStr);
+
+          // Update the tooltip with position and value
+          this.updateTooltip(rate, this.$input);
         }
       });
     }
+  }
+
+  /**
+  * @param {number} rate
+  */
+  getRateStr(rate) {
+    return `${rate.toLocaleString(undefined, { maximumFractionDigits: 2 })}x`;
+  }
+
+  /**
+   * @param {number} playbackRate
+   * @param {HTMLInputElement} inputRange
+   */
+  updateTooltip(playbackRate, inputRange) {
+
+    const val = inputRange.valueAsNumber;
+    const min = inputRange.min ? parseFloat(inputRange.min) : 0;
+    const max = inputRange.max ? parseFloat(inputRange.max) : 100;
+
+    // Convert the rate to a percentage of the range for positioning
+    const newVal = Number(((val - min) * 100) / (max - min));
+
+    // Update the tooltip content and position
+    this.$playRateTooltip.textContent = this.getRateStr(playbackRate);
+
+    // Sort of magic numbers based on size of the native UI thumb
+    // this.$playRateTooltip.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+
+    // to fit into the shaka-settings-menu
+    this.$playRateTooltip.style.left = `calc(${newVal}% + (${17 - newVal * 0.35}px))`;
   }
 }
