@@ -297,6 +297,26 @@
 				<source><![CDATA[This media file cannot be played back in your browser.]]></source>
 				<target><![CDATA[Dieses A/V-Dokument kann in Ihrem Browser nicht wiedergegeben werden.]]></target>
 			</trans-unit>
+			<trans-unit id="error.qrcode" approved="yes">
+				<source><![CDATA[Failed to generate QR code.]]></source>
+				<target><![CDATA[Der QR-Code konnte nicht erzeugt werden.]]></target>
+			</trans-unit>
+			<trans-unit id="error.mastodon.invalid_server" approved="yes">
+				<source><![CDATA[Invalid Server URL.]]></source>
+				<target><![CDATA[Ungültige Server-URL.]]></target>
+			</trans-unit>
+			<trans-unit id="error.mastodon.open_link" approved="yes">
+				<source><![CDATA[Error opening share URL.]]></source>
+				<target><![CDATA[Fehler beim Öffnen der Freigabe-URL.]]></target>
+			</trans-unit>
+			<trans-unit id="error.mastodon.invalid_link" approved="yes">
+				<source><![CDATA[Invalid Link URL.]]></source>
+				<target><![CDATA[Ungültige Link-URL.]]></target>
+			</trans-unit>
+			<trans-unit id="error.mastodon.enter_url" approved="yes">
+				<source><![CDATA[Please enter a Mastodon instance URL.]]></source>
+				<target><![CDATA[Bitte geben Sie eine Mastodon-Instanz-URL ein.]]></target>
+			</trans-unit>
 			<trans-unit id="key.generic">
 				<source><![CDATA[{key}]]></source>
 				<target><![CDATA[{key}]]></target>
@@ -448,6 +468,22 @@
 			<trans-unit id="share.tweet.tooltip" approved="yes">
 				<source><![CDATA[Tweet]]></source>
 				<target><![CDATA[Twittern]]></target>
+			</trans-unit>
+			<trans-unit id="share.mastodon.tooltip" approved="yes">
+				<source><![CDATA[Share on Mastodon]]></source>
+				<target><![CDATA[Auf Mastodon teilen]]></target>
+			</trans-unit>
+			<trans-unit id="share.mastodon.title" approved="yes">
+				<source><![CDATA[Enter your Mastodon instance]]></source>
+				<target><![CDATA[Geben Sie Ihre Mastodon-Instanz ein]]></target>
+			</trans-unit>
+			<trans-unit id="share.mastodon.label" approved="yes">
+				<source><![CDATA[Share]]></source>
+				<target><![CDATA[Teilen]]></target>
+			</trans-unit>
+			<trans-unit id="share.mastodon.placeholder" approved="yes">
+				<source><![CDATA[Address of your server, e.g. mastodon.social]]></source>
+				<target><![CDATA[Adresse deines Servers, z.B. mastodon.social]]></target>
 			</trans-unit>
 		</body>
 	</file>

@@ -32,6 +32,7 @@ const START_AT_MODES = /** @type {const} */(['current-time', 'marker', 'begin'])
  *  fps: number;
  *  startAtMode: StartAtMode;
  *  showQrCode: boolean;
+ *  showMastodonShare: boolean;
  * }} State
  */
 
@@ -55,6 +56,7 @@ export default class BookmarkModal extends SimpleModal {
       fps: 0,
       startAtMode: 'current-time',
       showQrCode: false,
+      showMastodonShare: false,
     });
 
     /** @private @type {string | null} */
@@ -97,7 +99,7 @@ export default class BookmarkModal extends SimpleModal {
             this.shareButtons.map(btn => btn.element)
           )
         ),
-        e("div", { className: "url-line" }, [
+        this.$urlLine = e("div", { className: "url-line dlf-visible" }, [
           this.$urlInput = e("input", {
             type: "url",
             readOnly: true,
@@ -112,6 +114,24 @@ export default class BookmarkModal extends SimpleModal {
           }, [
             e("i", { className: "material-icons-round" }, ["content_copy"]),
           ]),
+        ]),
+        // Create the Mastodon share dialog structure
+        this.$mastodonShareDialog = e("div", { id: "mastodon-share", className: "mastodon-share-container" }, [
+          this.$headline = e('div', { className: "headline-container" }, [
+            this.$title = e("h4", {}, [this.env.t('share.mastodon.title')]),
+            this.$close = e('span', {
+              className: "modal-close material-icons-round",
+              $click: () => {
+                this.setState({ showMastodonShare: false });
+              },
+            }, ["close"]),
+          ]),
+          e("form", { method: "post", className: "mastodon-form", $submit: this.submitInstance.bind(this) }, [
+            // typecheck won't accept autocomplete: "url", even it is accepted as a valid HTMLInputElement, see: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-url
+            // @ts-ignore
+            this.$mastodonInstanceInput = e("input", { type: "text", name: "mastodon-instance", id: "instance", className: "mastodon-share-input", placeholder: this.env.t('share.mastodon.placeholder'), autocomplete: "url", required: true, autocapitalize: "none", spellcheck: false }),
+            e("button", { type: "submit", id: "mastodon-share-button", className: "mastodon-share-button" }, [this.env.t('share.mastodon.label')])
+          ])
         ]),
         this.$startAt = e("div", { className: "start-at" }, (
           START_AT_MODES.map(mode => this.$startAtVariants[mode].$container)
@@ -168,6 +188,13 @@ export default class BookmarkModal extends SimpleModal {
 
       this.setState({
         showQrCode: true,
+      });
+    }
+    if (element.href === "dlf:mastodon_share") {
+      e.preventDefault();
+
+      this.setState({
+        showMastodonShare: true,
       });
     }
   }
@@ -239,7 +266,10 @@ export default class BookmarkModal extends SimpleModal {
     super.open(value);
 
     if (!value) {
-      this.setState({ showQrCode: false });
+      this.setState({
+        showQrCode: false,
+        showMastodonShare: false
+      });
     }
   }
 
@@ -250,7 +280,7 @@ export default class BookmarkModal extends SimpleModal {
   render(state) {
     super.render(state);
 
-    const { show, metadata, timing, fps, showQrCode } = state;
+    const { show, metadata, timing, fps, showQrCode, showMastodonShare } = state;
     const startAtMode = this.getStartAtMode(state);
 
     const timerange = this.getActiveTimeRange(state);
@@ -278,6 +308,10 @@ export default class BookmarkModal extends SimpleModal {
 
     if (urlChanged || showQrCode !== this.state.showQrCode) {
       this.renderQrCode(showQrCode ? url : null);
+    }
+
+    if (showMastodonShare !== this.state.showMastodonShare) {
+      this.renderMastodonShare(showMastodonShare);
     }
 
     // TODO: Just disable when timecode is 0?
@@ -365,6 +399,97 @@ export default class BookmarkModal extends SimpleModal {
       }
     } else {
       this.$qrCanvasContainer.classList.remove("dlf-visible");
+    }
+  }
+
+  /**
+     * Renders the Mastodon share dialog based on the value of showMastodonShare.
+     *
+     * @param {boolean} showMastodonShare
+     * @returns {void}
+     */
+   renderMastodonShare(showMastodonShare) {
+     this.$urlLine.classList.toggle("dlf-visible", !showMastodonShare);
+     this.$urlLine.classList.toggle("dlf-fade-in", !showMastodonShare);
+     this.$urlLine.classList.toggle("dlf-fade-out", showMastodonShare);
+
+     this.$mastodonShareDialog.classList.toggle("dlf-visible", showMastodonShare);
+     this.$mastodonShareDialog.classList.toggle("dlf-fade-in", showMastodonShare);
+     this.$mastodonShareDialog.classList.toggle("dlf-fade-out", !showMastodonShare);
+   }
+
+  /**
+   * Opens a share URL in a new window.
+   *
+   * @param {string | URL} instanceUrl - The URL of the Mastodon instance.
+   * @param {string | null} linkUrl - The given URL to be shared.
+   * @param {string} pageTitle - The title of the page.
+   * @returns {void}
+   */
+  openShareUrl(instanceUrl, linkUrl, pageTitle) {
+    if (!this.isValidUrl(instanceUrl)) {
+      alert(this.env.t('error.mastodon.invalid_server'));
+      return;
+    }
+    if (linkUrl !== null) {
+      try {
+        const shareUrl = new URL("/share", instanceUrl);
+        const params = new URLSearchParams();
+        params.set("text", pageTitle + "\n\n");
+        params.set("url", linkUrl);
+        shareUrl.search = params.toString();
+        window.open(shareUrl.toString(), "_blank");
+      } catch (e) {
+        alert(this.env.t('error.mastodon.open_link'));
+        console.error(e);
+        return;
+      }
+    } else {
+      alert(this.env.t('error.mastodon.invalid_link'));
+      return;
+    }
+  }
+
+  /**
+   * Submits the Mastodon instance URL and opens the share URL.
+   *
+   * @param {Event} event
+   * @returns {void}
+   */
+  submitInstance(event) {
+    event.preventDefault();
+
+    let instanceInputValue = this.$mastodonInstanceInput.value.trim();
+    if (!instanceInputValue) {
+      alert(this.env.t('error.mastodon.enter_url'));
+      return;
+    }
+
+    // Basic sanitization to remove potential malicious content
+    instanceInputValue = instanceInputValue.replace(/[^a-zA-Z0-9-:.\/]/g, '');
+
+    // Ensure the URL starts with https:// after replacing http:// with https://
+    let instanceUrl = instanceInputValue.replace(/^http:\/\//i, "https://");
+    if (!instanceUrl.startsWith("https://")) {
+      instanceUrl = `https://${instanceUrl}`;
+    }
+
+    const pageTitle = document.title.trim();
+    this.openShareUrl(instanceUrl, this.lastRenderedUrl, pageTitle);
+  }
+
+  /**
+   * Checks if the given URL string is a valid URL.
+   *
+   * @param {string | URL} urlString - The URL string to be checked.
+   * @returns {boolean} - Returns true if the URL is valid, false otherwise.
+   */
+  isValidUrl(urlString) {
+    try {
+      new URL(urlString);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

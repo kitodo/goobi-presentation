@@ -224,6 +224,21 @@
 			<trans-unit id="error.playback-not-supported">
 				<source><![CDATA[This media file cannot be played back in your browser.]]></source>
 			</trans-unit>
+			<trans-unit id="error.qrcode">
+				<source><![CDATA[Failed to generate QR code.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.invalid_server">
+				<source><![CDATA[Invalid Server URL.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.open_link">
+				<source><![CDATA[Error opening share URL.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.invalid_link">
+				<source><![CDATA[Invalid Link URL.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.enter_url">
+				<source><![CDATA[Please enter a Mastodon instance URL.]]></source>
+			</trans-unit>
 			<trans-unit id="key.generic">
 				<source><![CDATA[{key}]]></source>
 			</trans-unit>
@@ -334,6 +349,18 @@
 			</trans-unit>
 			<trans-unit id="share.tweet.tooltip">
 				<source><![CDATA[Tweet]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.tooltip">
+				<source><![CDATA[Share on Mastodon]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.title">
+				<source><![CDATA[Enter your Mastodon instance]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.label">
+				<source><![CDATA[Share]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.placeholder">
+				<source><![CDATA[Address of your server, e.g. mastodon.social]]></source>
 			</trans-unit>
 		</body>
 	</file>
