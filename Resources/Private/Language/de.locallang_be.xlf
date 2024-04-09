@@ -246,8 +246,8 @@
 				<target><![CDATA[Verlinkung]]></target>
 			</trans-unit>
 			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.description" approved="yes">
-				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code.]]></source>
-				<target><![CDATA[Der Platzhalter '{url}' wird durch die Video-URL mit Timecode ersetzt.]]></target>
+				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code, 'dlf:mastodon_share' shows the Mastodon Share Button]]></source>
+				<target><![CDATA[Der Platzhalter '{url}' wird durch die Video-URL mit Timecode ersetzt. Die spezielle URL 'dlf:qr_code' zeigt einen QR-Code, 'dlf:mastodon_share' zeigt den Mastodon Share Button an.]]></target>
 			</trans-unit>
 			<trans-unit id="plugins.mediaplayer.flexform.equalizer.enabled" approved="yes">
 				<source><![CDATA[Enable Equalizer]]></source>

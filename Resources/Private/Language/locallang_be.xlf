@@ -420,7 +420,7 @@
 				<source><![CDATA[Link]]></source>
 			</trans-unit>
 			<trans-unit id="plugins.mediaplayer.flexform.shareButtons.hrefTemplate.description">
-				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code.]]></source>
+				<source><![CDATA[The placeholder '{url}' may be used to include the video URL. The special URL 'dlf:qr_code' shows a QR code, 'dlf:mastodon_share' shows the Mastodon Share Button]]></source>
 			</trans-unit>
 			<trans-unit id="plugins.mediaplayer.flexform.equalizer.enabled">
 				<source><![CDATA[Enable Equalizer]]></source>
