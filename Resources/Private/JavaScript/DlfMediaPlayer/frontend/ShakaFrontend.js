@@ -375,7 +375,8 @@ export default class ShakaFrontend {
         'captions',
         ...this.overflowMenuButtons,
       ],
-      addBigPlayButton: playerMode === 'video',
+      // Add BigPlayButton in the Center of the UI in 'video' Mode, see https://shaka-player-demo.appspot.com/docs/api/shaka.extern.html#.UIConfiguration
+      // addBigPlayButton: playerMode === 'video',
       fadeDelay: playerMode === 'audio'
         ? 100_000_000  // Just some large value
         : undefined,  // Use default
@@ -385,7 +386,7 @@ export default class ShakaFrontend {
       },
       enableKeyboardPlaybackControls: false,
       doubleClickForFullscreen: false,
-      singleClickForPlayAndPause: false,
+      singleClickForPlayAndPause: true,
     };
 
     return result;
