@@ -6,7 +6,6 @@
 
 import { jest, beforeEach, afterEach, describe, expect, it, test } from '@jest/globals';
 import BookmarkModal from './BookmarkModal';
-import UrlGenerator from '../lib/UrlGenerator';
 
 describe('BookmarkModal', () => {
   /**
@@ -99,14 +98,14 @@ describe('BookmarkModal', () => {
   });
 
   test('test_openShareUrl_with_invalid_instanceUrl', () => {
-    const instanceUrl = 'invalidURL';
+    const instanceUrl = '//invalidUrl.';
     const linkUrl = 'https://sachsen.digital';
     const pageTitle = 'Mediaplayer Test Page';
 
     bookmarkModal.openShareUrl(instanceUrl, linkUrl, pageTitle);
 
     expect(window.open).not.toHaveBeenCalled();
-    expect(alert).toHaveBeenCalledWith("Invalid Server URL");
+    expect(alert).toHaveBeenCalledWith('error.mastodon.invalid_server');
   });
 
   test('test_submitInstance_with_valid_form_submission', () => {
