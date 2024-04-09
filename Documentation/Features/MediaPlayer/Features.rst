@@ -187,7 +187,7 @@ Links can be generated and shared in the *Bookmark* modal.
 
 *  You may choose to include a timecode to your current playback position, or to the last set segment, in the link.
    It is also possible to call the bookmark modal from within the list of markers.
-*  The link may be shared via email or Twitter. The available sharing options can be configured.
+*  The link may be shared via email or Mastodon, Twitter(X). The available sharing options can be configured.
 *  You may also generate a QR code for the link.
 
 Help Modal

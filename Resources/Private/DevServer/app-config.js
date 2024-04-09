@@ -76,6 +76,11 @@ var lang = {
       "error.loading": "Loading media file",
       "error.load-failed": "The media file could not be loaded.",
       "error.playback-not-supported": "This media file cannot be played back in your browser.",
+      "error.qrcode": "Failed to generate QR code.",
+      "error.mastodon.invalid_server": "Invalid Server URL.",
+      "error.mastodon.open_link": "Error opening share URL.",
+      "error.mastodon.invalid_link": "Invalid Link URL.",
+      "error.mastodon.enter_url": "Please enter a Mastodon instance URL.",
       "key.generic": "{key}",
       "key. ": "Space Bar",
       "key.ArrowDown": "\u25bc",
@@ -112,7 +117,10 @@ var lang = {
       "share.shared_timecode": "Shared time code",
       "share.email.tooltip": "Send in E-Mail",
       "share.qr_code.tooltip": "Show QR-Code",
-      "share.tweet.tooltip": "Tweet"
+      "share.mastodon.tooltip": "Share on Mastodon",
+      "share.mastodon.title": "Enter your Mastodon instance",
+      "share.mastodon.label": "Share",
+      "share.mastodon.placeholder": "Address of your server, e.g. mastodon.social",
     },
   },
 };
@@ -132,8 +140,8 @@ var shareButtons = [
   },
   {
     type: "image",
-    src: "/typo3conf/ext/slub_web_sachsendigital/Resources/Public/Images/Twitter_Logo_blue.svg",
-    titleTranslationKey: "share.tweet.tooltip",
-    hrefTemplate: "https://twitter.com/intent/tweet?url={url}",
+    src: "/typo3conf/ext/slub_web_sachsendigital/Resources/Public/Images/mastodon-logo-purple.svg",
+    titleTranslationKey: "share.mastodon.tooltip",
+    hrefTemplate: "dlf:mastodon_share",
   },
 ];

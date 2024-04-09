@@ -100,6 +100,13 @@ For information on equalizer configuration, see :ref:`the equalizer subpage <eq_
            titleTranslationKey = share.tweet.tooltip
            hrefTemplate = https://twitter.com/intent/tweet?url={url}
          }
+
+         3 {
+            type = image
+            src = EXT:slub_digitalcollections/Resources/Public/Images/mastodon-logo-purple.svg
+            titleTranslationKey = share.mastodon.tooltip
+            hrefTemplate = dlf:mastodon_share
+         }
        }
 
        // Captions that can be shown shown on generated screenshots

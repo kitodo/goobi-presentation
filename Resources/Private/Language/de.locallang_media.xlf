@@ -465,10 +465,6 @@
 				<source><![CDATA[Show QR-Code]]></source>
 				<target><![CDATA[QR-Code einblenden]]></target>
 			</trans-unit>
-			<trans-unit id="share.tweet.tooltip" approved="yes">
-				<source><![CDATA[Tweet]]></source>
-				<target><![CDATA[Twittern]]></target>
-			</trans-unit>
 			<trans-unit id="share.mastodon.tooltip" approved="yes">
 				<source><![CDATA[Share on Mastodon]]></source>
 				<target><![CDATA[Auf Mastodon teilen]]></target>
