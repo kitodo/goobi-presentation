@@ -13,6 +13,9 @@ describe('BookmarkModal', () => {
    */
   let bookmarkModal;
   let mockElement;
+  /**
+   * @type {Translator & Identifier & Browser}
+   */
   let mockEnv;
   let mockConfig;
   /**
@@ -23,27 +26,46 @@ describe('BookmarkModal', () => {
   beforeEach(() => {
     // Mocking the environment and necessary elements for BookmarkModal
     mockElement = document.createElement('div');
-    // const env = { t: jest.fn(), mkid: jest.fn() };
     mockEnv = {
       t: jest.fn().mockImplementation((key) => key),
       mkid: jest.fn().mockReturnValue('mockId'),
       getLocation: jest.fn().mockReturnValue(new URL('https://sachsen.digital')),
+      uuidv4: jest.fn(),
+      supportsMediaSource: jest.fn(),
+      supportsCanvasExport: jest.fn(),
+      supportsVideoMime: jest.fn(),
+      getKeyboardVariant: jest.fn(),
+      isInFullScreen: jest.fn(),
+      toggleFullScreen: jest.fn(),
     };
     mockConfig = {
       shareButtons: [
         {
-          label: 'Share',
-          icon: 'share',
-          href: 'dlf:qr_code',
+          type: 'material',
+          icon: 'qr_code',
+          titleTranslationKey: 'share.qr_code.tooltip',
+          hrefTemplate: 'dlf:qr_code',
         },
         {
-          label: 'Mastodon',
-          icon: 'mastodon',
-          href: 'dlf:mastodon_share',
+          type: 'image',
+          titleTranslationKey: 'share.mastodon.tooltip',
+          src: '../Resources/Public/Images/mastodon-logo-purple.svg',
+          hrefTemplate: 'dlf:mastodon_share',
+        },
+        {
+          type: 'image',
+          titleTranslationKey: 'share.twitter.tooltip',
+          src: '../Resources/Public/Images/Twitter_Logo_blue.svg',
+          hrefTemplate: 'https://twitter.com/intent/tweet?url={url}',
         },
       ],
     };
-    bookmarkModal = new BookmarkModal(mockElement, mockEnv, mockConfig);
+    bookmarkModal = new BookmarkModal(
+      mockElement,
+      mockEnv,
+      // @ts-expect-error(TS2345)
+      mockConfig
+    );
     originalOpen = window.open;
     window.open = jest.fn();
     global.alert = jest.fn();
@@ -55,6 +77,7 @@ describe('BookmarkModal', () => {
 
   test('test_generateUrl', () => {
     const state = {
+      metadata: {},
       timing: {
         currentTime: 132.279743,
         markerRange: null,
@@ -65,6 +88,7 @@ describe('BookmarkModal', () => {
       showMastodonShare: false,
     };
     const expectedUrl = 'https://sachsen.digital/?timecode=132.279743';
+    // @ts-expect-error(TS2341)
     const generatedUrl = bookmarkModal.generateUrl(state);
     expect(generatedUrl).toBe(expectedUrl);
   });
@@ -110,14 +134,17 @@ describe('BookmarkModal', () => {
 
   test('test_submitInstance_with_valid_form_submission', () => {
     // Mocking the input element and its value
-    bookmarkModal.$mastodonInstanceInput = { value: 'mastodon.social' };
+    // @ts-ignore(TS2322)
+    bookmarkModal.$mastodonInstanceInput = { value: 'mastodon.social', type: "text", name: "mastodon-instance", id: "instance", className: "mastodon-share-input", placeholder: mockEnv.t('share.mastodon.placeholder'), autocomplete: "url", required: true, autocapitalize: "none", spellcheck: false };
     document.title = 'Mediaplayer Page Title';
+    // @ts-expect-error(TS2341)
     bookmarkModal.lastRenderedUrl = 'https://sachsen.digital';
 
     // Mocking the openShareUrl function to spy on its call
     bookmarkModal.openShareUrl = jest.fn();
 
-    const mockEvent = { preventDefault: jest.fn() };
+    const mockEvent = new Event('submit');
+    Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
     bookmarkModal.submitInstance(mockEvent);
 
     expect(mockEvent.preventDefault).toHaveBeenCalled();

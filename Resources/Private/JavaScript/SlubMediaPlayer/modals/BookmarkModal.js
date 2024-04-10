@@ -128,7 +128,7 @@ export default class BookmarkModal extends SimpleModal {
           ]),
           e("form", { method: "post", className: "mastodon-form", $submit: this.submitInstance.bind(this) }, [
             // typecheck won't accept autocomplete: "url", even it is accepted as a valid HTMLInputElement, see: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-url
-            // @ts-ignore
+            // @ts-ignore(TS2322)
             this.$mastodonInstanceInput = e("input", { type: "text", name: "mastodon-instance", id: "instance", className: "mastodon-share-input", placeholder: this.env.t('share.mastodon.placeholder'), autocomplete: "url", required: true, autocapitalize: "none", spellcheck: false }),
             e("button", { type: "submit", id: "mastodon-share-button", className: "mastodon-share-button" }, [this.env.t('share.mastodon.label')])
           ])
