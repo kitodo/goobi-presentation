@@ -4,7 +4,6 @@ import { setElementClass } from '../lib/util';
 import { Keybindings$find } from '../lib/Keyboard';
 import typoConstants from '../lib/typoConstants';
 import { action, Chapters, DlfMediaPlayer } from '../DlfMediaPlayer';
-import ShakaFrontend from '../DlfMediaPlayer/frontend/ShakaFrontend';
 
 import Modals from './lib/Modals';
 import { BookmarkModal, HelpModal, ScreenshotModal } from './modals';
@@ -56,6 +55,9 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     /** @private */
     this.modals = null;
+
+    /** @private @type {Partial<AppConstantsConfig>} */
+    this.appConstants = {};
   }
 
   // TODO: Rethink
@@ -82,6 +84,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     // @ts-expect-error TODO
     const constants = typoConstants(config.constants ?? {}, this.constants);
+    this.appConstants = constants;
 
     if (this.playerView !== null) {
       this.modals = Modals(this.eventMgr_, {
@@ -142,8 +145,11 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    * @override
    */
   getActions() {
-    return {
+    const actions = {
       ...super.getActions(),
+    };
+
+    const customActions = {
       'cancel': action(() => {
         if (this.modals?.hasOpen()) {
           this.modals.closeNext();
@@ -193,7 +199,19 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
         });
         window.dispatchEvent(ev);
       }),
+      // Use Constants from Typoscript to Seek
+      // falls back to default DlfMediaPlayer.constants
+      'navigate.rewind': action(() => {
+        // @ts-ignore
+        this.skipSeconds(-this.appConstants.seekStep);
+      }),
+      'navigate.seek': action(() => {
+        // @ts-ignore
+        this.skipSeconds(+this.appConstants.seekStep);
+      }),
     };
+
+    return { ...actions, ...customActions };
   }
 
   /**

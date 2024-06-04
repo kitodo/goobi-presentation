@@ -354,6 +354,10 @@ export default class ShakaFrontend {
 
     const style = getComputedStyle(this.$container);
 
+    // Declare Variable based on window.innerWidth with bigger Value as Mediaquery: @tabletViewportWidth: 768px
+    const windowWidth = window.innerWidth;
+    const isDesktopViewport = windowWidth > 768;
+
     /** @type {any} */
     const result = {
       addSeekBar: true,
@@ -383,9 +387,11 @@ export default class ShakaFrontend {
         base: style.getPropertyValue('--volume-base-color') || 'rgba(255, 255, 255, 0.54)',
         level: style.getPropertyValue('--volume-level-color') || 'rgb(255, 255, 255)',
       },
+      seekOnTaps: false, // Indicates whether or not the Shaka Player "fast-forward" and "rewind" tap button that seeks video for configured seconds.
       enableKeyboardPlaybackControls: false,
-      doubleClickForFullscreen: false,
-      singleClickForPlayAndPause: true,
+      // Set doubleClickForFullscreen & singleClickForPlayAndPause based on isDesktopViewport: true for desktop, false for tablet and mobile
+      doubleClickForFullscreen: isDesktopViewport,
+      singleClickForPlayAndPause: isDesktopViewport,
     };
 
     return result;
