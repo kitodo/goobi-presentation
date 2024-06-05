@@ -110,7 +110,8 @@ class MediaPlayerController extends AbstractController
 
         // Get additional video URLs
         $videoUrl = [];
-        if (!empty($thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups))) { // 0 = for whole video (not just chapter)
+        if (!empty($thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups)) // 0 = for whole video (not just chapter)
+            && $this->settings['constants']['showPoster'] == 1) {
             $videoUrl['poster'] = $thumbFiles[0];
         }
         if (!empty($waveformFiles = $this->findFiles($doc, $pageNo, $waveformFileGroups))) {
