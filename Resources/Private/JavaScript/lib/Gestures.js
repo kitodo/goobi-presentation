@@ -69,7 +69,7 @@ export default class Gestures {
   constructor(config = {}) {
     /** @private @type {Config} */
     this.config = {
-      tapMaxDelay: 500,
+      tapMaxDelay: 200,
       tapMaxDistance: 20,
       swipeMinDistance: 100,
       holdMinDelay: 200, // TODO: Use something more dynamic, such as difference to double click?

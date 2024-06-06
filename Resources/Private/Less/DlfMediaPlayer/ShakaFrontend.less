@@ -73,6 +73,17 @@
         }
     }
 
+    .shaka-spinner-container .shaka-spinner-path {
+        stroke: #fff7;
+    }
+
+    .dlf-hide-big-play-button {
+        // hide BigPlayButton in >= tabletViewportWidth - show in mobile for tap ui compatibilities
+        @media screen and (min-width: @tabletViewportWidth) {
+            opacity: 0 !important;
+        }
+    }
+
     &[data-mode="audio"] {
         height: 3.5em;
         width: 100%;
@@ -99,16 +110,6 @@
         .shaka-bottom-controls {
             width: 100%;
             padding-bottom: 0.4em;
-        }
-    }
-
-    .shaka-spinner-container .shaka-spinner-path {
-        stroke: #fff7;
-    }
-
-    .shaka-play-button-container {
-        @media screen and (min-width: @tabletViewportWidth) {
-            display: none !important;
         }
     }
 }

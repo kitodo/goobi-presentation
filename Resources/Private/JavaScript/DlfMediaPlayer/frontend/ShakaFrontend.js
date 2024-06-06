@@ -354,10 +354,6 @@ export default class ShakaFrontend {
 
     const style = getComputedStyle(this.$container);
 
-    // Declare Variable based on window.innerWidth with bigger Value as Mediaquery: @tabletViewportWidth: 768px
-    const windowWidth = window.innerWidth;
-    const isDesktopViewport = windowWidth > 768;
-
     /** @type {any} */
     const result = {
       addSeekBar: true,
@@ -387,11 +383,10 @@ export default class ShakaFrontend {
         base: style.getPropertyValue('--volume-base-color') || 'rgba(255, 255, 255, 0.54)',
         level: style.getPropertyValue('--volume-level-color') || 'rgb(255, 255, 255)',
       },
-      seekOnTaps: false, // Indicates whether or not the Shaka Player "fast-forward" and "rewind" tap button that seeks video for configured seconds.
       enableKeyboardPlaybackControls: false,
-      // Set doubleClickForFullscreen & singleClickForPlayAndPause based on isDesktopViewport: true for desktop, false for tablet and mobile
-      doubleClickForFullscreen: isDesktopViewport,
-      singleClickForPlayAndPause: isDesktopViewport,
+      doubleClickForFullscreen: false,
+      singleClickForPlayAndPause: false,
+      seekOnTaps: false, // Indicates whether or not the Shaka Player "fast-forward" and "rewind" tap button that seeks video for configured seconds.
     };
 
     return result;
@@ -429,6 +424,17 @@ export default class ShakaFrontend {
       });
     } else {
       return btnType;
+    }
+  }
+
+  /**
+   * @private
+   */
+  hideBigPlayButton() {
+    const bigPlayButton = document.querySelector('.shaka-controls-container .shaka-play-button');
+
+    if (bigPlayButton) {
+      bigPlayButton.classList.add('dlf-hide-big-play-button');
     }
   }
 
@@ -507,12 +513,13 @@ export default class ShakaFrontend {
    * @private
    */
   onPlay() {
-    // Hide poster once playback has started the first time.
+    // Hide poster and BigPlayButton once playback has started the first time.
     // Reasons for doing this here instead of in `onTimeUpdate`:
     // - Keep poster when using startTime in player
     // - `onTimeUpdate` may be called with a delay
     // - No need to call it on every time update anyways
     this.hidePoster();
+    this.hideBigPlayButton()
   }
 
   /**
