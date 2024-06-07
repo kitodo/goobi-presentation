@@ -68,11 +68,11 @@ class MediaPlayerController extends AbstractController
      */
     protected function getVideoInfo(AbstractDocument $doc, int $pageNo): ?array
     {
-        $videoFileGrps = GeneralUtility::trimExplode(',', $this->extConf['fileGrpVideo']);
+        $videoFileGrps = GeneralUtility::trimExplode(',', $this->extConf['files']['fileGrpVideo']);
         $mainVideoFileGrp = $videoFileGrps[0] ?? '';
 
-        $thumbFileGroups = GeneralUtility::trimExplode(',', $this->extConf['fileGrpThumbs']);
-        $waveformFileGroups = GeneralUtility::trimExplode(',', $this->extConf['fileGrpWaveform']);
+        $thumbFileGroups = GeneralUtility::trimExplode(',', $this->extConf['files']['fileGrpThumbs']);
+        $waveformFileGroups = GeneralUtility::trimExplode(',', $this->extConf['files']['fileGrpWaveform']);
 
         $initialMode = 'audio';
 
