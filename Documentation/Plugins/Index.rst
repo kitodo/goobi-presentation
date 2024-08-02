@@ -311,21 +311,21 @@ Document
   - :Property:
         excludeOther_
     :Data Type:
-        :ref:`t3tsref:data-type-boolean`
+        `t3tsref:data-type-boolean`
     :Default:
         1
 
   - :Property:
         useInternalProxy
     :Data Type:
-        :ref:`t3tsref:data-type-boolean`
+        `t3tsref:data-type-boolean`
     :Default:
         0
 
   - :Property:
         targetPidMetadata
     :Data Type:
-        :ref:`t3tsref:data-type-page-id`
+        `t3tsref:data-type-page-id`
     :Default:
 
 
