@@ -509,6 +509,7 @@ class PageViewController extends AbstractController
                         $currentMeasureId = $docMeasures['measureCounterToMeasureId'][$this->requestData['docMeasure'][$i]];
                     }
 
+                    // @phpstan-ignore-next-line
                     $jsViewer .= 'tx_dlf_viewer[' . $i . '] = new dlfViewer({
                                 controls: ["' . implode('", "', $this->controls) . '"],
                                 div: "tx-dfgviewer-map-' . $i . '",
@@ -546,6 +547,7 @@ class PageViewController extends AbstractController
             }
 
             // Viewer configuration.
+            // @phpstan-ignore-next-line
             $viewerConfiguration = '
                 (function () {
                     let docController = null;

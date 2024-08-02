@@ -565,10 +565,7 @@ abstract class AbstractDocument
 
         if (!$forceReload) {
             $instance = self::getDocumentCache($location);
-            if (isset(self::$registry[$location])) {
-                return self::$registry[$location];
-            } elseif ($instance !== false) {
-                self::$registry[$location] = $instance;
+            if ($instance !== false) {
                 return $instance;
             }
         }
