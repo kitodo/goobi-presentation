@@ -1,0 +1,60 @@
+namespace dlf {
+    type ResourceLocator = {
+        url: string;
+        mimetype: string;
+    };
+
+    type ImageDesc = ResourceLocator;
+    type FulltextDesc = ResourceLocator;
+
+    type PageObject = {
+        /**
+         * IDs of the logical structures that the page belongs to, ordered by depth.
+         */
+        logSections: string[];
+        files: Record<string, dlf.FulltextDesc>;
+    };
+
+    type Document = {
+        pages: PageObjects[];
+        query: {
+            minPage: number;
+        };
+    };
+
+    type PageDisplayState = {
+        documentId: string | number;
+        page: number;
+        simultaneousPages: number;
+    };
+
+    type FileKind = "images" | "fulltext" | "download";
+
+    type Loaded = {
+        state: PageDisplayState;
+        urlTemplate: string;
+        metadataUrl: string | null;
+        fileGroups: Record<FileKind, string[]>;
+        document: Document;
+    };
+
+    type StateChangeDetail = {
+        /**
+         * Who triggered the event.
+         * * `history`: Event is triggered due to history popstate. This is used
+         * to avoid pushing a popped state again.
+         * * `navigation`: Event is triggered by user navigation.
+         */
+        source: "history" | "navigation";
+    } & Partial<PageDisplayState>;
+
+    type StateChangeEvent = CustomEvent<StateChangeDetail>;
+
+    /**
+     * State of document stored in `window.history`.
+     */
+    type PageHistoryState = {
+        type: "tx-dlf-page-state";
+        documentId: string | number;
+    } & PageDisplayState;
+}

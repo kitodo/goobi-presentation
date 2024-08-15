@@ -251,6 +251,13 @@ var dlfViewerFullTextControl = function(map) {
  * @param {FullTextFeature} fulltextData
  */
 dlfViewerFullTextControl.prototype.loadFulltextData = function (fulltextData) {
+    // remove previously inserted features
+    this.layers_.textblock.getSource().clear();
+    this.layers_.textline.getSource().clear();
+    this.layers_.select.getSource().clear();
+    this.textblocks_ = new dlfFulltextSegments();
+    this.textlines_ = new dlfFulltextSegments();
+
     // add features to fulltext layer
     this.textblockFeatures_ = fulltextData.getTextblocks();
     this.layers_.textblock.getSource().addFeatures(this.textblockFeatures_);
@@ -268,6 +275,7 @@ dlfViewerFullTextControl.prototype.loadFulltextData = function (fulltextData) {
         // If the control is *not* yet active, the fulltext is instead rendered on activation.
         if (this.isActive) {
             this.showFulltext(this.textblockFeatures_);
+            this.enableFulltextSelect();
         }
     }
 };

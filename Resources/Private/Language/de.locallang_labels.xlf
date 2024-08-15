@@ -601,6 +601,10 @@
 				<source>DLF: Collection</source>
 				<target>DLF: Kollektion</target>
 			</trans-unit>
+            <trans-unit id="tt_content.dlf_document">
+				<source>DLF: Document</source>
+				<target>DLF: Dokument</target>
+			</trans-unit>
 			<trans-unit id="tt_content.dlf_listview">
 				<source>DLF: List View</source>
 				<target>DLF: Listenansicht</target>
@@ -661,6 +665,10 @@
 				<target>Eingelesene METS Dateien / IIIF-Manifeste zwischenspeichern: Dies kann die Geschwindigkeit geringfügig verbessern, führt aber zu einer sehr großen "fe_session_data" Tabelle (Standard ist "FALSE")</target>
 				<source>Cache parsed METS files / IIIF manifests: Caching improves performance a little bit but can result in a very large "fe_session_data" table (default is "FALSE")</source>
 			</trans-unit>
+            <trans-unit id="config.general.nonProxyMimeType">
+                <source>Non proxy MIME types: comma-separated list (default is "application/vnd.kitodo.iiif,application/vnd.netfpx,application/vnd.kitodo.zoomify")</source>
+                <target>MIME Typen ohne Proxy: Komma-getrennte Liste (Standard ist "application/vnd.kitodo.iiif,application/vnd.netfpx,application/vnd.kitodo.zoomify")</target>
+            </trans-unit>
 			<trans-unit id="config.general.publishNewCollections">
 				<target>Neue Kollektionen publizieren?: Sollen neue Kollektionen automatisch in der OAI-PMH-Schnittstelle veröffentlicht werden? (Standard ist "TRUE")</target>
 				<source>Publish new collections?: Should new collections automatically be published in the OAI-PMH interface? (default is "TRUE")</source>

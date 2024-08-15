@@ -15,6 +15,7 @@ use Kitodo\Dlf\Common\AbstractDocument;
 use Kitodo\Dlf\Common\Helper;
 use Kitodo\Dlf\Domain\Model\Document;
 use Kitodo\Dlf\Domain\Repository\DocumentRepository;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -134,15 +135,17 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $documentId = $this->requestData['id'];
         }
 
+        $pageId = $this->getRequest()->getAttribute('routing')->getPageId();
+
         // Try to get document format from database
         if (!empty($documentId)) {
 
             $doc = null;
 
             if (MathUtility::canBeInterpretedAsInteger($documentId)) {
-                $doc = $this->getDocumentByUid($documentId);
+                $doc = $this->getDocumentByUid($documentId, $pageId);
             } elseif (GeneralUtility::isValidUrl($documentId)) {
-                $doc = $this->getDocumentByUrl($documentId);
+                $doc = $this->getDocumentByUrl($documentId, $pageId);
             }
 
             if ($this->document !== null && $doc !== null) {
@@ -154,7 +157,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $this->document = $this->documentRepository->findOneByRecordId($this->requestData['recordId']);
 
             if ($this->document !== null) {
-                $doc = AbstractDocument::getInstance($this->document->getLocation(), $this->settings, true);
+                $doc = AbstractDocument::getInstance($this->document->getLocation(), $pageId, $this->settings, true);
                 if ($doc !== null) {
                     $this->document->setCurrentDocument($doc);
                 } else {
@@ -178,8 +181,8 @@ abstract class AbstractController extends ActionController implements LoggerAwar
     protected function configureProxyUrl(string &$url): void
     {
         $this->uriBuilder->reset()
-            ->setTargetPageUid($this->pageUid)
-            ->setCreateAbsoluteUri(!empty($this->extConf['general']['forceAbsoluteUrl']))
+            ->setTargetPageUid($this->getRequest()->getAttribute('routing')->getPageId())
+            ->setCreateAbsoluteUri(!empty($this->settings['general']['forceAbsoluteUrl']))
             ->setArguments(
                 [
                     'eID' => 'tx_dlf_pageview_proxy',
@@ -459,22 +462,28 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         ];
     }
 
+    protected function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
+    }
+
     /**
      * Get document from repository by uid.
      *
      * @access private
      *
      * @param int $documentId The document's UID
+     * @param int $pageId
      *
      * @return AbstractDocument
      */
-    private function getDocumentByUid(int $documentId)
+    private function getDocumentByUid(int $documentId, int $pageId)
     {
         $doc = null;
+        // find document from repository by uid
         $this->document = $this->documentRepository->findOneByIdAndSettings($documentId);
-
         if ($this->document) {
-            $doc = AbstractDocument::getInstance($this->document->getLocation(), $this->settings, true);
+            $doc = AbstractDocument::getInstance($this->document->getLocation(), $pageId, $this->settings, true);
         } else {
             $this->logger->error('Invalid UID "' . $documentId . '" or PID "' . $this->settings['storagePid'] . '" for document loading');
         }
@@ -488,18 +497,19 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      * @access protected
      *
      * @param string $documentId The document's URL
+     * @param int $pageId
      *
      * @return AbstractDocument
      */
-    protected function getDocumentByUrl(string $documentId)
+    protected function getDocumentByUrl(string $documentId, int $pageId)
     {
-        $doc = AbstractDocument::getInstance($documentId, $this->settings, true);
+        $doc = AbstractDocument::getInstance($documentId, $pageId, $this->settings, true);
 
         if (isset($this->settings['multiViewType']) && $doc->tableOfContents[0]['type'] === $this->settings['multiViewType']) {
             $childDocuments = $doc->tableOfContents[0]['children'];
             $i = 0;
             foreach ($childDocuments as $document) {
-                $this->documentArray[] = AbstractDocument::getInstance($document['points'], $this->settings, true);
+                $this->documentArray[] = AbstractDocument::getInstance($document['points'], $pageId, $this->settings, true);
                 if (!isset($this->requestData['docPage'][$i]) && isset(explode('#', $document['points'])[1])) {
                     $initPage = explode('#', $document['points'])[1];
                     $this->requestData['docPage'][$i] = $initPage;
@@ -512,7 +522,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         if ($this->requestData['multipleSource'] && is_array($this->requestData['multipleSource'])) {
             $i = 0;
             foreach ($this->requestData['multipleSource'] as $location) {
-                $document = AbstractDocument::getInstance($location, $this->settings, true);
+                $document = AbstractDocument::getInstance($location, $pageId, $this->settings, true);
                 if ($document !== null) {
                     $this->documentArray['extra_' . $i] = $document;
                 }
@@ -533,13 +543,13 @@ abstract class AbstractController extends ActionController implements LoggerAwar
 
             // Make sure configuration PID is set when applicable
             if ($doc->cPid == 0) {
-                $doc->cPid = max((int) $this->settings['storagePid'], 0);
+                $doc->cPid = max(intval($this->settings['storagePid']), 0);
             }
 
             $this->document->setLocation($documentId);
-        } else {
-            $this->logger->error('Invalid location given "' . $documentId . '" for document loading');
-        }
+                } else {
+                    $this->logger->error('Invalid location given "' . $documentId . '" for document loading');
+                }
 
         return $doc;
     }

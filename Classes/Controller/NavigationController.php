@@ -79,8 +79,10 @@ class NavigationController extends AbstractController
         }
 
         // Steps for X pages backward / forward. Double page view uses double steps.
-        $pageSteps = $this->settings['pageStep'] * ($this->requestData['double'] + 1);
+        $basePageSteps = $this->settings['pageStep'] ?: 10;
+        $pageSteps = $basePageSteps * ($this->requestData['double'] + 1);
 
+        $this->view->assign('basePageSteps', $basePageSteps);
         $this->view->assign('pageSteps', $pageSteps);
         $this->view->assign('numPages', $this->document->getCurrentDocument()->numPages);
         $this->view->assign('viewData', $this->viewData);

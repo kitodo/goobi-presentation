@@ -21,6 +21,7 @@ page {
     embedded3dviewer = EXT:dlf/Resources/Public/Stylesheets/embedded-3d-viewer.css
     jPlayer = EXT:dlf/Resources/Public/JavaScript/jPlayer/blue.monday/css/jplayer.blue.monday.min.css
     openLayers = EXT:dlf/Resources/Public/JavaScript/OpenLayers/openlayers.css
+    kitodo = EXT:dlf/Resources/Public/Css/Kitodo.css
   }
 
   includeJSFooterlibs {
@@ -66,8 +67,12 @@ page {
     kitodo-pageView-syncControl = EXT:dlf/Resources/Public/JavaScript/PageView/SyncControl.js
     kitodo-pageView-searchInDocument = EXT:dlf/Resources/Public/JavaScript/PageView/SearchInDocument.js
     kitodo-pageView-pageView = EXT:dlf/Resources/Public/JavaScript/PageView/PageView.js
+    kitodo-pageView-navigation = EXT:dlf/Resources/Public/JavaScript/PageView/Navigation.js
+    kitodo-pageView-metadata = EXT:dlf/Resources/Public/JavaScript/PageView/Metadata.js
+    kitodo-pageView-toolbox = EXT:dlf/Resources/Public/JavaScript/PageView/Toolbox.js
+    kitodo-pageView-tableofcontents = EXT:dlf/Resources/Public/JavaScript/PageView/TableOfContents.js
+    kitodo-controller = EXT:dlf/Resources/Public/JavaScript/PageView/Controller.js
     kitodo-search-suggest = EXT:dlf/Resources/Public/JavaScript/Search/Suggester.js
-
   }
 }
 

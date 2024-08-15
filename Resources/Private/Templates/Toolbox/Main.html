@@ -48,28 +48,21 @@
     <f:if condition="{renderImageDownloadTool} && {imageDownload}">
         <f:then>
             <li>
-                <span class="tx-dlf-tools-imagedownload">
-                    <f:if condition="{double} === 0">
-                        <f:then>
-                            <f:link.external uri="{imageDownload.0.url}">
-                                <f:translate key="downloadSinglePage" /> {imageDownload.0.mimetypeLabel}
-                            </f:link.external>
-                        </f:then>
-                        <f:else>
-                            <f:link.external uri="{imageDownload.0.url}">
-                                <f:translate key="downloadLeftPage" /> {imageDownload.0.mimetypeLabel}
-                            </f:link.external>
-                            <f:if condition="{imageDownload.1}">
-                                <f:then>
-                                    <span class="tx-dlf-tools-imagedownload">
-                                        <f:link.external uri="{imageDownload.1.url}">
-                                            <f:translate key="downloadRightPage" /> {imageDownload.1.mimetypeLabel}
-                                        </f:link.external>
-                                    </span>
-                                </f:then>
-                            </f:if>
-                        </f:else>
-                    </f:if>
+                <f:variable name="fileGrpsJson">{fileGrpsImageDownload -> f:format.json()}</f:variable>
+                <span class="tx-dlf-tools-imagedownload shown-if-single" data-page-link="0" data-file-groups="{fileGrpsJson}">
+                    <f:link.external uri="{imageDownload.0.url}">
+                        <f:translate key="downloadSinglePage" /> <span class="dlf-mimetype-label">{imageDownload.0.mimetypeLabel}</span>
+                    </f:link.external>
+                </span>
+                <span class="tx-dlf-tools-imagedownload shown-if-double" data-page-link="0" data-file-groups="{fileGrpsJson}">
+                    <f:link.external uri="{imageDownload.0.url}">
+                        <f:translate key="downloadLeftPage" /> <span class="dlf-mimetype-label">{imageDownload.0.mimetypeLabel}</span>
+                    </f:link.external>
+                </span>
+                <span class="tx-dlf-tools-imagedownload shown-if-double" data-page-link="1" data-file-groups="{fileGrpsJson}">
+                    <f:link.external uri="{imageDownload.1.url}">
+                        <f:translate key="downloadRightPage" /> <span class="dlf-mimetype-label">{imageDownload.1.mimetypeLabel}</span>
+                    </f:link.external>
                 </span>
             </li>
         </f:then>
@@ -161,17 +154,17 @@
                 <span class="tx-dlf-tools-pdf-page">
                     <f:if condition="{double} === 0">
                         <f:then>
-                            <f:link.external uri="{pageLinks.0}">
+                            <f:link.external uri="{pageLinks.0}" additionalAttributes="{'data-page-link': 0}">
                                 <f:translate key="downloadSinglePage" /> (PDF)
                             </f:link.external>
                         </f:then>
                         <f:else>
-                            <f:link.external uri="{pageLinks.0}">
+                            <f:link.external uri="{pageLinks.0}" additionalAttributes="{'data-page-link': 0}">
                                 <f:translate key="downloadLeftPage" /> (PDF)
                             </f:link.external>
                             <f:if condition="{pageLinks.1}">
                                 <f:then>
-                                    <f:link.external uri="{pageLinks.1}">
+                                    <f:link.external uri="{pageLinks.1}" additionalAttributes="{'data-page-link': 1}">
                                         <f:translate key="downloadRightPage" /> (PDF)
                                     </f:link.external>
                                 </f:then>
@@ -232,5 +225,17 @@
         </f:then>
     </f:if>
 </ul>
+
+<f:if condition="{activateToolbox}">
+    <f:then>
+        <script>
+            window.addEventListener('tx-dlf-documentLoaded', (e) => {
+                if (!window.tx_dlf_toolbox) {
+                    window.tx_dlf_toolbox = new dlfToolbox(e.detail.docController);
+                }
+            });
+        </script>
+    </f:then>
+</f:if>
 
 </html>

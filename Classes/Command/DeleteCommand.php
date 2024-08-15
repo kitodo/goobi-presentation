@@ -217,7 +217,7 @@ class DeleteCommand extends BaseCommand
         if (MathUtility::canBeInterpretedAsInteger($input->getOption('doc'))) {
             $document = $this->documentRepository->findByUid($input->getOption('doc'));
         } elseif (GeneralUtility::isValidUrl($input->getOption('doc'))) {
-            $doc = AbstractDocument::getInstance($input->getOption('doc'), ['storagePid' => $this->storagePid], true);
+            $doc = AbstractDocument::getInstance($input->getOption('doc'), 0, ['storagePid' => $this->storagePid], true);
 
             if ($doc->recordId) {
                 $document = $this->documentRepository->findOneByRecordId($doc->recordId);
