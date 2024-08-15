@@ -420,6 +420,56 @@ final class IiifManifest extends AbstractDocument
     }
 
     /**
+     * @see AbstractDocument::getAllFiles()
+     */
+    public function getAllFiles(): array
+    {
+        $files = [];
+        $canvases = $this->iiif->getDefaultCanvases();
+        foreach ($canvases as $canvas) {
+            $images = $canvas->getImages();
+            foreach ($images as $image) {
+                $resource = $image->getResource();
+                $fileId = $resource->getId();
+                if (empty($fileId)) {
+                    continue;
+                }
+
+                $mimetype = $this->getFileMimeType($fileId);
+                if (empty($mimetype)) {
+                    continue;
+                }
+
+                $files[$fileId] = [
+                    'url' => $fileId,
+                    'mimetype' => $mimetype,
+                ];
+            }
+
+            $otherFiles = $canvas->getOtherContent();
+            foreach ($otherFiles as $otherFile) {
+                $fileId = $$otherFile->getId();
+                if (empty($fileId)) {
+                    continue;
+                }
+
+                $mimetype = $this->getFileMimeType($fileId);
+                if (empty($mimetype)) {
+                    continue;
+                }
+
+                // in IIIF id is URL
+                $files[$fileId] = [
+                    'url' => $fileId,
+                    'mimetype' => $mimetype,
+                ];
+            }
+
+        }
+        return $files;
+    }
+
+    /**
      * @see AbstractDocument::getLogicalStructure()
      */
     public function getLogicalStructure(string $id, bool $recursive = false): array
@@ -854,8 +904,7 @@ final class IiifManifest extends AbstractDocument
          *  https://digi.ub.uni-heidelberg.de/diglit/iiif/hirsch_hamburg1933_04_25/list/0001.json
          */
         if (!$this->hasFulltextSet && $this->iiif instanceof ManifestInterface) {
-            $manifest = $this->iiif;
-            $canvases = $manifest->getDefaultCanvases();
+            $canvases = $this->iiif->getDefaultCanvases();
             foreach ($canvases as $canvas) {
                 if (
                     !empty($canvas->getSeeAlsoUrlsForFormat("application/alto+xml")) ||

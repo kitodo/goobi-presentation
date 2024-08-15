@@ -15,24 +15,30 @@
 <f:for each="{children}" as="child">
     <f:switch expression="{child.ITEM_STATE}">
         <f:case value="ACT">
-            <li class="tx-dlf-toc-act">
+            <f:variable name="tocItemClass" value="tx-dlf-toc-act" />
         </f:case>
         <f:case value="CUR">
-            <li class="tx-dlf-toc-cur">
+            <f:variable name="tocItemClass" value="tx-dlf-toc-cur" />
         </f:case>
         <f:case value="ACTIFSUB">
-            <li class="tx-dlf-toc-act tx-dlf-toc-ifsub">
+            <f:variable name="tocItemClass" value="tx-dlf-toc-act tx-dlf-toc-ifsub" />
         </f:case>
         <f:case value="CURIFSUB">
-            <li class="tx-dlf-toc-cur tx-dlf-toc-ifsub">
+            <f:variable name="tocItemClass" value="tx-dlf-toc-cur tx-dlf-toc-ifsub" />
         </f:case>
         <f:case value="IFSUB">
-            <li class="tx-dlf-toc-no tx-dlf-toc-ifsub">
+            <f:variable name="tocItemClass" value="tx-dlf-toc-no tx-dlf-toc-ifsub" />
         </f:case>
         <f:defaultCase>
-            <li class="tx-dlf-toc-no">
+            <f:variable name="tocItemClass" value="tx-dlf-toc-no" />
         </f:defaultCase>
     </f:switch>
+
+    <f:if condition="!{child.isCurrentlyExpanded}">
+        <f:variable name="tocItemClass" value="{tocItemClass} dlf-toc-collapsed" />
+    </f:if>
+
+    <li class="{tocItemClass}" data-toc-item data-dlf-section="{child.logId}" data-toc-expand-always="{child.isAlwaysExpanded}">
 
     <f:if condition="{child.doNotLinkIt}">
         <f:then>
@@ -47,6 +53,7 @@
                 additionalParams="{f:if(condition:'{child.id}', then:'{\'tx_dlf[id]\':child.id, \'tx_dlf[page]\':child.page}', else: '{\'tx_dlf[page]\':child.page}')}"
                 argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}"
                 addQueryString="1"
+                additionalAttributes="{'data-document-id':child.id, 'data-page':child.page, 'data-toc-link':1}"
                 title="{f:if(condition:'{child.title}', then: '{child.title}', else: '{child.type}')}">
                     <f:render partial="TableOfContents/Title" arguments="{child: child}"/>
             </f:link.action>

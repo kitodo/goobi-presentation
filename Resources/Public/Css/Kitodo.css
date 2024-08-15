@@ -1,0 +1,9 @@
+body.page-single .shown-if-double,
+body.page-double .shown-if-single {
+  display: none !important;
+}
+
+/* TODO(client-side): Better condition? */
+.dlf-toc-collapsed ul {
+  display: none;
+}

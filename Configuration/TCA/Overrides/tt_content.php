@@ -29,6 +29,10 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dlf_calendar
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['dlf_collection'] = 'layout,select_key,pages,recursive';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dlf_collection'] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dlf_collection', 'FILE:EXT:' . 'dlf/Configuration/FlexForms/Collection.xml');
+// Plugin "document".
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['dlf_document'] = 'layout,select_key,pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dlf_document'] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dlf_document', 'FILE:EXT:' . 'dlf/Configuration/FlexForms/Document.xml');
 // Plugin "feeds".
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['dlf_feeds'] = 'layout,select_key,pages,recursive';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dlf_feeds'] = 'pi_flexform';
@@ -191,7 +195,14 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dlf_embedded
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Kitodo.Dlf',
+    'Dlf',
     'Annotation',
     'LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.annotation.title',
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'Dlf',
+    'Document',
+    'LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.document.title',
+    'EXT:dlf/Resources/Public/Icons/tx-dlf-document.svg'
 );
