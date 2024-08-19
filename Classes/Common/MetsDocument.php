@@ -431,6 +431,7 @@ final class MetsDocument extends AbstractDocument
             // Check if file has valid @USE attribute.
             if (!empty($fileUse[$fileId])) {
                 $details['files'][$fileUse[$fileId]] = $fileId;
+                $details['all_files'][$fileUse[$fileId]][] = $fileId;
             }
         }
     }
@@ -468,32 +469,6 @@ final class MetsDocument extends AbstractDocument
         if ($details['thumbnailId'] === null) {
             unset($details['thumbnailId']);
         }
-        // Get the files this structure element is pointing at.
-        $details['files'] = [];
-        $details['all_files'] = [];
-        $fileUse = $this->magicGetFileGrps();
-        // Get the file representations from fileSec node.
-        foreach ($structure->children('http://www.loc.gov/METS/')->fptr as $fptr) {
-            // Check if file has valid @USE attribute.
-            if (!empty($fileUse[(string) $fptr->attributes()->FILEID])) {
-                $details['files'][$fileUse[(string) $fptr->attributes()->FILEID]] = (string) $fptr->attributes()->FILEID;
-                $details['all_files'][$fileUse[(string) $fptr->attributes()->FILEID]][] = (string) $fptr->attributes()->FILEID;
-            }
-        }
-        // Keep for later usage.
-        $this->logicalUnits[$details['id']] = $details;
-        // Walk the structure recursively? And are there any children of the current element?
-        if (
-            $recursive
-            && count($structure->children('http://www.loc.gov/METS/')->div)
-        ) {
-            $details['children'] = [];
-            foreach ($structure->children('http://www.loc.gov/METS/')->div as $child) {
-                // Repeat for all children.
-                $details['children'][] = $this->getLogicalStructureInfo($child, true);
-            }
-        }
-        return $details;
     }
 
     /**
@@ -1543,6 +1518,7 @@ final class MetsDocument extends AbstractDocument
             // Check if file has valid @USE attribute.
             if (!empty($fileUse[$fileId])) {
                 $this->physicalStructureInfo[$id]['files'][$fileUse[$fileId]] = $fileId;
+                $this->physicalStructureInfo[$id]['all_files'][$fileUse[$fileId]][] = $fileId;
             }
         }
     }
@@ -1582,14 +1558,8 @@ final class MetsDocument extends AbstractDocument
                 // Check if file has valid @USE attribute.
                 if (!empty($fileUse[(string) $fileId])) {
                     $this->physicalStructureInfo[$id]['files'][$fileUse[$fileId]] = $fileId;
-                }
-
-                // @fschoelzel: needs review
-                // Check if file has valid @USE attribute.
-                if (!empty($fileUse[(string) $fptr->attributes()->FILEID])) {
-                    $this->physicalStructureInfo[$elements[$order]]['files'][$fileUse[(string) $fptr->attributes()->FILEID]] = (string) $fptr->attributes()->FILEID;
                     // List all files of the fileGrp that are referenced on the page, not only the last one
-                    $this->physicalStructureInfo[$elements[$order]]['all_files'][$fileUse[(string) $fptr->attributes()->FILEID]][] = (string) $fptr->attributes()->FILEID;
+                    $this->physicalStructureInfo[$id]['all_files'][$fileUse[$fileId]][] = $fileId;
                 } elseif ($area = $fptr->children('http://www.loc.gov/METS/')->area) {
                     $areaAttrs = $area->attributes();
                     $fileId = (string) $areaAttrs->FILEID;
