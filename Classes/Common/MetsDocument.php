@@ -472,7 +472,7 @@ final class MetsDocument extends AbstractDocument
     }
 
     /**
-     * Get timecode and file IDs that link to first matching fileGrp/USE.
+     * Get timecode and file IDs that link to first matching fileGrpVideo/USE.
      *
      * Returns either `null` or an array with the following keys:
      * - `fileIds`: Array of linked file IDs
@@ -487,11 +487,11 @@ final class MetsDocument extends AbstractDocument
     {
         // Load plugin configuration.
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey, 'files');
-        $fileGrps = GeneralUtility::trimExplode(',', $extConf['fileGrpVideo']);
+        $fileGrpsVideo = GeneralUtility::trimExplode(',', $extConf['fileGrpVideo']);
 
-        foreach ($fileGrps as $fileGrp) {
+        foreach ($fileGrpsVideo as $fileGrpVideo) {
             $physInfo = $this->physicalStructureInfo[$this->smLinks['l2p'][$logInfo['id']][0]];
-            $fileIds = $physInfo['all_files'][$fileGrp] ?? [];
+            $fileIds = $physInfo['all_files'][$fileGrpVideo] ?? [];
 
             $chapter = null;
 
