@@ -74,11 +74,8 @@ class Mods implements MetadataInterface
         $this->getAuthors();
         $this->getHolders();
         $this->getPlaces();
-
-        // dislocated Functions from @dvoracek added by @fschoelzel
         $this->getProdPlaces();
         $this->getNamePersonal();
-
         $this->getYears();
 
         $metadata = $this->metadata;
@@ -337,7 +334,6 @@ class Mods implements MetadataInterface
         }
     }
 
-    // dislocated Function from @dvoracek
     /**
      * Get MODS production places to allow linking valueURI
      *
@@ -347,19 +343,25 @@ class Mods implements MetadataInterface
      */
     private function getProdPlaces(): void
     {
-        $prodPlaces = $this->xml->xpath('./mods:relatedItem[@type="original"]/mods:originInfo[@eventType="production"]/mods:place/mods:placeTerm');
-        foreach ($prodPlaces as $prodPlace) {
-            $prodPlaceMd = (string) $prodPlace;
+        $relatedItems = $this->modsReader->getRelatedItems('[@type="original"]');
+        foreach ($relatedItems as $relatedItem) {
+                $originInfos = $relatedItem->getOriginInfos('[@eventType="production"]');
+                foreach ($originInfos as $originInfo) {
+                        foreach ($originInfo->getPlaces() as $prodPlaces) {
+                            foreach ($prodPlaces->getPlaceTerms() as $prodPlaceTerm) {
+                                $prodPlaceMd = $prodPlaceTerm->getValue();
 
-            if (isset($prodPlace['valueURI'])) {
-                $prodPlaceMd .= chr(31) . (string) $prodPlace['valueURI'];
-            }
+                                if (!empty($prodPlaceTerm->getValueURI())) {
+                                    $prodPlaceMd .= chr(31) . $prodPlaceTerm->getValueURI();
+                                }
 
-            $metadata['production_place'][] = $prodPlaceMd;
+                                $this->metadata['production_place'][] = $prodPlaceMd;
+                            }
+                        }
+                }
         }
     }
 
-    // dislocated Function from @dvoracek
     /**
      * Get MODS personal names to allow linking valueURI
      *
@@ -369,21 +371,38 @@ class Mods implements MetadataInterface
      */
     private function getNamePersonal(): void
     {
-        $namePersonal = $this->xml->xpath('./mods:name[@type="personal"]');
+        $namePersonal = $this->modsReader->getNames('[@type="personal"]');
+
         foreach ($namePersonal as $person) {
-            $roleCode = (string) $person->xpath('./mods:role/mods:roleTerm[@type="code" and @authority="marcrelator"]')[0];
-            if (empty($roleCode)) {
+            $roles = $person->getRoles();
+            if (empty($roles)) {
                 continue;
             }
+            $roleCodes = $roles[0]->getRoleTerms('[@type="code" and @authority="marcrelator"]');
+            $roleTexts = $roles[0]->getRoleTerms('[@type="text"]');
+
+            if (empty($roleCodes) || empty($roleCodes[0]->getValue())) {
+                continue;
+            }
+            $roleCode = $roleCodes[0]->getValue();
+
+            $roleText = !empty($roleTexts) ? $roleTexts[0]->getValue() : '';
+
+            $displayForms = $person->getDisplayForms();
+            $personDisplayForm = !empty($displayForms) ? $displayForms[0]->getValue() : '';
+
+            $valueURI = $person->getValueURI() ?? '';
 
             $personMd = implode(chr(31), [
-                (string) $person->xpath('./mods:displayForm')[0],
-                (string) $person['valueURI'],
-                (string) $person->xpath('./mods:role/mods:roleTerm[@type="text"]')[0],
+                $personDisplayForm,
+                $valueURI,
+                $roleText,
                 $roleCode,
             ]);
 
-            $metadata['name_personal_' . $roleCode][] = $personMd;
+            $this->metadata['name_personal_' . $roleCode][] = $personMd;
+
+            debug($personMd);
         }
     }
 
