@@ -401,8 +401,6 @@ class Mods implements MetadataInterface
             ]);
 
             $this->metadata['name_personal_' . $roleCode][] = $personMd;
-
-            debug($personMd);
         }
     }
 
