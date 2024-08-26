@@ -133,6 +133,7 @@ class TableOfContentsController extends AbstractController
             // TODO: For simplicity, this currently assumes all chapters are within the same video file
             $entryArray['section'] = 'timecode=' . $entry['videoChapter']['timecode'] . ';fileIds=' . $entry['videoChapter']['fileIdsJoin'];
         }
+        $entryArray['year'] = $entry['year'];
         $entryArray['orderlabel'] = $entry['orderlabel'];
         $entryArray['type'] = $this->getTranslatedType($entry['type']);
         $entryArray['pagination'] = htmlspecialchars($entry['pagination']);
