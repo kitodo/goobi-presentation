@@ -186,7 +186,7 @@ export default class MarkerTable extends DlfMediaPlugin {
    */
   onBookmarkRow(row) {
     if (this.player instanceof SlubMediaPlayer) {
-      this.player.showBookmarkUrl(row.segment.toTimeRange());
+      this.player.showBookmarkUrl(row.segment.toTimeRange(), /** fromMarkerTable = */true);
     }
   }
 

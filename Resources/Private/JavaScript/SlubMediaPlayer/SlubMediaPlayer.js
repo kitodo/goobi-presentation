@@ -472,14 +472,20 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
    * @param {ValueOf<AppModals>} modal
    */
   onCloseModal(modal) {
+    if ('$startAtVariants' in modal) {
+      // Removes the hidden class of the 'begin' element if it was called from the MarkerTable
+      setElementClass(modal.$startAtVariants['begin'].$container, 'open-modal-markertable-hidden', false);
+    }
+
     this.resumeOn(modal);
   }
 
   /**
    *
    * @param {dlf.media.TimeRange | null} markerRange
+   * @param {boolean} [fromMarkerTable=false] - A boolean indicating whether the marker table should be visible in the modal. Default is false.
    */
-  showBookmarkUrl(markerRange = null) {
+  showBookmarkUrl(markerRange = null, /** @type {boolean=} */ fromMarkerTable = false) {
     // Don't show modal if we can't expect the current time to be properly
     // initialized
     if (!this.hasCurrentData) {
@@ -508,6 +514,11 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
       modal.setState({
         startAtMode: 'marker',
       });
+    }
+
+    // If fromMarkerTable is true, hide the ['begin'] element
+    if (fromMarkerTable === true) {
+      setElementClass(modal.$startAtVariants['begin'].$container, 'open-modal-markertable-hidden', true);
     }
 
     this.openModal(modal, /* pause= */ true);
