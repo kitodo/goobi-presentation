@@ -474,7 +474,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
   onCloseModal(modal) {
     if ('$startAtVariants' in modal) {
       // Removes the hidden class of the 'begin' element if it was called from the MarkerTable
-      setElementClass(modal.$startAtVariants['begin'].$container, 'open-modal-markertable-hidden', false);
+      setElementClass(modal.$startAtVariants['begin'].$container, 'bookmark-markertable-hidden', false);
     }
 
     this.resumeOn(modal);
@@ -518,7 +518,7 @@ export default class SlubMediaPlayer extends DlfMediaPlayer {
 
     // If fromMarkerTable is true, hide the ['begin'] element
     if (fromMarkerTable === true) {
-      setElementClass(modal.$startAtVariants['begin'].$container, 'open-modal-markertable-hidden', true);
+      setElementClass(modal.$startAtVariants['begin'].$container, 'bookmark-markertable-hidden', true);
     }
 
     this.openModal(modal, /* pause= */ true);
