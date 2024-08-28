@@ -260,9 +260,8 @@ export default class ScreenshotModal extends SimpleModal {
 
     const extendedMetadata = makeExtendedMetadata(this.gen, metadata, timecode, fps);
 
-    const image = await this.makeImageBlob(
-      this.$canvas, selectedImageFormat, extendedMetadata);
-    const filename = this.getFilename(metadata, selectedImageFormat);
+    const image = await this.makeImageBlob(this.$canvas, selectedImageFormat, extendedMetadata);
+    const filename = this.getFilename(extendedMetadata, selectedImageFormat);
 
     download(image, filename);
 
