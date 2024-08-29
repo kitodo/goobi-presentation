@@ -28,14 +28,11 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 class MediaPlayerController extends AbstractController
 {
     /**
-     * The main method of the PlugIn
+     * The main method of the plugin
      *
      * @access public
      *
-     * @param string $content: The PlugIn content
-     * @param array $conf: The PlugIn configuration
-     *
-     * @return string The content that is displayed on the website
+     * @return void
      */
     public function mainAction(): void
     {
