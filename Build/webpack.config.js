@@ -53,7 +53,7 @@ module.exports = (env, argv) => {
           }
         ) : {},
         {
-          test: /\.css|\.less$/i,
+          test: /\.(css|less)$/i,
           // Recall that the order is reverse (first loader is listed last)
           use: [
             {
