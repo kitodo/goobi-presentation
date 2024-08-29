@@ -61,6 +61,8 @@ class MediaPlayerController extends AbstractController
     /**
      * Build video info to be passed to the player template.
      *
+     * @param AbstractDocument $doc
+     * @param int $pageNo
      * @return ?array The video data, or `null` if no video source is found
      */
     protected function getVideoInfo(AbstractDocument $doc, int $pageNo): ?array
@@ -76,6 +78,7 @@ class MediaPlayerController extends AbstractController
         // Collect video file source URLs
         // TODO: This is for multiple sources (MPD, HLS, MP3, ...) - revisit, make sure it's ordered by preference!
         $videoSources = [];
+        /** @var array{mimeType: string, fileId: string, url: string, fileGrp: string}[] $videoFiles */
         $videoFiles = $this->findFiles($doc, $pageNo, $videoFileGrps);
         foreach ($videoFiles as $videoFile) {
             if ($this->isMediaMime($videoFile['mimeType'])) {
