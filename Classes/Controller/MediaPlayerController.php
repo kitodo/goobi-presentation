@@ -134,7 +134,7 @@ class MediaPlayerController extends AbstractController
      * @param AbstractDocument $doc
      * @param int $pageNo
      * @param string[] $fileGrps
-     * @return string[]
+     * @return array{fileGrp: string, fileId: string, url: string, mimeType: string}[]
      */
     protected function findFiles(AbstractDocument $doc, int $pageNo, array $fileGrps): array
     {
