@@ -3,9 +3,9 @@
 import shaka from 'shaka-player/dist/shaka-player.ui';
 import 'shaka-player/ui/controls.less';
 
-import EventManager from '../../lib/EventManager';
-import Gestures from '../../lib/Gestures';
-import { e, setElementClass } from '../../lib/util';
+import EventManager from 'lib/EventManager';
+import Gestures from 'lib/Gestures';
+import { e, setElementClass } from 'lib/util';
 import {
   ControlPanelButton,
   FlatSeekBar,
@@ -13,8 +13,8 @@ import {
   PlaybackRateSelection,
   PresentationTimeTracker,
   VideoTrackSelection
-} from '../controls';
-import { action } from '../lib/action';
+} from 'DlfMediaPlayer/controls';
+import { action } from 'DlfMediaPlayer/lib/action';
 
 /**
  * Player frontend based on Shaka UI.

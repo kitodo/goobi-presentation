@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, jest, test } from '@jest/globals';
-import Component from './Component';
+import Component from 'SlubMediaPlayer/lib/Component';
 
 describe('Component', () => {
   test('basic', async () => {

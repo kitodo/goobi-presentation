@@ -1,6 +1,6 @@
 // @ts-check
 
-import ShakaThumbnailTrack from './lib/thumbnails/ShakaThumbnailTrack';
+import ShakaThumbnailTrack from 'DlfMediaPlayer/lib/thumbnails/ShakaThumbnailTrack';
 
 /**
  * @typedef {string} GroupKey

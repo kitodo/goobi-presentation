@@ -1,15 +1,15 @@
 // @ts-check
 
-export { default as Chapters } from './Chapters';
-export { WaveForm } from './components/waveform';
-export { ControlPanelButton, FullScreenButton, OverflowMenuButton } from './controls';
-export { default as Markers } from './Markers';
-export { action } from './lib/action';
-export { default as buildTimeString, getTimeStringPlaceholders } from './lib/buildTimeString';
-export { default as DlfMediaPlayer } from './DlfMediaPlayer';
-export { default as DlfMediaPlugin } from './DlfMediaPlugin';
+export { ControlPanelButton, FullScreenButton, OverflowMenuButton } from 'DlfMediaPlayer/controls';
+export { default as buildTimeString, getTimeStringPlaceholders } from 'DlfMediaPlayer/lib/buildTimeString';
+export { default as Chapters } from 'DlfMediaPlayer/Chapters';
+export { default as Markers } from 'DlfMediaPlayer/Markers';
+export { default as DlfMediaPlayer } from 'DlfMediaPlayer/DlfMediaPlayer';
+export { default as DlfMediaPlugin } from 'DlfMediaPlayer/DlfMediaPlugin';
+export { action } from 'DlfMediaPlayer/lib/action';
+export { WaveForm } from 'DlfMediaPlayer/components/waveform';
 
-import DlfMediaPlayer from './DlfMediaPlayer';
+import DlfMediaPlayer from 'DlfMediaPlayer/DlfMediaPlayer';
 window.DlfMediaPlayer = DlfMediaPlayer;
 
-import './components/waveform';
+import 'DlfMediaPlayer/components/waveform';

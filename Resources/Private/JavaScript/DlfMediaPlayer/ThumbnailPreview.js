@@ -2,17 +2,18 @@
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
 
-import Chapters from './Chapters';
-import ImageFetcher from './ImageFetcher';
 import {
   clamp,
   disableDragging,
   e,
   filterNonNull,
   setElementClass,
-} from '../lib/util';
-import buildTimeString from './lib/buildTimeString';
-import sanitizeThumbnail from './lib/thumbnails/sanitizeThumbnail';
+} from 'lib/util';
+
+import Chapters from 'DlfMediaPlayer/Chapters';
+import ImageFetcher from 'DlfMediaPlayer/ImageFetcher';
+import buildTimeString from 'DlfMediaPlayer/lib/buildTimeString';
+import sanitizeThumbnail from 'DlfMediaPlayer/lib/thumbnails/sanitizeThumbnail';
 
 /**
  * @typedef {{

@@ -1,7 +1,7 @@
 // @ts-check
 
 import { beforeEach, describe, expect, jest, test } from '@jest/globals';
-import Markers from './Markers';
+import Markers from 'DlfMediaPlayer/Markers';
 
 describe('Markers', () => {
   test('basic', () => {

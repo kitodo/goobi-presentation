@@ -1,8 +1,8 @@
 // @ts-check
 
-import { clamp } from '../../../../lib/util';
-import { highPass, highShelf, lowShelf } from '../filters';
-import ParamValue from '../lib/ParamValue';
+import { clamp } from 'lib/util';
+import { highPass, highShelf, lowShelf } from 'SlubMediaPlayer/components/equalizer/filters';
+import ParamValue from 'SlubMediaPlayer/components/equalizer/lib/ParamValue';
 
 export const paramKeys = /** @type {const} */([
   'deepBaseRolloff',

@@ -1,7 +1,7 @@
 // @ts-check
 
-import { getTimeStringPlaceholders } from '../../DlfMediaPlayer';
-import { fillPlaceholders } from '../../lib/util';
+import { getTimeStringPlaceholders } from 'DlfMediaPlayer/index';
+import { fillPlaceholders } from 'lib/util';
 
 /**
  * In {@link template} string, fill placeholders representing metadata with the

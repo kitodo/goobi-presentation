@@ -26,7 +26,7 @@ namespace dlf.media.eq {
     frequency: ValueT;
     gain: ValueT;
     getFrequencyResponse(
-      frequencyResponse: import("./FrequencyResponse").default
+      frequencyResponse: import("SlubMediaPlayer/components/equalizer/FrequencyResponse").default
     ): Curve;
   };
 
@@ -46,7 +46,7 @@ namespace dlf.media.eq {
   } & (
     | {
         mode: "riaa";
-        params: import("./filtersets/RiaaEq").RiaaParams;
+        params: import("SlubMediaPlayer/components/equalizer/filtersets/RiaaEq").RiaaParams;
       }
     | {
         mode: "band-iso";
@@ -54,7 +54,7 @@ namespace dlf.media.eq {
       }
     | {
         mode: "band";
-        bands: import("./filtersets/BandEq").BandParams[];
+        bands: import("SlubMediaPlayer/components/equalizer/filtersets/BandEq").BandParams[];
       }
   );
 

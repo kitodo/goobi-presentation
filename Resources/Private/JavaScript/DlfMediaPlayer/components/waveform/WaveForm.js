@@ -3,11 +3,11 @@
 import WaveformData from 'waveform-data';
 import Peaks from 'peaks.js';
 
-import { clamp, e } from '../../../lib/util';
-import DlfMediaPlayer from '../../DlfMediaPlayer';
-import ShakaFrontend from '../../frontend/ShakaFrontend';
-import { action } from '../../lib/action';
-import DlfMediaPlugin from '../../DlfMediaPlugin';
+import { clamp, e } from 'lib/util';
+import { action } from 'DlfMediaPlayer/lib/action';
+import DlfMediaPlayer from 'DlfMediaPlayer/DlfMediaPlayer';
+import DlfMediaPlugin from 'DlfMediaPlayer/DlfMediaPlugin';
+import ShakaFrontend from 'DlfMediaPlayer/frontend/ShakaFrontend';
 
 /**
  * Custom element to display and interact with a waveform.
@@ -103,7 +103,7 @@ export default class WaveForm extends DlfMediaPlugin {
       },
     }
 
-    /** @private @type {Partial<import('../../../DlfMediaPlayer/Markers').Handlers>} */
+    /** @private @type {Partial<import('DlfMediaPlayer/Markers').Handlers>} */
     this.markersHandlers = {
       'remove': (event) => {
         for (const segment of event.detail.segments) {
@@ -317,7 +317,7 @@ export default class WaveForm extends DlfMediaPlugin {
 
   /**
    * @private
-   * @param {import('../../Markers').Segment[]} segments
+   * @param {import('DlfMediaPlayer/Markers').Segment[]} segments
    */
   peaksAddSegments(segments) {
     if (this.peaks_ !== null) {

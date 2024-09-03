@@ -4,7 +4,7 @@ import { describe, expect, test } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 
-import JPEG from '.';
+import JPEG from 'lib/image/jpeg';
 
 describe('JPEG', () => {
   test('can add and get metadata: read(write(x)) == x', () => {

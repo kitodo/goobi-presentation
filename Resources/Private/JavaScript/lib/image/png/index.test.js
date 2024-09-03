@@ -3,7 +3,7 @@
 import { describe, expect, it, test } from '@jest/globals';
 import fs from 'fs';
 
-import PNG, { stoi, itos } from '.';
+import PNG, { stoi, itos } from 'lib/image/png';
 
 describe('test', function () {
   it('stoi', function () {

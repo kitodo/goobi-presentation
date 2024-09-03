@@ -1,7 +1,7 @@
 // @ts-check
 
-import JPEG from './jpeg';
-import PNG from './png';
+import JPEG from 'lib/image/jpeg';
+import PNG from 'lib/image/png';
 
 /**
  * @type {ImageFormatDesc[]}

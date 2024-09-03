@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, test, jest } from '@jest/globals';
 import { Blob } from 'buffer';
-import { arrayToCsv, dataUrlMime, clamp, sanitizeBasename, withObjectUrl, zeroPad, fillPlaceholders } from './util';
+import { arrayToCsv, dataUrlMime, clamp, sanitizeBasename, withObjectUrl, zeroPad, fillPlaceholders } from 'lib/util';
 
 describe('arrayToCsv', () => {
   test('basic', () => {

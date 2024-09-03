@@ -1,6 +1,6 @@
 // @ts-check
 
-import { blobToImage } from '../lib/util';
+import { blobToImage } from 'lib/util';
 
 /**
  * @enum {number}

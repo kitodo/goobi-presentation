@@ -1,6 +1,6 @@
 // @ts-check
 
-import ParamValue from '../lib/ParamValue';
+import ParamValue from 'SlubMediaPlayer/components/equalizer/lib/ParamValue';
 
 /**
  * @typedef {{

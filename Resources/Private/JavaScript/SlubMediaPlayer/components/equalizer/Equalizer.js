@@ -1,8 +1,8 @@
 // @ts-check
 
-import BandEq from './filtersets/BandEq';
-import RiaaEq from './filtersets/RiaaEq';
-import FrequencyResponse from './FrequencyResponse';
+import BandEq from 'SlubMediaPlayer/components/equalizer/filtersets/BandEq';
+import RiaaEq from 'SlubMediaPlayer/components/equalizer/filtersets/RiaaEq';
+import FrequencyResponse from 'SlubMediaPlayer/components/equalizer/FrequencyResponse';
 
 /**
  * @typedef {{

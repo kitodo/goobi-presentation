@@ -67,6 +67,14 @@
     "roots": [
       "<rootDir>/Resources/Private/JavaScript"
     ],
+		"moduleNameMapper": {
+			"^lib/(.*)$":
+				"<rootDir>/Resources/Private/JavaScript/lib/$1",
+      "^DlfMediaPlayer/(.*)$":
+				"<rootDir>/Resources/Private/JavaScript/DlfMediaPlayer/$1",
+			"^SlubMediaPlayer/(.*)$":
+				"<rootDir>/Resources/Private/JavaScript/SlubMediaPlayer/$1"
+    },
     "modulePaths": [
       "<rootDir>/Build/node_modules"
     ],

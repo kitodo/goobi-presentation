@@ -8,8 +8,8 @@ interface Window {
 }
 
 interface HTMLElementTagNameMap {
-  "dlf-equalizer": import("./components/equalizer").Equalizer;
-  "dlf-marker-table": import("./components/marker-table").MarkerTable;
+  "dlf-equalizer": import("SlubMediaPlayer/components/equalizer").Equalizer;
+  "dlf-marker-table": import("SlubMediaPlayer/components/marker-table").MarkerTable;
 }
 
 /**
@@ -44,14 +44,14 @@ type ScreenshotModalConstants = {
   screenshotCommentTemplate: string;
 };
 
-type AppConstantsConfig = import("../lib/typoConstants").TypoConstants<
+type AppConstantsConfig = import("lib/typoConstants").TypoConstants<
   dlf.media.PlayerConstants & ScreenshotModalConstants
 >;
 
 type AppConfig = {
-  shareButtons: import("./modals/BookmarkModal").ShareButtonInfo[];
+  shareButtons: import("SlubMediaPlayer/modals/BookmarkModal").ShareButtonInfo[];
   lang: LangDef;
-  screenshotCaptions?: import("./Screenshot").ScreenshotCaption[];
+  screenshotCaptions?: import("SlubMediaPlayer/Screenshot").ScreenshotCaption[];
   constants?: Partial<AppConstantsConfig> | null;
 };
 

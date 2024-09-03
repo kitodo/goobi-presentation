@@ -1,6 +1,6 @@
 // @ts-check
 
-import { e, fillPlaceholders } from '../../lib/util';
+import { e, fillPlaceholders } from 'lib/util';
 
 /**
  * @typedef ShareButtonMaterialIcon

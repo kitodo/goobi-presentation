@@ -2,17 +2,17 @@
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
 
-import VideoFrame from './3rd-party/VideoFrame';
+import { clamp, e } from 'lib/util';
+import Environment from 'lib/Environment';
+import EventManager from 'lib/EventManager';
 
-import { action } from './lib/action';
-import Environment from '../lib/Environment';
-import EventManager from '../lib/EventManager';
-import { clamp, e } from '../lib/util';
-import ShakaFrontend from './frontend/ShakaFrontend';
-import Chapters from './Chapters';
-import Markers from './Markers';
-import VariantGroups from './VariantGroups';
-import { isPlayerMode } from './lib/util';
+import { action } from 'DlfMediaPlayer/lib/action';
+import { isPlayerMode } from 'DlfMediaPlayer/lib/util';
+import Chapters from 'DlfMediaPlayer/Chapters';
+import Markers from 'DlfMediaPlayer/Markers';
+import ShakaFrontend from 'DlfMediaPlayer/frontend/ShakaFrontend';
+import VariantGroups from 'DlfMediaPlayer/VariantGroups';
+import VideoFrame from 'DlfMediaPlayer/3rd-party/VideoFrame';
 
 /**
  * Emits the following custom events:

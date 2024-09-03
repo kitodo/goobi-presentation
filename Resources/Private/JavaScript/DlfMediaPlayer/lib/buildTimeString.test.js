@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import buildTimeString from './buildTimeString';
+import buildTimeString from 'DlfMediaPlayer/lib/buildTimeString';
 
 describe('buildTimeString', () => {
   test('basic', () => {

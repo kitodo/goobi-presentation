@@ -2,8 +2,8 @@
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
 
-import { clamp, e } from '../../lib/util';
-import buildTimeString from '../lib/buildTimeString';
+import { clamp, e } from 'lib/util';
+import buildTimeString from 'DlfMediaPlayer/lib/buildTimeString';
 
 /**
  * @typedef {'current-time' | 'remaining-time' | 'current-frame'} TimeModeKey

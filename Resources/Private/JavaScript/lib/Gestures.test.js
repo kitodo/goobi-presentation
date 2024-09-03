@@ -7,9 +7,9 @@
 import { describe, expect, test } from '@jest/globals';
 import { setTimeout } from 'timers/promises';
 
-import Gestures from './Gestures';
-import { PointerMock } from './testing/PointerMock';
-import { e } from './util';
+import { e } from 'lib/util';
+import { PointerMock } from 'lib/testing/PointerMock';
+import Gestures from 'lib/Gestures';
 
 /**
  * @typedef {{

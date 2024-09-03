@@ -1,6 +1,6 @@
 // @ts-check
 
-import TimecodeIndex from '../lib/TimecodeIndex';
+import TimecodeIndex from 'lib/TimecodeIndex';
 
 /**
  * Represents a set of chapter markers that is ordered by timecode.

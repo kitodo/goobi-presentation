@@ -1,7 +1,7 @@
 // @ts-check
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
-import { e } from '../../lib/util';
+import { e } from 'lib/util';
 
 export default class PlaybackRateSelection extends shaka.ui.PlaybackRateSelection {
   /**

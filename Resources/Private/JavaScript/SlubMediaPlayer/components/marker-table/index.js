@@ -1,1 +1,1 @@
-export { default as MarkerTable } from './MarkerTable.js';
+export { default as MarkerTable } from 'SlubMediaPlayer/components/marker-table/MarkerTable';

@@ -14,7 +14,16 @@
         "paths": {
             "*": [
                 "./Build/node_modules/*"
-            ]
+            ],
+			"lib/*": [
+				"Resources/Private/JavaScript/lib/*"
+			],
+			"DlfMediaPlayer/*": [
+				"Resources/Private/JavaScript/DlfMediaPlayer/*"
+			],
+			"SlubMediaPlayer/*": [
+				"Resources/Private/JavaScript/SlubMediaPlayer/*"
+			]
         }
     },
 	"include": [

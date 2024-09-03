@@ -1,10 +1,10 @@
 // @ts-check
 
-import { EventTarget } from '../../../DlfMediaPlayer/3rd-party/EventTarget';
-import { clamp, e } from '../../../lib/util';
-import Equalizer from './Equalizer';
-import Scale, { Linear, Logarithmic } from './Scale';
-import FrequencyResponse from './FrequencyResponse';
+import { EventTarget } from 'DlfMediaPlayer/3rd-party/EventTarget';
+import { clamp, e } from 'lib/util';
+import Equalizer from 'SlubMediaPlayer/components/equalizer/Equalizer';
+import FrequencyResponse from 'SlubMediaPlayer/components/equalizer/FrequencyResponse';
+import Scale, { Linear, Logarithmic } from 'SlubMediaPlayer/components/equalizer/Scale';
 
 /**
  * @typedef {{

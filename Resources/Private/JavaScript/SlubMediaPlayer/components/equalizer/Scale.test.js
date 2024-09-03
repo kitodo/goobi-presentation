@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import Scale, { Linear, Logarithmic } from './Scale';
+import Scale, { Linear, Logarithmic } from 'SlubMediaPlayer/components/equalizer/Scale';
 
 describe('Scale', () => {
   test('can convert up to 10000 Hz', () => {

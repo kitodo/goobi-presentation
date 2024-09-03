@@ -5,10 +5,10 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import Environment from '../lib/Environment';
-import { getKeybindingText } from './lib/trans';
+import Environment from 'lib/Environment';
+import { getKeybindingText } from 'SlubMediaPlayer/lib/trans';
 
-import keybindings from './keybindings.json';
+import keybindings from 'SlubMediaPlayer/keybindings.json';
 
 describe('format translated key description', () => {
   const env = new Environment();

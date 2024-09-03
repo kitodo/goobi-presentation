@@ -1,8 +1,8 @@
 // @ts-check
 
-import { domJoin, e, setElementClass } from '../../lib/util';
-import SimpleModal from '../lib/SimpleModal';
-import { getKeybindingText } from '../lib/trans';
+import { domJoin, e, setElementClass } from 'lib/util';
+import { getKeybindingText } from 'SlubMediaPlayer/lib/trans';
+import SimpleModal from 'SlubMediaPlayer/lib/SimpleModal';
 
 /**
  * @typedef {string} KeybindingKind See `Keybinding::kind`.

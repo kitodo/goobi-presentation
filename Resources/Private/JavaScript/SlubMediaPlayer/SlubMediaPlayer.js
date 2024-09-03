@@ -1,14 +1,12 @@
 // @ts-check
 
-import { setElementClass } from '../lib/util';
-import { Keybindings$find } from '../lib/Keyboard';
-import typoConstants from '../lib/typoConstants';
-import { action, Chapters, DlfMediaPlayer } from '../DlfMediaPlayer';
-
-import Modals from './lib/Modals';
-import { BookmarkModal, HelpModal, ScreenshotModal } from './modals';
-
-import keybindings from './keybindings.json';
+import { action, Chapters, DlfMediaPlayer } from 'DlfMediaPlayer/index';
+import { BookmarkModal, HelpModal, ScreenshotModal } from 'SlubMediaPlayer/modals';
+import { setElementClass } from 'lib/util';
+import { Keybindings$find } from 'lib/Keyboard';
+import typoConstants from 'lib/typoConstants';
+import Modals from 'SlubMediaPlayer/lib/Modals';
+import keybindings from 'SlubMediaPlayer/keybindings.json';
 
 /**
  * @typedef {'player' | 'modal' | 'input'} KeyboardScope Currently active

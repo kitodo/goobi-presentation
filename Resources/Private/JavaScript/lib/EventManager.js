@@ -1,6 +1,6 @@
 // @ts-check
 
-import { EventTarget as FakeEventTarget } from '../DlfMediaPlayer/3rd-party/EventTarget';
+import { EventTarget as FakeEventTarget } from 'DlfMediaPlayer/3rd-party/EventTarget';
 
 /**
  * @typedef {{

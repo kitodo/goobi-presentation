@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import typoConstants from './typoConstants';
+import typoConstants from 'lib/typoConstants';
 
 describe('TypoConstants', () => {
   const constants = typoConstants({

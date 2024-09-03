@@ -8,7 +8,7 @@ interface Window {
 }
 
 interface HTMLElementTagNameMap {
-  "dlf-waveform": import("./components/waveform").WaveForm;
+  "dlf-waveform": import("DlfMediaPlayer/components/waveform").WaveForm;
 }
 
 declare module "shaka-player/dist/shaka-player.ui" {
@@ -95,13 +95,13 @@ namespace dlf {
 
     type Fps = {
       rate: number;
-      vifa: import("./3rd-party/VideoFrame").default;
+      vifa: import("DlfMediaPlayer/3rd-party/VideoFrame").default;
     };
 
     type MediaProperties = {
       poster: string | null;
-      variantGroups: import("./VariantGroups").default | null;
-      chapters: import("./Chapters").default | null;
+      variantGroups: import("DlfMediaPlayer/VariantGroups").default | null;
+      chapters: import("DlfMediaPlayer/Chapters").default | null;
       fps: Fps | null;
     };
 
@@ -131,14 +131,14 @@ namespace dlf {
       get domElement(): HTMLElement;
 
       get seekBar():
-        | import("../VideoPlayer/controls/FlatSeekBar").default
+        | import("DlfMediaPlayer/controls/FlatSeekBar").default
         | null;
 
       /**
        * ``Gestures`` object that is configured to only dispatch gestures that
        * are admissible on the player.
        */
-      get gestures(): import("../lib/Gestures").default | null;
+      get gestures(): import("lib/Gestures").default | null;
 
       updateMediaProperties(props: Partial<MediaProperties>);
       updatePlayerProperties(props: Partial<PlayerProperties>);
@@ -205,7 +205,7 @@ namespace dlf {
         fullProps: MediaProperties;
       };
       "dlf-media-seek-bar": {
-        seekBar: import("./controls/FlatSeekBar").default;
+        seekBar: import("DlfMediaPlayer/controls/FlatSeekBar").default;
       };
       "dlf-media-manual-seek": {};
     };

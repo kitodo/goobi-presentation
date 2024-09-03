@@ -5,7 +5,7 @@
 // @ts-check
 
 import { jest, beforeEach, afterEach, describe, expect, it, test } from '@jest/globals';
-import BookmarkModal from './BookmarkModal';
+import BookmarkModal from 'SlubMediaPlayer/modals/BookmarkModal';
 
 describe('BookmarkModal', () => {
   /**

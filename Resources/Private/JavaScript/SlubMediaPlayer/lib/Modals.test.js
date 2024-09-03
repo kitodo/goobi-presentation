@@ -5,9 +5,9 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import EventManager from '../../lib/EventManager';
-import Modals from './Modals';
-import SimpleModal from './SimpleModal';
+import EventManager from 'lib/EventManager';
+import Modals from 'SlubMediaPlayer/lib/Modals';
+import SimpleModal from 'SlubMediaPlayer/lib/SimpleModal';
 
 describe('Modals', () => {
   test('basic', async () => {

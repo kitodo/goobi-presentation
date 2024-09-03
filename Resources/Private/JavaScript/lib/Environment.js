@@ -2,7 +2,7 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { dataUrlMime } from '../lib/util';
+import { dataUrlMime } from 'lib/util';
 
 /**
  * @typedef {{

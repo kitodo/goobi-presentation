@@ -1,7 +1,7 @@
 // @ts-check
 
-import { Keybinding$splitKeyRanges } from '../../lib/Keyboard';
-import { e, domJoin } from '../../lib/util';
+import { e, domJoin } from 'lib/util';
+import { Keybinding$splitKeyRanges } from 'lib/Keyboard';
 
 /**
  * Returns a translated string describing key {@link key}.

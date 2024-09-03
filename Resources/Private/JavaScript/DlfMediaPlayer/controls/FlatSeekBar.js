@@ -2,10 +2,10 @@
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
 
-import { e } from '../../lib/util';
-import Chapters from '../Chapters';
-import ImageFetcher from '../ImageFetcher';
-import ThumbnailPreview from '../ThumbnailPreview';
+import { e } from 'lib/util';
+import Chapters from 'DlfMediaPlayer/Chapters';
+import ImageFetcher from 'DlfMediaPlayer/ImageFetcher';
+import ThumbnailPreview from 'DlfMediaPlayer/ThumbnailPreview';
 
 /**
  * Seek bar that is not based on an input range element. This provides more

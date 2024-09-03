@@ -1,6 +1,6 @@
 // @ts-check
 
-import { fillPlaceholders, zeroPad } from '../../lib/util';
+import { fillPlaceholders, zeroPad } from 'lib/util';
 
 /**
  * Formats {@link totalSeconds} to a time string.

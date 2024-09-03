@@ -8,19 +8,19 @@ import {
   fillPlaceholders,
   setElementClass,
   textToHtml,
-} from '../../../lib/util';
+} from 'lib/util';
 import {
   buildTimeString,
   DlfMediaPlayer,
   DlfMediaPlugin,
-} from '../../../DlfMediaPlayer';
-import { getKeybindingText } from '../../lib/trans';
-import SlubMediaPlayer from '../../SlubMediaPlayer';
-import UrlGenerator from '../../lib/UrlGenerator';
+} from 'DlfMediaPlayer/index';
+import { getKeybindingText } from 'SlubMediaPlayer/lib/trans';
+import SlubMediaPlayer from 'SlubMediaPlayer/SlubMediaPlayer';
+import UrlGenerator from 'SlubMediaPlayer/lib/UrlGenerator';
 
 /**
  * @typedef {{
- *  segment: import('../../../DlfMediaPlayer/Markers').Segment;
+ *  segment: import('DlfMediaPlayer/Markers').Segment;
  *  $tr: HTMLTableRowElement;
  *  $id: HTMLTableCellElement;
  *  $labelEditBox: HTMLInputElement;
@@ -53,7 +53,7 @@ export default class MarkerTable extends DlfMediaPlugin {
     /** @type {HTMLElement | null} */
     this.$container = null;
 
-    /** @private @type {Partial<import('../../../DlfMediaPlayer/Markers').Handlers>} */
+    /** @private @type {Partial<import('DlfMediaPlayer/Markers').Handlers>} */
     this.markersHandlers = {
       'remove': (event) => {
         for (const segment of event.detail.segments) {
@@ -283,7 +283,7 @@ export default class MarkerTable extends DlfMediaPlugin {
    * Update rows for the given {@link segments}, and create rows as necessary.
    *
    * @private
-   * @param {import('../../../DlfMediaPlayer/Markers').Segment[]} segments
+   * @param {import('DlfMediaPlayer/Markers').Segment[]} segments
    */
   syncSegments(segments) {
     for (const segment of segments) {
@@ -296,7 +296,7 @@ export default class MarkerTable extends DlfMediaPlugin {
    * create one.
    *
    * @private
-   * @param {import('../../../DlfMediaPlayer/Markers').Segment} segment
+   * @param {import('DlfMediaPlayer/Markers').Segment} segment
    */
   syncSegment(segment) {
     let isNew = false;
@@ -330,7 +330,7 @@ export default class MarkerTable extends DlfMediaPlugin {
    * Create table row object (without yet inserting).
    *
    * @private
-   * @param {import('../../../DlfMediaPlayer/Markers').Segment} segment
+   * @param {import('DlfMediaPlayer/Markers').Segment} segment
    * @returns {Row}
    */
   createRow(segment) {
@@ -514,8 +514,8 @@ export default class MarkerTable extends DlfMediaPlugin {
    * Compare segments for sorting in UI.
    *
    * @private
-   * @param {import('../../../DlfMediaPlayer/Markers').Segment} lhs
-   * @param {import('../../../DlfMediaPlayer/Markers').Segment} rhs
+   * @param {import('DlfMediaPlayer/Markers').Segment} lhs
+   * @param {import('DlfMediaPlayer/Markers').Segment} rhs
    * @returns {number}
    */
   cmpSegment(lhs, rhs) {

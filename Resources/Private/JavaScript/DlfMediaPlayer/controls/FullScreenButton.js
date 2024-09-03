@@ -1,8 +1,8 @@
 // @ts-check
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
-import { e } from '../../lib/util';
-import ControlPanelButton from './ControlPanelButton';
+import { e } from 'lib/util';
+import ControlPanelButton from 'DlfMediaPlayer/controls/ControlPanelButton';
 
 /**
  * @typedef Config

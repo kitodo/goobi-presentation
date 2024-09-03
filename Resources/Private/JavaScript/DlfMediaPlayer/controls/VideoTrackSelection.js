@@ -2,8 +2,8 @@
 
 import shaka from 'shaka-player/dist/shaka-player.ui';
 
-import { e } from '../../lib/util';
-import VariantGroups from '../VariantGroups';
+import { e } from 'lib/util';
+import VariantGroups from 'DlfMediaPlayer/VariantGroups';
 
 /**
  * Control panel element to show current playback time.

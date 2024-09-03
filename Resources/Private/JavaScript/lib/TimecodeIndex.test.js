@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import TimecodeIndex from './TimecodeIndex';
+import TimecodeIndex from 'lib/TimecodeIndex';
 
 /**
  * @typedef {import('./TimecodeIndex').TimecodeIndexObject & {

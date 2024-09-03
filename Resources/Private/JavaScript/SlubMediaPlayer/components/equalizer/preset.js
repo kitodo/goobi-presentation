@@ -1,6 +1,6 @@
 // @ts-check
 
-import { paramKeys as riaaParamKeys } from './filtersets/RiaaEq';
+import { paramKeys as riaaParamKeys } from 'SlubMediaPlayer/components/equalizer/filtersets/RiaaEq';
 
 /**
  * Parse user-supplied preset {@link data} into a {@link dlf.media.eq.FilterPreset}

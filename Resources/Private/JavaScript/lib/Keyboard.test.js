@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import { modifiersFromEvent, Modifier, Keybinding$splitKeyRanges } from './Keyboard';
+import { modifiersFromEvent, Modifier, Keybinding$splitKeyRanges } from 'lib/Keyboard';
 
 describe('modifiersFromEvent', () => {
   // This is mostly for typing

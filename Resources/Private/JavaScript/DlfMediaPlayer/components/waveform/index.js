@@ -1,1 +1,1 @@
-export { default as WaveForm } from './WaveForm.js';
+export { default as WaveForm } from 'DlfMediaPlayer/components/waveform/WaveForm';

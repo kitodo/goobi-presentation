@@ -5,10 +5,10 @@
 // @ts-check
 
 import { beforeEach, expect, test } from '@jest/globals';
-import Environment from '../lib/Environment';
-import { fillMetadata } from './lib/metadata';
-import ScreenshotModal from './modals/ScreenshotModal';
-import { drawScreenshot } from './Screenshot';
+import Environment from 'lib/Environment';
+import { fillMetadata } from 'SlubMediaPlayer/lib/metadata';
+import { drawScreenshot } from 'SlubMediaPlayer/Screenshot';
+import ScreenshotModal from 'SlubMediaPlayer/modals/ScreenshotModal';
 
 beforeEach(() => {
   // TODO: Reset JSDOM in a more robust way

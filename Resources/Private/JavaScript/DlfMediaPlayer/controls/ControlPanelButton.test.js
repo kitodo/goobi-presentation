@@ -5,11 +5,11 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import Environment from '../../lib/Environment';
-import { e } from '../../lib/util';
-import { action } from '../lib/action';
-import ControlPanelButton from './ControlPanelButton';
-import { createShakaPlayer } from './test-util';
+import Environment from 'lib/Environment';
+import { e } from 'lib/util';
+import { action } from 'DlfMediaPlayer/lib/action';
+import ControlPanelButton from 'DlfMediaPlayer/controls/ControlPanelButton';
+import { createShakaPlayer } from 'DlfMediaPlayer/controls/test-util';
 
 describe('ControlPanelButton', () => {
   const shk = createShakaPlayer();

@@ -2,12 +2,12 @@
 
 import QRCode from 'qrcode';
 
-import { e, filterNonNull, setElementClass } from '../../lib/util';
-import { buildTimeString } from '../../DlfMediaPlayer';
-import SimpleModal from '../lib/SimpleModal';
-import { createShareButton } from '../lib/ShareButton';
-import { makeExtendedMetadata } from '../lib/metadata';
-import UrlGenerator from '../lib/UrlGenerator';
+import { e, filterNonNull, setElementClass } from 'lib/util';
+import { buildTimeString } from 'DlfMediaPlayer/index';
+import SimpleModal from 'SlubMediaPlayer/lib/SimpleModal';
+import { createShareButton } from 'SlubMediaPlayer/lib/ShareButton';
+import { makeExtendedMetadata } from 'SlubMediaPlayer/lib/metadata';
+import UrlGenerator from 'SlubMediaPlayer/lib/UrlGenerator';
 
 /**
  * The order is used for GUI rendering.
@@ -16,7 +16,7 @@ const START_AT_MODES = /** @type {const} */(['current-time', 'marker', 'begin'])
 
 /**
  * @typedef {{
- *  shareButtons: import('../lib/ShareButton').ShareButtonInfo[];
+ *  shareButtons: import('SlubMediaPlayer/lib/ShareButton').ShareButtonInfo[];
  * }} Config
  *
  * @typedef {typeof START_AT_MODES[number]} StartAtMode
@@ -275,7 +275,7 @@ export default class BookmarkModal extends SimpleModal {
 
   /**
    * @override
-   * @param {import('../lib/SimpleModal').BaseState & State} state
+   * @param {import('SlubMediaPlayer/lib/SimpleModal').BaseState & State} state
    */
   render(state) {
     super.render(state);

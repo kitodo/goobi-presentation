@@ -2,8 +2,8 @@
 
 import $ from 'jquery';
 
-import { e } from '../../lib/util';
-import Component from './Component';
+import { e } from 'lib/util';
+import Component from 'SlubMediaPlayer/lib/Component';
 
 /**
  * @typedef {{

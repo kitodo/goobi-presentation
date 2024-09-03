@@ -1,7 +1,7 @@
 // @ts-check
 
 import EventEmitter from 'events';
-import EventManager from '../../lib/EventManager';
+import EventManager from 'lib/EventManager';
 
 /**
  * @template T

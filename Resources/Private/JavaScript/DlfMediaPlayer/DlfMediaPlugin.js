@@ -1,7 +1,7 @@
 // @ts-check
 
-import Environment from '../lib/Environment';
-import DlfMediaPlayer from './DlfMediaPlayer';
+import Environment from 'lib/Environment';
+import DlfMediaPlayer from 'DlfMediaPlayer/DlfMediaPlayer';
 
 /**
  * A player plugin is a custom HTML element that attaches to a player instance.

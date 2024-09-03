@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import BandEq from './BandEq';
+import BandEq from 'SlubMediaPlayer/components/equalizer/filtersets/BandEq';
 
 describe('BandEq', () => {
   // const context = new OfflineAudioContext({

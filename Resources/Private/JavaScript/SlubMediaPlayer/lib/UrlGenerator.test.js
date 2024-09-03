@@ -5,7 +5,7 @@
 // @ts-check
 
 import { describe, expect, test } from '@jest/globals';
-import UrlGenerator from './UrlGenerator';
+import UrlGenerator from 'SlubMediaPlayer/lib/UrlGenerator';
 
 describe('UrlGenerator', () => {
   /**

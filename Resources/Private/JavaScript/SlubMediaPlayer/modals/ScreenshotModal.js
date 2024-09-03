@@ -1,6 +1,5 @@
 // @ts-check
 
-import imageFormats from '../../lib/image/imageFormats';
 import {
   binaryStringToArrayBuffer,
   blobToBinaryString,
@@ -9,13 +8,14 @@ import {
   e,
   domJoin,
   sanitizeBasename,
-} from '../../lib/util';
-import { fillMetadata, makeExtendedMetadata } from '../lib/metadata';
-import SimpleModal from '../lib/SimpleModal';
-import { getKeybindingText } from '../lib/trans';
-import { drawScreenshot } from '../Screenshot';
-import typoConstants from '../../lib/typoConstants';
-import UrlGenerator from '../lib/UrlGenerator';
+} from 'lib/util';
+import imageFormats from 'lib/image/imageFormats';
+import typoConstants from 'lib/typoConstants';
+import { fillMetadata, makeExtendedMetadata } from 'SlubMediaPlayer/lib/metadata';
+import { drawScreenshot } from 'SlubMediaPlayer/Screenshot';
+import { getKeybindingText } from 'SlubMediaPlayer/lib/trans';
+import SimpleModal from 'SlubMediaPlayer/lib/SimpleModal';
+import UrlGenerator from 'SlubMediaPlayer/lib/UrlGenerator';
 
 /**
  * @typedef {{
@@ -29,8 +29,8 @@ import UrlGenerator from '../lib/UrlGenerator';
  *
  * @typedef {{
  *  keybindings: Keybinding<any, any>[];
- *  screnshotCaptions: import('../Screenshot').ScreenshotCaption[];
- *  constants: import('../../lib/typoConstants').TypoConstants<ScreenshotModalConstants>;
+ *  screnshotCaptions: import('SlubMediaPlayer/Screenshot').ScreenshotCaption[];
+ *  constants: import('lib/typoConstants').TypoConstants<ScreenshotModalConstants>;
  * }} Config
  */
 
@@ -232,7 +232,7 @@ export default class ScreenshotModal extends SimpleModal {
     }
 
     const config = {
-      /** @type {import('../Screenshot').ScreenshotCaption[]} */
+      /** @type {import('SlubMediaPlayer/Screenshot').ScreenshotCaption[]} */
       captions: [],
       minWidth: 1000,
     };
@@ -309,7 +309,7 @@ export default class ScreenshotModal extends SimpleModal {
   /**
    *
    * @param {MetadataArray} metadata
-   * @returns {import('../Screenshot').ScreenshotCaption[]}
+   * @returns {import('SlubMediaPlayer/Screenshot').ScreenshotCaption[]}
    */
   getCaptions(metadata) {
     return this.config.screnshotCaptions.map(caption => ({
@@ -338,7 +338,7 @@ export default class ScreenshotModal extends SimpleModal {
 
   /**
    * @override
-   * @param {import('../lib/SimpleModal').BaseState & State} state
+   * @param {import('SlubMediaPlayer/lib/SimpleModal').BaseState & State} state
    */
   render(state) {
     super.render(state);
