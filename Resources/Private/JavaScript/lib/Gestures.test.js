@@ -20,7 +20,7 @@ import Gestures from 'lib/Gestures';
 
 /**
  * @param {GlobalEventHandlers} container
- * @returns {(config?: Partial<import('./Gestures').Config>) => GesturesObj}
+ * @returns {(config?: Partial<import('lib/Gestures').Config>) => GesturesObj}
  */
 function gestureFactory(container) {
   return (config = {}) => {

@@ -33,7 +33,7 @@ import { EventTarget } from 'DlfMediaPlayer/3rd-party/EventTarget';
  * }} Events
  *
  * @typedef {{
- *  [K in keyof Events]: import('./3rd-party/EventTarget').EventHandler<Events[K]>;
+ *  [K in keyof Events]: import('DlfMediaPlayer/3rd-party/EventTarget').EventHandler<Events[K]>;
  * }} Handlers
  */
 

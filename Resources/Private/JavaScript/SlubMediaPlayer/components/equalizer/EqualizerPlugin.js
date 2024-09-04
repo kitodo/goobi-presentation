@@ -151,7 +151,7 @@ export default class EqualizerPlugin extends DlfMediaPlugin {
 
   /**
    * @private
-   * @param {import('./EqualizerView').EqualizerViewEvent<'store_preset'>} event
+   * @param {import('SlubMediaPlayer/components/equalizer/EqualizerView').EqualizerViewEvent<'store_preset'>} event
    */
   onStorePreset(event) {
     const { key, preset } = event.detail;

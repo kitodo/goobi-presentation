@@ -51,7 +51,7 @@ export function parsePreset(data) {
     }
   } else if (mode === 'riaa') {
     if (typeof data.params === 'object' && data.params !== null) {
-      /** @type {Partial<import('./filtersets/RiaaEq').RiaaParams>} */
+      /** @type {Partial<import('SlubMediaPlayer/components/equalizer/filtersets/RiaaEq').RiaaParams>} */
       const params = {};
       let prev = Number.POSITIVE_INFINITY;
       for (const key of riaaParamKeys) {
@@ -66,7 +66,7 @@ export function parsePreset(data) {
       return {
         ...result,
         mode,
-        params: /** @type {import('./filtersets/RiaaEq').RiaaParams} */(params),
+        params: /** @type {import('SlubMediaPlayer/components/equalizer/filtersets/RiaaEq').RiaaParams} */(params),
       };
     }
   }

@@ -108,7 +108,14 @@ module.exports = (env, argv) => {
     resolve: {
       modules: [
         path.resolve(__dirname, 'node_modules'),
-      ]
+      ],
+      alias: {
+        // __dirname will stands for your root directory level
+        // path.resolve will concatenate your project folder location with
+        lib: path.resolve(PRIVATE_PATH, `JavaScript/lib/`),
+        DlfMediaPlayer: path.resolve(PRIVATE_PATH, `JavaScript/DlfMediaPlayer/`),
+        SlubMediaPlayer: path.resolve(PRIVATE_PATH, `JavaScript/SlubMediaPlayer/`)
+      }
     },
   };
 };

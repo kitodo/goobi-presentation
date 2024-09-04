@@ -4,7 +4,7 @@ import { describe, expect, test } from '@jest/globals';
 import TimecodeIndex from 'lib/TimecodeIndex';
 
 /**
- * @typedef {import('./TimecodeIndex').TimecodeIndexObject & {
+ * @typedef {import('lib/TimecodeIndex').TimecodeIndexObject & {
  *  str: string;
  * }} Obj
  */
