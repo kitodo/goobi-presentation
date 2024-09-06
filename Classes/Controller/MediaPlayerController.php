@@ -73,12 +73,41 @@ class MediaPlayerController extends AbstractController
         $thumbFileGroups = GeneralUtility::trimExplode(',', $this->extConf['files']['fileGrpThumbs']);
         $waveformFileGroups = GeneralUtility::trimExplode(',', $this->extConf['files']['fileGrpWaveform']);
 
-        $initialMode = 'audio';
-
         // Collect video file source URLs
         // TODO: This is for multiple sources (MPD, HLS, MP3, ...) - revisit, make sure it's ordered by preference!
+        $videoSources = $this->collectVideoSources($doc, $pageNo, $videoFileGrps);
+        if (empty($videoSources)) {
+            return null;
+        }
+
+        // List all chapters for chapter markers
+        $videoChapters = $this->collectVideoChapters($doc);
+
+        // Get additional video URLs
+        $videoUrl = $this->collectAdditionalVideoUrls($doc, $pageNo, $thumbFileGroups, $waveformFileGroups);
+
+        return [
+            'start' => $videoChapters[$pageNo - 1]['timecode'] ?? '',
+            'mode' => $this->determineInitialMode($videoSources, $mainVideoFileGrp),
+            'chapters' => $videoChapters,
+            'metadata' => $doc->getToplevelMetadata($this->settings['storagePid']),
+            'sources' => $videoSources,
+            'url' => $videoUrl,
+        ];
+    }
+
+    /**
+     * Collects video sources for the given document.
+     *
+     * @param AbstractDocument $doc The document object to collect video sources from
+     * @param int $pageNo The page number to collect video sources for
+     * @param array $videoFileGrps The array of video file groups to search for video sources
+     * @return array An array of video sources with details like MIME type, URL, file ID, and frame rate
+     */
+    private function collectVideoSources(AbstractDocument $doc, int $pageNo, array $videoFileGrps): array
+    {
         $videoSources = [];
-        /** @var array{mimeType: string, fileId: string, url: string, fileGrp: string}[] $videoFiles */
+        /** @var array{fileGrp: string, fileId: string, url: string, mimeType: string}[] $videoFiles */
         $videoFiles = $this->findFiles($doc, $pageNo, $videoFileGrps);
         foreach ($videoFiles as $videoFile) {
             if ($this->isMediaMime($videoFile['mimeType'])) {
@@ -90,25 +119,56 @@ class MediaPlayerController extends AbstractController
                     'fileId' => $videoFile['fileId'],
                     'frameRate' => $fileMetadata['video_frame_rate'][0] ?? '',
                 ];
-
-                // TODO: Better guess of initial mode?
-                //       Perhaps we could look for VIDEOMD/AUDIOMD in METS
-                if ($videoFile['fileGrp'] === $mainVideoFileGrp || strpos($videoFile['mimeType'], 'video/') === 0) {
-                    $initialMode = 'video';
-                }
             }
         }
-        if (empty($videoSources)) {
-            return null;
-        }
+        return $videoSources;
+    }
 
-        // List all chapters for chapter markers
+    /**
+     * Determine the initial mode (video or audio) based on the provided video sources and the main video file group.
+     *
+     * @param array $videoSources An array of video sources with details like MIME type, URL, file ID, and frame rate
+     * @param string $mainVideoFileGrp The main video file group to prioritize
+     * @return string The initial mode ('video' or 'audio')
+     */
+    private function determineInitialMode(array $videoSources, string $mainVideoFileGrp): string
+    {
+        foreach ($videoSources as $videoSource) {
+            // TODO: Better guess of initial mode?
+            //       Perhaps we could look for VIDEOMD/AUDIOMD in METS
+            if ($videoSource['fileGrp'] === $mainVideoFileGrp || strpos($videoSource['mimeType'], 'video/') === 0) {
+                return 'video';
+            }
+        }
+        return 'audio';
+    }
+
+    /**
+     * Collects all video chapters for chapter markers from the given AbstractDocument.
+     *
+     * @param AbstractDocument $doc The AbstractDocument object to collect video chapters from
+     * @return array An array of video chapters with details like file IDs, page numbers, titles, and timecodes
+     */
+    private function collectVideoChapters(AbstractDocument $doc): array
+    {
         $videoChapters = [];
         foreach ($doc->tableOfContents as $entry) {
             $this->recurseChapters($entry, $videoChapters);
         }
+        return $videoChapters;
+    }
 
-        // Get additional video URLs
+    /**
+     * Collects additional video URLs like poster and waveform for a given document, page number, thumb file groups, and waveform file groups.
+     *
+     * @param AbstractDocument $doc The document object
+     * @param int $pageNo The page number
+     * @param array $thumbFileGroups An array of thumb file groups
+     * @param array $waveformFileGroups An array of waveform file groups
+     * @return array An array containing additional video URLs like poster and waveform
+     */
+    private function collectAdditionalVideoUrls(AbstractDocument $doc, int $pageNo, array $thumbFileGroups, array $waveformFileGroups): array
+    {
         $videoUrl = [];
         if (!empty($thumbFiles = $this->findFiles($doc, 0, $thumbFileGroups)) // 0 = for whole video (not just chapter)
             && $this->settings['constants']['showPoster'] == 1) {
@@ -117,15 +177,7 @@ class MediaPlayerController extends AbstractController
         if (!empty($waveformFiles = $this->findFiles($doc, $pageNo, $waveformFileGroups))) {
             $videoUrl['waveform'] = $waveformFiles[0];
         }
-
-        return [
-            'start' => $videoChapters[$pageNo - 1]['timecode'] ?: '',
-            'mode' => $initialMode,
-            'chapters' => $videoChapters,
-            'metadata' => $doc->getToplevelMetadata($this->settings['storagePid']),
-            'sources' => $videoSources,
-            'url' => $videoUrl,
-        ];
+        return $videoUrl;
     }
 
     /**
