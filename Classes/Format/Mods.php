@@ -352,7 +352,7 @@ class Mods implements MetadataInterface
                                 $prodPlaceMd = $prodPlaceTerm->getValue();
 
                                 if (!empty($prodPlaceTerm->getValueURI())) {
-                                    $prodPlaceMd .= chr(31) . $prodPlaceTerm->getValueURI();
+                                    $prodPlaceMd .= pack('C', 31) . $prodPlaceTerm->getValueURI();
                                 }
 
                                 $this->metadata['production_place'][] = $prodPlaceMd;
@@ -393,7 +393,7 @@ class Mods implements MetadataInterface
 
             $valueURI = $person->getValueURI() ?? '';
 
-            $personMd = implode(chr(31), [
+            $personMd = implode(pack('C', 31), [
                 $personDisplayForm,
                 $valueURI,
                 $roleText,
