@@ -13,7 +13,7 @@
 namespace Kitodo\Dlf\Controller;
 
 use Kitodo\Dlf\Common\AbstractDocument;
-use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -53,7 +53,7 @@ class MediaPlayerController extends AbstractController
             return;
         }
 
-        $this->addPlayerJS();
+        $this->addPlayerAssets();
 
         $this->view->assign('video', $video);
     }
@@ -228,6 +228,12 @@ class MediaPlayerController extends AbstractController
         }
     }
 
+    /**
+     * Check if the given MIME type corresponds to a media file.
+     *
+     * @param string $mimeType The MIME type to check
+     * @return bool True if the MIME type corresponds to a media file, false otherwise
+     */
     protected function isMediaMime(string $mimeType)
     {
         return (
@@ -240,25 +246,34 @@ class MediaPlayerController extends AbstractController
     }
 
     /**
-     * Adds Player javascript
+     * Adds Mediaplayer javascript and css assets
      *
      * @access protected
      *
      * @return void
      */
-    protected function addPlayerJS()
+    protected function addPlayerAssets(): void
     {
-        // TODO: TYPO3 v10
-        // $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);
-        // $assetCollector->addJavaScript('DlfMediaPlayer.js', 'EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer.js');
-        // $assetCollector->addStyleSheet('DlfMediaPlayer.css', 'EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css');
-
-        // TODO: Move to TypoScript
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaPlayer.css');
-        $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaVendor.css', 'stylesheet', 'all', '', true, false, '', /* excludeFromConcatenation= */true);
-        $pageRenderer->addCssFile('EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css');
-        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer.js');
-        $pageRenderer->addJsFooterFile('EXT:dlf/Resources/Public/JavaScript/DlfMediaVendor.js', 'text/javascript', true, false, '', /* excludeFromConcatenation= */true);
+        $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);
+        $assetCollector->addStyleSheet(
+            'DlfMediaVendorCss',
+            'EXT:dlf/Resources/Public/Css/DlfMediaVendor.css',
+            ['type' => 'text/css', 'media' => 'all']
+        );
+        $assetCollector->addStyleSheet(
+            'DlfMediaPlayerStylesCss',
+            'EXT:dlf/Resources/Public/Css/DlfMediaPlayerStyles.css',
+            ['type' => 'text/css', 'media' => 'all']
+        );
+        $assetCollector->addJavaScript(
+            'DlfMediaPlayerJs',
+            'EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer.js',
+            ['type' => 'text/javascript']
+        );
+        $assetCollector->addJavaScript(
+            'DlfMediaVendorJs',
+            'EXT:dlf/Resources/Public/JavaScript/DlfMediaVendor.js',
+            ['type' => 'text/javascript']
+        );
     }
 }
