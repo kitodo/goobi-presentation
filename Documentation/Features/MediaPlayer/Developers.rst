@@ -128,7 +128,7 @@ The Dev Server is intended for developing and testing the media player in a well
 
    .. code-block:: html
 
-      <script src="/JavaScript/DlfMediaPlayer.js"></script>
+      <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
 
 *  The server is configured in the ``devServer`` key in ``/Build/webpack.config.js``.
 

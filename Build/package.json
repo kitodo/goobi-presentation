@@ -46,10 +46,10 @@
     "less": "4.1.0",
     "less-loader": "^12.2.0",
     "mini-css-extract-plugin": "^2.9.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.6",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
+    "webpack-dev-server": "^5.1.0",
     "webpack-remove-empty-scripts": "^1.0.4"
   },
   "dependencies": {
@@ -60,7 +60,7 @@
     "peaks.js": "^3.4.0",
     "piexifjs": "^1.0.6",
     "qrcode": "^1.5.3",
-    "shaka-player": "^4.9.2",
+    "shaka-player": "^4.11.2",
     "tslib": "^2.6.3",
     "waveform-data": "^4.5.0",
     "wavesurfer.js": "^7.7.15"

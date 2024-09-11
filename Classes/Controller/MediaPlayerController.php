@@ -267,12 +267,12 @@ class MediaPlayerController extends AbstractController
         );
         $assetCollector->addJavaScript(
             'DlfMediaPlayerJs',
-            'EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer.js',
+            'EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js',
             ['type' => 'text/javascript']
         );
         $assetCollector->addJavaScript(
             'DlfMediaVendorJs',
-            'EXT:dlf/Resources/Public/JavaScript/DlfMediaVendor.js',
+            'EXT:dlf/Resources/Public/JavaScript/DlfMediaPlayer/DlfMediaVendor.js',
             ['type' => 'text/javascript']
         );
     }
