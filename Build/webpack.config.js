@@ -74,6 +74,7 @@ module.exports = (env, argv) => {
                 lessOptions: {
                   // Don't adjust relative URLs in Less
                   relativeUrls: false,
+                  paths: [path.resolve(__dirname, "node_modules/shaka-player/ui")],
                 },
                 sourceMap: true,
               },
@@ -101,6 +102,7 @@ module.exports = (env, argv) => {
         },
       },
       minimizer: [
+        // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
         `...`,
         new CssMinimizerPlugin(),
       ],
