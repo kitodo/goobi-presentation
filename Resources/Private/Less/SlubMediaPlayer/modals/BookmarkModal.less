@@ -41,7 +41,7 @@
             height: 2rem;
             font-size: 1rem;
             line-height: 1rem;
-            color: @base-color;
+            color: #444;
             margin-right: 4pt;
         }
     }
@@ -89,7 +89,7 @@
             height: 2rem;
             font-size: 1rem;
             line-height: 1rem;
-            color: #4e6666;
+            color: #444;
             margin-right: 4pt;
             margin-bottom: 1rem;
             margin-right: 1rem;
@@ -97,7 +97,7 @@
 
         .mastodon-share-button {
             flex-basis: 20%;
-            background-color: rgba(78, 102, 102, 0.9);
+            background-color: @base-color;
             color: #fff;
             border: none;
             margin-left: 0;
@@ -108,6 +108,10 @@
             height: 2rem;
             width: 100%;
             overflow: hidden;
+
+            &:hover {
+                background-color: lighten(@base-color, 5%);
+            }
         }
 
         @media screen and (max-width: @tabletViewportWidth) {
