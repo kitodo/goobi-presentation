@@ -65,10 +65,10 @@ class SolrTest extends FunctionalTestCase
      */
     public function canGetNextCoreNumber()
     {
-        $this->assertEquals(5, Solr::getNextCoreNumber());
-        $this->assertEquals(5, Solr::getNextCoreNumber());
+        $this->assertEquals(2, Solr::getNextCoreNumber());
+        $this->assertEquals(2, Solr::getNextCoreNumber());
         Solr::createCore();
-        $this->assertEquals(6, Solr::getNextCoreNumber());
+        $this->assertEquals(3, Solr::getNextCoreNumber());
     }
 
     /**
@@ -96,15 +96,10 @@ class SolrTest extends FunctionalTestCase
     {
         $solrCoreRepository = $this->initializeRepository(SolrCoreRepository::class, $storagePid);
 
-        // Setup Solr only once for all tests in this suite
-        static $solr = null;
-
-        if ($solr === null) {
-            $coreName = Solr::createCore();
-            $solr = Solr::getInstance($coreName);
-            foreach ($solrFixtures as $filePath) {
-                $this->importSolrDocuments($solr, $filePath);
-            }
+        $coreName = Solr::createCore('SolrTestCore');
+        $solr = Solr::getInstance($coreName);
+        foreach ($solrFixtures as $filePath) {
+            $this->importSolrDocuments($solr, $filePath);
         }
 
         $coreModel = $solrCoreRepository->findByUid($uid);

@@ -72,7 +72,7 @@ class OaiPmhTest extends FunctionalTestCase
         static $solr = null;
 
         if ($solr === null) {
-            $coreName = Solr::createCore();
+            $coreName = Solr::createCore('OaiCore');
             $solr = Solr::getInstance($coreName);
 
             $this->importSolrDocuments($solr, __DIR__ . '/../../Fixtures/Common/documents_1.solr.json');

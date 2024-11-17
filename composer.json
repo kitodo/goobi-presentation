@@ -43,6 +43,7 @@
     "symfony/process": "^5.4|^6.4"
   },
   "require-dev": {
+    "fluidtypo3/vhs": "^7.0",
     "phpstan/phpstan": "^1.12",
     "phpunit/phpunit": "^9.6.20",
     "spatie/phpunit-watcher": "^1.23",

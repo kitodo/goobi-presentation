@@ -1,0 +1,12 @@
+tx_dlf_metadata,,,,,,,,,,,,,,,,,,,,,,,,
+,uid,pid,tstamp,crdate,cruser_id,deleted,sys_language_uid,l18n_parent,l18n_diffsource,hidden,sorting,label,index_name,format,default_value,wrap,index_tokenized,index_stored,index_boost,is_sortable,is_facet,is_listed,index_autocomplete,status
+,5001,2,1638557803,1631532810,1,0,0,0,,0,32,Titel,title,1,,,0,1,1,1,0,1,1,0
+,5002,2,1638557803,1631532810,1,0,0,0,,0,32,Sammlungen,collection,1,,,1,0,1,0,1,0,1,0
+tx_dlf_metadataformat,,,,,,,,,,,,,,,,,,,,,,,,
+,uid,pid,tstamp,crdate,cruser_id,deleted,parent_id,encoded,xpath,xpath_sorting,mandatory,,,,,,,,,,,,,
+,5101,2,1638557803,1631532810,1,0,5001,5202,"concat(./mods:titleInfo/mods:nonSort,"" "",./mods:titleInfo/mods:title)",./mods:titleInfo/mods:title,0,,,,,,,,,,,,,
+,5102,2,1638557803,1631532810,1,0,5002,5202,"./mods:relatedItem[@type=""series""]/mods:titleInfo/mods:title[@lang=""ger""]",,0,,,,,,,,,,,,,
+tx_dlf_formats,,,,,,,,,,,,,,,,,,,,,,,,
+,uid,pid,tstamp,crdate,cruser_id,deleted,type,root,namespace,class,,,,,,,,,,,,,,
+,5201,0,1638557803,1631532810,1,0,ALTO,alto,http://www.loc.gov/standards/alto/ns-v2#,Kitodo\Dlf\Format\Alto,,,,,,,,,,,,,,
+,5202,0,1638557803,1631532810,1,0,MODS,mods,http://www.loc.gov/mods/v3,Kitodo\Dlf\Format\Mods,,,,,,,,,,,,,,

@@ -1,0 +1,82 @@
+"pages",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,"uid","pid","tstamp","crdate","cruser_id","deleted","hidden","starttime","endtime","fe_group","sorting","rowDescription","editlock","sys_language_uid","l10n_parent","l10n_source","t3_origuid","l10n_diffsource","t3ver_oid","t3ver_wsid","t3ver_state","t3ver_stage","perms_userid","perms_groupid","perms_user","perms_group","perms_everybody","title","slug","doktype","TSconfig","is_siteroot","php_tree_stop","url","shortcut","shortcut_mode","subtitle","layout","target","media","lastUpdated","keywords","cache_timeout","cache_tags","newUntil","description","no_search","SYS_LASTCHANGED","abstract","module","extendToSubpages","author","author_email","nav_title","nav_hide","content_from_pid","mount_pid","mount_pid_ol","l18n_cfg","fe_login_mode","backend_layout","backend_layout_next_level","tsconfig_includes","categories"
+,1,0,1678381239,1678381239,2,0,1,0,0,0,256,,0,0,0,0,0,,0,0,0,0,2,0,31,27,0,Testseite,,1,,0,0,,0,0,,0,,0,0,,0,,0,,0,0,,,0,,,,0,0,0,0,0,0,,,,0
+,2,1,1678700400,1678700400,2,0,1,0,0,,128,,0,0,0,0,0,,0,0,0,0,2,0,31,27,0,"dlf","/",254,,0,0,,0,0,,0,,0,0,,0,,0,,0,0,,,0,,,,0,0,0,0,0,0,,,,0
+"sys_template",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,""
+,"uid","pid","tstamp","crdate","cruser_id","deleted","hidden","starttime","endtime","sorting","description","t3_origuid","t3ver_oid","t3ver_wsid","t3ver_state","title","root","clear","include_static_file","constants","config","basedOn","includeStaticAfterBasedOn","static_file_mode"
+,1,1,1678881727,1678881663,2,0,0,0,0,256,,0,0,0,0,"NEW SITE",1,3,"EXT:fluid_styled_content/Configuration/TypoScript/,EXT:dlf/Configuration/TypoScript/","plugin.tx_dlf.persistence.storagePid = 2",,,0,0
+"tt_content",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,"uid","rowDescription","pid","tstamp","crdate","cruser_id","deleted","hidden","starttime","endtime","fe_group","sorting","editlock","sys_language_uid","l18n_parent","l10n_source","t3_origuid","l18n_diffsource","t3ver_oid","t3ver_wsid","t3ver_state","t3ver_stage","CType","header","header_position","bodytext","bullets_type","uploads_description","uploads_type","assets","image","imagewidth","imageorient","imagecols","imageborder","media","layout","frame_class","cols","space_before_class","space_after_class","records","pages","colPos","subheader","header_link","image_zoom","header_layout","list_type","sectionIndex","linkToTop","file_collections","filelink_size","filelink_sorting","filelink_sorting_direction","target","date","recursive","imageheight","pi_flexform","accessibility_title","accessibility_bypass","accessibility_bypass_text","selected_categories","category_field","table_class","table_caption","table_delimiter","table_enclosure","table_header_position","table_tfoot","categories"
+,1,,1,1678700622,1678700488,2,0,0,0,0,,256,0,0,0,0,0,"a:23:{s:5:&quot;CType&quot;;N;s:6:&quot;colPos&quot;;N;s:6:&quot;header&quot;;N;s:13:&quot;header_layout&quot;;N;s:15:&quot;header_position&quot;;N;s:4:&quot;date&quot;;N;s:11:&quot;header_link&quot;;N;s:9:&quot;subheader&quot;;N;s:9:&quot;list_type&quot;;N;s:11:&quot;pi_flexform&quot;;N;s:11:&quot;frame_class&quot;;N;s:18:&quot;space_before_class&quot;;N;s:17:&quot;space_after_class&quot;;N;s:12:&quot;sectionIndex&quot;;N;s:9:&quot;linkToTop&quot;;N;s:16:&quot;sys_language_uid&quot;;N;s:6:&quot;hidden&quot;;N;s:9:&quot;starttime&quot;;N;s:7:&quot;endtime&quot;;N;s:8:&quot;fe_group&quot;;N;s:8:&quot;editlock&quot;;N;s:10:&quot;categories&quot;;N;s:14:&quot;rowDescription&quot;;N;}",0,0,0,0,list,,,,0,0,0,0,0,0,0,2,0,0,0,default,0,,,,,0,,,0,0,dlf_collection,1,0,,0,,,,0,0,0,"<![CDATA[
+            <?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?>
+            <T3FlexForms>
+                <data>
+                    <sheet index=""sDEF"">
+                        <language index=""lDEF"">
+                            <field index=""settings.collections"">
+                                <value index=""vDEF"">1</value>
+                            </field>
+                            <field index=""settings.solrcore"">
+                                <value index=""vDEF"">4</value>
+                            </field>
+                            <field index=""settings.show_userdefined"">
+                                <value index=""vDEF"">-1</value>
+                            </field>
+                            <field index=""settings.dont_show_single"">
+                                <value index=""vDEF"">0</value>
+                            </field>
+                            <field index=""settings.randomize"">
+                                <value index=""vDEF"">0</value>
+                            </field>
+                            <field index=""settings.targetPid"">
+                                <value index=""vDEF""></value>
+                            </field>
+                            <field index=""settings.targetPidPageView"">
+                                <value index=""vDEF""></value>
+                            </field>
+                            <field index=""settings.targetFeed"">
+                                <value index=""vDEF""></value>
+                            </field>
+                        </language>
+                    </sheet>
+                </data>
+            </T3FlexForms>
+            ]]>",,0,,,,,,124,0,0,0,0
+,2,,1,1678700622,1678700488,2,0,0,0,0,,256,0,0,0,0,0,"a:23:{s:5:&quot;CType&quot;;N;s:6:&quot;colPos&quot;;N;s:6:&quot;header&quot;;N;s:13:&quot;header_layout&quot;;N;s:15:&quot;header_position&quot;;N;s:4:&quot;date&quot;;N;s:11:&quot;header_link&quot;;N;s:9:&quot;subheader&quot;;N;s:9:&quot;list_type&quot;;N;s:11:&quot;pi_flexform&quot;;N;s:11:&quot;frame_class&quot;;N;s:18:&quot;space_before_class&quot;;N;s:17:&quot;space_after_class&quot;;N;s:12:&quot;sectionIndex&quot;;N;s:9:&quot;linkToTop&quot;;N;s:16:&quot;sys_language_uid&quot;;N;s:6:&quot;hidden&quot;;N;s:9:&quot;starttime&quot;;N;s:7:&quot;endtime&quot;;N;s:8:&quot;fe_group&quot;;N;s:8:&quot;editlock&quot;;N;s:10:&quot;categories&quot;;N;s:14:&quot;rowDescription&quot;;N;}"",0,0,0,0,0,"list",0,0,0,0,list,,,,0,0,0,0,0,0,0,2,0,0,0,default,0,,,,,0,,,0,0,dlf_calendar,1,0,,0,,,,0,0,0,"<![CDATA[
+            <?xml version=""1.0"" encoding=""utf-8"" standalone=""yes"" ?>
+            <T3FlexForms>
+                <data>
+                    <sheet index=""sDEF"">
+                        <language index=""lDEF"">
+                            <field index=""settings.collections"">
+                                <value index=""vDEF"">1</value>
+                            </field>
+                            <field index=""settings.solrcore"">
+                                <value index=""vDEF"">4</value>
+                            </field>
+                            <field index=""settings.show_userdefined"">
+                                <value index=""vDEF"">-1</value>
+                            </field>
+                            <field index=""settings.dont_show_single"">
+                                <value index=""vDEF"">0</value>
+                            </field>
+                            <field index=""settings.randomize"">
+                                <value index=""vDEF"">0</value>
+                            </field>
+                            <field index=""settings.targetPid"">
+                                <value index=""vDEF""></value>
+                            </field>
+                            <field index=""settings.targetPidPageView"">
+                                <value index=""vDEF""></value>
+                            </field>
+                            <field index=""settings.targetFeed"">
+                                <value index=""vDEF""></value>
+                            </field>
+                        </language>
+                    </sheet>
+                </data>
+            </T3FlexForms>
+            ]]>",,0,,,,,,124,0,0,0,0
+"tx_dlf_collections",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,"uid","pid","tstamp","crdate","cruser_id","deleted","sys_language_uid","l18n_parent","l18n_diffsource","hidden","fe_group","fe_cruser_id","fe_admin_lock","label","index_name","index_search","oai_name","description","thumbnail","priority","documents","owner","status"
+,1,0,1678700538,1678700538,2,0,0,0,"a:16:{s:16:&quot;sys_language_uid&quot;;N;s:11:&quot;l18n_parent&quot;;N;s:6:&quot;hidden&quot;;N;s:8:&quot;fe_group&quot;;N;s:5:&quot;label&quot;;N;s:10:&quot;index_name&quot;;N;s:12:&quot;index_search&quot;;N;s:8:&quot;oai_name&quot;;N;s:11:&quot;description&quot;;N;s:8:&quot;priority&quot;;N;s:9:&quot;documents&quot;;N;s:5:&quot;owner&quot;;N;s:12:&quot;fe_cruser_id&quot;;N;s:13:&quot;fe_admin_lock&quot;;N;s:6:&quot;status&quot;;N;s:9:&quot;thumbnail&quot;;N;}"",0,,0,0,"Test Collection",0,,0,0,Test Collection,test-collection,,test-collection,,,3,0,0,0

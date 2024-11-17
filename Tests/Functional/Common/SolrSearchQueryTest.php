@@ -72,15 +72,10 @@ class SolrSearchQueryTest extends FunctionalTestCase
     {
         $this->solrCoreRepository = $this->initializeRepository(SolrCoreRepository::class, $storagePid);
 
-        // Setup Solr only once for all tests in this suite
-        static $solr = null;
-
-        if ($solr === null) {
-            $coreName = Solr::createCore();
-            $solr = Solr::getInstance($coreName);
-            foreach ($solrFixtures as $filePath) {
-                $this->importSolrDocuments($solr, $filePath);
-            }
+        $coreName = Solr::createCore('solrSearchQueryTest');
+        $solr = Solr::getInstance($coreName);
+        foreach ($solrFixtures as $filePath) {
+            $this->importSolrDocuments($solr, $filePath);
         }
 
         $coreModel = $this->solrCoreRepository->findByUid($uid);
