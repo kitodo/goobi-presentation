@@ -295,13 +295,13 @@ class ToolboxController extends AbstractController
         $imageArray = [];
         // Get left or single page download.
         $image = $this->getImage($page);
-        if (Helper::filterFilesByMimeType($image, ['image'])) {
+        if (Helper::filterFilesByMimeType($image['url'], ['image'])) {
             $imageArray[0] = $image;
         }
 
         if ($this->requestData['double'] == 1) {
             $image = $this->getImage($page + 1);
-            if (Helper::filterFilesByMimeType($image, ['image'])) {
+            if (Helper::filterFilesByMimeType($image['url'], ['image'])) {
                 $imageArray[1] = $image;
             }
         }
