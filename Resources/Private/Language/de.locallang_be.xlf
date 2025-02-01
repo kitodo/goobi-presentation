@@ -309,6 +309,14 @@
 				<source><![CDATA[One measureBack back]]></source>
 				<target><![CDATA[Ein Takt zurück]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.navigation.flexform.features.documentBack" approved="yes">
+				<source><![CDATA[Show previous document]]></source>
+				<target><![CDATA[Ein Dokument zurück]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.navigation.flexform.features.documentForward" approved="yes">
+				<source><![CDATA[Show next document]]></source>
+				<target><![CDATA[Ein Dokument vor]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.navigation.title" approved="yes">
 				<source><![CDATA[Kitodo: Navigation]]></source>
 				<target><![CDATA[Kitodo: Navigation]]></target>

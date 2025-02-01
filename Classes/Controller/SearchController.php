@@ -115,6 +115,7 @@ class SearchController extends AbstractController
 
         // if search was triggered, get search parameters from POST variables
         $this->searchParams = $this->getParametersSafely('searchParameter');
+
         // if search was triggered by the ListView plugin, get the parameters from GET variables
         // replace with $this->request->getQueryParams() when dropping support for Typo3 v11, see Deprecation-100596
         $listRequestData = GeneralUtility::_GPmerged('tx_dlf_listview');
@@ -130,13 +131,15 @@ class SearchController extends AbstractController
             $GLOBALS['TSFE']->fe_user->setKey('ses', 'search', $this->searchParams);
         }
 
+        $this->searchParams = is_array($this->searchParams) ? array_filter($this->searchParams, 'strlen') : [];
+
         // sanitize date search input
-        if (!empty($this->searchParams['dateFrom']) || !empty($this->searchParams['dateTo'])) {
-            if (empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
+        if (array_key_exists('dateFrom', $this->searchParams) || array_key_exists('dateTo', $this->searchParams)) {
+            if (!array_key_exists('dateFrom', $this->searchParams) && array_key_exists('dateTo', $this->searchParams)) {
                 $this->searchParams['dateFrom'] = '*';
             }
 
-            if (empty($this->searchParams['dateTo']) && !empty($this->searchParams['dateFrom'])) {
+            if (!array_key_exists('dateTo', $this->searchParams) && array_key_exists('dateFrom', $this->searchParams)) {
                 $this->searchParams['dateTo'] = 'NOW';
             }
 
@@ -168,7 +171,7 @@ class SearchController extends AbstractController
 
         // If no search has been executed, no variables have to be prepared.
         // An empty form will be shown.
-        if (is_array($this->searchParams) && !empty($this->searchParams)) {
+        if (!empty($this->searchParams)) {
             // get all sortable metadata records
             $sortableMetadata = $this->metadataRepository->findByIsSortable(true);
 
@@ -276,7 +279,7 @@ class SearchController extends AbstractController
         // Set search query.
         $searchParams = $this->searchParams;
         if (
-            (!empty($searchParams['fulltext']))
+            (array_key_exists('fulltext', $searchParams))
             || preg_match('/' . $fields['fulltext'] . ':\((.*)\)/', trim($searchParams['query']), $matches)
         ) {
             // If the query already is a fulltext query e.g using the facets
@@ -298,7 +301,7 @@ class SearchController extends AbstractController
         }
 
         // add filter query for date search
-        if (!empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
+        if (array_key_exists('dateFrom', $this->searchParams) && array_key_exists('dateTo', $this->searchParams)) {
             // combine dateFrom and dateTo into filterquery as range search
             $search['params']['filterquery'][]['query'] = '{!join from=' . $fields['uid'] . ' to=' . $fields['uid'] . '}' . $fields['date'] . ':[' . $this->searchParams['dateFrom'] . ' TO ' . $this->searchParams['dateTo'] . ']';
         }
@@ -326,7 +329,7 @@ class SearchController extends AbstractController
             }
         }
 
-        if (isset($this->searchParams['fq']) && is_array($this->searchParams['fq'])) {
+        if (array_key_exists('fq', $this->searchParams) && is_array($this->searchParams['fq'])) {
             foreach ($this->searchParams['fq'] as $fq) {
                 $search['params']['filterquery'][]['query'] = $fq;
             }

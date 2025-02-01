@@ -293,6 +293,14 @@
 				<source><![CDATA[Next Measure]]></source>
 				<target><![CDATA[Nächster Takt]]></target>
 			</trans-unit>
+			<trans-unit id="navigation.documentBack" approved="yes">
+				<source><![CDATA[Previous document]]></source>
+				<target><![CDATA[Vorheriges Dokument]]></target>
+			</trans-unit>
+			<trans-unit id="navigation.documentForward" approved="yes">
+				<source><![CDATA[Next document]]></source>
+				<target><![CDATA[Nächstes Dokument]]></target>
+			</trans-unit>
 			<trans-unit id="search.dateFrom" approved="yes">
 				<source><![CDATA[From]]></source>
 				<target><![CDATA[Von]]></target>

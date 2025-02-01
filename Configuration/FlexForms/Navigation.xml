@@ -72,16 +72,24 @@
                                         <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.navigation.flexform.features.rotation</numIndex>
                                         <numIndex index="1">rotation</numIndex>
                                     </numIndex>
-                                    <numIndex index="10">
+                                    <numIndex index="11">
                                         <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.navigation.flexform.features.measureForward</numIndex>
                                         <numIndex index="1">measureForward</numIndex>
                                     </numIndex>
-                                    <numIndex index="11">
+                                    <numIndex index="12">
                                         <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.navigation.flexform.features.measureBack</numIndex>
                                         <numIndex index="1">measureBack</numIndex>
                                     </numIndex>
+                                    <numIndex index="13">
+                                        <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.navigation.flexform.features.documentBack</numIndex>
+                                        <numIndex index="1">documentBack</numIndex>
+                                    </numIndex>
+                                    <numIndex index="14">
+                                        <numIndex index="0">LLL:EXT:dlf/Resources/Private/Language/locallang_be.xlf:plugins.navigation.flexform.features.documentForward</numIndex>
+                                        <numIndex index="1">documentForward</numIndex>
+                                    </numIndex>
                                 </items>
-                                <default>doublePage,pageFirst,pageBack,pageStepBack,pageSelect,pageForward,pageStepForward,pageLast,listView,zoom,rotation,measureForward,measureBack</default>
+                                <default>doublePage,pageFirst,pageBack,pageStepBack,pageSelect,pageForward,pageStepForward,pageLast,listView,zoom,rotation,measureForward,measureBack,documentBack,documentForward</default>
                                 <minitems>1</minitems>
                             </config>
                         </TCEforms>

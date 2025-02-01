@@ -44,7 +44,7 @@ services:
       "
 
   solr:
-    image: docker.io/solr:9
+    image: docker.io/solr:9.7
     volumes:
       - ${DLF_ROOT}/Configuration/ApacheSolr/configsets:/var/solr/data/configsets
       - ./solr/modules/ocrsearch:/opt/solr/modules/ocrsearch

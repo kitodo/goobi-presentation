@@ -79,14 +79,13 @@ class ListViewController extends AbstractController
     public function mainAction(): ResponseInterface
     {
         $this->searchParams = $this->getParametersSafely('searchParameter');
+        $this->searchParams = is_array($this->searchParams) ? array_filter($this->searchParams, 'strlen') : [];
 
         // extract collection(s) from collection parameter
         $collections = [];
-        if (is_array($this->searchParams) && array_key_exists('collection', $this->searchParams)) {
+        if (array_key_exists('collection', $this->searchParams)) {
             foreach(explode(',', $this->searchParams['collection']) as $collectionEntry) {
-                if (!empty($collectionEntry)) {
-                    $collections[] = $this->collectionRepository->findByUid((int) $collectionEntry);
-                }
+                $collections[] = $this->collectionRepository->findByUid((int) $collectionEntry);
             }
         }
 
@@ -104,7 +103,7 @@ class ListViewController extends AbstractController
 
         $solrResults = null;
         $numResults = 0;
-        if (is_array($this->searchParams) && !empty($this->searchParams)) {
+        if (!empty($this->searchParams)) {
             $solrResults = $this->documentRepository->findSolrByCollections($collections, $this->settings, $this->searchParams, $listedMetadata, $indexedMetadata);
             $numResults = $solrResults->getNumFound();
 

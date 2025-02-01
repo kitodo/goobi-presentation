@@ -185,6 +185,12 @@
 			<trans-unit id="nextMeasure">
 				<source><![CDATA[Next Measure]]></source>
 			</trans-unit>
+			<trans-unit id="navigation.documentBack">
+				<source><![CDATA[Previous document]]></source>
+			</trans-unit>
+			<trans-unit id="navigation.documentForward">
+				<source><![CDATA[Next document]]></source>
+			</trans-unit>
 			<trans-unit id="selectPage">
 				<source><![CDATA[Page]]></source>
 			</trans-unit>

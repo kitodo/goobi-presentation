@@ -302,4 +302,38 @@
     </f:if>
 </f:section>
 
+<f:section name="render.documentBack">
+    <div class="tx-dlf-navigation-documentBack">
+        <f:if condition="{documentBack}">
+            <f:then>
+                <f:link.action addQueryString="1" addQueryStringMethod="GET" additionalParams="{'tx_dlf[page]':'1', 'tx_dlf[id]': '{documentBack}'}" title="{f:translate(key: 'navigation.documentBack')}">
+                    <f:translate key="navigation.documentBack"/>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <span title="{f:translate(key: 'navigation.documentBack')}">
+                    <f:translate key="navigation.documentBack"/>
+                </span>
+            </f:else>
+        </f:if>
+    </div>
+</f:section>
+
+<f:section name="render.documentForward">
+    <div class="tx-dlf-navigation-documentForward">
+        <f:if condition="{documentForward}">
+            <f:then>
+                <f:link.action addQueryString="1" addQueryStringMethod="GET" additionalParams="{'tx_dlf[page]':'1', 'tx_dlf[id]': '{documentForward}'}" title="{f:translate(key: 'navigation.documentForward')}">
+                    <f:translate key="navigation.documentForward"/>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <span title="{f:translate(key: 'navigation.documentForward')}">
+                    <f:translate key="navigation.documentForward"/>
+                </span>
+            </f:else>
+        </f:if>
+    </div>
+</f:section>
+
 </html>

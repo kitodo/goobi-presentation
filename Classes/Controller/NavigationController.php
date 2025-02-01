@@ -81,6 +81,14 @@ class NavigationController extends AbstractController
             $this->viewData['requestData'] = $this->requestData;
         }
 
+        // get the closest previous sibling or leaf node
+        $prevDocumentUid = $this->documentRepository->getPreviousDocumentUid($this->document->getUid());
+        $this->view->assign('documentBack', $prevDocumentUid);
+
+        // get the closest next sibling or leaf node
+        $nextDocumentUid = $this->documentRepository->getNextDocumentUid($this->document->getUid());
+        $this->view->assign('documentForward', $nextDocumentUid);
+
         // Steps for X pages backward / forward. Double page view uses double steps.
         $pageSteps = $this->settings['pageStep'] * ($this->requestData['double'] + 1);
 
