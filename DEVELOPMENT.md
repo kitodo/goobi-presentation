@@ -5,7 +5,7 @@
 Before running any of the tests, please install the project dependencies. Choose which version of TYPO3 you would like to test against.
 
 ```bash
-# If you use PHP 7.4 (supported by Kitodo)
+# If you use PHP 8.1 (supported by Kitodo)
 composer update --with=typo3/cms-core:^11.5
 
 # If you use PHP 8

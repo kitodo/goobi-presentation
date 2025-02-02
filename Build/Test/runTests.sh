@@ -65,7 +65,7 @@ a recent docker compose (tested >=2.27.1) is needed.
 
 Usage: $0 [options] [file]
 
-No arguments: Run all unit tests with PHP 7.4
+No arguments: Run all unit tests with PHP 8.1
 
 Options:
     -s <...>
@@ -113,13 +113,12 @@ Options:
             - 5.7
             - 8.0 (default)
 
-    -p <7.4|8.0|8.1|8.2|8.3>
+    -p <8.1|8.2|8.3|8.4>
         Specifies the PHP minor version to be used
-            - 7.4: use PHP 7.4
-            - 8.0: use PHP 8.0
             - 8.1: use PHP 8.1 (default)
             - 8.2: use PHP 8.2
             - 8.3: use PHP 8.3
+            - 8.4: use PHP 8.4
 
     -e "<phpunit options>"
         Only with -s functional|functionalDeprecated|unit|unitDeprecated|unitRandom|acceptance
@@ -220,7 +219,7 @@ while getopts ":a:s:t:d:i:j:p:e:xy:whuv" OPT; do
             ;;
         p)
             PHP_VERSION=${OPTARG}
-            if ! [[ ${PHP_VERSION} =~ ^(7.4|8.0|8.1|8.2|8.3)$ ]]; then
+            if ! [[ ${PHP_VERSION} =~ ^(8.1|8.2|8.3|8.4)$ ]]; then
                 INVALID_OPTIONS+=("${OPTARG}")
             fi
             ;;
@@ -266,7 +265,7 @@ if [ ${#INVALID_OPTIONS[@]} -ne 0 ]; then
     exit 1
 fi
 
-# Move "7.4" to "php74", the latter is the docker container name
+# Move "8.x" to "php8x", the latter is the docker container name
 DOCKER_PHP_IMAGE=$(echo "php${PHP_VERSION}" | sed -e 's/\.//')
 
 # Set $1 to first mass argument, this is the optional test file or test directory to execute
