@@ -173,7 +173,7 @@ class OaiPmhController extends AbstractController
 
     /**
      * Get unqualified Dublin Core data.
-     * @see http://www.openarchives.org/OAI/openarchivesprotocol.html#dublincore
+     * @see https://www.openarchives.org/OAI/openarchivesprotocol.html#dublincore
      *
      * @access private
      *
@@ -845,7 +845,7 @@ class OaiPmhController extends AbstractController
     protected function generateResumptionTokenForDocumentListSet(array $documentListSet, int $numShownDocuments)
     {
         // The cursor specifies how many elements have already been returned in previous requests
-        // See http://www.openarchives.org/OAI/openarchivesprotocol.html#FlowControl
+        // See https://www.openarchives.org/OAI/openarchivesprotocol.html#FlowControl
         $currentCursor = $documentListSet['metadata']['cursor'];
 
         if (count($documentListSet['elements']) !== 0) {

@@ -107,7 +107,7 @@ Screenshots
 
 Some examples of Kitodo.Presentation in action on the `Digital Collection of SLUB Dresden <https://digital.slub-dresden.de/>`_:
 
-http://digital.slub-dresden.de/id457052678
+https://digital.slub-dresden.de/id457052678
 
 .. figure:: ../Images/Introduction/Digitale_Sammlungen_Colloquia_Lutheri.png
    :width: 820px
@@ -115,7 +115,7 @@ http://digital.slub-dresden.de/id457052678
 
    Mscr.Dresd.A.180.d
 
-http://digital.slub-dresden.de/id416971482-19060601
+https://digital.slub-dresden.de/id416971482-19060601
 
 .. figure:: ../Images/Introduction/Digitale_Sammlungen_The_Daily_1906.png
    :width: 820px
@@ -123,7 +123,7 @@ http://digital.slub-dresden.de/id416971482-19060601
 
    Newspaper Issue with Full-text Switched on
 
-http://digital.slub-dresden.de/id501434038
+https://digital.slub-dresden.de/id501434038
 
 .. figure:: ../Images/Introduction/Digitale_Sammlungen_Dresdner_Nachrichten.png
    :width: 820px
@@ -131,7 +131,7 @@ http://digital.slub-dresden.de/id501434038
 
    All Years Overview of a Newspaper Title
 
-http://digital.slub-dresden.de/id501434038-1942
+https://digital.slub-dresden.de/id501434038-1942
 
 .. figure:: ../Images/Introduction/Digitale_Sammlungen_Dresdner_Nachrichten_1942.png
    :width: 820px

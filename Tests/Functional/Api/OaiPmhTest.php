@@ -105,8 +105,8 @@ class OaiPmhTest extends FunctionalTestCase
         self::assertStringNotContainsString('nastyVerb', (string) $xml->request);
 
         // For bad verbs, the <request> element must not contain any attributes
-        // - http://www.openarchives.org/OAI/openarchivesprotocol.html#XMLResponse
-        // - http://www.openarchives.org/OAI/openarchivesprotocol.html#ErrorConditions
+        // - https://www.openarchives.org/OAI/openarchivesprotocol.html#XMLResponse
+        // - https://www.openarchives.org/OAI/openarchivesprotocol.html#ErrorConditions
         self::assertEmpty($xml->request->attributes());
     }
 

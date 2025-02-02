@@ -115,7 +115,7 @@
         </mods:location>
     </mods:relatedItem>
     <mods:identifier type="kxp">1703800435</mods:identifier>
-    <mods:identifier type="purl">http://digital.slub-dresden.de/id1703800435</mods:identifier>
+    <mods:identifier type="purl">https://digital.slub-dresden.de/id1703800435</mods:identifier>
     <mods:identifier type="urn">urn:nbn:de:bsz:14-db-id17038004351</mods:identifier>
     <mods:location>
         <mods:physicalLocation valueURI="https://ld.zdb-services.de/resource/organisations/DE-14">DE-14
@@ -131,7 +131,7 @@
     <mods:extension>
     </mods:extension>
     <mods:recordInfo>
-        <mods:recordIdentifier source="http://digital.slub-dresden.de/oai/">oai:de:slub-dresden:db:id-1703800435
+        <mods:recordIdentifier source="https://digital.slub-dresden.de/oai/">oai:de:slub-dresden:db:id-1703800435
         </mods:recordIdentifier>
     </mods:recordInfo>
 </mods:mods>
