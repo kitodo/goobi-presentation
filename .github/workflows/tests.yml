@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        variants: [ {typo3: 11.5, php: 8.1}, {typo3: 12.4, php: 8.1}, {typo3: 12.4, php: 8.3}  ]
+        variants: [ {typo3: 11.5, php: 8.1}, {typo3: 11.5, php: 8.2}, {typo3: 11.5, php: 8.3}, {typo3: 12.4, php: 8.1}, {typo3: 12.4, php: 8.2}, {typo3: 12.4, php: 8.3} ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
