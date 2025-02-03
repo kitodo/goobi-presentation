@@ -75,15 +75,36 @@
         </f:then>
     </f:if>
 
-    <f:if condition="{renderModelDownloadTool} && {modelDownload}">
+    <f:if condition="{renderModelDownloadTool} && {modelUrl}">
         <f:then>
             <li>
-                <span class="tx-dlf-tools-modeldownload">
-                    <f:link.external uri="{modelDownload.url}">
-                        <f:translate key="downloadModel" />
-                    </f:link.external>
-                </span>
+            <span class="tx-dlf-tools-modeldownload">
+                <f:link.external uri="{modelUrl}">
+                    <f:translate key="downloadModel"/>
+                </f:link.external>
+            </span>
             </li>
+        </f:then>
+    </f:if>
+
+    <f:if condition="{renderViewerSelectionTool} && {viewers}">
+        <f:then>
+            <form method="get" action="{f:uri.page(pageUid='{viewData.requestData.pageUid}')}">
+                <f:if condition="{viewData.requestData.id}">
+                    <f:form.hidden name="tx_dlf[id]" value="{viewData.requestData.id}"/>
+                </f:if>
+                <f:if condition="{viewData.requestData.model}">
+                    <f:form.hidden name="tx_dlf[model]" value="{viewData.requestData.model}"/>
+                </f:if>
+                <f:form.select id="tx-dlf-viewer-{viewData.uniqueId}" name="tx_dlf[viewer]"
+                               options="{viewers}"
+                               optionValueField="id"
+                               optionLabelField="name"
+                               value="{viewData.requestData.viewer}"
+                               additionalAttributes="{'onchange': 'javascript:this.form.submit();'}"
+                               prependOptionLabel="{f:translate(key: 'tools.viewerselection.default', extensionName: 'dlf')}">
+                </f:form.select>
+                <form>
         </f:then>
     </f:if>
 

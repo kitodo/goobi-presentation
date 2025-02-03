@@ -13,9 +13,14 @@ namespace Kitodo\Dlf\Controller;
 
 use Kitodo\Dlf\Common\AbstractDocument;
 use Kitodo\Dlf\Common\Helper;
+use Kitodo\Dlf\Middleware\Embedded3dViewer;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
+use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderAccessPermissionsException;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Controller class for plugin 'Toolbox'.
@@ -108,6 +113,10 @@ class ToolboxController extends AbstractController
                     case 'scoretool':
                         $this->renderToolByName('renderScoreTool');
                         break;
+                    case 'tx_dlf_viewerselectiontool':
+                    case 'viewerselectiontool':
+                        $this->renderToolByName('renderViewerSelectionTool');
+                        break;
                     default:
                         $this->logger->warning('Incorrect tool configuration: "' . $this->settings['tools'] . '". Tool "' . $tool . '" does not exist.');
                 }
@@ -128,6 +137,30 @@ class ToolboxController extends AbstractController
     {
         $this->$tool();
         $this->view->assign($tool, true);
+    }
+
+    /**
+     * Get the URL of the model.
+     *
+     * Gets the URL of the model by parameter or from the configured file group of the document.
+     *
+     * @access private
+     *
+     * @return string
+     */
+    private function getModelUrl(): string
+    {
+        $modelUrl = '';
+        if (!empty($this->requestData['model'])) {
+            $modelUrl = $this->requestData['model'];
+        } elseif (!($this->isDocMissingOrEmpty() || empty($this->settings['fileGrpsModelDownload']))) {
+            $this->setPage();
+            if (isset($this->requestData['page'])) {
+                $file = $this->getFile($this->requestData['page'], GeneralUtility::trimExplode(',', $this->settings['fileGrpsModelDownload']));
+                $modelUrl = $file['url'] ?? '';
+            }
+        }
+        return $modelUrl;
     }
 
     /**
@@ -360,18 +393,55 @@ class ToolboxController extends AbstractController
      */
     private function renderModelDownloadTool(): void
     {
-        if (
-            $this->isDocMissingOrEmpty()
-            || empty($this->settings['fileGrpsModelDownload'])
-        ) {
-            // Quit without doing anything if required variables are not set.
+        $modelUrl = $this->getModelUrl();
+        if ($modelUrl === '') {
+            $this->logger->debug("Model URL could not be determined");
+            return;
+        }
+        $this->view->assign('modelUrl', $modelUrl);
+    }
+
+
+    /**
+     * Renders the viewer selection tool
+     * Renders the viewer selection tool (used in template)
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     *
+     * @access private
+     *
+     * @return void
+     * @throws InsufficientFolderAccessPermissionsException
+     */
+    private function renderViewerSelectionTool(): void
+    {
+        $model = $this->getModelUrl();
+        if (!$model) {
+            $this->logger->debug("Model URL could not be determined");
             return;
         }
 
-        $this->setPage();
-
-        if (isset($this->requestData['page'])) {
-            $this->view->assign('modelDownload', $this->getFile($this->requestData['page'], GeneralUtility::trimExplode(',', $this->settings['fileGrpsModelDownload'])));
+        $pathInfo = PathUtility::pathinfo($model);
+        $modelFormat = strtolower($pathInfo["extension"]);
+        $viewers = [];
+        /** @var StorageRepository $storageRepository */
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
+        $defaultStorage = $storageRepository->getDefaultStorage();
+        if ($defaultStorage->hasFolder(Embedded3dViewer::VIEWER_FOLDER)) {
+            $viewerFolders = $defaultStorage->getFoldersInFolder($defaultStorage->getFolder(Embedded3dViewer::VIEWER_FOLDER));
+            if (count($viewerFolders) > 0) {
+                /** @var YamlFileLoader $yamlFileLoader */
+                $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+                foreach ($viewerFolders as $viewerFolder) {
+                    if ($viewerFolder->hasFile(Embedded3dViewer::VIEWER_CONFIG_YML)) {
+                        $fileIdentifier = $viewerFolder->getFile(Embedded3dViewer::VIEWER_CONFIG_YML)->getIdentifier();
+                        $viewerConfig = $yamlFileLoader->load($defaultStorage->getName() . $fileIdentifier)["viewer"];
+                        if (!empty($viewerConfig["supportedModelFormats"]) && in_array($modelFormat, array_map('strtolower', $viewerConfig["supportedModelFormats"]))) {
+                            $viewers[] = (object) ['id' => $viewerFolder->getName(), 'name' => $viewerConfig["name"] ?? $viewerFolder->getName()];
+                        }
+                    }
+                }
+                $this->view->assign('viewers', $viewers);
+            }
         }
     }
 

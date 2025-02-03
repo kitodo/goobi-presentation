@@ -8,6 +8,8 @@ The `model-viewer <https://modelviewer.dev>`_ is installed as the build-in stand
     :local:
     :depth: 2
 
+.. _Embedded 3D Viewer Setup:
+
 Setup
 =======
 
@@ -25,10 +27,12 @@ Configuration
 
 By default, the viewers from the folder ``dlf_3d_viewers`` are all active and can be accessed and tested via URL.
 
-For this, only the parameter ``tx_dlf[viewer]`` with the name of the viewer and the encoded URL to the model via the parameter ``tx_dlf[model]`` need to be passed to the URL under which the plugin ``plugin.tx_dlf_embedded3dViewer`` is rendered.
+For this, only the parameter ``tx_dlf[viewer]`` with the encoded subfolder name of the viewer needs to be passed to the URL where the plugin ``plugin.tx_dlf_embedded3dViewer`` is rendered.
 
 .. note::
    For example in the DFG Viewer, this is the page whose ID is set via the constant ``config.kitodoPageView``.
+
+To render the model, the encoded URL to the METS document should be set using the parameter ``tx_dlf[id]``. Alternatively, it is possible to define the model directly with an encoded URL via the parameter ``tx_dlf[model]``.
 
 Automatic selection of the viewer
 -------

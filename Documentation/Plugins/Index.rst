@@ -1024,6 +1024,60 @@ The fulltext is fetched and rendered by JavaScript into the `<div id="tx-dlf-ful
 
 **Please note**: To allow JavaScript fetching the fulltext, the `CORS headers <https://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`_ must be configured appropriate on the providing webserver.
 
+Model download tool
+^^^^^^^^^^^^^
+
+This tool makes it possible to extract the model URL from the METS file or use the provided model parameter to provide a download URL.
+
+:typoscript:`plugin.tx_dlf_modeldownloadtool.`
+
+.. t3-field-list-table::
+ :header-rows: 1
+
+ - :Property:
+       Property
+   :Data Type:
+       Data type
+   :Values:
+       Values
+
+ - :Property:
+       fileGrpsModelDownload
+   :Data Type:
+       :ref:`t3tsref:data-type-string`
+   :Values:
+        DEFAULT - single filegroup
+
+        MIN,DEFAULT,MAX - comma separated list of filegroups
+
+
+Viewer selection tool
+^^^^^^^^^^^^^
+
+This tool can display a selection list of configured 3D viewers (from the "dlf_3d_viewers" directory see :ref:`Embedded 3D Viewer Setup`) that support the current model.
+
+The model URL is extracted from the METS file or taken from the provided model parameter. The extension of the model is extracted from this URL and compared with the supported model formats specified in the respective viewer configuration.
+
+:typoscript:`plugin.tx_dlf_viewerselectiontool.`
+
+.. t3-field-list-table::
+ :header-rows: 1
+
+ - :Property:
+       Property
+   :Data Type:
+       Data type
+   :Values:
+       Values
+
+ - :Property:
+       fileGrpsModelDownload
+   :Data Type:
+       :ref:`t3tsref:data-type-string`
+   :Values:
+        DEFAULT - single filegroup
+
+        MIN,DEFAULT,MAX - comma separated list of filegroups
 
 Search in Document Tool
 ^^^^^^^^^^^^^^^^^^^^^^^

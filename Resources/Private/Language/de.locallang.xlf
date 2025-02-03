@@ -469,6 +469,10 @@
 				<source><![CDATA[Search in document]]></source>
 				<target><![CDATA[Im Dokument suchen]]></target>
 			</trans-unit>
+			<trans-unit id="tools.viewerselection.default" approved="yes">
+				<source><![CDATA[Default]]></source>
+				<target><![CDATA[Standard]]></target>
+			</trans-unit>
 			<trans-unit id="volume" approved="yes">
 				<source><![CDATA[volume]]></source>
 				<target><![CDATA[Band]]></target>

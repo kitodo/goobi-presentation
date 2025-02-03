@@ -263,6 +263,9 @@
 			<trans-unit id="tools.searchindocument.loading">
 				<source><![CDATA[Loading...]]></source>
 			</trans-unit>
+			<trans-unit id="tools.viewerselection.default">
+				<source><![CDATA[Default]]></source>
+			</trans-unit>
 			<trans-unit id="search.logicalPage">
 				<source><![CDATA[Page]]></source>
 			</trans-unit>
