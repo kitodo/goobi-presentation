@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <script src="/Resources/Public/JavaScript/jQuery/jquery-3.6.0.min.js"></script>
+
+        <script src="/app-config.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaVendor.css" />
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaPlayerStyles.css" />
+
+        <style>
+            slub-media {
+                width: 32em;
+                height: 18em;
+                position: relative;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            // coming from app-config.js
+            window.MEDIA_CONFIG = {
+                lang: lang.de,
+                shareButtons
+            };
+
+            // Delay MPD fetch
+            const originalFetch = window.fetch;
+            window.fetch = async function (resource, init) {
+                if (resource.endsWith('.mpd')) {
+                    await new Promise(resolve => window.setTimeout(resolve, 1000));
+                }
+                return originalFetch(resource, init);
+            };
+        </script>
+
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaVendor.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
+
+        <h3>This player should always be in audio mode</h3>
+
+        <slub-media id="player-audio" config="MEDIA_CONFIG" mode="audio">
+            <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.mpd" type="application/dash+xml">
+        </slub-media>
+        <hr>
+
+        <h3>This player should always be in video mode</h3>
+
+        <slub-media id="player-video" config="MEDIA_CONFIG" mode="video">
+            <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.mpd" type="application/dash+xml">
+        </slub-media>
+        <hr>
+
+        <h3>This player should also always be in video mode</h3>
+
+        <slub-media id="player-auto-video" config="MEDIA_CONFIG" mode="auto" mode-fallback="video">
+            <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.mpd" type="application/dash+xml">
+        </slub-media>
+        <hr>
+
+        <h3>This player should start out in audio mode, then switch to video mode once loaded</h3>
+
+        <slub-media id="player-auto-audio" config="MEDIA_CONFIG" mode="auto" mode-fallback="audio">
+            <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.mpd" type="application/dash+xml">
+        </slub-media>
+    </body>
+</html>

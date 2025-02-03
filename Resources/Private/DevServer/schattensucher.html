@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <script src="/Resources/Public/JavaScript/jQuery/jquery-3.6.0.min.js"></script>
+
+        <script src="/app-config.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaVendor.css" />
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaPlayerStyles.css" />
+
+        <style>
+            #media-viewport {
+                width: 64em;
+                height: 36em;
+                position: relative;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            // coming from app-config.js
+            window.MEDIA_CONFIG = {
+                lang: lang.de,
+                shareButtons
+            };
+        </script>
+
+        <slub-media id="media-viewport" config="MEDIA_CONFIG" poster="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.jpg" mode="auto" mode-fallback="video">
+            <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.mpd" type="application/dash+xml">
+            <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.m3u8" type="application/x-mpegurl">
+
+            <dlf-chapter timecode="0" title="Schattensucher" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="364" title="Loschwitzer und Blasewitzer" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="860" title="Eisenbahn Schubert" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="1321" title="Leder Näter" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="1664" title="Das Archiv des Karl Emil Scherz" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="1812" title="Die Künstlerwohnung Herrmann" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="2019" title="Eisen Plötze" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="2304" title="Schirm Dunger" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="2779" title="Feinkost Fendler" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="3113" title="Brillen Panzer" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="3359" title="Drechslerei Scholz" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="4310" title="Polizist Jakob" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="4811" title="Malermeister Rindfleisch" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="5091" title="Der Fitzel-Fatzel" pageNo="1"></dlf-chapter>
+            <dlf-chapter timecode="5398" title="Abspann" pageNo="1"></dlf-chapter>
+
+            <dlf-meta key="title" value="Wolfgang H Scholz „Schattensucher“ (1994)"></dlf-meta>
+
+            <dlf-media-controls>
+                <button data-type="fullscreen"></button>
+            </dlf-media-controls>
+        </slub-media>
+
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaVendor.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
+    </body>
+</html>

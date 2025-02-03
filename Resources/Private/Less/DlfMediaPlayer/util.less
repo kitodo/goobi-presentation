@@ -1,0 +1,28 @@
+.dlf-visible {
+    visibility: visible !important;
+}
+
+// Thanks https://stackoverflow.com/a/4407335
+.noselect() {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome, Edge, Opera and Firefox */
+}
+
+.no-tap-highlight() {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.kbd() {
+    white-space: pre; // Allow marking space bar with a couple of spaces
+    font-family: monospace;
+    font-weight: bold;
+    background-color: rgba(#eee, 0.3);
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    padding: 4px 7px;
+}

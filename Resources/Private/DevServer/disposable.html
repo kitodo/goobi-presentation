@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <script src="/Resources/Public/JavaScript/jQuery/jquery-3.6.0.min.js"></script>
+
+        <script src="/app-config.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaVendor.css" />
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaPlayerStyles.css" />
+
+        <style>
+            slub-media {
+                width: 64em;
+                height: 36em;
+                position: relative;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body id="body">
+        <script>
+            // coming from app-config.js
+            window.MEDIA_CONFIG = {
+                lang: lang.de,
+                shareButtons
+            };
+
+            function add_player() {
+                const player = document.querySelector('#player-template')
+                    .content.firstElementChild.cloneNode(true);
+                document.querySelector('#players').append(player);
+            }
+
+            function destroy_player(e) {
+                const container = e.target.parentElement;
+                container.querySelector('slub-media').destroy();
+            }
+        </script>
+
+        <p>
+            Suggestions for testing:
+            <ul>
+                <li>
+                    From a user perspective, make sure that the audio stops and keybindings won't work after the player has been removed.
+                </li>
+                <li>
+                    Compare event listeners before adding and after removing the player to check that all have been deregistered.
+                    Besides Devtools inspector, in Chrome this can be done by calling <code>getEventListeners(window)</code> in the console.
+                </li>
+                <li>
+                    Check memory consumption:
+                    <ol>
+                        <li>Take a memory snapshot in Devtools.</li>
+                        <li>Add a player, take another snapshot.</li>
+                        <li>Remove the player, take a third snapshot.</li>
+                        <li>Check memory usage to make sure the player has actually been freed.</li>
+                    </ol>
+                </li>
+            </ul>
+        </p>
+
+        <hr>
+
+        <p>
+            <button onclick="add_player()">Add Player</button>
+        </p>
+
+        <template id="player-template">
+            <div>
+                <button onclick="destroy_player(event)">Remove</button>
+                <br>
+                <slub-media player-view="body" config="MEDIA_CONFIG" poster="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.jpg" mode="auto" mode-fallback="video">
+                    <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.mpd" type="application/dash+xml">
+                    <source src="https://media.sachsen.digital/vid_dig_x_000819/vid_dig_x_000819.m3u8" type="application/x-mpegurl">
+
+                    <dlf-media-controls>
+                        <button data-type="fullscreen"></button>
+                        <button class="material-icons-round sxnd-help-button" data-t-title="control.help.tooltip" data-action="modal.help.open">info_outline</button>
+                    </dlf-media-controls>
+                </slub-media>
+            </div>
+        </template>
+
+        <div id="players"></div>
+
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaVendor.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
+    </body>
+</html>

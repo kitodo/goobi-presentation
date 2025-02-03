@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <script src="/Resources/Public/JavaScript/jQuery/jquery-3.6.0.min.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaVendor.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
+
+        <script src="/app-config.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaVendor.css" />
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaPlayerStyles.css" />
+
+        <style>
+            .media-viewport {
+                width: 45em;
+                height: 40em !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="media-viewport"></div>
+
+        <!-- <script>
+            window.addEventListener("DOMContentLoaded", function () {
+                const container = document.querySelector(".media-viewport");
+                const videoConfig = {
+                    chapters: [
+                        { timecode: 0, title: "Intro" },
+                        { timecode: 31, title: "Prolog" },
+                        { timecode: 63, title: "HTTP Status Code 423" },
+                        {
+                            timecode: 190,
+                            title: "Situation in Österreich",
+                        },
+                        { timecode: 632, title: "Julian Hessenthaler" },
+                        {
+                            timecode: 2729,
+                            title: "Datenskandale Österreich",
+                        },
+                        { timecode: 4046, title: "eIDAS-Richtlinie" },
+                        { timecode: 5397, title: "Netzneutralit\u00e4t" },
+                        { timecode: 6320, title: "Staatstrojaner" },
+                        { timecode: 6915, title: "Sven Guckes RIP" },
+                        { timecode: 7021, title: "EDPB Call for Experts" },
+                        { timecode: 7286, title: "Epilog" },
+                    ],
+                    metadata: {
+                        metadata: {
+                            title: ["Logbuch Netzpolitik (Folge 423)"],
+                        },
+                        screenshotFields: ["title"],
+                    },
+                    sources: [
+                        {
+                            mimeType: "audio/mp4",
+                            url: "http://192.168.2.33:8080/extra/logbuch_netzpolitik/lnp423.mp4",
+                        },
+                    ],
+                    url: {
+                        transcript:
+                            "http://192.168.2.33:8080/extra/logbuch_netzpolitik/lnp423.vtt",
+                    },
+                };
+
+                const app = new SxndPlayerApp(container, videoConfig, {
+                    lang: lang.de,
+                    shareButtons: shareButtons,
+                });
+            });
+        </script> -->
+
+        <script>
+            // coming from app-config.js
+            window.MEDIA_CONFIG = {
+                lang: lang.de,
+                shareButtons
+            };
+
+            // transcript: "https://sachsendigital.ddev.site/extra/logbuch_netzpolitik/lnp423.vtt",
+        </script>
+
+        <slub-media id="player-audio" config="MEDIA_CONFIG" mode="audio">
+            <source src="https://logbuch-netzpolitik.de/podlove/file/8337/s/webplayer/c/episode/lnp423-die-grenze-des-nicht-peinlichen.m4a" type="audio/mp4">
+
+            <dlf-chapter timecode="0" title="Intro"></dlf-chapter>
+            <dlf-chapter timecode="31" title="Prolog"></dlf-chapter>
+            <dlf-chapter timecode="63" title="HTTP Status Code 423"></dlf-chapter>
+            <dlf-chapter timecode="190" title="Situation in Österreich"></dlf-chapter>
+            <dlf-chapter timecode="632" title="Julian Hessenthaler"></dlf-chapter>
+            <dlf-chapter timecode="2729" title="Datenskandale Österreich"></dlf-chapter>
+            <dlf-chapter timecode="4046" title="eIDAS-Richtlinie"></dlf-chapter>
+            <dlf-chapter timecode="5397" title="Netzneutralität"></dlf-chapter>
+            <dlf-chapter timecode="6320" title="Staatstrojaner"></dlf-chapter>
+            <dlf-chapter timecode="6915" title="Sven Guckes RIP"></dlf-chapter>
+            <dlf-chapter timecode="7021" title="EDPB Call for Experts"></dlf-chapter>
+            <dlf-chapter timecode="7286" title="Epilog"></dlf-chapter>
+        </slub-media>
+    </body>
+</html>

@@ -774,12 +774,14 @@ abstract class AbstractDocument
             $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey, 'files');
 
             $configKeys = [
-                'fileGrpImages',
-                'fileGrpThumbs',
+                'fileGrpAudio',
                 'fileGrpDownload',
                 'fileGrpFulltext',
-                'fileGrpAudio',
-                'fileGrpScore'
+                'fileGrpImages',
+                'fileGrpScore',
+                'fileGrpThumbs',
+                'fileGrpVideo',
+                'fileGrpWaveform'
             ];
 
             foreach ($configKeys as $key) {

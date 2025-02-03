@@ -1,0 +1,35 @@
+/** @preserve
+This is based upon VideoFrame (see below). Changes:
+- export default
+- Slightly refine JSDoc/typings
+
+Source: https://raw.githubusercontent.com/allensarkisyan/VideoFrame/master/VideoFrame.js
+
+---
+
+VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
+@version 0.2.2
+@author Allen Sarkisyan
+@copyright (c) 2013 Allen Sarkisyan
+@license Released under the Open Source MIT License
+
+Contributors:
+Allen Sarkisyan - Lead engineer
+Paige Raynes - Product Development
+Dan Jacinto - Video Asset Quality Analyst
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, and/or distribute copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- Attribution must be credited to the original authors in derivative works.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

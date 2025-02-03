@@ -55,6 +55,11 @@ class AudioVideoMD implements MetadataInterface
 
         $metadata['duration'] = $metadata['video_duration'] ?: $metadata['audio_duration'] ?: [];
 
+        $videoFrameRate = (string) $xml->xpath('./videomd:fileData/videomd:frameRate[@mode="Fixed"]')[0];
+        if (!empty($videoFrameRate)) {
+            $metadata['video_frame_rate'] = [$videoFrameRate];
+        }
+
         if ($useExternalApis) {
             // TODO?
         }

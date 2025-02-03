@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-08T10:01:57Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="action.cancel">
+				<source><![CDATA[Cancel action (full screen, window, ...)]]></source>
+			</trans-unit>
+			<trans-unit id="action.fullscreen.toggle">
+				<source><![CDATA[Toggle full screen]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.navigate">
+				<source><![CDATA[Navigate]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.sound_tools">
+				<source><![CDATA[Tools]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.other">
+				<source><![CDATA[Other]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.player">
+				<source><![CDATA[Player]]></source>
+			</trans-unit>
+			<trans-unit id="action.kind.waveform">
+				<source><![CDATA[Waveform]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.bookmark.open">
+				<source><![CDATA[Bookmark (share link)]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.help.toggle">
+				<source><![CDATA[Toggle help (this window)]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.screenshot.open">
+				<source><![CDATA[Screenshot (show dialog)]]></source>
+			</trans-unit>
+			<trans-unit id="action.modal.screenshot.snap">
+				<source><![CDATA[Screenshot (direct download)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.chapter.next">
+				<source><![CDATA[Next chapter]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.chapter.prev">
+				<source><![CDATA[Previous chapter]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.frame.next">
+				<source><![CDATA[Next frame]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.frame.prev">
+				<source><![CDATA[Previous frame]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.rewind">
+				<source><![CDATA[Rewind {seekStep, plural, one {one second} other {# seconds}}]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.seek">
+				<source><![CDATA[Seek {seekStep, plural, one {one second} other {# seconds}}]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.continuous-rewind">
+				<source><![CDATA[Rewind ({trickPlayFactor}x)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.continuous-seek">
+				<source><![CDATA[Fast-forward ({trickPlayFactor}x)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.position.percental">
+				<source><![CDATA[Jump to position (%)]]></source>
+			</trans-unit>
+			<trans-unit id="action.navigate.thumbnails.snap">
+				<source><![CDATA[Seek along thumbnails]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.captions.toggle">
+				<source><![CDATA[Toggle captions]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.toggle">
+				<source><![CDATA[Play / Pause]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.dec">
+				<source><![CDATA[Decrease volume (-{volumeStep, number, ::percent}P)]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.inc">
+				<source><![CDATA[Increase volume (+{volumeStep, number, ::percent}P)]]></source>
+			</trans-unit>
+			<trans-unit id="action.playback.volume.mute.toggle">
+				<source><![CDATA[Mute / Unmute]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.mode.audio">
+				<source><![CDATA[Audio Mode]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.mode.video">
+				<source><![CDATA[Video Mode]]></source>
+			</trans-unit>
+			<trans-unit id="action.theater.toggle">
+				<source><![CDATA[Toggle theater mode]]></source>
+			</trans-unit>
+			<trans-unit id="action.unavailable">
+				<source><![CDATA[Action unavailable]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.segments.add">
+				<source><![CDATA[Add marker]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.segments.close">
+				<source><![CDATA[Close segment]]></source>
+			</trans-unit>
+			<trans-unit id="action.sound_tools.waveform.toggle">
+				<source><![CDATA[Toggle waveform]]></source>
+			</trans-unit>
+			<trans-unit id="control.back">
+				<source><![CDATA[Back]]></source>
+			</trans-unit>
+			<trans-unit id="control.bookmark.tooltip">
+				<source><![CDATA[Bookmark]]></source>
+			</trans-unit>
+			<trans-unit id="control.fullscreen.tooltip">
+				<source><![CDATA[Full screen]]></source>
+			</trans-unit>
+			<trans-unit id="control.fullscreen_exit.tooltip">
+				<source><![CDATA[Exit full screen]]></source>
+			</trans-unit>
+			<trans-unit id="control.help.tooltip">
+				<source><![CDATA[Show help]]></source>
+			</trans-unit>
+			<trans-unit id="control.screenshot.tooltip">
+				<source><![CDATA[Take screenshot]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.fft">
+				<source><![CDATA[FFT]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.activate">
+				<source><![CDATA[Activate]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.user">
+				<source><![CDATA[Your Presets]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.graphic">
+				<source><![CDATA[Graphic]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.group.riaa">
+				<source><![CDATA[RIAA]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.label">
+				<source><![CDATA[Preset:]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.reset">
+				<source><![CDATA[Reset to default]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.save">
+				<source><![CDATA[Store preset]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.save.name">
+				<source><![CDATA[Name:]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.preset.delete">
+				<source><![CDATA[Delete preset]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.resume_context">
+				<source><![CDATA[Click to activate the equalizer]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.equalizer.title">
+				<source><![CDATA[Equalizer]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.empty">
+				<source><![CDATA[No markers yet. Use {keybindingAdd} and {keybindingClose} to add points and segments.]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.download_csv">
+				<source><![CDATA[Download as CSV]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.clear">
+				<source><![CDATA[Clear markers]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.clear.confirm">
+				<source><![CDATA[Really?]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.jump_to_start">
+				<source><![CDATA[Jump to start]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.jump_to_end">
+				<source><![CDATA[Jump to end]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.name">
+				<source><![CDATA[Label]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.startTime">
+				<source><![CDATA[start]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.endTime">
+				<source><![CDATA[end]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.delete">
+				<source><![CDATA[Delete]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.entry.bookmark">
+				<source><![CDATA[Bookmark this item]]></source>
+			</trans-unit>
+			<trans-unit id="control.sound_tools.marker_table.title">
+				<source><![CDATA[Waveform Markers]]></source>
+			</trans-unit>
+			<trans-unit id="control.waveform.tooltip">
+				<source><![CDATA[Waveform]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.tooltip">
+				<source><![CDATA[Toggle time display]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.current-time.text">
+				<source><![CDATA[{currentTime} / {totalTime} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.remaining-time.text">
+				<source><![CDATA[{remainingTime} remaining {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+			</trans-unit>
+			<trans-unit id="control.time.current-frame.text">
+				<source><![CDATA[{currentFrame, plural, =-1 {Frame Count Not Available} other {Frame: #}} {chapterTitle, select, _ {} other {— {chapterTitle}}}]]></source>
+			</trans-unit>
+			<trans-unit id="control.video-track.title">
+				<source><![CDATA[Video Track]]></source>
+			</trans-unit>
+			<trans-unit id="error.no-media-source">
+				<source><![CDATA[No media source given]]></source>
+			</trans-unit>
+			<trans-unit id="error.loading">
+				<source><![CDATA[Loading media file]]></source>
+			</trans-unit>
+			<trans-unit id="error.load-failed">
+				<source><![CDATA[The media file could not be loaded.]]></source>
+			</trans-unit>
+			<trans-unit id="error.playback-not-supported">
+				<source><![CDATA[This media file cannot be played back in your browser.]]></source>
+			</trans-unit>
+			<trans-unit id="error.qrcode">
+				<source><![CDATA[Failed to generate QR code.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.invalid_server">
+				<source><![CDATA[Invalid Server URL.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.open_link">
+				<source><![CDATA[Error opening share URL.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.invalid_link">
+				<source><![CDATA[Invalid Link URL.]]></source>
+			</trans-unit>
+			<trans-unit id="error.mastodon.enter_url">
+				<source><![CDATA[Please enter a Mastodon instance URL.]]></source>
+			</trans-unit>
+			<trans-unit id="key.generic">
+				<source><![CDATA[{key}]]></source>
+			</trans-unit>
+			<trans-unit id="key. ">
+				<source><![CDATA[Space Bar]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowDown">
+				<source><![CDATA[▼]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowLeft">
+				<source><![CDATA[◀]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowRight">
+				<source><![CDATA[▶]]></source>
+			</trans-unit>
+			<trans-unit id="key.ArrowUp">
+				<source><![CDATA[▲]]></source>
+			</trans-unit>
+			<trans-unit id="key.Escape">
+				<source><![CDATA[Esc]]></source>
+			</trans-unit>
+			<trans-unit id="key.Shift">
+				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.ibm.Ctrl">
+				<source><![CDATA[Ctrl]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Ctrl">
+				<source><![CDATA[⌃ Control]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Meta">
+				<source><![CDATA[⌘ Command]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.ibm.Shift">
+				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Shift">
+				<source><![CDATA[⇧ Shift]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.ibm.Alt">
+				<source><![CDATA[Alt]]></source>
+			</trans-unit>
+			<trans-unit id="key.mod.mac.Alt">
+				<source><![CDATA[⌥ Option]]></source>
+			</trans-unit>
+			<trans-unit id="key.repeat">
+				<source><![CDATA[(hold) {key}]]></source>
+			</trans-unit>
+			<trans-unit id="key.unto">
+				<source><![CDATA[ to ]]></source>
+			</trans-unit>
+			<trans-unit id="key.unto.mod">
+				<source><![CDATA[-]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.copy-link">
+				<source><![CDATA[Copy Link]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-begin">
+				<source><![CDATA[Don't share timecode]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-current-time">
+				<source><![CDATA[Share current time ({currentTime}).]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.start-at-marker">
+				<source><![CDATA[{markerEnd, select, _ {Share selected marker ({markerStart}).} other {Share selected segment ({markerStart} to {markerEnd}).}}]]></source>
+			</trans-unit>
+			<trans-unit id="modal.bookmark.title">
+				<source><![CDATA[Bookmark (Share Link)]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.configuration">
+				<source><![CDATA[Configure]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.download-image">
+				<source><![CDATA[Download Image]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.error">
+				<source><![CDATA[Sorry, the screenshot could not be taken.]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.file-format">
+				<source><![CDATA[File Format]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata">
+				<source><![CDATA[Metadata]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.metadata-overlay">
+				<source><![CDATA[Overlay on image]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.snap-tip">
+				<source><![CDATA[Use {keybinding} to save a screenshot while watching.]]></source>
+			</trans-unit>
+			<trans-unit id="modal.screenshot.title">
+				<source><![CDATA[Screenshot]]></source>
+			</trans-unit>
+			<trans-unit id="modal.help.title">
+				<source><![CDATA[How to Use]]></source>
+			</trans-unit>
+			<trans-unit id="player.loading">
+				<source><![CDATA[Loading...]]></source>
+			</trans-unit>
+			<trans-unit id="share.shared_timecode">
+				<source><![CDATA[Shared time code]]></source>
+			</trans-unit>
+			<trans-unit id="share.email.tooltip">
+				<source><![CDATA[Send in E-Mail]]></source>
+			</trans-unit>
+			<trans-unit id="share.qr_code.tooltip">
+				<source><![CDATA[Show QR-Code]]></source>
+			</trans-unit>
+			<trans-unit id="share.tweet.tooltip">
+				<source><![CDATA[Tweet]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.tooltip">
+				<source><![CDATA[Share on Mastodon]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.title">
+				<source><![CDATA[Enter your Mastodon instance]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.label">
+				<source><![CDATA[Share]]></source>
+			</trans-unit>
+			<trans-unit id="share.mastodon.placeholder">
+				<source><![CDATA[Address of your server, e.g. mastodon.social]]></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

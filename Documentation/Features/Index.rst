@@ -6,6 +6,7 @@ Features and Testing
    :hidden:
 
    PageView
+   MediaPlayer/Index
 
 This is a list of features and how to do some functional tests.
 

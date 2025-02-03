@@ -643,6 +643,30 @@ class Helper
     }
 
     /**
+     * Converts timecode to seconds, where timecode has one of those formats:
+     * - `hh:mm:ss`
+     * - `mm:ss`
+     * - `ss`
+     *
+     * Floating point values may be used.
+     */
+    public static function timecodeToSeconds(string $timecode): float
+    {
+        $parts = explode(":", $timecode);
+
+        $totalSeconds = 0;
+        $factor = 1;
+
+        // Iterate through $parts reversely
+        for ($i = count($parts) - 1; $i >= 0; $i--) {
+            $totalSeconds += $factor * (float) $parts[$i];
+            $factor *= 60;
+        }
+
+        return $totalSeconds;
+    }
+
+    /**
      * This translates an internal "index_name"
      *
      * @access public

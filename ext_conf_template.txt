@@ -30,6 +30,10 @@ files.fileGrpFulltext = FULLTEXT
 files.fileGrpAudio = AUDIO
 # cat=Files; type=string; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.files.fileGrpScore
 files.fileGrpScore = SCORE
+# cat=Files; type=string; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.files.fileGrpVideo
+files.fileGrpVideo = VIDEO,DEFAULT
+# cat=Files; type=string; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.files.fileGrpWaveform
+files.fileGrpWaveform = WAVEFORM
 # cat=IIIF; type=boolean; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.iiif.indexAnnotations
 iiif.indexAnnotations = 0
 # cat=IIIF; type=int[1-2000]; label=LLL:EXT:dlf/Resources/Private/Language/locallang_labels.xlf:config.iiif.thumbnailWidth

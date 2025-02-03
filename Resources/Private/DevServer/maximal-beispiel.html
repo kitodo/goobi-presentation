@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <script src="/Resources/Public/JavaScript/jQuery/jquery-3.6.0.min.js"></script>
+
+        <script src="/app-config.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaVendor.css" />
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaPlayerStyles.css" />
+
+        <style>
+            #media-viewport {
+                width: 64em;
+                height: 36em;
+                position: relative;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            // coming from app-config.js
+            window.MEDIA_CONFIG = {
+                lang: lang.de,
+                shareButtons
+            };
+
+            // thumbnails: "https://sachsendigital.ddev.site/extra/maximal_beispiel/maximal_beispiel.thumbnails.json",
+        </script>
+
+        <slub-media id="media-viewport" config="MEDIA_CONFIG" poster="https://media.sachsen.digital/maximal_beispiel_klein/maximal_beispiel_klein.jpg">
+            <source src="https://media.sachsen.digital/maximal_beispiel_klein/maximal_beispiel_klein.mpd" type="application/dash+xml">
+            <source src="https://media.sachsen.digital/maximal_beispiel_klein/maximal_beispiel_klein.m3u8" type="application/x-mpegurl">
+
+            <dlf-chapter timecode="0" title="Intro"></dlf-chapter>
+            <dlf-chapter timecode="31" title="Prolog"></dlf-chapter>
+            <dlf-chapter timecode="63" title="HTTP Status Code 423"></dlf-chapter>
+            <dlf-chapter timecode="190" title="Situation in Österreich"></dlf-chapter>
+            <dlf-chapter timecode="632" title="Julian Hessenthaler"></dlf-chapter>
+            <dlf-chapter timecode="2729" title="Datenskandale Österreich"></dlf-chapter>
+            <dlf-chapter timecode="4046" title="eIDAS-Richtlinie"></dlf-chapter>
+            <dlf-chapter timecode="5397" title="Netzneutralität"></dlf-chapter>
+            <dlf-chapter timecode="6320" title="Staatstrojaner"></dlf-chapter>
+            <dlf-chapter timecode="6915" title="Sven Guckes RIP"></dlf-chapter>
+            <dlf-chapter timecode="7021" title="EDPB Call for Experts"></dlf-chapter>
+            <dlf-chapter timecode="7286" title="Epilog"></dlf-chapter>
+
+            <dlf-meta key="title" value="Wolfgang H Scholz „Schattensucher“ (1994)"></dlf-meta>
+        </slub-media>
+
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaVendor.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
+    </body>
+</html>

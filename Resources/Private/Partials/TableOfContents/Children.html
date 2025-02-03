@@ -47,6 +47,7 @@
                 additionalParams="{f:if(condition:'{child.id}', then:'{\'tx_dlf[id]\':child.id, \'tx_dlf[page]\':child.page}', else: '{\'tx_dlf[page]\':child.page}')}"
                 argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}"
                 addQueryString="untrusted"
+                section="{child.section}"
                 title="{f:if(condition:'{child.title}', then: '{child.title}', else: '{child.type}')}">
                     <f:render partial="TableOfContents/Title" arguments="{child: child}"/>
             </f:link.action>

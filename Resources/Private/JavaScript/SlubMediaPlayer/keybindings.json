@@ -1,0 +1,247 @@
+[
+	{
+		"keys": ["Escape"],
+		"action": "cancel",
+		"kind": "other",
+		"order": 100
+	},
+	{
+		"keys": ["?"],
+		"repeat": false,
+		"action": "modal.help.toggle",
+		"kind": "other",
+		"order": 99
+	},
+	{
+		"keys": ["F1"],
+		"repeat": false,
+		"action": "modal.help.toggle",
+		"kind": "other",
+		"order": 99
+	},
+	{
+		"keys": ["b"],
+		"scope": "player",
+		"action": "modal.bookmark.open",
+		"kind": "other",
+		"order": 30
+	},
+	{
+		"keys": ["s"],
+		"scope": "player",
+		"action": "modal.screenshot.open",
+		"kind": "other",
+		"order": 31
+	},
+	{
+		"keys": ["S"],
+		"scope": "player",
+		"action": "modal.screenshot.snap",
+		"kind": "other",
+		"order": 32
+	},
+	{
+		"keys": ["f"],
+		"repeat": false,
+		"scope": "player",
+		"action": "fullscreen.toggle",
+		"kind": "player",
+		"order": 20
+	},
+	{
+		"keys": ["t"],
+		"repeat": false,
+		"scope": "player",
+		"action": "theater.toggle",
+		"kind": "player",
+		"order": 21
+	},
+	{
+		"keys": [" "],
+		"repeat": false,
+		"scope": "player",
+		"action": "playback.toggle",
+		"kind": "player",
+		"order": 0
+	},
+	{
+		"keys": ["m"],
+		"repeat": false,
+		"scope": "player",
+		"action": "playback.volume.mute.toggle",
+		"kind": "player",
+		"order": 12
+	},
+	{
+		"keys": ["ArrowUp"],
+		"scope": "player",
+		"action": "playback.volume.inc",
+		"kind": "player",
+		"order": 10
+	},
+	{
+		"keys": ["ArrowDown"],
+		"scope": "player",
+		"action": "playback.volume.dec",
+		"kind": "player",
+		"order": 11
+	},
+	{
+		"keys": ["c"],
+		"repeat": false,
+		"scope": "player",
+		"action": "playback.captions.toggle",
+		"kind": "player",
+		"order": 13
+	},
+	{
+		"keys": ["ArrowLeft"],
+		"repeat": false,
+		"scope": "player",
+		"action": "navigate.rewind",
+		"kind": "navigate",
+		"order": 0
+	},
+	{
+		"keys": ["ArrowRight"],
+		"repeat": false,
+		"scope": "player",
+		"action": "navigate.seek",
+		"kind": "navigate",
+		"order": 1
+	},
+	{
+		"keys": ["ArrowLeft"],
+		"repeat": true,
+		"scope": "player",
+		"action": "navigate.continuous-rewind",
+		"kind": "navigate",
+		"order": 2
+	},
+	{
+		"keys": ["ArrowRight"],
+		"repeat": true,
+		"scope": "player",
+		"action": "navigate.continuous-seek",
+		"kind": "navigate",
+		"order": 3
+	},
+	{
+		"keyboard": "ibm",
+		"mod": "Ctrl",
+		"keys": ["ArrowLeft"],
+		"scope": "player",
+		"action": "navigate.chapter.prev",
+		"kind": "navigate",
+		"order": 10
+	},
+	{
+		"keyboard": "mac",
+		"mod": "Alt",
+		"keys": ["ArrowLeft"],
+		"scope": "player",
+		"action": "navigate.chapter.prev",
+		"kind": "navigate",
+		"order": 10
+	},
+	{
+		"keyboard": "ibm",
+		"mod": "Ctrl",
+		"keys": ["ArrowRight"],
+		"scope": "player",
+		"action": "navigate.chapter.next",
+		"kind": "navigate",
+		"order": 11
+	},
+	{
+		"keyboard": "mac",
+		"mod": "Alt",
+		"keys": ["ArrowRight"],
+		"scope": "player",
+		"action": "navigate.chapter.next",
+		"kind": "navigate",
+		"order": 11
+	},
+	{
+		"keys": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+		"scope": "player",
+		"action": "navigate.position.percental",
+		"kind": "navigate",
+		"order": 25
+	},
+	{
+		"mod": "Shift",
+		"keys": ["ArrowLeft"],
+		"scope": "player",
+		"action": "navigate.frame.prev",
+		"kind": "navigate",
+		"order": 20
+	},
+	{
+		"mod": "Shift",
+		"keys": ["ArrowRight"],
+		"scope": "player",
+		"action": "navigate.frame.next",
+		"kind": "navigate",
+		"order": 21
+	},
+	{
+		"keys": [","],
+		"scope": "player",
+		"action": "navigate.frame.prev",
+		"kind": "navigate",
+		"order": 20
+	},
+	{
+		"keys": ["."],
+		"scope": "player",
+		"action": "navigate.frame.next",
+		"kind": "navigate",
+		"order": 21
+	},
+	{
+		"keys": ["Shift"],
+		"scope": "player",
+		"action": "navigate.thumbnails.snap",
+		"kind": "navigate",
+		"order": 30,
+		"keydown": true,
+		"keyup": true
+	},
+	{
+		"keys": ["F2"],
+		"repeat": false,
+		"action": "sound_tools.mode.audio",
+		"kind": "sound_tools",
+		"order": 0
+	},
+	{
+		"keys": ["F4"],
+		"repeat": false,
+		"action": "sound_tools.mode.video",
+		"kind": "sound_tools",
+		"order": 1
+	},
+	{
+		"keys": ["<"],
+		"scope": "player",
+		"action": "sound_tools.segments.add",
+		"kind": "sound_tools",
+		"order": 2
+	},
+	{
+		"keys": [">"],
+		"scope": "player",
+		"action": "sound_tools.segments.close",
+		"kind": "sound_tools",
+		"order": 3
+	},
+	{
+		"keys": ["w"],
+		"repeat": false,
+		"scope": "player",
+		"action": "sound_tools.waveform.toggle",
+		"kind": "sound_tools",
+		"order": 4
+	}
+]

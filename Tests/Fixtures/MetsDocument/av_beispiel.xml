@@ -164,8 +164,11 @@
     </mets:amdSec>
     <mets:fileSec>
         <mets:fileGrp USE="DEFAULT">
-            <mets:file ADMID="AMD" ID="FILE_0000_DEFAULT" MIMETYPE="video/quicktime">
+            <mets:file ADMID="AMD" ID="FILE_0000_DEFAULT_MOV" MIMETYPE="video/quicktime">
                 <mets:FLocat LOCTYPE="URL" xlink:href="https://digital.slub-dresden.de/data/kitodo/1703800435/video.mov"/>
+            </mets:file>
+            <mets:file ADMID="AMD" ID="FILE_0000_DEFAULT_MP4" MIMETYPE="video/mp4">
+                <mets:FLocat LOCTYPE="URL" xlink:href="https://digital.slub-dresden.de/data/kitodo/1703800435/video.mp4"/>
             </mets:file>
         </mets:fileGrp>
         <mets:fileGrp USE="THUMBS">
@@ -187,22 +190,34 @@
             <mets:fptr FILEID="FILE_0000_THUMBS"/>
             <mets:div ID="PHYS_0001" ORDER="1" TYPE="track">
                 <mets:fptr>
-                    <mets:area FILEID="FILE_0000_DEFAULT" BEGIN="00:00:00" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MOV" BEGIN="00:00:00" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                </mets:fptr>
+                <mets:fptr>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MP4" BEGIN="00:00:00" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
                 </mets:fptr>
             </mets:div>
             <mets:div ID="PHYS_0002" ORDER="2" TYPE="track">
                 <mets:fptr>
-                    <mets:area FILEID="FILE_0000_DEFAULT" BEGIN="00:00:20" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MOV" BEGIN="00:00:20.5" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                </mets:fptr>
+                <mets:fptr>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MP4" BEGIN="00:00:20.5" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
                 </mets:fptr>
             </mets:div>
             <mets:div ID="PHYS_0003" ORDER="3" TYPE="track">
                 <mets:fptr>
-                    <mets:area FILEID="FILE_0000_DEFAULT" BEGIN="00:00:40" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MOV" BEGIN="00:00:40" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
+                </mets:fptr>
+                <mets:fptr>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MP4" BEGIN="00:00:40" BETYPE="TIME" EXTENT="00:00:20" EXTTYPE="TIME"></mets:area>
                 </mets:fptr>
             </mets:div>
             <mets:div ID="PHYS_0004" ORDER="4" TYPE="track">
                 <mets:fptr>
-                    <mets:area FILEID="FILE_0000_DEFAULT" BEGIN="00:01:00" BETYPE="TIME" EXTENT="00:00:16" EXTTYPE="TIME"></mets:area>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MOV" BEGIN="00:01:00" BETYPE="TIME" EXTENT="00:00:16" EXTTYPE="TIME"></mets:area>
+                </mets:fptr>
+                <mets:fptr>
+                    <mets:area FILEID="FILE_0000_DEFAULT_MP4" BEGIN="00:01:00" BETYPE="TIME" EXTENT="00:00:16" EXTTYPE="TIME"></mets:area>
                 </mets:fptr>
             </mets:div>
         </mets:div>

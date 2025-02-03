@@ -1,0 +1,76 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:kitodo="http://typo3.org/ns/Kitodo/Dlf/ViewHelpers"
+      data-namespace-typo3-fluid="true"
+      lang="en">
+
+<f:if condition="{video}">
+<f:then>
+    <script>
+        document.body.setAttribute("data-has-video", "yes");
+    </script>
+
+    <kitodo:mediaPlayerConfig id="MEDIA_CONFIG" settings="{settings}" />
+
+    <div id="combined-container" class="combined-container">
+        <div class="media-panel">
+            <f:if condition="{settings.equalizer.enabled}">
+                <f:then>
+                    <dlf-equalizer id="{settings.elementId}-equalizer" forPlayer="{settings.elementId}"></dlf-equalizer>
+                </f:then>
+            </f:if>
+            <dlf-marker-table forPlayer="{settings.elementId}"></dlf-marker-table>
+        </div>
+
+        <div id="tx-dlf-view" class="tx-dlf-view">
+            <f:if condition="{video.url.waveform}">
+                <f:then>
+                    <dlf-waveform hidden id="{settings.elementId}-waveform" forPlayer="{settings.elementId}" src="{video.url.waveform.url}" type="{video.url.waveform.mimeType}"></dlf-waveform>
+                </f:then>
+            </f:if>
+
+            <slub-media id="{settings.elementId}" player-view="combined-container" poster="{video.url.poster.url}" config="MEDIA_CONFIG" start="{video.start}" mode="auto" mode-fallback="{video.mode}">
+                <f:comment>NOTE: If one of these doesn't exist, the player will try the next one.</f:comment>
+                <f:for each="{video.sources}" as="source">
+                    <source src="{source.url}" type="{source.mimeType}" data-fps="{source.frameRate}" data-fileid="{source.fileId}">
+                </f:for>
+
+                <f:for each="{video.chapters}" as="chapter">
+                    <dlf-chapter title="{chapter.title}" timecode="{chapter.timecode}" fileids="{chapter.fileIdsJoin}" pageNo="{chapter.pageNo}"></dlf-chapter>
+                </f:for>
+
+                <f:for each="{video.metadata}" as="values" key="key">
+                    <f:for each="{values}" as="value">
+                        <dlf-meta key="{key}" value="{value}"></dlf-meta>
+                    </f:for>
+                </f:for>
+
+                <dlf-media-controls>
+                    <button data-type="volume"></button>
+                    <button data-type="mute"></button>
+                    <f:if condition="{video.url.waveform}">
+                        <f:then>
+                            <button class="material-icons-round sxnd-waveform-button" data-t-title="control.waveform.tooltip" data-action="sound_tools.waveform.toggle">graphic_eq</button>
+                        </f:then>
+                    </f:if>
+                    <button class="material-icons-round sxnd-screenshot-button" data-t-title="control.screenshot.tooltip" data-action="modal.screenshot.open">photo_camera</button>
+                    <button class="material-icons-round sxnd-bookmark-button" data-t-title="control.bookmark.tooltip" data-action="modal.bookmark.open">bookmark_border</button>
+                    <button data-type="fullscreen"></button>
+                    <button class="material-icons-round sxnd-help-button" data-t-title="control.help.tooltip" data-action="modal.help.open">info_outline</button>
+                </dlf-media-controls>
+            </slub-media>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', function () {
+            var equalizer = document.getElementById("{settings.elementId}-equalizer");
+            equalizer.parsePresets(MEDIA_CONFIG['equalizer']['presets']);
+
+            if (MEDIA_CONFIG['equalizer']['default'])
+                equalizer.selectPreset(MEDIA_CONFIG['equalizer']['default']);
+        });
+    </script>
+</f:then>
+</f:if>
+
+</html>

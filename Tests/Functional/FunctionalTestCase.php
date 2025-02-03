@@ -132,7 +132,10 @@ class FunctionalTestCase extends \TYPO3\TestingFramework\Core\Functional\Functio
                 'fileGrpThumbs' => 'THUMBS',
                 'fileGrpDownload' => 'DOWNLOAD',
                 'fileGrpFulltext' => 'FULLTEXT',
-                'fileGrpAudio' => 'AUDIO'
+                'fileGrpAudio' => 'AUDIO',
+                'fileGrpVideo' => 'VIDEO,DEFAULT',
+                'fileGrpVideo' => 'VIDEO,DEFAULT,VIDEO_ALT1',
+                'fileGrpWaveform' => 'WAVEFORM'
             ],
             'solr' => [
                 'host' => getenv('dlfTestingSolrHost'),

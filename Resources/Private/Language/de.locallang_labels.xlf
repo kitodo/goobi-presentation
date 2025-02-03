@@ -605,6 +605,10 @@
 				<source>DLF: List View</source>
 				<target>DLF: Listenansicht</target>
 			</trans-unit>
+			<trans-unit id="tt_content.dlf_mediaplayer">
+				<source>DLF: A/V-Player</source>
+				<target>DLF: A/V-Player</target>
+			</trans-unit>
 			<trans-unit id="tt_content.dlf_metadata">
 				<source>DLF: Metadata</source>
 				<target>DLF: Metadaten</target>
@@ -696,6 +700,14 @@
 			<trans-unit id="config.files.fileGrpAudio">
 				<target>Audio fileGrp: Komma-getrennte Liste der @USE Attributwerte der Audiodateien nach absteigender Priorität sortiert (Standard ist "AUDIO")</target>
 				<source>Audio fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "AUDIO")</source>
+			</trans-unit>
+			<trans-unit id="config.files.fileGrpVideo">
+				<target>Video fileGrp: Komma-getrennte Liste der @USE Attributwerte der Videodateien nach absteigender Priorität sortiert (Standard ist "VIDEO,DEFAULT")</target>
+				<source>Video fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "VIDEO,DEFAULT")</source>
+			</trans-unit>
+			<trans-unit id="config.files.fileGrpWaveform">
+				<target>Waveform fileGrp: Komma-getrennte Liste der @USE Attributwerte der Waveform-Daten nach absteigender Priorität sortiert (Standard ist "WAVEFORM")</target>
+				<source>Waveform fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "WAVEFORM")</source>
 			</trans-unit>
 			<trans-unit id="config.iiif.indexAnnotations">
 				<target>IIIF-Annotationen mit Motivation "painting" als Volltext behandeln?: Als Volltext behandelte Annotationen werden im Suchid idiert (Standard ist "FALSE")</target>

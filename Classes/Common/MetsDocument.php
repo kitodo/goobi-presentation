@@ -431,6 +431,7 @@ final class MetsDocument extends AbstractDocument
             // Check if file has valid @USE attribute.
             if (!empty($fileUse[$fileId])) {
                 $details['files'][$fileUse[$fileId]] = $fileId;
+                $details['all_files'][$fileUse[$fileId]][] = $fileId;
             }
         }
     }
@@ -447,6 +448,7 @@ final class MetsDocument extends AbstractDocument
      */
     private function getPage(array &$details, ?SimpleXMLElement $metsPointers): void
     {
+        // Is there a mptr node?
         if (count($metsPointers)) {
             // Yes. Get the file reference.
             $details['points'] = (string) $metsPointers[0]->attributes('http://www.w3.org/1999/xlink')->href;
@@ -459,6 +461,7 @@ final class MetsDocument extends AbstractDocument
             $details['thumbnailId'] = $this->getThumbnail();
             // Get page/track number of the first page/track related to this structure element.
             $details['pagination'] = $this->physicalStructureInfo[$this->smLinks['l2p'][$details['id']][0]]['orderlabel'];
+            $details['videoChapter'] = $this->getTimecode($details);
         } elseif ($details['id'] == $this->magicGetToplevelId()) {
             // Point to self if this is the toplevel structure.
             $details['points'] = 1;
@@ -467,6 +470,59 @@ final class MetsDocument extends AbstractDocument
         if ($details['thumbnailId'] === null) {
             unset($details['thumbnailId']);
         }
+    }
+
+    /**
+     * Get timecode and file IDs that link to first matching fileGrpVideo/USE.
+     *
+     * Returns either `null` or an array with the following keys:
+     * - `fileIds`: Array of linked file IDs
+     * - `fileIdsJoin`: String where all `fileIds` are joined using ','.
+     *    This is for convenience when passing `fileIds` in a Fluid template or similar.
+     * - `timecode`: Time code specified in first matching `<mets:area>`
+     *
+     * @param array $logInfo
+     * @return ?array
+     */
+    protected function getTimecode(array $logInfo): ?array
+    {
+        // Load plugin configuration.
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey, 'files');
+        $fileGrpsVideo = GeneralUtility::trimExplode(',', $extConf['fileGrpVideo']);
+
+        foreach ($fileGrpsVideo as $fileGrpVideo) {
+            if (!isset($this->smLinks['l2p'][$logInfo['id']][0])) {
+                continue;
+            }
+
+            $physInfo = $this->physicalStructureInfo[$this->smLinks['l2p'][$logInfo['id']][0]];
+            $fileIds = $physInfo['all_files'][$fileGrpVideo] ?? [];
+
+            $chapter = null;
+
+            foreach ($fileIds as $fileId) {
+                $fileArea = $physInfo['fileInfos'][$fileId]['area'] ?? '';
+                if (empty($fileArea) || $fileArea['betype'] !== 'TIME') {
+                    continue;
+                }
+
+                if ($chapter === null) {
+                    $chapter = [
+                        'fileIds' => [],
+                        'timecode' => Helper::timecodeToSeconds($fileArea['begin']),
+                    ];
+                }
+
+                $chapter['fileIds'][] = $fileId;
+            }
+
+            if ($chapter !== null) {
+                $chapter['fileIdsJoin'] = implode(',', $chapter['fileIds']);
+                return $chapter;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -595,15 +651,15 @@ final class MetsDocument extends AbstractDocument
         if (!empty($this->mdSec)) {
             foreach ($mdIds as $dmdId) {
                 $mdSectionType = $this->mdSec[$dmdId]['section'];
-    
+
                 if ($this->hasMetadataSection($metadataSections, $mdSectionType, 'dmdSec')) {
                     continue;
                 }
-    
+
                 if (!$this->extractAndProcessMetadata($dmdId, $mdSectionType, $metadata, $cPid, $metadataSections)) {
                     continue;
                 }
-    
+
                 $metadataSections[] = $mdSectionType;
             }
         }
@@ -1426,6 +1482,15 @@ final class MetsDocument extends AbstractDocument
                 $this->physicalStructureInfo[$id]['orderlabel'] = $this->getAttribute($firstNode['ORDERLABEL']);
                 $this->physicalStructureInfo[$id]['type'] = (string) $firstNode['TYPE'];
                 $this->physicalStructureInfo[$id]['contentIds'] = $this->getAttribute($firstNode['CONTENTIDS']);
+                // @fschoelzel: needs review
+                // Get the file representations from fileSec node.
+                foreach ($physNode[0]->children('http://www.loc.gov/METS/')->fptr as $fptr) {
+                    // Check if file has valid @USE attribute.
+                    if (!empty($fileUse[(string) $fptr->attributes()->FILEID])) {
+                        $this->physicalStructureInfo[$id]['files'][$fileUse[(string) $fptr->attributes()->FILEID]] = (string) $fptr->attributes()->FILEID;
+                        $this->physicalStructureInfo[$id]['all_files'][$fileUse[(string) $fptr->attributes()->FILEID]][] = (string) $fptr->attributes()->FILEID;
+                    }
+                }
 
                 $this->getFileRepresentation($id, $firstNode);
 
@@ -1460,6 +1525,7 @@ final class MetsDocument extends AbstractDocument
             // Check if file has valid @USE attribute.
             if (!empty($fileUse[$fileId])) {
                 $this->physicalStructureInfo[$id]['files'][$fileUse[$fileId]] = $fileId;
+                $this->physicalStructureInfo[$id]['all_files'][$fileUse[$fileId]][] = $fileId;
             }
         }
     }
@@ -1491,15 +1557,10 @@ final class MetsDocument extends AbstractDocument
             $this->physicalStructureInfo[$id]['orderlabel'] = $this->getAttribute($elementNode['ORDERLABEL']);
             $this->physicalStructureInfo[$id]['type'] = (string) $elementNode['TYPE'];
             $this->physicalStructureInfo[$id]['contentIds'] = $this->getAttribute($elementNode['CONTENTIDS']);
+
             // Get the file representations from fileSec node.
             foreach ($elementNode->children('http://www.loc.gov/METS/')->fptr as $fptr) {
-                $fileNode = $fptr->area ?? $fptr;
-                $fileId = (string) $fileNode->attributes()->FILEID;
-
-                // Check if file has valid @USE attribute.
-                if (!empty($fileUse[(string) $fileId])) {
-                    $this->physicalStructureInfo[$id]['files'][$fileUse[$fileId]] = $fileId;
-                }
+                $this->processFptrElement($fptr, $order, $fileUse, $elements);
             }
 
             // Get track info with begin and extent time for later assignment with musical
@@ -1530,6 +1591,64 @@ final class MetsDocument extends AbstractDocument
         array_unshift($elements, $id);
 
         return $elements;
+    }
+
+    /**
+     * Process the fptr element in the MetsDocument class
+     *
+     * @access private
+     *
+     * @param SimpleXMLElement $fptr The fptr element to process.
+     * @param int $order The order of the element.
+     * @param array $fileUse The array containing file use information.
+     * @param array $elements The array containing the elements.
+     * @return void
+     */
+    private function processFptrElement($fptr, $order, $fileUse, &$elements): void
+    {
+        // // @fschoelzel - this breaks the Mediaplayer Chapter Navigation
+        // $fileNode = $fptr->area ?? $fptr;
+        // $fileId = (string) $fileNode->attributes()->FILEID;
+
+        $fileId = (string) $fptr->attributes()->FILEID;
+
+        // Check if file has valid @USE attribute.
+        if (!empty($fileUse[(string) $fileId])) {
+            $this->physicalStructureInfo[$elements[$order]]['files'][$fileUse[$fileId]] = $fileId;
+            // List all files of the fileGrp that are referenced on the page, not only the last one
+            $this->physicalStructureInfo[$elements[$order]]['all_files'][$fileUse[$fileId]][] = $fileId;
+        } elseif ($area = $fptr->children('http://www.loc.gov/METS/')->area) {
+            $areaAttributes = $area->attributes();
+            $physInfo = &$this->physicalStructureInfo[$elements[$order]];
+            $this->processAreaAttributes($areaAttributes, $physInfo, $fileUse);
+        }
+    }
+
+    /**
+     * Process the area attributes in the MetsDocument class
+     *
+     * @access private
+     *
+     * @param SimpleXMLElement $areaAttributes The area attributes of the file.
+     * @param array $physInfo The physical information array to be updated.
+     * @param array $fileUse The file use array.
+     * @return void
+     */
+    private function processAreaAttributes(SimpleXMLElement $areaAttributes, &$physInfo, $fileUse): void
+    {
+        $fileId = (string) $areaAttributes->FILEID;
+
+        if (!empty($fileUse[$fileId])) {
+            $physInfo['files'][$fileUse[$fileId]] = $fileId;
+            $physInfo['all_files'][$fileUse[$fileId]][] = $fileId;
+            // Info about how the file is referenced/used on the page
+            $physInfo['fileInfos'][$fileId]['area'] = [
+                'begin'     => (string) $areaAttributes->BEGIN,
+                'betype'    => (string) $areaAttributes->BETYPE,
+                'extent'    => (string) $areaAttributes->EXTENT,
+                'exttype'   => (string) $areaAttributes->EXTTYPE,
+            ];
+        }
     }
 
     /**

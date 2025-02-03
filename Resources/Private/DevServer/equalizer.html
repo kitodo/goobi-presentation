@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Equalizer Test</title>
+
+        <script src="/Resources/Public/JavaScript/jQuery/jquery-3.6.0.min.js"></script>
+
+        <script src="/app-config.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaVendor.css" />
+        <link rel="stylesheet" type="text/css" href="/Css/DlfMediaPlayerStyles.css" />
+
+        <style>
+            #media-viewport {
+                width: 64em;
+                height: 36em;
+                position: relative;
+                display: inline-block;
+            }
+
+            #gain-offset-slider {
+                width: 64em;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            // coming from app-config.js
+            window.MEDIA_CONFIG = {
+                lang: lang.de,
+                shareButtons
+            };
+        </script>
+
+        <h1>Equalizer Test</h1>
+
+        <ol>
+            <li>Start audio playback. The frequency spectrum (FFT) is updated twice per second.</li>
+            <li>Activate the equalizer and check that the displayed spectrum matches the frequency response curve.</li>
+        </ol>
+
+        <label for="gain-offset-slider">FFT Gain Normalization:</label><br>
+        <input type="range" id="gain-offset-slider" min="0" max="100" step="0.1" value="77.5">
+
+        <dlf-equalizer forPlayer="media-viewport"></dlf-equalizer>
+
+        <slub-media id="media-viewport" config="MEDIA_CONFIG" mode="video">
+            <source src="/files/sines.flac" type="audio/flac">
+
+            <dlf-chapter timecode="0" title="Sine Waves"></dlf-chapter>
+
+            <dlf-media-controls>
+                <button data-type="volume"></button>
+            </dlf-media-controls>
+        </slub-media>
+
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaVendor.js"></script>
+        <script src="/JavaScript/DlfMediaPlayer/DlfMediaPlayer.js"></script>
+
+        <script>
+            const equalizer = document.querySelector('dlf-equalizer');
+            equalizer.parsePresets([
+                {
+                    key: "riaa",
+                    mode: "riaa",
+                    group: "riaa",
+                    label: "RIAA",
+                    params: {
+                        trebleCut: 75,
+                        baseBoost: 318,
+                        baseBoostRolloff: 3180,
+                    },
+                },
+                {
+                    key: "riaa-iec",
+                    mode: "riaa",
+                    group: "riaa",
+                    label: "Enhanced RIAA / IEC",
+                    params: {
+                        trebleCut: 75,
+                        baseBoost: 318,
+                        baseBoostRolloff: 3180,
+                        deepBaseRolloff: 7950,
+                    },
+                },
+            ]);
+            equalizer.selectPreset("riaa");
+            const gainOffsetSlider = document.getElementById('gain-offset-slider');
+            window.setInterval(() => {
+                equalizer.view.fftSnapshot(gainOffsetSlider.valueAsNumber);
+            }, 500);
+        </script>
+    </body>
+</html>

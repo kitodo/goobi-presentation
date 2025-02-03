@@ -1,0 +1,81 @@
+.dlf-media-markers {
+    .dlf-media-markers-empty-msg {
+        display: none;
+    }
+
+    .dlf-media-markers-list {
+        table {
+            margin-top: 0.4em;
+            line-height: normal;
+        }
+
+        th {
+            border-bottom: 1px solid black;
+        }
+
+        td, th {
+            padding: 0.1em 2em 0.1em 0;
+        }
+
+        tbody tr:hover {
+            background-color: #eee;
+        }
+
+        tr.active-segment {
+            color: darkcyan;
+        }
+
+        .marker-id-col {
+            width: 50%;
+
+            input {
+                font: inherit;
+                background: transparent;
+                border: none;
+
+                &:focus {
+                    outline: none;
+                }
+
+                &::placeholder {
+                    font-style: italic;
+                }
+            }
+        }
+
+        .marker-start-col,
+        .marker-end-col {
+            cursor: pointer;
+        }
+
+        .marker-buttons-col {
+            width: 0;
+            white-space: nowrap;
+        }
+
+        button {
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+
+        .material-icons-round {
+            font-size: 20px;
+        }
+    }
+
+    &.is-empty {
+        .dlf-media-markers-empty-msg {
+            display: block;
+        }
+
+        .dlf-media-markers-list {
+            display: none;
+        }
+
+        kbd {
+            .kbd();
+        }
+    }
+}

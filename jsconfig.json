@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+		"allowJs": true,
+		"resolveJsonModule": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "preserve",
+        "strictFunctionTypes": true,
+		"downlevelIteration": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "./Build/node_modules/*"
+            ],
+			"lib/*": [
+				"Resources/Private/JavaScript/lib/*"
+			],
+			"DlfMediaPlayer/*": [
+				"Resources/Private/JavaScript/DlfMediaPlayer/*"
+			],
+			"SlubMediaPlayer/*": [
+				"Resources/Private/JavaScript/SlubMediaPlayer/*"
+			]
+        }
+    },
+	"include": [
+		"./Resources/Private/JavaScript"
+	],
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*",
+		"**/vendor/*"
+    ]
+}

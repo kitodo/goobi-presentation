@@ -1,0 +1,64 @@
+.dlf-equalizer-resume {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+
+    width: 80%;
+    max-width: 1000px;
+    height: 400px;
+    border: 1px solid black;
+    margin-bottom: 1em;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 120%;
+}
+
+.dlf-equalizer-view {
+    .eq-controls {
+        div {
+            display: inline-block;
+            margin-right: 1em;
+        }
+
+        button {
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            pointer-events: none;
+        }
+
+        .eq-activate {
+            input {
+                margin-right: 0;
+            }
+
+            label {
+                padding-left: @label-padding;
+            }
+        }
+
+        .eq-preset {
+            select,
+            button {
+                margin-left: @label-padding;
+                padding-right: 0;
+                margin-right: 0;
+            }
+
+            optgroup:empty {
+                display: none;
+            }
+
+            .material-icons-round {
+                font-size: 16pt;
+            }
+        }
+
+        margin-bottom: 0.4em;
+    }
+}
