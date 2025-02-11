@@ -1198,7 +1198,7 @@ final class MetsDocument extends AbstractDocument
             $this->logicalUnits[$logId]['structureDepth'] = $structureDepth;
         }
 
-        return $structureDepth;
+        return $structureDepth > 0 ? $structureDepth : false;
     }
 
     /**
