@@ -16,6 +16,7 @@ use IntlDateFormatter;
 use Kitodo\Dlf\Common\Helper;
 use Kitodo\Dlf\Common\Solr\Solr;
 use TYPO3\CMS\Backend\Form\AbstractNode;
+use TYPO3\CMS\Core\Localization\DateFormatter;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 
 /**
@@ -38,14 +39,7 @@ class SolrCoreStatus extends AbstractNode
     public function render(): array
     {
         $result = $this->initializeResultArray();
-
-        // Get date formatter
-        $dateFormatter = new IntlDateFormatter(
-            Helper::getLanguageService()->lang, // locale
-            IntlDateFormatter::MEDIUM,          // dateType
-            IntlDateFormatter::MEDIUM           // timeType
-        );
-
+        $dateFormatter = new DateFormatter();
         // Show only when editing existing records.
         if ($this->data['command'] !== 'new') {
             $core = $this->data['databaseRow']['index_name'];
@@ -66,9 +60,8 @@ class SolrCoreStatus extends AbstractNode
                     $dateTimeTo = new \DateTime("@$uptimeInSeconds");
                     $uptime = $dateTimeFrom->diff($dateTimeTo)->format('%a ' . Helper::getLanguageService()->getLL('flash.days') . ', %H:%I:%S');
                     $numDocuments = $response->getNumberOfDocuments();
-                    $startTime = $response->getStartTime() ? $dateFormatter->format($response->getStartTime()) : 'N/A';
-                    $lastModified = $response->getLastModified() ? $dateFormatter->format($response->getLastModified()) : 'N/A';
-
+                    $startTime = $response->getStartTime() ? $dateFormatter->strftime('%c', $response->getStartTime()->getTimestamp(), Helper::getLanguageService()->lang) : 'N/A';
+                    $lastModified = $response->getLastModified() ? $dateFormatter->strftime('%c', $response->getLastModified()->getTimestamp(), Helper::getLanguageService()->lang) : 'N/A';
                     // Create flash message.
                     Helper::addMessage(
                         sprintf(Helper::getLanguageService()->getLL('flash.coreStatus'), $startTime, $uptime, $lastModified, $numDocuments),
