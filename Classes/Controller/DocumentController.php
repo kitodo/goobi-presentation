@@ -12,8 +12,6 @@
 
 namespace Kitodo\Dlf\Controller;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * Provide document JSON for client side access
  *
@@ -60,9 +58,8 @@ class DocumentController extends AbstractController
                 ->build();
         }
 
-        $filesConfiguration = $this->extConf['files'];
-        $imageFileGroups = array_reverse(GeneralUtility::trimExplode(',', $filesConfiguration ['fileGrpImages']));
-        $fulltextFileGroups = GeneralUtility::trimExplode(',', $filesConfiguration ['fileGrpFulltext']);
+        $imageFileGroups = array_reverse($this->useGroupsConfiguration->getImage());
+        $fulltextFileGroups = $this->useGroupsConfiguration->getFulltext();
 
         $config = [
             'forceAbsoluteUrl' => !empty($this->settings['forceAbsoluteUrl']),
@@ -81,7 +78,7 @@ class DocumentController extends AbstractController
             'fileGroups' => [
                 'images' => $imageFileGroups,
                 'fulltext' => $fulltextFileGroups,
-                'download' => GeneralUtility::trimExplode(',', $this->extConf['fileGrpDownload']),
+                'download' => $this->useGroupsConfiguration->getDownload(),
             ],
             'document' => $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config),
         ];
@@ -123,7 +120,7 @@ class DocumentController extends AbstractController
 
         $make = function ($page, $double, $pageGrid) {
             $result = $this->uriBuilder->reset()
-                ->setTargetPageUid($this->getRequest()->getAttribute('routing')->getPageId())
+                ->setTargetPageUid($this->request->getAttribute('routing')->getPageId())
                 ->setCreateAbsoluteUri(!empty($this->settings['forceAbsoluteUrl']) ? true : false)
                 ->setArguments(
                     [

@@ -482,8 +482,6 @@ class PageViewController extends AbstractController
             'maxPage' => $this->requestData['page'] + $this->requestData['double']
         ];
 
-        $initDoc = $this->document->getCurrentDocument()->toArray($this->uriBuilder, $config);
-
         if (is_array($this->documentArray) && count($this->documentArray) > 1) {
             $jsViewer = 'tx_dlf_viewer = [];';
             $i = 0;

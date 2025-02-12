@@ -159,7 +159,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $documentId = $this->requestData['id'];
         }
 
-        $pageId = $this->getRequest()->getAttribute('routing')->getPageId();
+        $pageId = $this->request->getAttribute('routing')->getPageId();
 
         // Try to get document format from database
         if (!empty($documentId)) {
@@ -205,7 +205,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
     protected function configureProxyUrl(string &$url): void
     {
         $this->uriBuilder->reset()
-            ->setTargetPageUid($this->getRequest()->getAttribute('routing')->getPageId())
+            ->setTargetPageUid($this->request->getAttribute('routing')->getPageId())
             ->setCreateAbsoluteUri(!empty($this->settings['general']['forceAbsoluteUrl']))
             ->setArguments(
                 [
@@ -558,11 +558,6 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         ];
     }
 
-    protected function getRequest(): ServerRequestInterface
-    {
-        return $GLOBALS['TYPO3_REQUEST'];
-    }
-
     /**
      * Get document from repository by uid.
      *
@@ -646,9 +641,9 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             }
 
             $this->document->setLocation($documentId);
-                } else {
-                    $this->logger->error('Invalid location given "' . $documentId . '" for document loading');
-                }
+        } else {
+            $this->logger->error('Invalid location given "' . $documentId . '" for document loading');
+        }
 
         return $doc;
     }
