@@ -72,6 +72,12 @@ abstract class AbstractDocument
     protected int $cPid = 0;
 
     /**
+     * @access protected
+     * @var int This holds the page ID for the requests
+     */
+    protected int $pageId = 0;
+
+    /**
      * @access public
      * @static
      * @var string The extension key
@@ -522,6 +528,27 @@ abstract class AbstractDocument
     abstract protected function setPreloadedDocument($preloadedDocument): bool;
 
     /**
+     * Get information about all files contained in the document, or null if this information is not available.
+     *
+     * Returns an associative array of the following form:
+     *
+     * ```php
+     * [
+     *     '#FILE_ID' => [
+     *         'url' => '...',
+     *         'mimetype' => '...',
+     *     ],
+     *     // ...
+     * ]
+     * ```
+     *
+     * @access public
+     *
+     * @return array
+     */
+    abstract public function getAllFiles(): array;
+
+    /**
      * This is a singleton class, thus an instance must be created by this method
      *
      * @access public
@@ -529,12 +556,13 @@ abstract class AbstractDocument
      * @static
      *
      * @param string $location The URL of XML file or the IRI of the IIIF resource
+     * @param int $pageId
      * @param array $settings
      * @param bool $forceReload Force reloading the document instead of returning the cached instance
      *
      * @return AbstractDocument|null Instance of this class, either MetsDocument or IiifManifest
      */
-    public static function &getInstance(string $location, array $settings = [], bool $forceReload = false)
+    public static function &getInstance(string $location, int $pageId = 0, array $settings = [], bool $forceReload = false)
     {
         // Create new instance depending on format (METS or IIIF) ...
         $documentFormat = null;
@@ -577,11 +605,11 @@ abstract class AbstractDocument
         // Sanitize input.
         $pid = array_key_exists('storagePid', $settings) ? max((int) $settings['storagePid'], 0) : 0;
         if ($documentFormat == 'METS') {
-            $instance = new MetsDocument($pid, $location, $xml, $settings);
+            $instance = new MetsDocument($pid, $location, $pageId, $xml, $settings);
         } elseif ($documentFormat == 'IIIF') {
             // TODO: Parameter $preloadedDocument of class Kitodo\Dlf\Common\IiifManifest constructor expects SimpleXMLElement|Ubl\Iiif\Presentation\Common\Model\Resources\IiifResourceInterface, Ubl\Iiif\Presentation\Common\Model\AbstractIiifEntity|null given.
             // @phpstan-ignore-next-line
-            $instance = new IiifManifest($pid, $location, $iiif);
+            $instance = new IiifManifest($pid, $location, $pageId, $iiif);
         }
 
         if ($instance !== null) {
@@ -1041,7 +1069,7 @@ abstract class AbstractDocument
             if ($this->parentId) {
                 // TODO: Parameter $location of static method AbstractDocument::getInstance() expects string, int<min, -1>|int<1, max> given.
                 // @phpstan-ignore-next-line
-                $parent = self::getInstance($this->parentId, ['storagePid' => $this->pid]);
+                $parent = self::getInstance($this->parentId, $this->pageId, ['storagePid' => $this->pid]);
                 $this->rootId = $parent->rootId;
             }
             $this->rootIdLoaded = true;
@@ -1089,14 +1117,16 @@ abstract class AbstractDocument
      *
      * @param int $pid If > 0, then only document with this PID gets loaded
      * @param string $location The location URL of the XML file to parse
+     * @param int $pageId
      * @param \SimpleXMLElement|IiifResourceInterface $preloadedDocument Either null or the \SimpleXMLElement
      * or IiifResourceInterface that has been loaded to determine the basic document format.
      *
      * @return void
      */
-    protected function __construct(int $pid, string $location, $preloadedDocument, array $settings = [])
+    protected function __construct(int $pid, string $location, int $pageId, $preloadedDocument, array $settings = [])
     {
         $this->pid = $pid;
+        $this->pageId = $pageId;
         $this->useGroupsConfiguration = UseGroupsConfiguration::getInstance();
         $this->setPreloadedDocument($preloadedDocument);
         $this->init($location, $settings);
@@ -1161,5 +1191,115 @@ abstract class AbstractDocument
         } else {
             $this->$method($value);
         }
+    }
+
+    /**
+     * Get IDs of logical structures that a page belongs to, indexed by depth.
+     *
+     * @param int $pageNo
+     * @return array
+     */
+    public function getLogicalSectionsOnPage($pageNo)
+    {
+        $this->magicGetSmLinks();
+        $this->magicGetPhysicalStructure();
+
+        $ids = [];
+        if (!empty($this->physicalStructure[$pageNo]) && !empty($this->smLinks['p2l'][$this->physicalStructure[$pageNo]])) {
+            foreach ($this->smLinks['p2l'][$this->physicalStructure[$pageNo]] as $logId) {
+                $depth = $this->getStructureDepth($logId);
+                $ids[$depth][] = $logId;
+            }
+        }
+        ksort($ids);
+        reset($ids);
+        return $ids;
+    }
+
+    /**
+     * Get URL of download file of specified page, or the empty string if there is no such link.
+     *
+     * @param int $pageNumber
+     * @return string
+     */
+    public function getPageLink($pageNumber)
+    {
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
+        $fileGrpsDownload = GeneralUtility::trimExplode(',', $extConf['files']['fileGrpDownload']);
+        // Get image link.
+        foreach ($fileGrpsDownload as $fileGrpDownload) {
+            if (!empty($this->physicalStructureInfo[$this->physicalStructure[$pageNumber]]['files'][$fileGrpDownload])) {
+                return $this->getFileLocation($this->physicalStructureInfo[$this->physicalStructure[$pageNumber]]['files'][$fileGrpDownload]);
+            }
+        }
+        return '';
+    }
+
+    public function toArray($uriBuilder, array $config = [])
+    {
+        $this->magicGetSmLinks();
+        $this->magicGetPhysicalStructure();
+
+        $proxyFileGroups = $config['proxyFileGroups'] ?? [];
+        $forceAbsoluteUrl = $config['forceAbsoluteUrl'] ?? false;
+        $minPage = $config['minPage'] ?? 1;
+        $maxPage = $config['maxPage'] ?? $this->numPages;
+
+        $result = [
+            'pages' => [],
+            'query' => [
+                'minPage' => $minPage
+            ]
+        ];
+
+        $allFiles = $this->getAllFiles();
+
+        for ($page = $minPage; $page <= $maxPage; $page++) {
+            $pageEntry = [
+                'logSections' => array_merge(...$this->getLogicalSectionsOnPage($page)),
+                'files' => [],
+            ];
+
+            foreach ($this->physicalStructureInfo[$this->physicalStructure[$page]]['files'] as $fileGrp => $fileId) {
+                if (!$allFiles) {
+                    $file = [
+                        'url' => $this->getFileLocation($fileId),
+                        'mimetype' => $this->getFileMimeType($fileId),
+                    ];
+                } else {
+                    $file = $allFiles[$fileId] ?? null;
+                    if ($file === null) {
+                        continue;
+                    }
+                }
+
+                $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(self::$extKey);
+                $nonProxyMimeTypes = GeneralUtility::trimExplode(',', $extConf['nonProxyMimeTypes']);
+
+                // Only deliver static images via the internal PageViewProxy.
+                // (For IIP and IIIF, the viewer needs to build and access a separate metadata URL, see `getMetadataURL`.)
+                if (in_array($fileGrp, $proxyFileGroups) && !in_array($file['mimetype'], $nonProxyMimeTypes)) {
+                    // Configure @action URL for form.
+                    $file['url'] = $uriBuilder
+                        ->reset()
+                        ->setTargetPageUid($this->pageId)
+                        ->setCreateAbsoluteUri($forceAbsoluteUrl)
+                        ->setArguments(
+                            [
+                                'eID' => 'tx_dlf_pageview_proxy',
+                                'url' => $file['url'],
+                                'uHash' => GeneralUtility::hmac($file['url'], 'PageViewProxy')
+                            ]
+                        )
+                        ->build();
+                }
+
+                $pageEntry['files'][$fileGrp] = $file;
+            }
+
+            $result['pages'][] = $pageEntry;
+        }
+
+        return $result;
     }
 }

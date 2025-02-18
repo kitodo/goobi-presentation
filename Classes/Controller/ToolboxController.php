@@ -139,13 +139,31 @@ class ToolboxController extends AbstractController
      *
      * @return array Array of image information's.
      */
-    private function getImage(int $page): array
+    private function getImage(int $page, array $fileGrps): array
     {
-        // Get @USE value of METS fileGroup.
-        $image = $this->getFile($page, $this->useGroupsConfiguration->getImage());
-        if (isset($image['mimetype'])) {
-            $fileExtension = Helper::getFileExtensionsForMimeType($image['mimetype']);
-            $image['mimetypeLabel'] = !empty($fileExtension) ? ' (' . strtoupper($fileExtension[0]) . ')' : '';
+        $image = [];
+        foreach ($fileGrps as $fileGrp) {
+            // Get image link.
+            $physicalStructureInfo = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$page]];
+            $fileId = $physicalStructureInfo['files'][$fileGrp];
+            if (!empty($fileId)) {
+                $image['url'] = $this->currentDocument->getDownloadLocation($fileId);
+                $image['mimetype'] = $this->currentDocument->getFileMimeType($fileId);
+                // Also see Toolbox.js
+                switch ($image['mimetype']) {
+                    case 'image/jpeg':
+                        $image['mimetypeLabel'] = ' (JPG)';
+                        break;
+                    case 'image/tiff':
+                        $image['mimetypeLabel'] = ' (TIFF)';
+                        break;
+                    default:
+                        $image['mimetypeLabel'] = '';
+                }
+                break;
+            } else {
+                $this->logger->warning('File not found in fileGrp "' . $fileGrp . '"');
+            }
         }
         return $image;
     }
@@ -158,6 +176,7 @@ class ToolboxController extends AbstractController
      *
      * @return void
      */
+    // TODO(client-side)
     private function renderAnnotationTool(): void
     {
         if ($this->isDocMissingOrEmpty()) {
@@ -280,21 +299,25 @@ class ToolboxController extends AbstractController
         $this->setPage();
         $page = $this->requestData['page'] ?? 0;
 
+        // Get @USE value of METS fileGrp.
+        $fileGrpsImageDownload = array_reverse(GeneralUtility::trimExplode(',', $this->settings['fileGrpsImageDownload']));
+
         $imageArray = [];
         // Get left or single page download.
-        $image = $this->getImage($page);
+        $image = $this->getImage($page, $fileGrpsImageDownload);
         if (Helper::filterFilesByMimeType($image, ['image'])) {
             $imageArray[0] = $image;
         }
 
         if ($this->requestData['double'] == 1) {
-            $image = $this->getImage($page + 1);
+            $image = $this->getImage($page + 1, $fileGrpsImageDownload);
             if (Helper::filterFilesByMimeType($image, ['image'])) {
                 $imageArray[1] = $image;
             }
         }
 
         $this->view->assign('imageDownload', $imageArray);
+        $this->view->assign('fileGrpsImageDownload', $fileGrpsImageDownload);
     }
 
     /**
@@ -303,6 +326,7 @@ class ToolboxController extends AbstractController
      * @access private
      *
      * @param int $page Page number
+     * @param string[] $fileGrps File groups to consider
      *
      * @return array Array of file information
      */
@@ -405,42 +429,22 @@ class ToolboxController extends AbstractController
      */
     private function getPageLink(): array
     {
-        $firstPageLink = '';
-        $secondPageLink = '';
-        $pageLinkArray = [];
-        $pageNumber = $this->requestData['page'] ?? 0;
-        $useGroups = $this->useGroupsConfiguration->getDownload();
-        // Get image link.
-        while ($useGroup = array_shift($useGroups)) {
-            $firstFileGroupDownload = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$pageNumber]]['files'][$useGroup] ?? [];
-            if (!empty($firstFileGroupDownload)) {
-                $firstPageLink = $this->currentDocument->getFileLocation($firstFileGroupDownload);
-                // Get second page, too, if double page view is activated.
-                $secondFileGroupDownload = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$pageNumber + 1]]['files'][$useGroup];
-                if (
-                    $this->requestData['double']
-                    && $pageNumber < $this->currentDocument->numPages
-                    && !empty($secondFileGroupDownload)
-                ) {
-                    $secondPageLink = $this->currentDocument->getFileLocation($secondFileGroupDownload);
-                }
-                break;
-            }
+        $pageNumber = $this->requestData['page'];
+        $pageLinks = [
+            $this->currentDocument->getPageLink($pageNumber),
+        ];
+        // Get second page, too, if double page view is activated.
+        if ($this->requestData['double'] && $pageNumber < $this->currentDocument->numPages) {
+            $pageLinks[1] = $this->currentDocument->getPageLink($pageNumber + 1);
         }
         if (
-            empty($firstPageLink)
-            && empty($secondPageLink)
+            empty($pageLinks[0])
+            && empty($pageLinks[1])
         ) {
             $this->logger->warning('File not found in fileGrps "' . $this->extConf['files']['useGroupsDownload'] . '"');
         }
 
-        if (!empty($firstPageLink)) {
-            $pageLinkArray[0] = $firstPageLink;
-        }
-        if (!empty($secondPageLink)) {
-            $pageLinkArray[1] = $secondPageLink;
-        }
-        return $pageLinkArray;
+        return $pageLinks;
     }
 
     /**

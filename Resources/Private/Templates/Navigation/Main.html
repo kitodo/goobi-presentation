@@ -70,35 +70,26 @@
 
 <f:section name="render.pageFirst">
     <div class="tx-dlf-navigation-first">
-        <f:if condition="{viewData.requestData.page} > 1">
-            <f:then>
-                <f:link.action addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'1'}"
-                               argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
-                    <f:translate key="firstPage"/>
-                </f:link.action>
-            </f:then>
-            <f:else>
-                <span title="{f:translate(key: 'firstPage')}">
-                    <f:translate key="firstPage"/>
-                </span>
-            </f:else>
-        </f:if>
+        <f:link.action class="page-first {f:if(condition: \"{viewData.requestData.page} <= 1\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'1'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+            <f:translate key="firstPage"/>
+        </f:link.action>
     </div>
 </f:section>
 
 <f:section name="render.pageStepBack">
     <div class="tx-dlf-navigation-back">
+        <f:variable name="backTextTemplate" value="{f:translate(key: 'backXPages', arguments: '{0: \'PAGE_STEPS\'}')}" />
+        <f:comment>Make sure that no negative number is put into tx_dlf[page], so that a route enhancer that requires matches against "\d+" won't fail</f:comment>
         <f:if condition="{viewData.requestData.page} > {pageSteps}">
             <f:then>
-                <f:link.action addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - pageSteps}'}"
-                               argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+                <f:link.action class="page-step-back" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - pageSteps}'}" additionalAttributes="{'data-text': '{backTextTemplate}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
                     <f:translate key="backXPages" arguments="{0: '{pageSteps}'}"/>
                 </f:link.action>
             </f:then>
             <f:else>
-                <span title="{f:translate(key: 'backXPages', arguments: '{0: pageSteps}')}">
+                <f:link.action class="page-step-back disabled" additionalAttributes="{'data-text': '{backTextTemplate}'}">
                     <f:translate key="backXPages" arguments="{0: '{pageSteps}'}"/>
-                </span>
+                </f:link.action>
             </f:else>
         </f:if>
     </div>
@@ -108,15 +99,14 @@
     <div class="tx-dlf-navigation-prev">
         <f:if condition="{viewData.requestData.page} > {viewData.requestData.double + 1}">
             <f:then>
-                <f:link.action addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - 1 - viewData.requestData.double}'}"
-                               argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+                <f:link.action class="page-back" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page - 1 - viewData.requestData.double}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
                     <f:translate key="prevPage"/>
                 </f:link.action>
             </f:then>
             <f:else>
-                <span title="{f:translate(key: 'prevPage')}">
+                <f:link.action class="page-back disabled">
                     <f:translate key="prevPage"/>
-                </span>
+                </f:link.action>
             </f:else>
         </f:if>
     </div>
@@ -137,10 +127,9 @@
             <label for="tx-dlf-page-{viewData.uniqueId}">
                 <f:translate key="selectPage"/>
             </label>
-            <f:form.select id="tx-dlf-page-{viewData.uniqueId}" property="page"
+            <f:form.select class="page-select" id="tx-dlf-page-{viewData.uniqueId}" name="tx_dlf[page]"
                 options="{pageOptions}"
-                value="{viewData.requestData.page}"
-                additionalAttributes="{'onchange': 'javascript:this.form.submit();'}">
+                value="{viewData.requestData.page}">
             </f:form.select>
         </f:form>
     </li>
@@ -148,55 +137,26 @@
 
 <f:section name="render.pageForward">
     <div class="tx-dlf-navigation-next">
-        <f:if condition="{viewData.requestData.page + viewData.requestData.double} < {numPages}">
-            <f:then>
-                <f:link.action addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page + 1 + viewData.requestData.double}'}"
-                               argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
-                    <f:translate key="nextPage"/>
-                </f:link.action>
-            </f:then>
-            <f:else>
-                <span title="{f:translate(key: 'nextPage')}">
-                    <f:translate key="nextPage"/>
-                </span>
-            </f:else>
-        </f:if>
+        <f:link.action class="page-forward {f:if(condition: \"{viewData.requestData.page + viewData.requestData.double} >= {numPages}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page + 1 + viewData.requestData.double}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+            <f:translate key="nextPage"/>
+        </f:link.action>
     </div>
 </f:section>
 
 <f:section name="render.pageStepForward">
-        <div class="tx-dlf-navigation-fwd">
-            <f:if condition="{viewData.requestData.page} <= {numPages - pageSteps}">
-                <f:then>
-                    <f:link.action addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page + pageSteps}'}"
-                                   argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
-                        <f:translate key="forwardXPages" arguments="{0: '{pageSteps}'}"/>
-                    </f:link.action>
-                </f:then>
-                <f:else>
-                    <span title="{f:translate(key: 'forwardXPages', arguments: '{0: pageSteps}')}">
-                        <f:translate key="forwardXPages" arguments="{0: '{pageSteps}'}"/>
-                    </span>
-                </f:else>
-            </f:if>
-        </div>
+    <div class="tx-dlf-navigation-fwd">
+        <f:variable name="forwardTextTemplate" value="{f:translate(key: 'forwardXPages', arguments: '{0: \'PAGE_STEPS\'}')}" />
+        <f:link.action class="page-step-forward {f:if(condition: \"{viewData.requestData.page} > {numPages - pageSteps}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{viewData.requestData.page + pageSteps}'}" additionalAttributes="{'data-text': '{forwardTextTemplate}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+            <f:translate key="forwardXPages" arguments="{0: '{pageSteps}'}"/>
+        </f:link.action>
+    </div>
 </f:section>
 
 <f:section name="render.pageLast">
     <div class="tx-dlf-navigation-last">
-        <f:if condition="{viewData.requestData.page} < {numPages - viewData.requestData.double}">
-            <f:then>
-                <f:link.action addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{numPages - viewData.requestData.double}'}"
-                               argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
-                    <f:translate key="lastPage"/>
-                </f:link.action>
-            </f:then>
-            <f:else>
-                <span title="{f:translate(key: 'lastPage')}">
-                    <f:translate key="lastPage"/>
-                </span>
-            </f:else>
-        </f:if>
+        <f:link.action class="page-last {f:if(condition: \"{viewData.requestData.page} >= {numPages - viewData.requestData.double}\", then: \"disabled:\")}" addQueryString="untrusted" additionalParams="{'tx_dlf[page]':'{numPages - viewData.requestData.double}'}" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[measure]'}">
+            <f:translate key="lastPage"/>
+        </f:link.action>
     </div>
 </f:section>
 
@@ -336,4 +296,14 @@
     </div>
 </f:section>
 
+<script>
+    // NOTE: The navigation plugin may be instantiated multiple times, even on a single page view
+    window.addEventListener('tx-dlf-documentLoaded', e => {
+        const controller = e.detail.docController;
+        const features = {features -> f:format.json() -> f:format.raw()};
+        const basePageSteps = {basePageSteps};
+
+        new dlfNavigation(controller, { features, basePageSteps });
+    });
+</script>
 </html>

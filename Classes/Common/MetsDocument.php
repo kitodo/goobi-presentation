@@ -312,6 +312,46 @@ final class MetsDocument extends AbstractDocument
     }
 
     /**
+     * @see AbstractDocument::getAllFiles()
+     */
+    public function getAllFiles(): array
+    {
+        $files = [];
+        $fileNodes = $this->mets->xpath('./mets:fileSec/mets:fileGrp/mets:file');
+        foreach ($fileNodes as $fileNode) {
+            $fileId = (string) $fileNode->attributes()->ID;
+            if (empty($fileId)) {
+                continue;
+            }
+
+            $url = null;
+            foreach ($fileNode->children('http://www.loc.gov/METS/')->FLocat as $locator) {
+                if ((string) $locator->attributes()['LOCTYPE'] === 'URL') {
+                    $url = (string) $locator->attributes('http://www.w3.org/1999/xlink')->href;
+                    break;
+                }
+            }
+
+            if ($url === null) {
+                continue;
+            }
+
+            $mimetype = (string) $fileNode->attributes()['MIMETYPE'];
+            if (empty($mimetype)) {
+                continue;
+            }
+
+            $files[$fileId] = [
+                'url' => $url,
+                'mimetype' => $mimetype,
+            ];
+
+        }
+        return $files;
+    }
+
+    /**
+     * {@inheritDoc}
      * @see AbstractDocument::getLogicalStructure()
      */
     public function getLogicalStructure(string $id, bool $recursive = false): array
@@ -373,8 +413,10 @@ final class MetsDocument extends AbstractDocument
             'pagination' => '',
             'type' => $this->getAttribute($attributes['TYPE']),
             'description' => '',
-            'thumbnailId' => null,
+            'thumbnailId' => '',
             'files' => [],
+            // Structure depth is determined and cached on demand
+            'structureDepth' => null
         ];
 
         // Set volume and year information only if no label is set and this is the toplevel structure element.
@@ -1140,12 +1182,23 @@ final class MetsDocument extends AbstractDocument
      */
     public function getStructureDepth(string $logId)
     {
-        $ancestors = $this->mets->xpath('./mets:structMap[@TYPE="LOGICAL"]//mets:div[@ID="' . $logId . '"]/ancestor::*');
-        if (!empty($ancestors)) {
-            return count($ancestors);
+        if (isset($this->logicalUnits[$logId]['structureDepth'])) {
+            return $this->logicalUnits[$logId]['structureDepth'];
         }
 
-        return false;
+        $ancestors = $this->mets->xpath('./mets:structMap[@TYPE="LOGICAL"]//mets:div[@ID="' . $logId . '"]/ancestor::*');
+        if (!empty($ancestors)) {
+            $structureDepth = count($ancestors);
+        } else {
+            $structureDepth = 0;
+        }
+
+        // NOTE: Don't just set $this->logicalUnits[$logId] here, because it may not yet be loaded
+        if (isset($this->logicalUnits[$logId])) {
+            $this->logicalUnits[$logId]['structureDepth'] = $structureDepth;
+        }
+
+        return $structureDepth > 0 ? $structureDepth : false;
     }
 
     /**

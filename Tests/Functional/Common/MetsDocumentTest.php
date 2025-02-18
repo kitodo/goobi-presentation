@@ -29,7 +29,7 @@ class MetsDocumentTest extends FunctionalTestCase
     protected function doc(string $file)
     {
         $url = 'http://web:8001/Tests/Fixtures/MetsDocument/' . $file;
-        $doc = AbstractDocument::getInstance($url, ['general' => ['useExternalApisForMetadata' => 0]]);
+        $doc = AbstractDocument::getInstance($url, 0, ['general' => ['useExternalApisForMetadata' => 0]]);
         self::assertNotNull($doc);
         return $doc;
     }

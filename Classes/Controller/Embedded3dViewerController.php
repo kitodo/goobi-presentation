@@ -40,7 +40,7 @@ class Embedded3dViewerController extends AbstractController
         }
 
         if (!empty($this->settings['document'])) {
-            $this->assignModelFromDocument($this->getDocumentByUrl($this->settings['document']));
+            $this->assignModelFromDocument($this->getDocumentByUrl($this->settings['document'], 0));
         } else {
             $this->loadDocument();
             if (!$this->isDocMissingOrEmpty()) {
