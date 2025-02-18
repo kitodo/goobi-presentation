@@ -63,7 +63,6 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Kitodo\\DbDocs\\": "Build/Documentation/dbdocs",
       "Kitodo\\Dlf\\Tests\\": "Tests/"
     }
   },
@@ -100,9 +99,6 @@
 	],
     "test:func:watch": [
 		"@test:func -w"
-	],
-	"docs:db": [
-		"./Build/Documentation/dbdocs/generate.php ./Documentation/Developers/Database.rst"
 	],
   	"docs:build": [
 	  	"rm -Rf ./Documentation-GENERATED-temp",

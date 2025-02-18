@@ -10,7 +10,7 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Kitodo\DbDocs;
+namespace Kitodo\Dlf\Command\DbDocs;
 
 use Doctrine\DBAL\Schema\Table;
 use Kitodo\Dlf\Common\Helper;
@@ -72,7 +72,7 @@ class Generator
     /**
      * @param SqlReader $sqlReader
      */
-    public function injectSqlReader(DataMapper $sqlReader)
+    public function injectSqlReader(SqlReader $sqlReader)
     {
         $this->sqlReader = $sqlReader;
     }

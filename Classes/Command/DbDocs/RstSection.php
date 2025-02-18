@@ -10,7 +10,7 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Kitodo\DbDocs;
+ namespace Kitodo\Dlf\Command\DbDocs;
 
 /**
  * Simple utility to write .rst (reStructuredText).

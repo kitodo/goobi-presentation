@@ -9,10 +9,6 @@ This is a reference of all database tables defined by Kitodo.Presentation.
 tx_dlf_actionlog: Action protocol
 =================================
 
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\ActionLog``
-
-(Basket Plugin) Action log for mails and printouts.
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -52,10 +48,6 @@ Extbase domain model: ``Kitodo\Dlf\Domain\Model\ActionLog``
 tx_dlf_basket: Basket
 =====================
 
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Basket``
-
-(Basket Plugin) A basket that is bound to a frontend session.
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -86,6 +78,9 @@ Extbase domain model: ``Kitodo\Dlf\Domain\Model\Basket``
    - :field:                    l18n_diffsource  *blob*
      :description:              
 
+   - :field:                    l10n_state  *text*
+     :description:              
+
    - :field:                    label  *string*
      :description:              *Basket*
 
@@ -100,10 +95,6 @@ Extbase domain model: ``Kitodo\Dlf\Domain\Model\Basket``
 
 tx_dlf_collections: Collections
 ===============================
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Collection``
-
-Domain model of the 'Collection'.
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -144,6 +135,9 @@ Domain model of the 'Collection'.
    - :field:                    l18n_diffsource  *blob*
      :description:              
 
+   - :field:                    l10n_state  *text*
+     :description:              
+
    - :field:                    hidden  *smallint*
      :description:              *Hide*
 
@@ -167,8 +161,6 @@ Domain model of the 'Collection'.
 
    - :field:                    thumbnail  *string*
      :description:              *Thumbnail*
-                                
-                                thumbnail
 
    - :field:                    priority  *smallint*
      :description:              *Priority*
@@ -187,10 +179,6 @@ Domain model of the 'Collection'.
 
 tx_dlf_documents: Documents
 ===========================
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Document``
-
-Domain model of the 'Document'.
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -321,16 +309,6 @@ Domain model of the 'Document'.
 tx_dlf_formats: Data Formats
 ============================
 
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Format``
-
-Configured data formats and namespaces like MODS, ALTO, IIIF etc.
-They are referenced by ``tx_dlf_metadataformat.encoded``.
-The formats OAI, METS and XLINK are pre-defined.
-
-Data formats are modeled after XML, though JSON may be used with a pseudo root and namespace.
-
-For more information, see the documentation page on metadata.
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -357,40 +335,21 @@ For more information, see the documentation page on metadata.
 
    - :field:                    type  *string*
      :description:              *Format Name (e.g. in METS)*
-                                
-                                Name of the type that is used to reference it.
 
    - :field:                    root  *string*
      :description:              *Root Element*
-                                
-                                The XML root element used by this format.
 
    - :field:                    namespace  *string*
      :description:              *Namespace URI*
-                                
-                                The XML namespace URI used by this format.
 
    - :field:                    class  *string*
      :description:              *Class Name*
-                                
-                                Fully qualified name of the PHP class that handles the format, or the empty string if no such class is configured.
 
 
 
 
 tx_dlf_libraries: Libraries
 ===========================
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Library``
-
-A library institution with the following use cases:
-
-- Each ``tx_dlf_document`` is *owned* by exactly one ``tx_dlf_library``. The
-  owner is set on indexing, and it is shown in the metadata plugin. If no
-  library is configured, the fallback library is named 'default'.
-
-- The OAI-PMH plugin has a configuration option ``library`` that is used to
-  identify the OAI repository.
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -425,6 +384,9 @@ A library institution with the following use cases:
    - :field:                    l18n_diffsource  *blob*
      :description:              
 
+   - :field:                    l10n_state  *text*
+     :description:              
+
    - :field:                    label  *string*
      :description:              *Name*
 
@@ -436,25 +398,15 @@ A library institution with the following use cases:
 
    - :field:                    contact  *string*
      :description:              *Contact*
-                                
-                                Contact email address of the library (used as ``adminEmail`` in responses
-                                to OAI ``Identify`` requests).
 
    - :field:                    image  *string*
      :description:              *Logo*
-                                
-                                image
 
    - :field:                    oai_label  *string*
      :description:              *Open Archives Interface (OAI) Label*
-                                
-                                The label that is used as ``repositoryName`` in responses to OAI
-                                ``Identify`` requests.
 
    - :field:                    oai_base  *string*
      :description:              *Open Archives Interface (OAI) Base URL*
-                                
-                                OAI base URL used when harvesting the library via ``kitodo:harvest``.
 
    - :field:                    opac_label  *string*
      :description:              *Online Public Access Catalog (OPAC) Label*
@@ -473,10 +425,6 @@ A library institution with the following use cases:
 
 tx_dlf_mail: Email
 ==================
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Mail``
-
-(Basket Plugin) Recipient mail addresses for sending documents.
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -511,10 +459,6 @@ Extbase domain model: ``Kitodo\Dlf\Domain\Model\Mail``
 tx_dlf_metadata: Metadata
 =========================
 
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Metadata``
-
-A metadata kind (title, year, ...) and its configuration for display and indexing.
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -548,11 +492,14 @@ A metadata kind (title, year, ...) and its configuration for display and indexin
    - :field:                    l18n_diffsource  *blob*
      :description:              
 
+   - :field:                    l10n_state  *text*
+     :description:              
+
    - :field:                    hidden  *smallint*
      :description:              *Hide*
 
    - :field:                    sorting  *integer*
-     :description:              Order (relative position) of this entry in metadata plugin and backend list.
+     :description:              
 
    - :field:                    label  *string*
      :description:              *Display Label*
@@ -562,8 +509,6 @@ A metadata kind (title, year, ...) and its configuration for display and indexin
 
    - :field:                    format  *integer*
      :description:              *Data Format*
-                                
-                                The formats that encode this metadatum (local IRRE field to ``tx_dlf_metadataformat``).
 
    - :field:                    default_value  *string*
      :description:              *Default Value*
@@ -604,16 +549,6 @@ A metadata kind (title, year, ...) and its configuration for display and indexin
 tx_dlf_metadataformat: Metadata Format
 ======================================
 
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\MetadataFormat``
-
-This specifies a way how a metadatum (``tx_dlf_metadata``) may be encoded in a specific data format (``tx_dlf_format``).
-
-For instance, the title of a document may be obtained from either the MODS
-title field, or from the TEIHDR caption. This is modeled as two ``tx_dlf_metadaformat``
-that refer to the same ``tx_dlf_metadata`` but different ``tx_dlf_format``.
-
-This contains the xpath expressions on the model 'Metadata'.
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -638,44 +573,89 @@ This contains the xpath expressions on the model 'Metadata'.
    - :field:                    deleted  *smallint*
      :description:              
 
-   - :field:                    sys_language_uid  *integer*
-     :description:              *Language*
-
-   - :field:                    l18n_parent  *integer*
-     :description:              *Transl.Orig*
+   - :field:                    l10n_state  *text*
+     :description:              
 
    - :field:                    parent_id  *integer*
-     :description:              UID of the ``tx_dlf_metadata`` that is encoded by this metadata entry.
+     :description:              
 
    - :field:                    encoded  *integer*
      :description:              *Encoding*
-                                
-                                UID of the ``tx_dlf_format`` in which this metadata entry is encoded.
 
    - :field:                    xpath  *string*
      :description:              *XPath (relative to //dmdSec/mdWrap/xmlData/root and with namespace) or JSONPath (relative to resource JSON object)*
-                                
-                                XPath/JSONPath expression to extract the metadatum (relative to the data format root).
 
    - :field:                    xpath_sorting  *string*
      :description:              *XPath / JSONPath for sorting (optional)*
-                                
-                                XPath/JSONPath expression to extract sorting variant (suffixed ``_sorting``) of the metadatum.
+
+   - :field:                    subentries  *integer*
+     :description:              
 
    - :field:                    mandatory  *smallint*
      :description:              *Mandatory field?*
-                                
-                                Whether or not the field is mandatory. Not used at the moment (originally planned to be used in METS validator).
+
+
+
+
+tx_dlf_metadatasubentries: Metadata
+===================================
+
+.. t3-field-list-table::
+   :header-rows: 1
+
+   - :field:                    Field
+     :description:              Description
+
+   - :field:                    **uid**  *integer*
+     :description:              
+
+   - :field:                    pid  *integer*
+     :description:              
+
+   - :field:                    parent_id  *integer*
+     :description:              
+
+   - :field:                    tstamp  *integer*
+     :description:              
+
+   - :field:                    crdate  *integer*
+     :description:              
+
+   - :field:                    cruser_id  *integer*
+     :description:              
+
+   - :field:                    deleted  *smallint*
+     :description:              
+
+   - :field:                    sys_language_uid  *integer*
+     :description:              
+
+   - :field:                    l18n_parent  *integer*
+     :description:              
+
+   - :field:                    l18n_diffsource  *blob*
+     :description:              
+
+   - :field:                    label  *string*
+     :description:              *Display Label*
+
+   - :field:                    index_name  *string*
+     :description:              *Index Name*
+
+   - :field:                    xpath  *string*
+     :description:              *XPath (relative to //dmdSec/mdWrap/xmlData/root and with namespace) or JSONPath (relative to resource JSON object)*
+
+   - :field:                    default_value  *string*
+     :description:              *Default Value*
+
+   - :field:                    wrap  *text*
+     :description:              *TypoScript-Wrap*
 
 
 
 
 tx_dlf_printer: Printer
 =======================
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Printer``
-
-(Basket Plugin) External printers for sending documents.
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -739,12 +719,6 @@ Pivot table for many-to-many relations between tables. In particular, this is us
 tx_dlf_solrcores: Solr Cores
 ============================
 
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\SolrCore``
-
-Cores on the application-wide Solr instance that are available for indexing.
-They may be used, for example, as a parameter to the CLI indexing commands, and are referenced by ``tx_dlf_document.solrcore``.
-In particular, this holds the index name of the used Solr core.
-
 .. t3-field-list-table::
    :header-rows: 1
 
@@ -771,23 +745,15 @@ In particular, this holds the index name of the used Solr core.
 
    - :field:                    label  *string*
      :description:              *Display Label*
-                                
-                                Label of the core that is displayed in the backend.
 
    - :field:                    index_name  *string*
      :description:              *Solr Core*
-                                
-                                The actual name of the Solr core.
 
 
 
 
 tx_dlf_structures: Structures
 =============================
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Structure``
-
-Domain model of 'Structure'.
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -822,6 +788,9 @@ Domain model of 'Structure'.
    - :field:                    l18n_diffsource  *blob*
      :description:              
 
+   - :field:                    l10n_state  *text*
+     :description:              
+
    - :field:                    hidden  *smallint*
      :description:              *Hide*
 
@@ -846,12 +815,8 @@ Domain model of 'Structure'.
 
 
 
-tx_dlf_tokens
-=============
-
-Extbase domain model: ``Kitodo\Dlf\Domain\Model\Token``
-
-Resumption tokens for OAI-PMH interface.
+tx_dlf_tokens: Tokens
+=====================
 
 .. t3-field-list-table::
    :header-rows: 1
@@ -869,13 +834,13 @@ Resumption tokens for OAI-PMH interface.
      :description:              Timestamp of the token used to determine if it has expired.
 
    - :field:                    token  *string*
-     :description:              The resumption token string.
+     :description:              
 
    - :field:                    options  *text*
-     :description:              Data that is used to resume the previous request.
+     :description:              
 
    - :field:                    ident  *string*
-     :description:              Originally an identifier for the kind of token ('oai'). Not used at the moment.
+     :description:              
 
 
 

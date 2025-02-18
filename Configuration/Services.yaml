@@ -7,6 +7,11 @@ services:
   Kitodo\Dlf\:
     resource: '../Classes/*'
 
+  Kitodo\Dlf\Command\DbDocsCommand:
+    tags:
+      - name: console.command
+        command: 'kitodo:dbdocs'
+
   Kitodo\Dlf\Command\DeleteCommand:
     tags:
       - name: console.command
