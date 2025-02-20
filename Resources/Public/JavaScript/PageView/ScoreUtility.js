@@ -15,27 +15,8 @@
  *
  * @const
  */
-
 let dlfScoreUtils;
 dlfScoreUtils = dlfScoreUtils || {};
-
-/**
- * Method fetches the score data from the server
- * @param {string} url
- * @returns {svg}
- * @static
- */
-dlfScoreUtils.getPlayMidi = function (toolkit) {
-    $("#tx-dlf-tools-midi").click(
-	    function () {
-            var base64midi = toolkit.renderToMIDI();
-            var song = 'data:audio/midi;base64,' + base64midi;
-            $("#player").midiPlayer.play(song);
-        }
-    );
-    return dlfScoreUtils;
-}
-
 
 /**
  * Parse from an alto element a OpenLayers geometry object
@@ -44,34 +25,34 @@ dlfScoreUtils.getPlayMidi = function (toolkit) {
  * @private
  */
 dlfScoreUtil.parseGeometry_ = function(node) {
-    var width = parseInt(node.getAttribute("lrx")) - parseInt(node.getAttribute("ulx")),
-        height = parseInt(node.getAttribute("lry")) - parseInt(node.getAttribute("uly")),
-        x1 = parseInt(node.getAttribute("ulx")),
-        y1 = parseInt(node.getAttribute("uly")),
-        x2 = x1 + width,
-        y2 = y1 + height,
-        coordinatesWithoutScale = [[[x1, -y1], [x2, -y1], [x2, -y2], [x1, -y2], [x1, -y1]]];
+  var width = parseInt(node.getAttribute("lrx")) - parseInt(node.getAttribute("ulx")),
+    height = parseInt(node.getAttribute("lry")) - parseInt(node.getAttribute("uly")),
+    x1 = parseInt(node.getAttribute("ulx")),
+    y1 = parseInt(node.getAttribute("uly")),
+    x2 = x1 + width,
+    y2 = y1 + height,
+    coordinatesWithoutScale = [[[x1, -y1], [x2, -y1], [x2, -y2], [x1, -y2], [x1, -y1]]];
 
-    if (isNaN(width) || isNaN(height)) {
-        return undefined;
-    }
+  if (isNaN(width) || isNaN(height)) {
+    return undefined;
+  }
 
-    // Return geometry without rescale
-    if (!dlfUtils.exists(this.image_) || !dlfUtils.exists(this.width_)) {
-        return new ol.geom.Polygon(coordinatesWithoutScale);
-    }
+  // Return geometry without rescale
+  if (!dlfUtils.exists(this.image_) || !dlfUtils.exists(this.width_)) {
+    return new ol.geom.Polygon(coordinatesWithoutScale);
+  }
 
-    // Rescale coordinates
-    var scale = this.image_.width / this.width_;
-    var offset = dlfUtils.exists(this.offset_) ? this.offset_ : 0;
-    var coordinatesRescale = [];
+  // Rescale coordinates
+  var scale = this.image_.width / this.width_;
+  var offset = dlfUtils.exists(this.offset_) ? this.offset_ : 0;
+  var coordinatesRescale = [];
 
-    for (var i = 0; i < coordinatesWithoutScale[0].length; i++) {
-        coordinatesRescale.push([offset + ( scale * coordinatesWithoutScale[0][i][0]),
-            0 - (scale * coordinatesWithoutScale[0][i][1])]);
-    };
+  for (var i = 0; i < coordinatesWithoutScale[0].length; i++) {
+    coordinatesRescale.push([offset + ( scale * coordinatesWithoutScale[0][i][0]),
+      0 - (scale * coordinatesWithoutScale[0][i][1])]);
+  };
 
-    return new ol.geom.Polygon([coordinatesRescale]);
+  return new ol.geom.Polygon([coordinatesRescale]);
 };
 
 /**
@@ -81,23 +62,23 @@ dlfScoreUtil.parseGeometry_ = function(node) {
  * @private
  */
 dlfScoreUtil.parseFeatureWithGeometry_ = function(node) {
-    var geometry = this.parseGeometry_(node),
-        width = parseInt(node.getAttribute("lrx")) - parseInt(node.getAttribute("ulx")),
-        height = parseInt(node.getAttribute("lry")) - parseInt(node.getAttribute("uly")),
-        hpos = parseInt(node.getAttribute("ulx")),
-        vpos = parseInt(node.getAttribute("uly")),
-        type = node.nodeName.toLowerCase(),
-        id = node.getAttribute("xml:id"),
-        feature = new ol.Feature(geometry);
+  var geometry = this.parseGeometry_(node),
+    width = parseInt(node.getAttribute("lrx")) - parseInt(node.getAttribute("ulx")),
+    height = parseInt(node.getAttribute("lry")) - parseInt(node.getAttribute("uly")),
+    hpos = parseInt(node.getAttribute("ulx")),
+    vpos = parseInt(node.getAttribute("uly")),
+    type = node.nodeName.toLowerCase(),
+    id = node.getAttribute("xml:id"),
+    feature = new ol.Feature(geometry);
 
-    feature.setId(id);
-    feature.setProperties({
-        type,
-        width,
-        height,
-        hpos,
-        vpos
-    });
+  feature.setId(id);
+  feature.setProperties({
+    type,
+    width,
+    height,
+    hpos,
+    vpos
+  });
 
-    return feature;
+  return feature;
 };

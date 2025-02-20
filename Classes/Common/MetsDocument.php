@@ -589,15 +589,12 @@ final class MetsDocument extends AbstractDocument
         if (!empty($this->mdSec)) {
             foreach ($mdIds as $dmdId) {
                 $mdSectionType = $this->mdSec[$dmdId]['section'];
-    
                 if ($this->hasMetadataSection($metadataSections, $mdSectionType, 'dmdSec')) {
                     continue;
                 }
-    
                 if (!$this->extractAndProcessMetadata($dmdId, $mdSectionType, $metadata, $cPid, $metadataSections)) {
                     continue;
                 }
-    
                 $metadataSections[] = $mdSectionType;
             }
         }
@@ -1813,14 +1810,16 @@ final class MetsDocument extends AbstractDocument
                 $this->musicalStructure = [];
                 $measurePages = [];
                 foreach ($this->magicGetPhysicalStructureInfo() as $physicalId => $page) {
-                    if ($page['files']['DEFAULT']) {
+                    if (isset($page['files']) && isset($page['files']['DEFAULT'])) {
                         $measurePages[$physicalId] = $page['files']['DEFAULT'];
                     }
                 }
                 // Build final musicalStructure: assign pages to measures.
                 foreach ($this->musicalStructureInfo as $measureId => $measureInfo) {
                     foreach ($measurePages as $physicalId => $file) {
-                        if ($measureInfo['files']['DEFAULT']['fileid'] === $file) {
+                        if (isset($measureInfo['files'])
+                            && isset($measureInfo['files']['DEFAULT'])
+                             && $measureInfo['files']['DEFAULT']['fileid'] === $file) {
                             $this->musicalStructure[$measureInfo['order']] = [
                                 'measureid' => $measureId,
                                 'physicalid' => $physicalId,

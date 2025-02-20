@@ -131,27 +131,18 @@
         </f:then>
     </f:if>
 
-    <f:if condition="{renderScoreTool}">
+    <f:if condition="{renderScoreTool} && {score}">
         <f:then>
-            <f:if condition="{score}">
-                <f:then>
-                    <a class="select switchoff" id="tx-dlf-tools-score-0" title=""
-                       data-dic="fulltext:{f:translate(key: 'tools.score')}
-                            ;fulltext-on:{f:translate(key: 'tools.score.on')}
-                            ;fulltext-off:{f:translate(key: 'tools.score.off')}
-                            ;activate-score-initially:{activateScoreInitially}
-                            ;score-scroll-element:{settings.scoreScrollElement}
-                            ;search-hl-parameters:{settings.searchHlParameters}">
-                        &nbsp;
-                    </a>
-                    <a class="select switchoff" id="tx-dlf-tools-midi" title="" data-dic=""> &nbsp;</a>
-                </f:then>
-                <f:else>
-                <span class="no-score">
-                    <f:translate key="tools.fulltext.not-available"/>
-                </span>
-                </f:else>
-            </f:if>
+            <li class="score">
+                <a class="select switchoff" id="tx-dlf-tools-score-0" title="">
+                    <f:translate key="tools.score"/>
+                </a>
+            </li>
+            <li class="score">
+                <a id="tx-dlf-tools-midi" >
+                    <f:translate key="tools.score.player"/>
+                </a>
+            </li>
         </f:then>
     </f:if>
 
@@ -185,6 +176,20 @@
                             <f:link.external uri="{workLink}">
                                 <f:translate key="downloadWork"/> (PDF)
                             </f:link.external>
+                        </f:then>
+                    </f:if>
+                </span>
+                <span class="tx-dlf-tools-score">
+                    <f:if condition="{scoreLinks}">
+                        <f:then>
+                            <a href="#" id="tx_dlf_mididownload" class="download-document">
+                                <f:translate key="mididownload"/>
+                                (MIDI)
+                            </a>
+                            <a href="#" id="tx_dlf_scoredownload" class="download-document">
+                                <f:translate key="scoredownload"/>
+                                (PDF)
+                            </a>
                         </f:then>
                     </f:if>
                 </span>

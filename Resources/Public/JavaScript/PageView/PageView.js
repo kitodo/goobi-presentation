@@ -707,7 +707,7 @@ dlfViewer.prototype.createControl = function(controlName, layers) {
 
             var ovExtent = ol.extent.buffer(
                 extent,
-                Number(Math.max(ol.extent.getWidth(extent), ol.extent.getHeight(extent)))
+                Math.max(ol.extent.getWidth(extent), ol.extent.getHeight(extent))
             );
 
             return new ol.control.OverviewMap({

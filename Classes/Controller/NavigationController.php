@@ -132,9 +132,13 @@ class NavigationController extends AbstractController
             if ($this->document->getCurrentDocument()->numMeasures > 0) {
                 $measureOptions = [];
                 $measurePages = [];
+                $musicalStructure = $this->document->getCurrentDocument()->musicalStructure;
+                $musicalStructureInfo = $this->document->getCurrentDocument()->musicalStructureInfo;
                 for ($i = 1; $i <= $this->document->getCurrentDocument()->numMeasures; $i++) {
-                    $measureOptions[$i] = '[' . $i . ']' . ($this->document->getCurrentDocument()->musicalStructureInfo[$this->document->getCurrentDocument()->musicalStructure[$i]['measureid']]['orderlabel'] ? ' - ' . htmlspecialchars($this->document->getCurrentDocument()->musicalStructureInfo[$this->document->getCurrentDocument()->musicalStructureInfo[$i]]['orderlabel']) : '');
-                    $measurePages[$i] = $this->document->getCurrentDocument()->musicalStructure[$i]['page'];
+                    if (array_key_exists($i, $musicalStructure) && array_key_exists($i, $musicalStructureInfo)) {
+                        $measureOptions[$i] = '[' . $i . ']' . ($musicalStructureInfo[$musicalStructure[$i]['measureid']]['orderlabel'] ? ' - ' . htmlspecialchars($musicalStructureInfo[$musicalStructureInfo[$i]]['orderlabel']) : '');
+                        $measurePages[$i] = $musicalStructure[$i]['page'];
+                    }
                 }
 
                 if (!isset($this->requestData['measure'])) {

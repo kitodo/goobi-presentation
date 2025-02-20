@@ -257,6 +257,12 @@
 			<trans-unit id="tools.imagemanipulation.saturation">
 				<source><![CDATA[Saturation]]></source>
 			</trans-unit>
+			<trans-unit id="tools.score" approved="yes">
+				<source><![CDATA[Score]]></source>
+			</trans-unit>
+			<trans-unit id="tools.score.player" approved="yes">
+				<source><![CDATA[MIDI player]]></source>
+			</trans-unit>
 			<trans-unit id="tools.searchindocument.deleteSearch">
 				<source><![CDATA[Delete Search]]></source>
 			</trans-unit>

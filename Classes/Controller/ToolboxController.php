@@ -101,10 +101,15 @@ class ToolboxController extends AbstractController
                     case 'pdfdownloadtool':
                         $this->renderToolByName('renderPdfDownloadTool');
                         break;
+                    case 'tx_dlf_scoredownloadtool':
+                    case 'scoredownloadtool':
+                        $this->renderToolByName('renderScoreDownloadTool');
+                        break;
                     case 'tx_dlf_searchindocumenttool':
                     case 'searchindocumenttool':
                         $this->renderToolByName('renderSearchInDocumentTool');
                         break;
+                    case 'plugin.tx_dlf_scoretool':
                     case 'scoretool':
                         $this->renderToolByName('renderScoreTool');
                         break;
@@ -128,6 +133,30 @@ class ToolboxController extends AbstractController
     {
         $this->$tool();
         $this->view->assign($tool, true);
+    }
+
+    /**
+     * Get the score file.
+     *
+     * @return string
+     */
+    private function getScoreFile(): string
+    {
+        $scoreFile = '';
+        if ($this->requestData['page']) {
+            $currentPhysPage = $this->document->getCurrentDocument()->physicalStructure[$this->requestData['page']];
+        } else {
+            $currentPhysPage = $this->document->getCurrentDocument()->physicalStructure[1];
+        }
+
+        $useGroups = $this->useGroupsConfiguration->getScore();
+        foreach ($useGroups as $useGroup) {
+            $files = $this->document->getCurrentDocument()->physicalStructureInfo[$currentPhysPage]['files'];
+            if (array_key_exists($useGroup, $files)) {
+                $scoreFile = $files[$useGroup];
+            }
+        }
+        return $scoreFile;
     }
 
     /**
@@ -239,24 +268,7 @@ class ToolboxController extends AbstractController
             return;
         }
 
-        if ($this->requestData['page']) {
-            $currentPhysPage = $this->document->getCurrentDocument()->physicalStructure[$this->requestData['page']];
-        } else {
-            $currentPhysPage = $this->document->getCurrentDocument()->physicalStructure[1];
-        }
-
-        $useGroups = $this->useGroupsConfiguration->getScore();
-        foreach ($useGroups as $useGroup) {
-            if ($this->document->getCurrentDocument()->physicalStructureInfo[$currentPhysPage]['files'][$useGroup]) {
-                $scoreFile = $this->document->getCurrentDocument()->physicalStructureInfo[$currentPhysPage]['files'][$useGroup];
-            }
-        }
-        if (!empty($scoreFile)) {
-            $this->view->assign('score', true);
-            $this->view->assign('activateScoreInitially', MathUtility::forceIntegerInRange($this->settings['activateScoreInitially'], 0, 1, 0));
-        } else {
-            $this->view->assign('score', false);
-        }
+        $this->view->assign('score', !empty($this->getScoreFile()));
     }
 
     /**
@@ -394,6 +406,8 @@ class ToolboxController extends AbstractController
         $this->view->assign('pageLinks', $this->getPageLink());
         // Get work download.
         $this->view->assign('workLink', $this->getWorkLink());
+
+        $this->view->assign('scoreLinks', !empty($this->getScoreFile()));
     }
 
     /**
@@ -416,7 +430,11 @@ class ToolboxController extends AbstractController
             if (!empty($firstFileGroupDownload)) {
                 $firstPageLink = $this->currentDocument->getFileLocation($firstFileGroupDownload);
                 // Get second page, too, if double page view is activated.
-                $secondFileGroupDownload = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$pageNumber + 1]]['files'][$useGroup];
+                $nextPage = $pageNumber + 1;
+                $secondFileGroupDownload = '';
+                if ( array_key_exists($nextPage, $this->currentDocument->physicalStructure) ) {
+                    $secondFileGroupDownload = $this->currentDocument->physicalStructureInfo[$this->currentDocument->physicalStructure[$nextPage]]['files'][$useGroup];
+                }
                 if (
                     $this->requestData['double']
                     && $pageNumber < $this->currentDocument->numPages
